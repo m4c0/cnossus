@@ -1,19 +1,31 @@
 export module cno:inventory;
 import :itemtype;
 
-namespace cno {
-struct inventory_slot {
-  const item_type *item;
-  unsigned count{};
-};
-class inventory {
-  inventory_slot m_slots[item_type_count];
+namespace cno::inv {
+template <typename Tp> struct result {};
+
+class slot {
+  const item_type *m_item;
+  unsigned m_count{0};
 
 public:
-  constexpr inventory() {
+  constexpr slot() noexcept = default;
+  explicit constexpr slot(const item_type *i) noexcept : m_item{i} {}
+
+  constexpr void consume() noexcept { m_count--; }
+
+  result<bool> get_item() noexcept { return {}; }
+  result<const item_type *> drop_for_level(unsigned l) noexcept { return {}; }
+};
+
+class table {
+  slot m_slots[item_type_count];
+
+public:
+  constexpr table() {
     for (auto i = 0U; i < item_type_count; i++) {
-      m_slots[i] = {item_types[i], 0};
+      m_slots[i] = slot{item_types[i]};
     }
   }
 };
-} // namespace cno
+} // namespace cno::inv
