@@ -11,6 +11,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
   m->add_part("blocktype");
+  m->add_part("itemtype");
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
