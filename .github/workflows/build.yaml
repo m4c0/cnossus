@@ -17,10 +17,10 @@ jobs:
         uses: m4c0/ecow/.github/actions/setup@main
       - name: 🧴 Setup Casein
         uses: m4c0/casein/.github/actions/deps@main
+      - name: 🧵 Setup Jute
+        uses: m4c0/jute/.github/actions/deps@main
       - name: 🦆 Setup Quack
         uses: m4c0/quack/.github/actions/deps@main
-      - name: 🖖 Install glslang
-        uses: m4c0/vee/.github/actions/glslang@main
       - name: 🛒 Checkout Minesweep
         uses: actions/checkout@v3
         with:
