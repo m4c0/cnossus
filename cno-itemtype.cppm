@@ -6,8 +6,8 @@ static constexpr const auto max_item_drops = 5;
 static constexpr const auto max_level = 20;
 
 struct inventory_pos {
-  unsigned x;
-  unsigned y;
+  unsigned sec;
+  unsigned row;
 };
 
 class item_type;
@@ -151,9 +151,10 @@ constexpr const auto chest_drops = item_loot_table{{
 constexpr const auto jar = item_type{"jar", &jar_drops};       // TODO: drops
 constexpr const auto chest = item_type{"chest", &chest_drops}; // TODO: drops
 
-constexpr const item_type item_types[] = {
-    adze,      armguard,   axe,    bag,    candle, cheese,  chest,
-    doubleaxe, driedfruit, greave, jar,    knife,  oillamp, pauldron,
-    rawmeat,   scale,      shield, sickle, spear,  torch,
+static constexpr const auto item_type_count = 20;
+constexpr const item_type *item_types[item_type_count] = {
+    &adze,      &armguard,   &axe,    &bag,    &candle, &cheese,  &chest,
+    &doubleaxe, &driedfruit, &greave, &jar,    &knife,  &oillamp, &pauldron,
+    &rawmeat,   &scale,      &shield, &sickle, &spear,  &torch,
 };
 } // namespace cno
