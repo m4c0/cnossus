@@ -12,7 +12,7 @@ struct inventory_pos {
 
 class item_type;
 struct item_loot_table {
-  const item_type *m_drops[max_level][max_item_drops]{};
+  const item_type *table[max_level][max_item_drops]{};
 };
 
 class item_type {
@@ -35,6 +35,9 @@ public:
   constexpr item_type(jute::view n, const item_loot_table *d)
       : m_name{n}, m_drops{d} {}
 
+  [[nodiscard]] constexpr auto drops() const noexcept {
+    return m_drops == nullptr ? nullptr : m_drops->table;
+  }
   [[nodiscard]] constexpr auto max_carry() const noexcept {
     return m_max_carry;
   }
