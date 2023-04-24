@@ -2,10 +2,19 @@ export module cno:itemtype;
 import jute;
 
 namespace cno {
+static constexpr const auto max_item_drops = 5;
+static constexpr const auto max_level = 20;
+
 struct inventory_pos {
   unsigned x;
   unsigned y;
 };
+
+class item_type;
+struct item_loot_table {
+  const item_type *m_drops[max_level][max_item_drops]{};
+};
+
 class item_type {
   jute::view m_name;
   int m_attack{};
@@ -14,13 +23,19 @@ class item_type {
   int m_life_gain{};
   int m_light_provided{};
   inventory_pos m_inv_coords{~0U, ~0U};
+  const item_loot_table *m_drops{};
   // inventory
   // drops
 
+  explicit constexpr item_type() : m_name{""} {}
+
 public:
   explicit constexpr item_type(jute::view n) : m_name{n} {}
-  explicit constexpr item_type(jute::view n, int m)
-      : m_name{n}, m_max_carry{m} {}
+  constexpr item_type(jute::view n, int m) : m_name{n}, m_max_carry{m} {}
+  constexpr item_type(jute::view n, const item_loot_table *d)
+      : m_name{n}, m_drops{d} {}
+
+  constexpr item_type nullify() const noexcept { return item_type{}; }
 
   constexpr item_type attack(int a) const noexcept {
     auto r = *this;
@@ -57,13 +72,13 @@ public:
   }
 };
 
-// Missing in previous code
-// constexpr const auto cloth =
-//   item_type{"linen tunic"}.defense(1).inventory_at(1, 3);
-// constexpr const auto leather =
-//   item_type{"leather vest"}.defense(2).inventory_at(1, 4);
-// constexpr const auto sword =
-//   item_type{"short sword"}.attack(12);
+// Missing in previous code. They are "nullified" until all code is migrated.
+// Then missing parts can be added or these can be entirely removed
+constexpr const auto cloth =
+    item_type{"linen tunic"}.defense(1).inventory_at(1, 3).nullify();
+constexpr const auto leather =
+    item_type{"leather vest"}.defense(2).inventory_at(1, 4).nullify();
+constexpr const auto sword = item_type{"short sword"}.attack(12).nullify();
 
 constexpr const auto bag = item_type{"bag", 1};
 
@@ -98,8 +113,43 @@ constexpr const auto scale =
     item_type{"chest armor"}.defense(3).inventory_at(1, 3);
 constexpr const auto shield = item_type{"shield"}.defense(5).inventory_at(1, 4);
 
-constexpr const auto jar = item_type{"jar"};     // TODO: drops
-constexpr const auto chest = item_type{"chest"}; // TODO: drops
+constexpr const auto jar_drops = item_loot_table{{
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &candle},
+    {&candle, &cheese},
+    {&driedfruit, &candle},
+    {&cheese},
+    {&driedfruit, &candle},
+    {&cheese},
+    {&driedfruit, &candle},
+    {&driedfruit, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &cheese},
+    {&driedfruit, &candle, &cheese},
+    {&driedfruit, &cheese},
+    {&driedfruit, &candle, &cheese},
+}};
+constexpr const auto chest_drops = item_loot_table{{
+    {&cloth, &knife, &bag},       {&cloth, &knife, &bag},
+    {&leather, &knife, &bag},     {&cloth, &knife, &bag},
+    {&cloth, &sickle, &bag},      {&greave, &sickle, &bag},
+    {&greave, &sickle, &bag},     {&greave, &sickle, &bag},
+    {&armguard, &adze, &bag},     {&armguard, &adze, &bag},
+    {&armguard, &adze, &oillamp}, {&pauldron, &adze, &bag},
+    {&pauldron, &axe, &oillamp},  {&pauldron, &axe, &bag},
+    {&leather, &axe, &oillamp},   {&leather, &axe, &bag},
+    {&leather, &sword, &oillamp}, {&scale, &sword, &bag},
+    {&scale, &sword, &oillamp},   {&scale, &sword, &bag},
+}};
+
+constexpr const auto jar = item_type{"jar", &jar_drops};       // TODO: drops
+constexpr const auto chest = item_type{"chest", &chest_drops}; // TODO: drops
 
 constexpr const item_type item_types[] = {
     adze,      armguard,   axe,    bag,    candle, cheese,  chest,
