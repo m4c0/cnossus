@@ -13,17 +13,15 @@ struct block {
   bool seen;
 };
 
+struct cell_size {
+  unsigned w;
+  unsigned h;
+};
+
 class map {
   unsigned m_level;
-  unsigned m_cell_w;
-  unsigned m_cell_h;
+  cell_size m_cell;
   block m_blocks[map_width * map_height];
-
-  constexpr void fill(const block_type *t) noexcept {
-    for (auto &b : m_blocks) {
-      b.type = t;
-    }
-  }
 
   [[nodiscard]] auto random_furniture() const noexcept {
     return rand() % 2 == 0 ? &star : &andsign;
@@ -92,12 +90,12 @@ class map {
     }
   }
 
-  [[nodiscard]] unsigned subdivide_wide(unsigned x1, unsigned y1, unsigned x2,
-                                        unsigned y2) noexcept {
+  unsigned subdivide_wide(unsigned x1, unsigned y1, unsigned x2,
+                          unsigned y2) noexcept {
     auto w = x2 - x1 + 1;
     auto h = y2 - y1 + 1;
 
-    if ((w < m_cell_w) || (h < m_cell_h) || (w == h)) {
+    if ((w < m_cell.w) || (h < m_cell.h) || (w == h)) {
       furnish_room(x1, y1, x2, y2);
       return 0;
     }
@@ -125,12 +123,12 @@ class map {
     return x;
   }
 
-  [[nodiscard]] unsigned subdivide_high(unsigned x1, unsigned y1, unsigned x2,
-                                        unsigned y2) noexcept {
+  unsigned subdivide_high(unsigned x1, unsigned y1, unsigned x2,
+                          unsigned y2) noexcept {
     auto w = x2 - x1 + 1;
     auto h = y2 - y1 + 1;
 
-    if ((w < m_cell_w) || (h < m_cell_h) || (w == h)) {
+    if ((w < m_cell.w) || (h < m_cell.h) || (w == h)) {
       furnish_room(x1, y1, x2, y2);
       return 0;
     }
@@ -166,6 +164,37 @@ public:
   [[nodiscard]] constexpr const block_type *at(unsigned x,
                                                unsigned y) const noexcept {
     return m_blocks[y * map_width + x].type;
+  }
+
+  void set_level(unsigned l) noexcept {
+    m_level = l;
+
+    for (auto &b : m_blocks) {
+      b = {&dot};
+    }
+
+    for (auto x = 0; x < map_width; x++) {
+      at(x, 0) = &hash;
+      at(x, map_height - 1) = &hash;
+    }
+    for (int y = 0; y < map_height; y++) {
+      at(0, y) = &hash;
+      at(map_width - 1, y) = &hash;
+    }
+
+    static constexpr const auto max_cell_sizes = 5;
+    static constexpr const cell_size cell_sizes[max_cell_sizes] = {
+        {7, 7}, {7, 5}, {5, 5}, {5, 3}, {3, 3},
+    };
+    m_cell = cell_sizes[rand() % max_cell_sizes];
+
+    subdivide_wide(1, 1, map_width - 2, map_height - 2);
+
+    if ((m_level % 2) == 1) {
+      at(map_width - 2, map_height - 2) = &gt;
+    } else {
+      at(1, map_height - 2) = &gt;
+    }
   }
 };
 } // namespace cno
