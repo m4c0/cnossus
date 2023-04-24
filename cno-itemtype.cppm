@@ -61,7 +61,7 @@ public:
 
     auto rd = rand() % max_item_drops;
     auto *drop = m_drops->table[l - 1][rd];
-    if (drop == nullptr) {
+    if (drop == nullptr || drop->name() == "") {
       return {"The ", m_name, " crumbled to dust", nullptr};
     }
 
