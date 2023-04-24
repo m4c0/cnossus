@@ -22,9 +22,7 @@ public:
     return v;
   }
 };
-} // namespace cno
 
-namespace cno::block_types {
 constexpr const block_type blank =
     block_type{"void", ' '}.transparent(); // void
 
@@ -46,4 +44,4 @@ constexpr const block_type gt =
     block_type{"stairs", '<'}.transparent().walkable(); // stairs
 constexpr const block_type andsign =
     block_type{"statue", '('}.transparent(); // statue
-} // namespace cno::block_types
+} // namespace cno

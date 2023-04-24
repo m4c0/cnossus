@@ -11,6 +11,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
   m->add_part("blocktype");
+  m->add_part("map");
   m->add_part("itemtype");
   m->add_part("item");
   m->add_part("inventory");
