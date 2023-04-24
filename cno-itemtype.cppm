@@ -35,37 +35,45 @@ public:
   constexpr item_type(jute::view n, const item_loot_table *d)
       : m_name{n}, m_drops{d} {}
 
-  constexpr item_type nullify() const noexcept { return item_type{}; }
+  [[nodiscard]] constexpr auto max_carry() const noexcept {
+    return m_max_carry;
+  }
+  [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
 
-  constexpr item_type attack(int a) const noexcept {
+  [[nodiscard]] constexpr item_type nullify() const noexcept {
+    return item_type{};
+  }
+
+  [[nodiscard]] constexpr item_type attack(int a) const noexcept {
     auto r = *this;
     r.m_attack = a;
     r.m_max_carry = 1;
     return r;
   }
-  constexpr item_type defense(int a) const noexcept {
+  [[nodiscard]] constexpr item_type defense(int a) const noexcept {
     auto r = *this;
     r.m_defense = a;
     r.m_max_carry = 1;
     return r;
   }
-  constexpr item_type defense_pair(int a) const noexcept {
+  [[nodiscard]] constexpr item_type defense_pair(int a) const noexcept {
     auto r = *this;
     r.m_defense = a;
     r.m_max_carry = 2;
     return r;
   }
-  constexpr item_type light_provided(int a) const noexcept {
+  [[nodiscard]] constexpr item_type light_provided(int a) const noexcept {
     auto r = *this;
     r.m_light_provided = a;
     return r;
   }
-  constexpr item_type restores(int a) const noexcept {
+  [[nodiscard]] constexpr item_type restores(int a) const noexcept {
     auto r = *this;
     r.m_life_gain = a;
     return r;
   }
-  constexpr item_type inventory_at(unsigned x, unsigned y) const noexcept {
+  [[nodiscard]] constexpr item_type inventory_at(unsigned x,
+                                                 unsigned y) const noexcept {
     auto r = *this;
     r.m_inv_coords = {x, y};
     return r;
