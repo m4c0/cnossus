@@ -57,32 +57,53 @@ public:
   }
 };
 
+// Missing in previous code
+// constexpr const auto cloth =
+//   item_type{"linen tunic"}.defense(1).inventory_at(1, 3);
+// constexpr const auto leather =
+//   item_type{"leather vest"}.defense(2).inventory_at(1, 4);
+// constexpr const auto sword =
+//   item_type{"short sword"}.attack(12);
+
+constexpr const auto bag = item_type{"bag", 1};
+
+constexpr const auto knife = item_type{"rust knife"}.attack(2);
+constexpr const auto sickle = item_type{"sickle"}.attack(3);
+constexpr const auto adze = item_type{"adze"}.attack(5);
+constexpr const auto axe = item_type{"axe"}.attack(8);
+constexpr const auto doubleaxe = item_type{"battle axe"}.attack(10);
+constexpr const auto spear = item_type{"spear"}.attack(15);
+
+constexpr const auto driedfruit =
+    item_type{"strange fruit"}.restores(3).inventory_at(0, 0);
+constexpr const auto cheese =
+    item_type{"cheese"}.restores(5).inventory_at(0, 1);
+constexpr const auto rawmeat =
+    item_type{"raw meat"}.restores(8).inventory_at(0, 2);
+
+constexpr const auto torch =
+    item_type{"torch"}.light_provided(10).inventory_at(0, 3);
+constexpr const auto candle =
+    item_type{"candle"}.light_provided(15).inventory_at(0, 4);
+constexpr const auto oillamp =
+    item_type{"lamp"}.light_provided(25).inventory_at(0, 5);
+
+constexpr const auto greave =
+    item_type{"boots"}.defense_pair(1).inventory_at(1, 0);
+constexpr const auto armguard =
+    item_type{"gloves"}.defense_pair(1).inventory_at(1, 1);
+constexpr const auto pauldron =
+    item_type{"helmet"}.defense(1).inventory_at(1, 2);
+constexpr const auto scale =
+    item_type{"chest armor"}.defense(3).inventory_at(1, 3);
+constexpr const auto shield = item_type{"shield"}.defense(5).inventory_at(1, 4);
+
+constexpr const auto jar = item_type{"jar"};     // TODO: drops
+constexpr const auto chest = item_type{"chest"}; // TODO: drops
+
 constexpr const item_type item_types[] = {
-    item_type{"candle"}.light_provided(15).inventory_at(0, 4),
-    item_type{"torch"}.light_provided(10).inventory_at(0, 3),
-
-    item_type{"rust knife"}.attack(2),
-    item_type{"sickle"}.attack(3),
-    item_type{"adze"}.attack(5),
-    item_type{"axe"}.attack(8),
-    item_type{"battle axe"}.attack(10),
-    item_type{"spear"}.attack(15),
-
-    item_type{"raw meat"}.inventory_at(0, 2).restores(8),
-    item_type{"strange fruit"}.inventory_at(0, 0).restores(3),
-    item_type{"cheese"}.inventory_at(0, 1).restores(5),
-
-    item_type{"lamp"}.inventory_at(0, 5).light_provided(25),
-
-    item_type{"bag", 1},
-
-    item_type{"jar"},   // TODO: drops
-    item_type{"chest"}, // TODO: drops
-
-    item_type{"boots"}.defense_pair(1).inventory_at(1, 0),
-    item_type{"gloves"}.defense_pair(1).inventory_at(1, 1),
-    item_type{"helmet"}.defense(1).inventory_at(1, 2),
-    item_type{"chest armor"}.defense(3).inventory_at(1, 3),
-    item_type{"shield"}.defense(5).inventory_at(1, 4),
+    adze,      armguard,   axe,    bag,    candle, cheese,  chest,
+    doubleaxe, driedfruit, greave, jar,    knife,  oillamp, pauldron,
+    rawmeat,   scale,      shield, sickle, spear,  torch,
 };
 } // namespace cno
