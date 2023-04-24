@@ -196,5 +196,17 @@ public:
       at(1, map_height - 2) = &gt;
     }
   }
+
+  void update_rogueview(unsigned px, unsigned py, unsigned radius) noexcept {
+    for (auto x = 0; x < map_width; x++) {
+      auto dx = px - x;
+      for (auto y = 0; y < map_height; y++) {
+        auto dy = py - y;
+        if (dx * dx + dy * dy <= radius * radius) {
+          m_blocks[y * map_width + x].seen = true;
+        }
+      }
+    }
+  }
 };
 } // namespace cno
