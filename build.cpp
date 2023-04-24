@@ -12,6 +12,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("quack", quack());
   m->add_part("blocktype");
   m->add_part("itemtype");
+  m->add_part("item");
   m->add_part("inventory");
   m->add_part("mobtype");
 

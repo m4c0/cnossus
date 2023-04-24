@@ -17,6 +17,10 @@ public:
   constexpr result(jute::view a, jute::view b, Tp v) : result{a, b, "", v} {}
   constexpr result(jute::view a, jute::view b, jute::view c, Tp v)
       : m_msg{a + b + c}, m_value{v} {}
+  constexpr result(decltype(m_msg) a, Tp v) : m_msg{a}, m_value{v} {}
+
+  [[nodiscard]] constexpr auto message() const noexcept { return m_msg; }
+  [[nodiscard]] constexpr auto value() const noexcept { return m_value; }
 };
 
 struct inventory_pos {
@@ -54,7 +58,8 @@ public:
   }
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
 
-  [[nodiscard]] result<const item_type *> drop_for_level(unsigned l) noexcept {
+  [[nodiscard]] result<const item_type *>
+  drop_for_level(unsigned l) const noexcept {
     if (m_drops == nullptr) {
       return {"", this};
     }
