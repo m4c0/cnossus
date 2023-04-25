@@ -45,9 +45,9 @@ class map {
       }
     } else if (h == 3) {
       for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-        at(x, y1 + 1) = &tilda;
+        at(x, y1 + 1) = &vbar;
       }
-      if ((h % 2) == 0) {
+      if ((w % 2) == 0) {
         at(x2, y2 - 1) = random_furniture();
       }
     } else if ((w == 4) || (h == 4)) {
@@ -149,7 +149,7 @@ class map {
 
     unsigned door_x;
     do {
-      door_x = x1 + rand() % h;
+      door_x = x1 + rand() % w;
     } while ((door_x == wall_1) || (door_x == wall_2));
 
     at(door_x, y) = &dot;
