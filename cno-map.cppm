@@ -216,7 +216,7 @@ public:
   void process_event(const casein::event &e) noexcept {
     m_blocks.process_event(e);
 
-    if (e.type() == casein::CREATE_WINDOW) {
+    if ((e.type() == casein::CREATE_WINDOW) || (e.type() == casein::KEY_UP)) {
       set_level(1);
       m_blocks.fill_colour([](const block &blk) {
         auto c = blk.type->character();
