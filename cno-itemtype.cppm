@@ -40,8 +40,6 @@ class item_type {
   int m_light_provided{};
   inventory_pos m_inv_coords{~0U, ~0U};
   const item_loot_table *m_drops{};
-  // inventory
-  // drops
 
   explicit constexpr item_type() : m_name{""} {}
 
@@ -187,12 +185,12 @@ constexpr const auto chest_drops = item_loot_table{{
     {&scale, &sword, &oillamp},   {&scale, &sword, &bag},
 }};
 
-constexpr const auto jar = item_type{"jar", &jar_drops};       // TODO: drops
-constexpr const auto chest = item_type{"chest", &chest_drops}; // TODO: drops
+constexpr const auto jar = item_type{"jar", &jar_drops};
+constexpr const auto coffer = item_type{"chest", &chest_drops};
 
 static constexpr const auto item_type_count = 20;
 constexpr const item_type *item_types[item_type_count] = {
-    &adze,      &armguard,   &axe,    &bag,    &candle, &cheese,  &chest,
+    &adze,      &armguard,   &axe,    &bag,    &candle, &cheese,  &coffer,
     &doubleaxe, &driedfruit, &greave, &jar,    &knife,  &oillamp, &pauldron,
     &rawmeat,   &scale,      &shield, &sickle, &spear,  &torch,
 };
