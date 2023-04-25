@@ -11,6 +11,7 @@ class item {
   map_coord m_coord;
 
 public:
+  constexpr item() noexcept = default;
   constexpr item(const item_type *t, map_coord c) : m_type{t}, m_coord{c} {}
 
   [[nodiscard]] result<item> open_at_level(unsigned l) const noexcept {

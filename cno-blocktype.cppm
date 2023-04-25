@@ -14,6 +14,7 @@ public:
   [[nodiscard]] constexpr char character() const noexcept {
     return m_character;
   }
+  [[nodiscard]] constexpr bool can_walk() const noexcept { return m_can_walk; }
 
   [[nodiscard]] constexpr block_type walkable() const noexcept {
     auto v = *this;

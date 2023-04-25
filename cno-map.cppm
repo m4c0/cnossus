@@ -159,6 +159,7 @@ class map {
 public:
   constexpr map(quack::renderer *r) : m_blocks{r} {}
 
+  [[nodiscard]] constexpr auto level() const noexcept { return m_level; }
   [[nodiscard]] constexpr const block_type *&at(unsigned x,
                                                 unsigned y) noexcept {
     return m_blocks.at(x, y).type;
