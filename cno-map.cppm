@@ -218,11 +218,12 @@ public:
 
     if (e.type() == casein::CREATE_WINDOW) {
       set_level(1);
-      m_blocks.fill_colour([](const block &b) {
-        auto c = b.type->character();
+      m_blocks.fill_colour([](const block &blk) {
+        auto c = blk.type->character();
         auto r = static_cast<float>(c % 16) / 16.0f;
         auto g = static_cast<float>(c / 16) / 16.0f;
-        return quack::colour{r, g, 1, 1};
+        auto b = blk.seen ? 1.0f : 0.0f;
+        return quack::colour{r, g, b, 1};
       });
     }
   }
