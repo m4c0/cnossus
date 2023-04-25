@@ -87,7 +87,7 @@ class map {
         at(x, y1) = at(x, y2) = &comma;
       }
       if (((w == 6) && (h == 6)) || ((w == 9) && (h == 9))) {
-        furnish_room(x1 + 1, y1 + 2, x2 - 1, y2 - 1);
+        furnish_room(x1 + 1, y1 + 1, x2 - 1, y2 - 1);
       }
     }
   }
@@ -144,8 +144,8 @@ class map {
       at(x, y) = &hash;
     }
 
-    auto wall_1 = subdivide_high(x1, y1, x2, y - 1);
-    auto wall_2 = subdivide_high(x1, y + 1, x2, y2);
+    auto wall_1 = subdivide_wide(x1, y1, x2, y - 1);
+    auto wall_2 = subdivide_wide(x1, y + 1, x2, y2);
 
     unsigned door_x;
     do {
