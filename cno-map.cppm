@@ -1,8 +1,6 @@
-module;
-extern "C" int rand();
-
 export module cno:map;
 import :blocktype;
+import :random;
 import casein;
 import quack;
 
@@ -26,7 +24,7 @@ class map {
   quack::grid_ilayout<map_width, map_height, block> m_blocks;
 
   [[nodiscard]] auto random_furniture() const noexcept {
-    return rand() % 2 == 0 ? &star : &andsign;
+    return cno::random(2) == 0 ? &star : &andsign;
   }
 
   void furnish_room(unsigned x1, unsigned y1, unsigned x2,
@@ -104,7 +102,7 @@ class map {
 
     auto x = x1 + 1;
     if (w != 3) {
-      x += rand() % (w - 2);
+      x += cno::random(w - 2);
     }
 
     for (auto y = y1; y <= y2; y++) {
@@ -116,7 +114,7 @@ class map {
 
     unsigned door_y;
     do {
-      door_y = y1 + rand() % h;
+      door_y = y1 + cno::random(h);
     } while ((door_y == wall_1) || (door_y == wall_2));
 
     at(x, door_y) = &dot;
@@ -137,7 +135,7 @@ class map {
 
     auto y = y1 + 1;
     if (h != 3) {
-      y += rand() % (h - 2);
+      y += cno::random(h - 2);
     }
 
     for (auto x = x1; x <= x2; x++) {
@@ -149,7 +147,7 @@ class map {
 
     unsigned door_x;
     do {
-      door_x = x1 + rand() % w;
+      door_x = x1 + cno::random(w);
     } while ((door_x == wall_1) || (door_x == wall_2));
 
     at(door_x, y) = &dot;
@@ -190,7 +188,7 @@ public:
     static constexpr const cell_size cell_sizes[max_cell_sizes] = {
         {7, 7}, {7, 5}, {5, 5}, {5, 3}, {3, 3},
     };
-    m_cell = cell_sizes[rand() % max_cell_sizes];
+    m_cell = cell_sizes[cno::random(max_cell_sizes)];
 
     subdivide_wide(1, 1, map_width - 2, map_height - 2);
 

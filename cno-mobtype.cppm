@@ -1,6 +1,3 @@
-module;
-extern "C" int rand();
-
 export module cno:mobtype;
 import :itemtype;
 import jute;
@@ -28,12 +25,12 @@ public:
   [[nodiscard]] int dice_roll(int dice) const noexcept {
     auto roll = 0;
     for (auto i = 0; i < dice; i++) {
-      roll += 1 + (rand() % m_dice);
+      roll += 1 + cno::random(m_dice);
     }
     return roll;
   }
   [[nodiscard]] const item_type *random_drop() const noexcept {
-    return m_drops.table[rand() % max_mob_drops];
+    return m_drops.table[cno::random(max_mob_drops)];
   }
 
   [[nodiscard]] constexpr mob_type drops(auto... d) const noexcept {

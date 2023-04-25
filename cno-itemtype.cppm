@@ -1,7 +1,5 @@
-module;
-extern "C" int rand();
-
 export module cno:itemtype;
+import :random;
 import jute;
 
 namespace cno {
@@ -64,7 +62,7 @@ public:
       return {"", this};
     }
 
-    auto rd = rand() % max_item_drops;
+    auto rd = cno::random(max_item_drops);
     auto *drop = m_drops->table[l - 1][rd];
     if (drop == nullptr || drop->name() == "") {
       return {"The ", m_name, " crumbled to dust", nullptr};
