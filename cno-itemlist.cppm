@@ -36,32 +36,34 @@ static constexpr const struct {
     {&jar, &spear, &coffer, &shield, &torch},
 }};
 
-class item_list {
-  quack::instance_layout<item, max_items_per_level> m_batch;
-
+class item_list : quack::instance_layout<item, max_items_per_level> {
   void fill_quack() {
-    m_batch.fill_pos([](const item &i) {
+    fill_pos([](const item &i) {
       const auto &c = i.coord();
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
-    m_batch.fill_colour([](const item &i) {
+    fill_colour([](const item &i) {
       float a = i.type() == nullptr ? 0.0 : 1.0;
-      return quack::colour{0, 0, 0, 1};
+      return quack::colour{0, 0, 0, a};
     });
   }
 
+  void resize(unsigned w, unsigned h) override {
+    batch()->resize(map_width, map_height, w, h);
+  }
+
 public:
-  explicit item_list(quack::renderer *r) : m_batch{r} {}
+  explicit item_list(quack::renderer *r) : instance_layout{r} {}
 
   void create_for_map(const cno::map *map) noexcept {
     const auto &cur_lvl_items = item_roll_per_level.items[map->level() - 1];
-    m_batch.reset_grid();
+    reset_grid();
 
     map_coord c{};
     for (c.y = 1; c.y < map_height - 2; c.y++) {
       const auto *type = cur_lvl_items[cno::random(max_item_roll)];
-      if (!type) {
+      if (type == nullptr) {
         continue;
       }
 
@@ -69,14 +71,12 @@ public:
         c.x = cno::random(map_width);
       } while (!map->at(c.x, c.y)->can_walk());
 
-      m_batch.at(c.y) = {type, c};
+      at(c.y) = {type, c};
     }
 
     fill_quack();
   }
 
-  void process_event(const casein::event &e) noexcept {
-    m_batch.process_event(e);
-  }
+  using instance_layout::process_event;
 };
 } // namespace cno
