@@ -39,7 +39,17 @@ static constexpr const struct {
 class item_list {
   quack::instance_layout<item, max_items_per_level> m_batch;
 
-  void fill_quack() {}
+  void fill_quack() {
+    m_batch.fill_pos([](const item &i) {
+      const auto &c = i.coord();
+      return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
+                         1};
+    });
+    m_batch.fill_colour([](const item &i) {
+      float a = i.type() == nullptr ? 0.0 : 1.0;
+      return quack::colour{0, 0, 0, 1};
+    });
+  }
 
 public:
   explicit item_list(quack::renderer *r) : m_batch{r} {}
