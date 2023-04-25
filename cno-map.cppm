@@ -3,6 +3,8 @@ extern "C" int rand();
 
 export module cno:map;
 import :blocktype;
+import casein;
+import quack;
 
 namespace cno {
 static constexpr const auto map_width = 30;
@@ -21,7 +23,7 @@ struct cell_size {
 class map {
   unsigned m_level;
   cell_size m_cell;
-  block m_blocks[map_width * map_height];
+  quack::grid_ilayout<map_width, map_height, block> m_blocks;
 
   [[nodiscard]] auto random_furniture() const noexcept {
     return rand() % 2 == 0 ? &star : &andsign;
@@ -157,19 +159,21 @@ class map {
   }
 
 public:
+  constexpr map(quack::renderer *r) : m_blocks{r} {}
+
   [[nodiscard]] constexpr const block_type *&at(unsigned x,
                                                 unsigned y) noexcept {
-    return m_blocks[y * map_width + x].type;
+    return m_blocks.at(x, y).type;
   }
   [[nodiscard]] constexpr const block_type *at(unsigned x,
                                                unsigned y) const noexcept {
-    return m_blocks[y * map_width + x].type;
+    return m_blocks.at(x, y).type;
   }
 
   void set_level(unsigned l) noexcept {
     m_level = l;
 
-    for (auto &b : m_blocks) {
+    for (auto &b : m_blocks.data()) {
       b = {&dot};
     }
 
@@ -203,9 +207,23 @@ public:
       for (auto y = 0; y < map_height; y++) {
         auto dy = py - y;
         if (dx * dx + dy * dy <= radius * radius) {
-          m_blocks[y * map_width + x].seen = true;
+          m_blocks.at(x, y).seen = true;
         }
       }
+    }
+  }
+
+  void process_event(const casein::event &e) noexcept {
+    m_blocks.process_event(e);
+
+    if (e.type() == casein::CREATE_WINDOW) {
+      set_level(1);
+      m_blocks.fill_colour([](const block &b) {
+        auto c = b.type->character();
+        auto r = static_cast<float>(c % 16) / 16.0f;
+        auto g = static_cast<float>(c / 16) / 16.0f;
+        return quack::colour{r, g, 1, 1};
+      });
     }
   }
 };

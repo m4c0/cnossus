@@ -11,12 +11,16 @@ class block_type {
 public:
   constexpr block_type(jute::view n, char c) : m_name{n}, m_character{c} {}
 
-  constexpr block_type walkable() const noexcept {
+  [[nodiscard]] constexpr char character() const noexcept {
+    return m_character;
+  }
+
+  [[nodiscard]] constexpr block_type walkable() const noexcept {
     auto v = *this;
     v.m_can_walk = true;
     return v;
   }
-  constexpr block_type transparent() const noexcept {
+  [[nodiscard]] constexpr block_type transparent() const noexcept {
     auto v = *this;
     v.m_transparent = true;
     return v;

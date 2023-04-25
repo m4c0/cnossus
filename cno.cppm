@@ -1,13 +1,18 @@
 export module cno;
+import :map;
 import casein;
 import quack;
 
 namespace cno {
 class game {
   quack::renderer m_r{1};
+  map m_map{&m_r};
 
 public:
-  void process_event(const casein::event &e) { m_r.process_event(e); }
+  void process_event(const casein::event &e) {
+    m_r.process_event(e);
+    m_map.process_event(e);
+  }
 };
 } // namespace cno
 
