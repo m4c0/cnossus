@@ -4,6 +4,7 @@ import :item;
 import :itemtype;
 import :map;
 import :random;
+import casein;
 import quack;
 
 namespace cno {
@@ -38,7 +39,11 @@ static constexpr const struct {
 class item_list {
   quack::instance_layout<item, max_items_per_level> m_batch;
 
+  void fill_quack() {}
+
 public:
+  explicit item_list(quack::renderer *r) : m_batch{r} {}
+
   void create_for_map(const cno::map *map) noexcept {
     const auto &cur_lvl_items = item_roll_per_level.items[map->level() - 1];
     m_batch.reset_grid();
@@ -56,6 +61,12 @@ public:
 
       m_batch.at(c.y) = {type, c};
     }
+
+    fill_quack();
+  }
+
+  void process_event(const casein::event &e) noexcept {
+    m_batch.process_event(e);
   }
 };
 } // namespace cno

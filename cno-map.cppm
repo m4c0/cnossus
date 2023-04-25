@@ -156,6 +156,16 @@ class map {
     return y;
   }
 
+  void fill_quack() noexcept {
+    m_blocks.fill_colour([](const block &blk) {
+      auto c = blk.type->character();
+      auto r = static_cast<float>(c % 16) / 16.0f;
+      auto g = static_cast<float>(c / 16) / 16.0f;
+      auto b = blk.seen ? 1.0f : 0.0f;
+      return quack::colour{r, g, b, 1};
+    });
+  }
+
 public:
   constexpr map(quack::renderer *r) : m_blocks{r} {}
 
@@ -198,6 +208,7 @@ public:
     } else {
       at(1, map_height - 2) = &gt;
     }
+    fill_quack();
   }
 
   void update_rogueview(unsigned px, unsigned py, unsigned radius) noexcept {
@@ -210,21 +221,11 @@ public:
         }
       }
     }
+    fill_quack();
   }
 
   void process_event(const casein::event &e) noexcept {
     m_blocks.process_event(e);
-
-    if ((e.type() == casein::CREATE_WINDOW) || (e.type() == casein::KEY_UP)) {
-      set_level(1);
-      m_blocks.fill_colour([](const block &blk) {
-        auto c = blk.type->character();
-        auto r = static_cast<float>(c % 16) / 16.0f;
-        auto g = static_cast<float>(c / 16) / 16.0f;
-        auto b = blk.seen ? 1.0f : 0.0f;
-        return quack::colour{r, g, b, 1};
-      });
-    }
   }
 };
 } // namespace cno
