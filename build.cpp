@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("casein", casein());
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
+  m->add_part("objects");
   m->add_part("random");
   m->add_part("blocktype");
   m->add_part("map");

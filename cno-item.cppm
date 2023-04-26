@@ -1,16 +1,8 @@
 export module cno:item;
 import :itemtype;
+import :objects;
 
 namespace cno {
-struct map_coord {
-  unsigned x;
-  unsigned y;
-};
-[[nodiscard]] constexpr bool operator==(const map_coord &a,
-                                        const map_coord &b) noexcept {
-  return a.x == b.x && a.y == b.y;
-}
-
 class item {
   const item_type *m_type;
   map_coord m_coord;
