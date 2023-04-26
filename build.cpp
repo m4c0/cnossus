@@ -19,6 +19,7 @@ int main(int argc, char **argv) {
   m->add_part("inventory");
   m->add_part("itemlist");
   m->add_part("mobtype");
+  m->add_part("mob");
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);

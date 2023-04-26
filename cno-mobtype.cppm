@@ -12,15 +12,17 @@ struct mob_drops {
 
 class mob_type {
   jute::view m_name;
-  int m_life;
-  int m_dice;
+  unsigned m_life;
+  unsigned m_dice;
   hostilities m_hostility;
-  int m_poison{};
+  unsigned m_poison{};
   mob_drops m_drops;
 
 public:
-  constexpr mob_type(jute::view n, hostilities h, int d)
+  constexpr mob_type(jute::view n, hostilities h, unsigned d)
       : m_name{n}, m_hostility{h}, m_dice{d}, m_life{d} {}
+
+  [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
 
   [[nodiscard]] int dice_roll(int dice) const noexcept {
     auto roll = 0;
