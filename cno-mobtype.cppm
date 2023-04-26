@@ -22,6 +22,10 @@ public:
   constexpr mob_type(jute::view n, hostilities h, unsigned d)
       : m_name{n}, m_hostility{h}, m_dice{d}, m_life{d} {}
 
+  [[nodiscard]] constexpr auto dice() const noexcept { return m_dice; }
+  [[nodiscard]] constexpr auto hostility() const noexcept {
+    return m_hostility;
+  }
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
 
   [[nodiscard]] int dice_roll(int dice) const noexcept {
