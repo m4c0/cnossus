@@ -8,7 +8,7 @@ import casein;
 import quack;
 
 namespace cno {
-static constexpr const auto max_items_per_level = map_height;
+static constexpr const auto max_items_per_level = map_height * 2;
 static constexpr const auto max_item_roll = 5;
 
 static constexpr const struct {
@@ -75,6 +75,32 @@ public:
     }
 
     fill_quack();
+  }
+
+  void add_item(item new_i) {
+    for (auto &i : data()) {
+      if (i.type() != nullptr) {
+        continue;
+      }
+
+      i = new_i;
+      break;
+    }
+  }
+
+  const item_type *fetch(map_coord c) {
+    for (auto &i : data()) {
+      if (i.type() == nullptr) {
+        continue;
+      }
+      if (i.coord() != c) {
+        continue;
+      }
+      auto res = i.type();
+      i = {};
+      return res;
+    }
+    return nullptr;
   }
 
   using instance_layout::process_event;
