@@ -1,4 +1,5 @@
 export module cno;
+import :inventory;
 import :itemlist;
 import :map;
 import casein;
@@ -9,6 +10,21 @@ class game {
   quack::renderer m_r{2};
   map m_map{&m_r};
   item_list m_items{&m_r};
+  inv::table m_inv{};
+
+  result<bool> open_item_at(map_coord c) {
+    auto it = m_items.fetch(c);
+    if (it == nullptr)
+      return {"", false};
+
+    auto nit = it->drop_for_level(m_map.level());
+    if (nit.value() != it) {
+      m_items.add_item({nit.value(), c});
+      return {nit.message(), false};
+    }
+
+    return m_inv.get_item(nit.value());
+  }
 
 public:
   void process_event(const casein::event &e) {

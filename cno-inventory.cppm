@@ -15,9 +15,11 @@ public:
   constexpr slot() noexcept = default;
   explicit constexpr slot(const item_type *i) noexcept : m_item{i} {}
 
+  [[nodiscard]] constexpr const auto *type() const noexcept { return m_item; }
+
   constexpr void consume() noexcept { m_count--; }
 
-  result<bool> get_item() noexcept {
+  [[nodiscard]] result<bool> get_item() noexcept {
     if (m_item->max_carry() == 0) {
       return {"That's hardly possible", "", false};
     }
@@ -45,6 +47,16 @@ public:
     for (auto i = 0U; i < item_type_count; i++) {
       m_slots[i] = slot{item_types[i]};
     }
+  }
+
+  [[nodiscard]] result<bool> get_item(const item_type *it) noexcept {
+    for (auto &s : m_slots) {
+      if (s.type() != it)
+        continue;
+
+      return s.get_item();
+    }
+    return {"", false};
   }
 };
 } // namespace cno::inv
