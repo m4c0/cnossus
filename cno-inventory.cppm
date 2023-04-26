@@ -1,4 +1,5 @@
 export module cno:inventory;
+import :globals;
 import :itemtype;
 import jute;
 
@@ -19,23 +20,30 @@ public:
 
   constexpr void consume() noexcept { m_count--; }
 
-  [[nodiscard]] result<bool> get_item() noexcept {
+  [[nodiscard]] bool get_item() noexcept {
+    using namespace jute::literals;
+
     if (m_item->max_carry() == 0) {
-      return {"That's hardly possible", "", false};
+      g::update_status("That's hardly possible");
+      return false;
     }
     if (m_item->max_carry() == -1) {
       if (m_count == 0 || has_bag()) {
         m_count++;
-        return {"You pick up a ", m_item->name(), true};
+        g::update_status("You pick up a " + m_item->name());
+        return true;
       } else {
-        return {"You need a bag to carry more", false};
+        g::update_status("You need a bag to carry more");
+        return false;
       }
     }
     if (m_count < m_item->max_carry()) {
       m_count++;
-      return {"You pick up a ", m_item->name(), true};
+      g::update_status("You pick up a " + m_item->name());
+      return true;
     }
-    return {"Already got enough of these", false};
+    g::update_status("Already got enough of these");
+    return false;
   }
 };
 
@@ -49,14 +57,14 @@ public:
     }
   }
 
-  [[nodiscard]] result<bool> get_item(const item_type *it) noexcept {
+  [[nodiscard]] bool get_item(const item_type *it) noexcept {
     for (auto &s : m_slots) {
       if (s.type() != it)
         continue;
 
       return s.get_item();
     }
-    return {"", false};
+    return false;
   }
 };
 } // namespace cno::inv

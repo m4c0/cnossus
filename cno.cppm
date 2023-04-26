@@ -12,18 +12,18 @@ class game {
   item_list m_items{&m_r};
   inv::table m_inv{};
 
-  result<bool> open_item_at(map_coord c) {
+  bool open_item_at(map_coord c) {
     auto it = m_items.fetch(c);
     if (it == nullptr)
-      return {"", false};
+      return false;
 
     auto nit = it->drop_for_level(m_map.level());
-    if (nit.value() != it) {
-      m_items.add_item({nit.value(), c});
-      return {nit.message(), false};
+    if (nit != it) {
+      m_items.add_item({nit, c});
+      return false;
     }
 
-    return m_inv.get_item(nit.value());
+    return m_inv.get_item(nit);
   }
 
 public:

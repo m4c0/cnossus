@@ -1,25 +1,11 @@
 export module cno:itemtype;
+import :globals;
 import :random;
 import jute;
 
 namespace cno {
 static constexpr const auto max_item_drops = 5;
 static constexpr const auto max_level = 20;
-
-template <typename Tp> class result {
-  jute::twine<3> m_msg;
-  Tp m_value;
-
-public:
-  constexpr result(jute::view a, Tp v) : result{a, "", "", v} {}
-  constexpr result(jute::view a, jute::view b, Tp v) : result{a, b, "", v} {}
-  constexpr result(jute::view a, jute::view b, jute::view c, Tp v)
-      : m_msg{a + b + c}, m_value{v} {}
-  constexpr result(decltype(m_msg) a, Tp v) : m_msg{a}, m_value{v} {}
-
-  [[nodiscard]] constexpr auto message() const noexcept { return m_msg; }
-  [[nodiscard]] constexpr auto value() const noexcept { return m_value; }
-};
 
 struct inventory_pos {
   unsigned sec;
@@ -54,19 +40,21 @@ public:
   }
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
 
-  [[nodiscard]] result<const item_type *>
-  drop_for_level(unsigned l) const noexcept {
+  [[nodiscard]] const item_type *drop_for_level(unsigned l) const noexcept {
     if (m_drops == nullptr) {
-      return {"", this};
+      return this;
     }
 
     auto rd = cno::random(max_item_drops);
     auto *drop = m_drops->table[l - 1][rd];
     if (drop == nullptr || drop->name() == "") {
-      return {"The ", m_name, " crumbled to dust", nullptr};
+      using namespace jute::literals;
+      g::update_status("The "_s + m_name + " crumbled to dust");
+      return nullptr;
     }
 
-    return {"Something fells on the ground", drop};
+    g::update_status("Something fells on the ground");
+    return drop;
   }
 
   [[nodiscard]] constexpr item_type nullify() const noexcept {
