@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
   m->add_part("mobtype");
   m->add_part("mob");
   m->add_part("player");
+  m->add_part("enemy");
   m->add_part("moblist");
 
   auto a = unit::create<app>("cnossus");

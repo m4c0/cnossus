@@ -1,4 +1,5 @@
 export module cno:moblist;
+import :enemy;
 import :globals;
 import :map;
 import :mob;
@@ -68,6 +69,12 @@ public:
         at(c.y) = {};
         continue;
       }
+
+      do {
+        c.x = cno::random(map_width);
+      } while (!m->at(c.x, c.y)->can_walk());
+
+      at(c.y) = hai::uptr<mob>{new enemy(t, c, m)};
     }
   }
 };
