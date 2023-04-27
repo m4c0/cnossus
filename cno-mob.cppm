@@ -59,6 +59,7 @@ public:
         m_max_actions{max_actions} {}
   constexpr virtual ~mob() = default;
 
+  [[nodiscard]] constexpr auto &coord() noexcept { return m_coord; }
   [[nodiscard]] constexpr auto coord() const noexcept { return m_coord; }
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }

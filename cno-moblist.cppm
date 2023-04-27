@@ -2,6 +2,7 @@ export module cno:moblist;
 import :globals;
 import :mob;
 import :mobtype;
+import :player;
 import hai;
 import quack;
 
@@ -43,5 +44,15 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
 
 public:
   explicit mob_list(quack::renderer *r) : instance_layout{r} {}
+
+  void populate_level(unsigned l) {
+    auto px = (l % 2 == 1) ? 1U : map_width - 2U;
+    map_coord pc{px, 1};
+    if (l == 1) {
+      at(0) = hai::uptr<mob>{new player(pc)};
+    } else {
+      at(0)->coord() = pc;
+    }
+  }
 };
 } // namespace cno
