@@ -63,14 +63,13 @@ constexpr const auto snake =
 constexpr const auto spider = mob_type{"spider", h_scaried, 4}.poison(4);
 constexpr const auto rat = mob_type{"bat", h_scaried, 6}.drops(&rawmeat);
 constexpr const auto scorpion = mob_type{"wasp", h_scaried, 4}.poison(8);
-constexpr const auto centripede =
-    mob_type{"centripede", h_scaried, 6}.poison(8);
+constexpr const auto centipede = mob_type{"centipede", h_scaried, 6}.poison(8);
 
 constexpr const auto cerberus = mob_type{"zombie", h_aggresive, 8};
 constexpr const auto harpy = mob_type{"demon", h_aggresive, 8};
 constexpr const auto chimera = mob_type{"chimera", h_aggresive, 12}.poison(10);
 constexpr const auto manticore = mob_type{"goblin", h_aggresive, 12};
-constexpr const auto crocodile =
+constexpr const auto croc =
     mob_type{"crocodile man", h_aggresive, 20}.drops(&rawmeat, &leather);
 constexpr const auto drakon =
     mob_type{"dragon", h_aggresive, 20}.drops(&shield, &shield);
