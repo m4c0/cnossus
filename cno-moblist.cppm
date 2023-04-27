@@ -61,14 +61,7 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
     }
   }
 
-public:
-  explicit mob_list(quack::renderer *r) : instance_layout{r} {}
-
-  using instance_layout::process_event;
-
-  void populate_level(const map *m) {
-    update_player(m->level());
-
+  void create_enemies(const map *m) {
     const auto &mob_roll = mob_roll_per_level.mobs[m->level()];
     map_coord c{};
     for (c.y = 1; c.y < map_height - 1; c.y++) {
@@ -84,7 +77,16 @@ public:
 
       at(c.y) = hai::uptr<mob>{new enemy(t, c, m)};
     }
+  }
 
+public:
+  explicit mob_list(quack::renderer *r) : instance_layout{r} {}
+
+  using instance_layout::process_event;
+
+  void populate_level(const map *m) {
+    update_player(m->level());
+    create_enemies(m);
     fill_quack();
   }
 };
