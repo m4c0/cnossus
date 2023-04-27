@@ -38,6 +38,8 @@ public:
     return m_max_carry;
   }
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
+  [[nodiscard]] constexpr auto attack() const noexcept { return m_attack; }
+  [[nodiscard]] constexpr auto defense() const noexcept { return m_defense; }
 
   [[nodiscard]] const item_type *drop_for_level(unsigned l) const noexcept {
     if (m_drops == nullptr) {

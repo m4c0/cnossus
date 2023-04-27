@@ -16,6 +16,7 @@ public:
   constexpr slot() noexcept = default;
   explicit constexpr slot(const item_type *i) noexcept : m_item{i} {}
 
+  [[nodiscard]] constexpr auto count() const noexcept { return m_count; }
   [[nodiscard]] constexpr const auto *type() const noexcept { return m_item; }
 
   constexpr void consume() noexcept { m_count--; }
@@ -65,6 +66,14 @@ public:
       return s.get_item();
     }
     return false;
+  }
+
+  void for_each(auto &&fn) const noexcept {
+    for (auto &i : m_slots) {
+      if (i.count() == 0)
+        continue;
+      fn(i);
+    }
   }
 };
 } // namespace cno::inv

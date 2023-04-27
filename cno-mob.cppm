@@ -12,6 +12,7 @@ class mob {
   int m_actions;
   unsigned m_max_actions;
   unsigned m_poison{};
+  unsigned m_damage_timer{};
 
   [[nodiscard]] constexpr bool update_actions() noexcept {
     if (m_actions > 0) {
@@ -43,6 +44,15 @@ protected:
   [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
   [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
 
+  int damage_by(int margin) {
+    if (margin > 0)
+      m_damage_timer = 10;
+
+    return m_life -= margin;
+  }
+
+  void increase_max_actions() { m_max_actions++; }
+
 public:
   constexpr mob(const mob_type *t, map_coord c)
       : m_type{t}, m_coord{c}, m_life{m_type->life()}, m_actions{max_actions},
@@ -50,6 +60,7 @@ public:
   constexpr virtual ~mob() = default;
 
   [[nodiscard]] constexpr auto coord() const noexcept { return m_coord; }
+  [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
   void process_actions_with_light(unsigned l) {
