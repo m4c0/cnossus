@@ -1,5 +1,6 @@
 export module cno:moblist;
 import :globals;
+import :map;
 import :mob;
 import :mobtype;
 import :player;
@@ -25,6 +26,7 @@ static constexpr const struct {
     {&manticore, &chimera, &bull},  {&drakon, &griffin, &bull},
 }};
 
+// TODO: consider how we can do this without hai/polymorphism
 class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
   void fill_quack() {
     fill_pos([](auto &i) {
@@ -42,16 +44,30 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
     batch()->resize(map_width, map_height, w, h);
   }
 
-public:
-  explicit mob_list(quack::renderer *r) : instance_layout{r} {}
-
-  void populate_level(unsigned l) {
-    auto px = (l % 2 == 1) ? 1U : map_width - 2U;
+  void update_player(unsigned lvl) {
+    auto px = (lvl % 2 == 1) ? 1U : map_width - 2U;
     map_coord pc{px, 1};
-    if (l == 1) {
+    if (lvl == 1) {
       at(0) = hai::uptr<mob>{new player(pc)};
     } else {
       at(0)->coord() = pc;
+    }
+  }
+
+public:
+  explicit mob_list(quack::renderer *r) : instance_layout{r} {}
+
+  void populate_level(const map *m) {
+    update_player(m->level());
+
+    const auto &mob_roll = mob_roll_per_level.mobs[m->level()];
+    map_coord c{};
+    for (c.y = 1; c.y < map_height - 1; c.y++) {
+      const mob_type *t = mob_roll[cno::random(max_mobs_per_level)];
+      if (t == nullptr) {
+        at(c.y) = {};
+        continue;
+      }
     }
   }
 };
