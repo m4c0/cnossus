@@ -38,11 +38,16 @@ class mob {
   void run_from_hero() {}
   void wander() {}
 
+protected:
+  [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
+  [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
+  [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
+
 public:
-  constexpr mob() noexcept = default;
   constexpr mob(const mob_type *t, map_coord c)
       : m_type{t}, m_coord{c}, m_life{m_type->life()}, m_actions{max_actions},
         m_max_actions{max_actions} {}
+  constexpr virtual ~mob() = default;
 
   [[nodiscard]] constexpr auto coord() const noexcept { return m_coord; }
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }

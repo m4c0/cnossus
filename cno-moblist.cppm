@@ -2,6 +2,7 @@ export module cno:moblist;
 import :globals;
 import :mob;
 import :mobtype;
+import hai;
 import quack;
 
 namespace cno {
@@ -23,15 +24,15 @@ static constexpr const struct {
     {&manticore, &chimera, &bull},  {&drakon, &griffin, &bull},
 }};
 
-class mob_list : quack::instance_layout<mob, max_mobs_per_level> {
+class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
   void fill_quack() {
-    fill_pos([](const mob &i) {
-      const auto &c = i.coord();
+    fill_pos([](auto &i) {
+      const auto &c = i->coord();
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
-    fill_colour([](const mob &i) {
-      float a = i.type() == nullptr ? 0.0 : 1.0;
+    fill_colour([](auto &i) {
+      float a = i->type() == nullptr ? 0.0 : 1.0;
       return quack::colour{0.3, 0.3, 0.3, a};
     });
   }
