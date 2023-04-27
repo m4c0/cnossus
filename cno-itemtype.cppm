@@ -5,7 +5,6 @@ import jute;
 
 namespace cno {
 static constexpr const auto max_item_drops = 5;
-static constexpr const auto max_level = 20;
 
 struct inventory_pos {
   unsigned sec;

@@ -1,5 +1,6 @@
 export module cno:itemlist;
 import :blocktype;
+import :globals;
 import :item;
 import :itemtype;
 import :map;

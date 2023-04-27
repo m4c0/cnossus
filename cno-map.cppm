@@ -1,13 +1,11 @@
 export module cno:map;
 import :blocktype;
+import :globals;
 import :random;
 import casein;
 import quack;
 
 namespace cno {
-static constexpr const auto map_width = 30;
-static constexpr const auto map_height = 20;
-
 struct block {
   const block_type *type;
   bool seen;
