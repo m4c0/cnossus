@@ -31,11 +31,17 @@ static constexpr const struct {
 class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
   void fill_quack() {
     fill_pos([](auto &i) {
+      if (!i)
+        return quack::rect{};
+
       const auto &c = i->coord();
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
     fill_colour([](auto &i) {
+      if (!i)
+        return quack::colour{};
+
       float a = i->type() == nullptr ? 0.0 : 1.0;
       return quack::colour{0.3, 0.3, 0.3, a};
     });
@@ -58,6 +64,8 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
 public:
   explicit mob_list(quack::renderer *r) : instance_layout{r} {}
 
+  using instance_layout::process_event;
+
   void populate_level(const map *m) {
     update_player(m->level());
 
@@ -76,6 +84,8 @@ public:
 
       at(c.y) = hai::uptr<mob>{new enemy(t, c, m)};
     }
+
+    fill_quack();
   }
 };
 } // namespace cno

@@ -2,6 +2,7 @@ export module cno;
 import :inventory;
 import :itemlist;
 import :map;
+import :moblist;
 import casein;
 import quack;
 
@@ -10,6 +11,7 @@ class game {
   quack::renderer m_r{2};
   map m_map{&m_r};
   item_list m_items{&m_r};
+  mob_list m_mobs{&m_r};
   inv::table m_inv{};
 
   bool open_item_at(map_coord c) {
@@ -31,11 +33,13 @@ public:
     m_r.process_event(e);
     m_map.process_event(e);
     m_items.process_event(e);
+    m_mobs.process_event(e);
   }
 
   void create_window() {
     m_map.set_level(1);
     m_items.create_for_map(&m_map);
+    m_mobs.populate_level(&m_map);
   }
 };
 } // namespace cno
