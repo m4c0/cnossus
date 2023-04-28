@@ -93,10 +93,17 @@ public:
 
   [[nodiscard]] constexpr mob *mob_at(map_coord c) {
     for (auto &m : data()) {
-      if (m->coord() == c)
+      if (m && m->coord() == c)
         return &*m;
     }
     return nullptr;
+  }
+
+  void update_animations(float dt) {
+    for (auto &m : data()) {
+      if (m)
+        m->update_animations(dt);
+    }
   }
 };
 } // namespace cno

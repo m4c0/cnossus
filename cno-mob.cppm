@@ -12,7 +12,7 @@ class mob {
   int m_actions;
   unsigned m_max_actions;
   unsigned m_poison{};
-  unsigned m_damage_timer{};
+  float m_damage_timer{};
 
   [[nodiscard]] constexpr bool update_actions() noexcept {
     if (m_actions > 0) {
@@ -46,7 +46,7 @@ protected:
 
   int damage_by(int margin) {
     if (margin > 0)
-      m_damage_timer = 10;
+      m_damage_timer = 0.5;
 
     return m_life -= margin;
   }
@@ -61,6 +61,9 @@ public:
 
   [[nodiscard]] constexpr auto &coord() noexcept { return m_coord; }
   [[nodiscard]] constexpr auto coord() const noexcept { return m_coord; }
+  [[nodiscard]] constexpr auto damaged() const noexcept {
+    return m_damage_timer > 0;
+  }
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
@@ -89,5 +92,7 @@ public:
       break;
     }
   }
+
+  void update_animations(float dt) { m_damage_timer -= dt; }
 };
 } // namespace cno
