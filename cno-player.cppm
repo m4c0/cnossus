@@ -22,7 +22,10 @@ protected:
     return m_damage_bonus;
   }
 
-  void run_actions_with_light(unsigned l) noexcept override {}
+  [[nodiscard]] map_coord next_move_with_light(unsigned l) noexcept override {
+    // TODO: store desired move
+    return coord();
+  }
 
 public:
   explicit player(map_coord c) : mob{&minotaur, c} {}

@@ -7,30 +7,28 @@ namespace cno {
 class enemy : public mob {
   int m_bonus;
 
-  void hunt_hero() {}
-  void run_from_hero() {}
-  void wander() {}
+  map_coord hunt_hero() { return coord(); }
+  map_coord run_from_hero() { return coord(); }
+  map_coord wander() { return coord(); }
 
 protected:
   [[nodiscard]] int attack_bonus() const noexcept override { return m_bonus; }
   [[nodiscard]] int defense_bonus() const noexcept override { return m_bonus; }
   [[nodiscard]] int damage_bonus() const noexcept override { return 0; }
 
-  void run_actions_with_light(unsigned l) noexcept override {
+  [[nodiscard]] map_coord next_move_with_light(unsigned l) noexcept override {
     switch (type()->hostility()) {
     case h_none:
     case h_scaried:
       if (l < 1)
-        wander();
+        return wander();
       else
-        run_from_hero();
-      break;
+        return run_from_hero();
     case h_aggresive:
       if (l < 1)
-        hunt_hero();
+        return hunt_hero();
       else
-        wander();
-      break;
+        return wander();
     }
   }
 
