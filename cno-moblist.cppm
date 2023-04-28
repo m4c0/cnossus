@@ -90,5 +90,13 @@ public:
     create_enemies(m);
     fill_quack();
   }
+
+  [[nodiscard]] constexpr mob *mob_at(map_coord c) {
+    for (auto &m : data()) {
+      if (m->coord() == c)
+        return &*m;
+    }
+    return nullptr;
+  }
 };
 } // namespace cno
