@@ -76,7 +76,7 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
         c.x = cno::random(map_width);
       } while (!m->at(c.x, c.y)->can_walk());
 
-      at(c.y) = hai::uptr<mob>{new enemy(t, c, m)};
+      at(c.y) = hai::uptr<mob>{new enemy(t, c, m->level())};
     }
   }
 

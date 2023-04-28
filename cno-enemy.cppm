@@ -1,6 +1,5 @@
 export module cno:enemy;
 import :objects;
-import :map;
 import :mob;
 import :mobtype;
 
@@ -14,7 +13,7 @@ protected:
   [[nodiscard]] int damage_bonus() const noexcept { return 0; }
 
 public:
-  enemy(const mob_type *t, map_coord c, const map *m)
-      : mob{t, c}, m_bonus{static_cast<int>(m->level()) / 2} {}
+  enemy(const mob_type *t, map_coord c, unsigned level)
+      : mob{t, c}, m_bonus{static_cast<int>(level) / 2} {}
 };
 } // namespace cno
