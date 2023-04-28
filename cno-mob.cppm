@@ -20,11 +20,7 @@ class mob {
 
     m_poison--;
     m_life--;
-    if (m_life == 0)
-      die();
   }
-
-  void die() {}
 
 protected:
   [[nodiscard]] virtual int attack_bonus() const noexcept = 0;

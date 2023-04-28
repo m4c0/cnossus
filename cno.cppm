@@ -27,6 +27,15 @@ class game {
 
     return m_inv.get_item(nit);
   }
+  void process_actions_with_light(unsigned l) {
+    m_mobs.for_each([this, l](auto &m) {
+      m->process_actions_with_light(l);
+      if (m->life() <= 0) {
+        m_items.add_item({m->type()->random_drop(), m->coord()});
+        m = {};
+      }
+    });
+  }
 
 public:
   void process_event(const casein::event &e) {

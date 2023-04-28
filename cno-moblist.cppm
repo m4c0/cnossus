@@ -105,5 +105,13 @@ public:
         m->update_animations(dt);
     }
   }
+
+  void for_each(auto &&fn) {
+    for (auto &m : data()) {
+      if (!m)
+        continue;
+      fn(m);
+    }
+  }
 };
 } // namespace cno
