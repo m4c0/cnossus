@@ -22,6 +22,8 @@ protected:
     return m_damage_bonus;
   }
 
+  void run_actions_with_light(unsigned l) noexcept override {}
+
 public:
   explicit player(map_coord c) : mob{&minotaur, c} {}
 

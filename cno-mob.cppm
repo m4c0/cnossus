@@ -14,15 +14,6 @@ class mob {
   unsigned m_poison{};
   float m_damage_timer{};
 
-  [[nodiscard]] constexpr bool update_actions() noexcept {
-    if (m_actions > 0) {
-      m_actions -= m_type->dice();
-      return false;
-    }
-    m_actions += m_max_actions;
-    return true;
-  }
-
   void process_poison() {
     if (m_poison == 0)
       return;
@@ -35,14 +26,12 @@ class mob {
 
   void die() {}
 
-  void hunt_hero() {}
-  void run_from_hero() {}
-  void wander() {}
-
 protected:
   [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
   [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
   [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
+
+  virtual void run_actions_with_light(unsigned l) noexcept = 0;
 
   int damage_by(int margin) {
     if (margin > 0)
@@ -68,29 +57,13 @@ public:
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
   void process_actions_with_light(unsigned l) {
-    if (update_actions()) {
+    if (m_actions <= 0) {
+      m_actions += m_max_actions;
       process_poison();
       return;
     }
-    if (m_type == &minotaur) {
-      return;
-    }
-
-    switch (m_type->hostility()) {
-    case h_none:
-    case h_scaried:
-      if (l < 1)
-        wander();
-      else
-        run_from_hero();
-      break;
-    case h_aggresive:
-      if (l < 1)
-        hunt_hero();
-      else
-        wander();
-      break;
-    }
+    m_actions -= m_type->dice();
+    run_actions_with_light(l);
   }
 
   void update_animations(float dt) { m_damage_timer -= dt; }
