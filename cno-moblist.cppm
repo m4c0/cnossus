@@ -58,6 +58,7 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
       at(0) = hai::uptr<mob>{new player(pc)};
     } else {
       at(0)->coord() = pc;
+      static_cast<player &>(*at(0)).random_buff();
     }
   }
 
