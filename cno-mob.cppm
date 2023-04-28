@@ -27,7 +27,8 @@ protected:
   [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
   [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
 
-  [[nodiscard]] virtual map_coord next_move_with_light(unsigned l) noexcept = 0;
+  [[nodiscard]] virtual map_coord next_move_with_light(map_coord player_pos,
+                                                       unsigned l) noexcept = 0;
 
   int damage_by(int margin) {
     if (margin > 0)
@@ -52,14 +53,14 @@ public:
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
-  [[nodiscard]] map_coord act_with_light(unsigned l) {
+  [[nodiscard]] map_coord act_with_light(map_coord player_pos, unsigned l) {
     if (m_actions <= 0) {
       m_actions += m_max_actions;
       process_poison();
       return m_coord;
     }
     m_actions -= m_type->dice();
-    return next_move_with_light(l);
+    return next_move_with_light(player_pos, l);
   }
 
   void update_animations(float dt) { m_damage_timer -= dt; }

@@ -54,11 +54,13 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
   void update_player(unsigned lvl) {
     auto px = (lvl % 2 == 1) ? 1U : map_width - 2U;
     map_coord pc{px, 1};
+
     if (lvl == 1) {
-      at(0) = hai::uptr<mob>{new player(pc)};
+      at(0) = hai::uptr<mob>{new cno::player(pc)};
     } else {
-      at(0)->coord() = pc;
-      static_cast<player &>(*at(0)).random_buff();
+      auto &p = player();
+      p.coord() = pc;
+      p.random_buff();
     }
   }
 
@@ -84,6 +86,10 @@ public:
   explicit mob_list(quack::renderer *r) : instance_layout{r} {}
 
   using instance_layout::process_event;
+
+  [[nodiscard]] cno::player &player() noexcept {
+    return static_cast<cno::player &>(*at(0));
+  }
 
   void populate_level(const map *m) {
     update_player(m->level());

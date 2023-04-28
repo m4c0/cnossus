@@ -22,7 +22,8 @@ protected:
     return m_damage_bonus;
   }
 
-  [[nodiscard]] map_coord next_move_with_light(unsigned l) noexcept override {
+  [[nodiscard]] map_coord next_move_with_light(map_coord pp,
+                                               unsigned l) noexcept override {
     // TODO: store desired move
     return coord();
   }

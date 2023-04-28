@@ -29,7 +29,8 @@ class game {
   }
   void process_actions_with_light(unsigned l) {
     m_mobs.for_each([this, l](auto &m) {
-      auto c = m->act_with_light(l); // TODO: check move
+      auto pc = m_mobs.player().coord();
+      auto c = m->act_with_light(pc, l); // TODO: check move
       if (m->life() <= 0) {
         m_items.add_item({m->type()->random_drop(), m->coord()});
         m = {};
