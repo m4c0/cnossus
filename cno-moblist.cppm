@@ -97,10 +97,10 @@ public:
     fill_quack();
   }
 
-  [[nodiscard]] constexpr mob *mob_at(map_coord c) {
+  [[nodiscard]] constexpr hai::uptr<mob> *mob_at(map_coord c) {
     for (auto &m : data()) {
       if (m && m->coord() == c)
-        return &*m;
+        return &m;
     }
     return nullptr;
   }

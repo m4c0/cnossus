@@ -31,22 +31,21 @@ class game {
   }
   void process_actions_with_light(unsigned l) {
     m_mobs.for_each([this, l](auto &m) {
-      auto &pl = m_mobs.player();
-      auto pc = pl.coord();
+      auto pc = m_mobs.player().coord();
 
       auto tgt = m->act_with_light(pc, l);
       const auto *blk = m_map.at(tgt.x, tgt.y);
       if (!blk->can_walk()) {
-        if (&pl == &*m) {
+        if (m->type() == &minotaur) {
           using namespace jute::literals;
           g::update_status("A "_s + blk->name() + " blocks your way");
         }
         return;
       }
 
-      const auto &mm = m_mobs.mob_at(tgt);
-      if (mm && mm->type() != m->type()) {
-        // TODO: attack
+      auto *mm = m_mobs.mob_at(tgt);
+      if (mm != nullptr && (*mm)->type() != m->type()) {
+        attack(*m, *mm);
         return;
       }
 
@@ -58,6 +57,53 @@ class game {
         m = {};
       }
     });
+  }
+
+  void attack(const mob &src, auto &tgt) {
+    const auto srcn = src.type()->name();
+    const auto tgtn = tgt->type()->name();
+
+    int atk_roll = src.type()->dice_roll(2) + src.attack_bonus();
+    int def_roll = src.type()->dice_roll(2) + tgt->defense_bonus();
+    int margin = atk_roll - def_roll;
+
+    if (margin > 0) {
+      margin += src.attack_bonus() - tgt->defense_bonus();
+      if (margin < 0)
+        return;
+
+      if (tgt->damage_by(margin) <= 0) {
+        m_items.add_item({tgt->type()->random_drop(), tgt->coord()});
+        tgt = {};
+        if (src.type() == &minotaur) {
+          g::update_status(srcn + " kill " + tgtn);
+        }
+      } else if (src.type()->poison() > 0) {
+        tgt->poison_by(1 + cno::random(src.type()->poison()));
+        if (tgt->type() == &minotaur) {
+          g::update_status(srcn + " poisons " + tgtn);
+        }
+      } else if (src.type() == &minotaur) {
+        g::update_status(srcn + " hit " + tgtn);
+      } else if (tgt->type() == &minotaur) {
+        g::update_status(srcn + " hits " + tgtn);
+      }
+    } else if (margin == 0) {
+      if (src.type()->poison() > 0) {
+        tgt->poison_by(1 + cno::random(src.type()->poison()));
+        if (tgt->type() == &minotaur) {
+          g::update_status(srcn + " poisons " + tgtn);
+        }
+      } else if (src.type() == &minotaur) {
+        g::update_status(srcn + " barely miss " + tgtn);
+      } else if (tgt->type() == &minotaur) {
+        g::update_status(srcn + " barely misses " + tgtn);
+      }
+    } else if (src.type() == &minotaur) {
+      g::update_status(srcn + " miss " + tgtn);
+    } else if (tgt->type() == &minotaur) {
+      g::update_status(srcn + " misses " + tgtn);
+    }
   }
 
 public:
