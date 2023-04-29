@@ -15,6 +15,7 @@ class game {
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
   inv::table m_inv{};
+  unsigned m_light{};
 
   bool open_item_at(map_coord c) {
     auto it = m_items.fetch(c);
@@ -29,11 +30,11 @@ class game {
 
     return m_inv.get_item(nit);
   }
-  void process_actions_with_light(unsigned l) {
-    m_mobs.for_each([this, l](auto &m) {
+  void process_actions_with_light() {
+    m_mobs.for_each([this](auto &m) {
       auto pc = m_mobs.player()->coord();
 
-      auto tgt = m->act_with_light(pc, l);
+      auto tgt = m->act_with_light(pc, m_light);
       const auto *blk = m_map.at(tgt.x, tgt.y);
       if (!blk->can_walk()) {
         if (m->type() == &minotaur) {
@@ -51,7 +52,7 @@ class game {
 
       m->coord() = tgt;
     });
-    m_mobs.for_each([this, l](auto &m) {
+    m_mobs.for_each([this](auto &m) {
       if (m->life() <= 0) {
         m_items.add_item({m->type()->random_drop(), m->coord()});
         m = {};
@@ -112,6 +113,22 @@ class game {
     m_map.set_level(1);
     m_items.create_for_map(&m_map);
     m_mobs.populate_level(&m_map);
+  }
+
+  [[nodiscard]] bool tick() {
+    process_actions_with_light();
+    update_light();
+    return game_is_over();
+  }
+
+  void update_light() {
+    if (m_light == 0)
+      return;
+
+    m_light--;
+    if (m_light == 0) {
+      g::update_status("Your light runs out");
+    }
   }
 
   void update_animations(float dt) { m_mobs.update_animations(dt); }
