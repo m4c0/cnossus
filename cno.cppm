@@ -30,6 +30,7 @@ class game {
 
     return m_inv.get_item(nit);
   }
+
   void process_actions_with_light() {
     m_mobs.for_each([this](auto &m) {
       auto pc = m_mobs.player()->coord();
@@ -109,6 +110,33 @@ class game {
 
   [[nodiscard]] bool game_is_over() const { return m_mobs.player() == nullptr; }
 
+  [[nodiscard]] bool use_item() {
+    reset_status();
+
+    auto pl = m_mobs.player();
+    auto pc = pl->coord();
+    if (open_item_at(pc)) {
+      pl->update_inventory(m_inv);
+      return tick();
+    }
+
+    if (m_map.at(pc.x, pc.y) != &gt) {
+      return tick();
+    }
+
+    auto lvl = m_map.level() + 1;
+    if (lvl == 20)
+      return true;
+
+    g::update_status("You stumble in darkness, stairs crumbling behind you!");
+    set_level(lvl);
+    return false;
+  }
+
+  void reset_status() {
+    // TODO
+  }
+
   void set_level(unsigned l) {
     m_map.set_level(1);
     m_items.create_for_map(&m_map);
@@ -142,7 +170,7 @@ public:
   }
 
   void reset() {
-    // TODO: reset status
+    reset_status();
     set_level(1);
     m_inv = {};
   }
