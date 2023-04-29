@@ -31,7 +31,7 @@ class game {
   }
   void process_actions_with_light(unsigned l) {
     m_mobs.for_each([this, l](auto &m) {
-      auto pc = m_mobs.player().coord();
+      auto pc = m_mobs.player()->coord();
 
       auto tgt = m->act_with_light(pc, l);
       const auto *blk = m_map.at(tgt.x, tgt.y);
@@ -105,6 +105,8 @@ class game {
       g::update_status(srcn + " misses " + tgtn);
     }
   }
+
+  [[nodiscard]] bool game_is_over() const { return m_mobs.player() == nullptr; }
 
   void set_level(unsigned l) {
     m_map.set_level(1);
