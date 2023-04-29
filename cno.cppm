@@ -44,6 +44,15 @@ class game {
         return;
       }
 
+      const auto &mm = m_mobs.mob_at(tgt);
+      if (mm && mm->type() != m->type()) {
+        // TODO: attack
+        return;
+      }
+
+      m->coord() = tgt;
+    });
+    m_mobs.for_each([this, l](auto &m) {
       if (m->life() <= 0) {
         m_items.add_item({m->type()->random_drop(), m->coord()});
         m = {};
