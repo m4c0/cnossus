@@ -106,6 +106,14 @@ class game {
     }
   }
 
+  void set_level(unsigned l) {
+    m_map.set_level(1);
+    m_items.create_for_map(&m_map);
+    m_mobs.populate_level(&m_map);
+  }
+
+  void update_animations(float dt) { m_mobs.update_animations(dt); }
+
 public:
   void process_event(const casein::event &e) {
     m_r.process_event(e);
@@ -114,10 +122,10 @@ public:
     m_mobs.process_event(e);
   }
 
-  void create_window() {
-    m_map.set_level(1);
-    m_items.create_for_map(&m_map);
-    m_mobs.populate_level(&m_map);
+  void reset() {
+    // TODO: reset status
+    set_level(1);
+    m_inv = {};
   }
 };
 } // namespace cno
@@ -126,7 +134,7 @@ extern "C" void casein_handle(const casein::event &e) {
   static cno::game gg{};
   static constexpr auto map = [] {
     casein::event_map res{};
-    res[casein::CREATE_WINDOW] = [](auto) { gg.create_window(); };
+    res[casein::CREATE_WINDOW] = [](auto) { gg.reset(); };
     return res;
   }();
 
