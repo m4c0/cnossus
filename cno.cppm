@@ -1,9 +1,11 @@
 export module cno;
+import :globals;
 import :inventory;
 import :itemlist;
 import :map;
 import :moblist;
 import casein;
+import jute;
 import quack;
 
 namespace cno {
@@ -29,8 +31,19 @@ class game {
   }
   void process_actions_with_light(unsigned l) {
     m_mobs.for_each([this, l](auto &m) {
-      auto pc = m_mobs.player().coord();
-      auto c = m->act_with_light(pc, l); // TODO: check move
+      auto &pl = m_mobs.player();
+      auto pc = pl.coord();
+
+      auto tgt = m->act_with_light(pc, l);
+      const auto *blk = m_map.at(tgt.x, tgt.y);
+      if (!blk->can_walk()) {
+        if (&pl == &*m) {
+          using namespace jute::literals;
+          g::update_status("A "_s + blk->name() + " blocks your way");
+        }
+        return;
+      }
+
       if (m->life() <= 0) {
         m_items.add_item({m->type()->random_drop(), m->coord()});
         m = {};

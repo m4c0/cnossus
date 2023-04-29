@@ -15,6 +15,7 @@ public:
     return m_character;
   }
   [[nodiscard]] constexpr bool can_walk() const noexcept { return m_can_walk; }
+  [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
 
   [[nodiscard]] constexpr block_type walkable() const noexcept {
     auto v = *this;
