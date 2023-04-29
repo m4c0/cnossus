@@ -41,6 +41,10 @@ public:
   [[nodiscard]] constexpr auto attack() const noexcept { return m_attack; }
   [[nodiscard]] constexpr auto defense() const noexcept { return m_defense; }
 
+  [[nodiscard]] constexpr auto consumable() const noexcept {
+    return m_life_gain > 0 || m_light_provided > 0;
+  }
+
   [[nodiscard]] const item_type *drop_for_level(unsigned l) const noexcept {
     if (m_drops == nullptr) {
       return this;

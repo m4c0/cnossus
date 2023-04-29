@@ -19,7 +19,15 @@ public:
   [[nodiscard]] constexpr auto count() const noexcept { return m_count; }
   [[nodiscard]] constexpr const auto *type() const noexcept { return m_item; }
 
-  constexpr void consume() noexcept { m_count--; }
+  [[nodiscard]] bool consume() noexcept {
+    if (m_count == 0)
+      return false;
+    if (!m_item->consumable())
+      return false;
+
+    m_count--;
+    return true;
+  }
 
   [[nodiscard]] bool get_item() noexcept {
     using namespace jute::literals;
@@ -56,6 +64,14 @@ public:
     for (auto i = 0U; i < item_type_count; i++) {
       m_slots[i] = slot{item_types[i]};
     }
+  }
+
+  [[nodiscard]] bool consume(const item_type *it) noexcept {
+    for (auto &s : m_slots) {
+      if (s.type() != it)
+        return s.consume();
+    }
+    return false;
   }
 
   [[nodiscard]] bool get_item(const item_type *it) noexcept {
