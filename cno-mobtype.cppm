@@ -27,6 +27,8 @@ public:
     return m_hostility;
   }
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
+  [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
+  [[nodiscard]] constexpr auto poison() const noexcept { return m_poison; }
 
   [[nodiscard]] int dice_roll(int dice) const noexcept {
     auto roll = 0;

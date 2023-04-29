@@ -23,19 +23,8 @@ class mob {
   }
 
 protected:
-  [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
-  [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
-  [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
-
   [[nodiscard]] virtual map_coord next_move_with_light(map_coord player_pos,
                                                        unsigned l) noexcept = 0;
-
-  int damage_by(int margin) {
-    if (margin > 0)
-      m_damage_timer = 0.5;
-
-    return m_life -= margin;
-  }
 
   void increase_max_actions() { m_max_actions++; }
 
@@ -53,6 +42,12 @@ public:
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
+  [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
+  [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
+  [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
+
+  void poison_by(unsigned p) noexcept { m_poison += p; }
+
   [[nodiscard]] map_coord act_with_light(map_coord player_pos, unsigned l) {
     if (m_actions <= 0) {
       m_actions += m_max_actions;
@@ -61,6 +56,13 @@ public:
     }
     m_actions -= m_type->dice();
     return next_move_with_light(player_pos, l);
+  }
+
+  int damage_by(int margin) {
+    if (margin > 0)
+      m_damage_timer = 0.5;
+
+    return m_life -= margin;
   }
 
   void update_animations(float dt) { m_damage_timer -= dt; }
