@@ -108,11 +108,11 @@ class game {
     }
   }
 
-  [[nodiscard]] bool consume(const item_type *t) {
+  void consume(const item_type *t) {
     reset_status();
 
     if (!m_inv.consume(t))
-      return false;
+      return;
 
     if (t->life_gain() > 0) {
       m_mobs.player()->recover_health(t->life_gain());
@@ -120,34 +120,45 @@ class game {
     if (t->light_provided() > 0) {
       m_light += t->light_provided();
     }
-    return tick();
+    tick();
   }
 
-  [[nodiscard]] bool game_is_over() const { return m_mobs.player() == nullptr; }
+  [[nodiscard]] bool game_is_over() const {
+    return m_mobs.player() == nullptr || m_map.level() == 20;
+  }
 
-  void move(int dx, int dy) {}
+  void move(int dx, int dy) {
+    if (game_is_over())
+      return;
 
-  [[nodiscard]] bool use_item() {
+    reset_status();
+    // m_mobs.player()->set_next_move(dx, dy);
+    tick();
+  }
+
+  void use_item() {
     reset_status();
 
     auto pl = m_mobs.player();
     auto pc = pl->coord();
     if (open_item_at(pc)) {
       pl->update_inventory(m_inv);
-      return tick();
+      tick();
+      return;
     }
 
     if (m_map.at(pc.x, pc.y) != &gt) {
-      return tick();
+      tick();
+      return;
     }
 
     auto lvl = m_map.level() + 1;
-    if (lvl == 20)
-      return true;
-
-    g::update_status("You stumble in darkness, stairs crumbling behind you!");
+    if (lvl == 20) {
+      g::update_status("You left the dungeon. The world is yours now.");
+    } else {
+      g::update_status("You stumble in darkness, stairs crumbling behind you!");
+    }
     set_level(lvl);
-    return false;
   }
 
   void reset_status() {
@@ -155,15 +166,14 @@ class game {
   }
 
   void set_level(unsigned l) {
-    m_map.set_level(1);
+    m_map.set_level(l);
     m_items.create_for_map(&m_map);
     m_mobs.populate_level(&m_map);
   }
 
-  [[nodiscard]] bool tick() {
+  void tick() {
     process_actions_with_light();
     update_light();
-    return game_is_over();
   }
 
   void update_light() {
