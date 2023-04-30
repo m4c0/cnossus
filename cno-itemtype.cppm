@@ -40,6 +40,12 @@ public:
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
   [[nodiscard]] constexpr auto attack() const noexcept { return m_attack; }
   [[nodiscard]] constexpr auto defense() const noexcept { return m_defense; }
+  [[nodiscard]] constexpr auto life_gain() const noexcept {
+    return m_life_gain;
+  }
+  [[nodiscard]] constexpr auto light_provided() const noexcept {
+    return m_light_provided;
+  }
 
   [[nodiscard]] constexpr auto consumable() const noexcept {
     return m_life_gain > 0 || m_light_provided > 0;

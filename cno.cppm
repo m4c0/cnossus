@@ -108,6 +108,21 @@ class game {
     }
   }
 
+  [[nodiscard]] bool consume(const item_type *t) {
+    reset_status();
+
+    if (!m_inv.consume(t))
+      return false;
+
+    if (t->life_gain() > 0) {
+      m_mobs.player()->recover_health(t->life_gain());
+    }
+    if (t->light_provided() > 0) {
+      m_light += t->light_provided();
+    }
+    return tick();
+  }
+
   [[nodiscard]] bool game_is_over() const { return m_mobs.player() == nullptr; }
 
   [[nodiscard]] bool use_item() {
