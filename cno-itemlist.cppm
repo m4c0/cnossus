@@ -45,8 +45,13 @@ class item_list : quack::instance_layout<item, max_items_per_level> {
                          1};
     });
     fill_colour([](const item &i) {
-      float a = i.type() == nullptr ? 0.0 : 1.0;
-      return quack::colour{0, 0, 0, a};
+      if (i.type() == nullptr)
+        return quack::colour{0, 0, 0, 0};
+
+      auto c = i.type()->character();
+      auto g = static_cast<float>(c % 16) / 16.0f;
+      auto b = static_cast<float>(c / 16) / 16.0f;
+      return quack::colour{0, g, b, 1};
     });
   }
 

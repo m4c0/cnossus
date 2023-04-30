@@ -18,6 +18,7 @@ struct item_loot_table {
 
 class item_type {
   jute::view m_name;
+  char m_char;
   int m_attack{};
   int m_defense{};
   int m_max_carry{-1}; // TODO: consider a aux enum for this logic
@@ -26,14 +27,16 @@ class item_type {
   inventory_pos m_inv_coords{~0U, ~0U};
   const item_loot_table *m_drops{};
 
-  explicit constexpr item_type() : m_name{""} {}
+  explicit constexpr item_type() : m_name{""}, m_char{} {}
 
 public:
-  explicit constexpr item_type(jute::view n) : m_name{n} {}
-  constexpr item_type(jute::view n, int m) : m_name{n}, m_max_carry{m} {}
-  constexpr item_type(jute::view n, const item_loot_table *d)
-      : m_name{n}, m_drops{d} {}
+  explicit constexpr item_type(jute::view n, char c) : m_name{n}, m_char{c} {}
+  constexpr item_type(jute::view n, char c, int m)
+      : m_name{n}, m_char{c}, m_max_carry{m} {}
+  constexpr item_type(jute::view n, char c, const item_loot_table *d)
+      : m_name{n}, m_char{c}, m_drops{d} {}
 
+  [[nodiscard]] constexpr auto character() const noexcept { return m_char; }
   [[nodiscard]] constexpr auto max_carry() const noexcept {
     return m_max_carry;
   }
@@ -111,43 +114,44 @@ public:
 // Missing in previous code. They are "nullified" until all code is migrated.
 // Then missing parts can be added or these can be entirely removed
 constexpr const auto cloth =
-    item_type{"linen tunic"}.defense(1).inventory_at(1, 3).nullify();
+    item_type{"linen tunic", 'a'}.defense(1).inventory_at(1, 3).nullify();
 constexpr const auto leather =
-    item_type{"leather vest"}.defense(2).inventory_at(1, 4).nullify();
-constexpr const auto sword = item_type{"short sword"}.attack(12).nullify();
+    item_type{"leather vest", 'b'}.defense(2).inventory_at(1, 4).nullify();
+constexpr const auto sword = item_type{"short sword", 'c'}.attack(12).nullify();
 
-constexpr const auto bag = item_type{"bag", 1};
+constexpr const auto bag = item_type{"bag", 'd', 1};
 
-constexpr const auto knife = item_type{"rust knife"}.attack(2);
-constexpr const auto sickle = item_type{"sickle"}.attack(3);
-constexpr const auto adze = item_type{"adze"}.attack(5);
-constexpr const auto axe = item_type{"axe"}.attack(8);
-constexpr const auto doubleaxe = item_type{"battle axe"}.attack(10);
-constexpr const auto spear = item_type{"spear"}.attack(15);
+constexpr const auto knife = item_type{"rust knife", 'e'}.attack(2);
+constexpr const auto sickle = item_type{"sickle", 'f'}.attack(3);
+constexpr const auto adze = item_type{"adze", 'g'}.attack(5);
+constexpr const auto axe = item_type{"axe", 'h'}.attack(8);
+constexpr const auto doubleaxe = item_type{"battle axe", 'i'}.attack(10);
+constexpr const auto spear = item_type{"spear", 'j'}.attack(15);
 
 constexpr const auto driedfruit =
-    item_type{"strange fruit"}.restores(3).inventory_at(0, 0);
+    item_type{"strange fruit", 'k'}.restores(3).inventory_at(0, 0);
 constexpr const auto cheese =
-    item_type{"cheese"}.restores(5).inventory_at(0, 1);
+    item_type{"cheese", 'l'}.restores(5).inventory_at(0, 1);
 constexpr const auto rawmeat =
-    item_type{"raw meat"}.restores(8).inventory_at(0, 2);
+    item_type{"raw meat", 'm'}.restores(8).inventory_at(0, 2);
 
 constexpr const auto torch =
-    item_type{"torch"}.light_provided(10).inventory_at(0, 3);
+    item_type{"torch", 'n'}.light_provided(10).inventory_at(0, 3);
 constexpr const auto candle =
-    item_type{"candle"}.light_provided(15).inventory_at(0, 4);
+    item_type{"candle", 'o'}.light_provided(15).inventory_at(0, 4);
 constexpr const auto oillamp =
-    item_type{"lamp"}.light_provided(25).inventory_at(0, 5);
+    item_type{"lamp", 'p'}.light_provided(25).inventory_at(0, 5);
 
 constexpr const auto greave =
-    item_type{"boots"}.defense_pair(1).inventory_at(1, 0);
+    item_type{"boots", 'q'}.defense_pair(1).inventory_at(1, 0);
 constexpr const auto armguard =
-    item_type{"gloves"}.defense_pair(1).inventory_at(1, 1);
+    item_type{"gloves", 'r'}.defense_pair(1).inventory_at(1, 1);
 constexpr const auto pauldron =
-    item_type{"helmet"}.defense(1).inventory_at(1, 2);
+    item_type{"helmet", 's'}.defense(1).inventory_at(1, 2);
 constexpr const auto scale =
-    item_type{"chest armor"}.defense(3).inventory_at(1, 3);
-constexpr const auto shield = item_type{"shield"}.defense(5).inventory_at(1, 4);
+    item_type{"chest armor", 't'}.defense(3).inventory_at(1, 3);
+constexpr const auto shield =
+    item_type{"shield", 'u'}.defense(5).inventory_at(1, 4);
 
 constexpr const auto jar_drops = item_loot_table{{
     {&driedfruit, &candle, &cheese},
@@ -184,8 +188,8 @@ constexpr const auto chest_drops = item_loot_table{{
     {&scale, &sword, &oillamp},   {&scale, &sword, &bag},
 }};
 
-constexpr const auto jar = item_type{"jar", &jar_drops};
-constexpr const auto coffer = item_type{"chest", &chest_drops};
+constexpr const auto jar = item_type{"jar", 'v', &jar_drops};
+constexpr const auto coffer = item_type{"chest", 'w', &chest_drops};
 
 static constexpr const auto item_type_count = 20;
 constexpr const item_type *item_types[item_type_count] = {
