@@ -125,6 +125,8 @@ class game {
 
   [[nodiscard]] bool game_is_over() const { return m_mobs.player() == nullptr; }
 
+  void move(int dx, int dy) {}
+
   [[nodiscard]] bool use_item() {
     reset_status();
 
@@ -189,12 +191,25 @@ public:
     set_level(1);
     m_inv = {};
   }
+
+  void down() { move(0, 1); }
+  void left() { move(-1, 0); }
+  void right() { move(1, 0); }
+  void up() { move(0, -1); }
 };
 } // namespace cno
 
 extern "C" void casein_handle(const casein::event &e) {
   static cno::game gg{};
-  static constexpr auto map = [] {
+  static constexpr const auto k_map = [] {
+    casein::key_map res{};
+    res[casein::K_DOWN] = [](auto) { gg.up(); };
+    res[casein::K_LEFT] = [](auto) { gg.left(); };
+    res[casein::K_RIGHT] = [](auto) { gg.right(); };
+    res[casein::K_UP] = [](auto) { gg.up(); };
+    return res;
+  }();
+  static constexpr const auto map = [] {
     casein::event_map res{};
     res[casein::CREATE_WINDOW] = [](auto) { gg.reset(); };
     return res;
