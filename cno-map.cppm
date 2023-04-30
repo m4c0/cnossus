@@ -192,6 +192,8 @@ public:
       at(0, y) = &hash;
       at(map_width - 1, y) = &hash;
     }
+    if (m_level == max_level + 1)
+      return;
 
     static constexpr const auto max_cell_sizes = 5;
     static constexpr const cell_size cell_sizes[max_cell_sizes] = {

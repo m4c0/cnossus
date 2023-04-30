@@ -153,7 +153,7 @@ class game {
     }
 
     auto lvl = m_map.level() + 1;
-    if (lvl == 20) {
+    if (lvl == max_level + 1) {
       g::update_status("You left the dungeon. The world is yours now.");
     } else {
       g::update_status("You stumble in darkness, stairs crumbling behind you!");

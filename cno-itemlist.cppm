@@ -13,7 +13,7 @@ static constexpr const auto max_items_per_level = map_height * 2;
 static constexpr const auto max_item_roll = 5;
 
 static constexpr const struct {
-  const item_type *items[max_level][max_item_roll];
+  const item_type *items[max_level + 1][max_item_roll];
 } item_roll_per_level = {{
     {&jar, &coffer, &torch},
     {&jar, &coffer, &torch},

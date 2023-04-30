@@ -13,7 +13,7 @@ static constexpr const auto max_mobs_per_level = map_height * 2;
 static constexpr const auto max_mob_roll = 5;
 
 static constexpr const struct {
-  const mob_type *mobs[max_level][max_mob_roll];
+  const mob_type *mobs[max_level + 1][max_mob_roll];
 } mob_roll_per_level = {{
     {&snake, &boar, &cerberus},     {&centipede, &boar, &harpy},
     {&snake, &cerberus, &rat},      {&centipede, &harpy, &rat},
