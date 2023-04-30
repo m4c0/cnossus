@@ -12,6 +12,7 @@ struct mob_drops {
 
 class mob_type {
   jute::view m_name;
+  char m_char;
   unsigned m_life;
   unsigned m_dice;
   hostilities m_hostility;
@@ -19,9 +20,10 @@ class mob_type {
   mob_drops m_drops;
 
 public:
-  constexpr mob_type(jute::view n, hostilities h, unsigned d)
-      : m_name{n}, m_hostility{h}, m_dice{d}, m_life{d} {}
+  constexpr mob_type(jute::view n, char c, hostilities h, unsigned d)
+      : m_name{n}, m_char{c}, m_hostility{h}, m_dice{d}, m_life{d} {}
 
+  [[nodiscard]] constexpr auto character() const noexcept { return m_char; }
   [[nodiscard]] constexpr auto dice() const noexcept { return m_dice; }
   [[nodiscard]] constexpr auto hostility() const noexcept {
     return m_hostility;
@@ -58,27 +60,29 @@ public:
   }
 };
 
-constexpr const auto minotaur = mob_type{"you", h_none, 10}.life(20);
+constexpr const auto minotaur = mob_type{"you", 'A', h_none, 10}.life(20);
 
 constexpr const auto snake =
-    mob_type{"snake", h_scaried, 8}.poison(6).drops(&rawmeat, &armguard);
-constexpr const auto spider = mob_type{"spider", h_scaried, 4}.poison(4);
-constexpr const auto rat = mob_type{"bat", h_scaried, 6}.drops(&rawmeat);
-constexpr const auto scorpion = mob_type{"wasp", h_scaried, 4}.poison(8);
-constexpr const auto centipede = mob_type{"centipede", h_scaried, 6}.poison(8);
+    mob_type{"snake", 'B', h_scaried, 8}.poison(6).drops(&rawmeat, &armguard);
+constexpr const auto spider = mob_type{"spider", 'C', h_scaried, 4}.poison(4);
+constexpr const auto rat = mob_type{"bat", 'D', h_scaried, 6}.drops(&rawmeat);
+constexpr const auto scorpion = mob_type{"wasp", 'E', h_scaried, 4}.poison(8);
+constexpr const auto centipede =
+    mob_type{"centipede", 'F', h_scaried, 6}.poison(8);
 
-constexpr const auto cerberus = mob_type{"zombie", h_aggresive, 8};
-constexpr const auto harpy = mob_type{"demon", h_aggresive, 8};
-constexpr const auto chimera = mob_type{"chimera", h_aggresive, 12}.poison(10);
-constexpr const auto manticore = mob_type{"goblin", h_aggresive, 12};
+constexpr const auto cerberus = mob_type{"zombie", 'G', h_aggresive, 8};
+constexpr const auto harpy = mob_type{"demon", 'H', h_aggresive, 8};
+constexpr const auto chimera =
+    mob_type{"chimera", 'I', h_aggresive, 12}.poison(10);
+constexpr const auto manticore = mob_type{"goblin", 'J', h_aggresive, 12};
 constexpr const auto croc =
-    mob_type{"crocodile man", h_aggresive, 20}.drops(&rawmeat, &leather);
+    mob_type{"crocodile man", 'K', h_aggresive, 20}.drops(&rawmeat, &leather);
 constexpr const auto drakon =
-    mob_type{"dragon", h_aggresive, 20}.drops(&shield, &shield);
+    mob_type{"dragon", 'L', h_aggresive, 20}.drops(&shield, &shield);
 constexpr const auto boar =
-    mob_type{"rat", h_aggresive, 8}.drops(&rawmeat, &rawmeat);
-constexpr const auto griffin = mob_type{"ogre", h_aggresive, 12};
-constexpr const auto sphinx = mob_type{"evil human", h_aggresive, 12};
-constexpr const auto bull =
-    mob_type{"mutant rat", h_aggresive, 12}.drops(&rawmeat, &rawmeat, &rawmeat);
+    mob_type{"rat", 'M', h_aggresive, 8}.drops(&rawmeat, &rawmeat);
+constexpr const auto griffin = mob_type{"ogre", 'N', h_aggresive, 12};
+constexpr const auto sphinx = mob_type{"evil human", 'O', h_aggresive, 12};
+constexpr const auto bull = mob_type{"mutant rat", 'P', h_aggresive, 12}.drops(
+    &rawmeat, &rawmeat, &rawmeat);
 } // namespace cno
