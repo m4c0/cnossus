@@ -12,6 +12,7 @@ class player : public mob {
   int m_armor{};
   int m_damage_bonus{};
   unsigned m_extra_life{};
+  map_coord m_next_step{};
 
 protected:
   [[nodiscard]] int attack_bonus() const noexcept override {
@@ -24,8 +25,12 @@ protected:
 
   [[nodiscard]] map_coord next_move_with_light(map_coord pp,
                                                unsigned l) noexcept override {
-    // TODO: store desired move
-    return coord();
+    if (m_next_step.x == 0)
+      return map_coord{};
+
+    auto res = m_next_step;
+    m_next_step = {};
+    return res;
   }
 
 public:
