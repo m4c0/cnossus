@@ -7,6 +7,7 @@ import :moblist;
 import casein;
 import jute;
 import quack;
+import silog;
 
 namespace cno {
 class game {
@@ -220,6 +221,8 @@ public:
   void up() { move_hero(0, -1); }
 };
 } // namespace cno
+
+void cno::g::update_status(const char *msg) { silog::log(silog::info, msg); }
 
 extern "C" void casein_handle(const casein::event &e) {
   static cno::game gg{};

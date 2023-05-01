@@ -3,6 +3,7 @@
 #include "../hai/build.hpp"
 #include "../jute/build.hpp"
 #include "../quack/build.hpp"
+#include "../silog/build.hpp"
 
 int main(int argc, char **argv) {
   using namespace ecow;
@@ -12,6 +13,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("hai", hai());
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
+  m->add_wsdep("silog", silog());
   m->add_part("objects");
   m->add_part("globals");
   m->add_part("random");
