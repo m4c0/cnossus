@@ -135,6 +135,7 @@ class game {
     reset_status();
     m_mobs.player()->set_next_move(dx, dy);
     tick();
+    m_mobs.player()->set_next_move(0, 0);
   }
 
   void use_item() {

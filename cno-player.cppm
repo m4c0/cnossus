@@ -25,12 +25,7 @@ protected:
 
   [[nodiscard]] map_coord next_move_with_light(map_coord pp,
                                                unsigned l) noexcept override {
-    if (m_next_step.x == 0)
-      return map_coord{};
-
-    auto res = m_next_step;
-    m_next_step = {};
-    return res;
+    return m_next_step;
   }
 
 public:
