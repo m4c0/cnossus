@@ -64,6 +64,11 @@ public:
     damage_by(-d);
   }
 
+  void set_next_move(int dx, int dy) {
+    const auto &[x, y] = coord();
+    m_next_step = {x + dx, y + dy};
+  }
+
   void update_inventory(const inv::table &inv) {
     m_armor = 0;
     inv.for_each([this](auto &i) {
