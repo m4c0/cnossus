@@ -29,29 +29,6 @@ static constexpr const struct {
 
 // TODO: consider how we can do this without hai/polymorphism
 class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
-  void fill_quack() {
-    fill_pos([](auto &i) {
-      if (!i)
-        return quack::rect{};
-
-      const auto &c = i->coord();
-      return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
-                         1};
-    });
-    fill_colour([](auto &i) {
-      if (!i)
-        return quack::colour{};
-
-      auto c = i->type()->character();
-      auto r = static_cast<float>(c % 16) / 16.0f;
-      auto b = static_cast<float>(c / 16) / 16.0f;
-
-      float a = i->type() == nullptr ? 0.0 : 1.0;
-
-      return quack::colour{r, 0, b, a};
-    });
-  }
-
   void resize(unsigned w, unsigned h) override {
     batch()->resize(map_width, map_height, w, h);
   }
@@ -97,6 +74,29 @@ public:
   }
   [[nodiscard]] const cno::player *player() const noexcept {
     return static_cast<const cno::player *>(&*at(0));
+  }
+
+  void fill_quack() {
+    fill_pos([](auto &i) {
+      if (!i)
+        return quack::rect{};
+
+      const auto &c = i->coord();
+      return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
+                         1};
+    });
+    fill_colour([](auto &i) {
+      if (!i)
+        return quack::colour{};
+
+      auto c = i->type()->character();
+      auto r = static_cast<float>(c % 16) / 16.0f;
+      auto b = static_cast<float>(c / 16) / 16.0f;
+
+      float a = i->type() == nullptr ? 0.0 : 1.0;
+
+      return quack::colour{r, 0, b, a};
+    });
   }
 
   void populate_level(const map *m) {

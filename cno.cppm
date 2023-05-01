@@ -174,6 +174,10 @@ class game {
   void tick() {
     process_actions_with_light();
     update_light();
+
+    m_map.fill_quack();
+    m_mobs.fill_quack();
+    m_items.fill_quack();
   }
 
   void update_light() {

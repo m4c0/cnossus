@@ -38,23 +38,6 @@ static constexpr const struct {
 }};
 
 class item_list : quack::instance_layout<item, max_items_per_level> {
-  void fill_quack() {
-    fill_pos([](const item &i) {
-      const auto &c = i.coord();
-      return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
-                         1};
-    });
-    fill_colour([](const item &i) {
-      if (i.type() == nullptr)
-        return quack::colour{0, 0, 0, 0};
-
-      auto c = i.type()->character();
-      auto g = static_cast<float>(c % 16) / 16.0f;
-      auto b = static_cast<float>(c / 16) / 16.0f;
-      return quack::colour{0, g, b, 1};
-    });
-  }
-
   void resize(unsigned w, unsigned h) override {
     batch()->resize(map_width, map_height, w, h);
   }
@@ -107,6 +90,23 @@ public:
       return res;
     }
     return nullptr;
+  }
+
+  void fill_quack() {
+    fill_pos([](const item &i) {
+      const auto &c = i.coord();
+      return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
+                         1};
+    });
+    fill_colour([](const item &i) {
+      if (i.type() == nullptr)
+        return quack::colour{0, 0, 0, 0};
+
+      auto c = i.type()->character();
+      auto g = static_cast<float>(c % 16) / 16.0f;
+      auto b = static_cast<float>(c / 16) / 16.0f;
+      return quack::colour{0, g, b, 1};
+    });
   }
 
   using instance_layout::process_event;

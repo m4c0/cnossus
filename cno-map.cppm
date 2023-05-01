@@ -154,16 +154,6 @@ class map {
     return y;
   }
 
-  void fill_quack() noexcept {
-    m_blocks.fill_colour([](const block &blk) {
-      auto c = blk.type->character();
-      auto r = static_cast<float>(c % 16) / 16.0f;
-      auto g = static_cast<float>(c / 16) / 16.0f;
-      auto b = blk.seen ? 1.0f : 0.0f;
-      return quack::colour{r, g, b, 1};
-    });
-  }
-
 public:
   constexpr map(quack::renderer *r) : m_blocks{r} {}
 
@@ -175,6 +165,16 @@ public:
   [[nodiscard]] constexpr const block_type *at(unsigned x,
                                                unsigned y) const noexcept {
     return m_blocks.at(x, y).type;
+  }
+
+  void fill_quack() noexcept {
+    m_blocks.fill_colour([](const block &blk) {
+      auto c = blk.type->character();
+      auto r = static_cast<float>(c % 16) / 16.0f;
+      auto g = static_cast<float>(c / 16) / 16.0f;
+      auto b = blk.seen ? 1.0f : 0.0f;
+      return quack::colour{r, g, b, 1};
+    });
   }
 
   void set_level(unsigned l) noexcept {
