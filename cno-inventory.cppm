@@ -17,7 +17,6 @@ public:
   explicit constexpr slot(const item_type *i) noexcept : m_item{i} {}
 
   [[nodiscard]] constexpr auto count() const noexcept { return m_count; }
-  [[nodiscard]] constexpr const auto *type() const noexcept { return m_item; }
 
   [[nodiscard]] constexpr auto attack() const noexcept {
     return m_item->attack();
@@ -79,7 +78,7 @@ public:
 
   [[nodiscard]] bool consume(const item_type *it) noexcept {
     for (auto &s : m_slots) {
-      if (s.type() != it)
+      if (s.contains(it))
         return s.consume();
     }
     return false;
@@ -87,10 +86,8 @@ public:
 
   [[nodiscard]] bool get_item(const item_type *it) noexcept {
     for (auto &s : m_slots) {
-      if (s.type() != it)
-        continue;
-
-      return s.get_item();
+      if (s.contains(it))
+        return s.get_item();
     }
     return false;
   }

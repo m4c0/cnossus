@@ -84,9 +84,7 @@ public:
       if (i.coord() != c) {
         continue;
       }
-      auto res = i.type();
-      i = {};
-      return res;
+      return i.fetch();
     }
     return nullptr;
   }

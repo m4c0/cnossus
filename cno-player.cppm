@@ -29,7 +29,7 @@ protected:
   }
 
 public:
-  explicit player(map_coord c) : mob{&minotaur, c} {}
+  explicit player(map_coord c) : mob{&minotaur, c}, m_next_step{c} {}
 
   [[nodiscard]] constexpr auto max_life() const noexcept {
     return minotaur.life() + m_extra_life;
@@ -57,6 +57,11 @@ public:
     auto r = max_life() - life();
     auto d = r > h ? h : r;
     damage_by(-d);
+  }
+
+  void set_coord(map_coord c) noexcept override {
+    mob::set_coord(c);
+    m_next_step = c;
   }
 
   void set_next_move(int dx, int dy) {

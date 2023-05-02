@@ -12,7 +12,6 @@ public:
   constexpr item(const item_type *t, map_coord c) : m_type{t}, m_coord{c} {}
 
   [[nodiscard]] constexpr auto coord() const noexcept { return m_coord; }
-  [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
   [[nodiscard]] constexpr operator bool() const noexcept {
     return m_type != nullptr;

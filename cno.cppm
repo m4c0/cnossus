@@ -37,6 +37,9 @@ class game {
       auto pc = m_mobs.player()->coord();
 
       auto tgt = m->act_with_light(pc, m_light);
+      if (tgt == m->coord())
+        return;
+
       const auto *blk = m_map.at(tgt.x, tgt.y);
       if (!blk->can_walk()) {
         if (m->is_player()) {
@@ -47,12 +50,12 @@ class game {
       }
 
       auto *mm = m_mobs.mob_at(tgt);
-      if (mm != nullptr && (*mm)->type() != m->type()) {
+      if (mm != nullptr && !m->same_species_as(**mm)) {
         attack(*m, *mm);
         return;
       }
 
-      m->coord() = tgt;
+      m->set_coord(tgt);
     });
     m_mobs.for_each([this](auto &m) {
       if (m->life() <= 0) {

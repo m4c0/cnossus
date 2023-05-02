@@ -48,8 +48,9 @@ protected:
 
   [[nodiscard]] map_coord next_move_with_light(map_coord player_pos,
                                                unsigned l) noexcept override {
-    switch (type()->hostility()) {
+    switch (hostility()) {
     case h_none:
+      return coord();
     case h_scaried:
       if (l < 1)
         return wander();

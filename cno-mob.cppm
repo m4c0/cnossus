@@ -34,13 +34,11 @@ public:
         m_max_actions{max_actions} {}
   constexpr virtual ~mob() = default;
 
-  [[nodiscard]] constexpr auto &coord() noexcept { return m_coord; }
-  [[nodiscard]] constexpr auto coord() const noexcept { return m_coord; }
+  [[nodiscard]] constexpr const auto &coord() const noexcept { return m_coord; }
   [[nodiscard]] constexpr auto damaged() const noexcept {
     return m_damage_timer > 0;
   }
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
-  [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
   [[nodiscard]] constexpr auto character() const noexcept {
     return m_type->character();
@@ -62,6 +60,8 @@ public:
   [[nodiscard]] constexpr bool same_species_as(const mob &o) const noexcept {
     return *o.m_type == *m_type;
   }
+
+  virtual void set_coord(map_coord c) noexcept { m_coord = c; }
 
   [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
   [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
