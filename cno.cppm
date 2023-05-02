@@ -56,18 +56,18 @@ class game {
     });
     m_mobs.for_each([this](auto &m) {
       if (m->life() <= 0) {
-        m_items.add_item({m->type()->random_drop(), m->coord()});
+        m_items.add_item({m->random_drop(), m->coord()});
         m = {};
       }
     });
   }
 
   void attack(const mob &src, auto &tgt) {
-    const auto srcn = src.type()->name();
-    const auto tgtn = tgt->type()->name();
+    const auto srcn = src.name();
+    const auto tgtn = tgt->name();
 
-    int atk_roll = src.type()->dice_roll(2) + src.attack_bonus();
-    int def_roll = src.type()->dice_roll(2) + tgt->defense_bonus();
+    int atk_roll = src.dice_roll(2) + src.attack_bonus();
+    int def_roll = src.dice_roll(2) + tgt->defense_bonus();
     int margin = atk_roll - def_roll;
 
     if (margin > 0) {
@@ -76,13 +76,13 @@ class game {
         return;
 
       if (tgt->damage_by(margin) <= 0) {
-        m_items.add_item({tgt->type()->random_drop(), tgt->coord()});
+        m_items.add_item({tgt->random_drop(), tgt->coord()});
         tgt = {};
         if (src.is_player()) {
           g::update_status("You kill a " + tgtn);
         }
-      } else if (src.type()->poison() > 0) {
-        tgt->poison_by(1 + cno::random(src.type()->poison()));
+      } else if (src.poison() > 0) {
+        tgt->poison_by(1 + cno::random(src.poison()));
         if (tgt->is_player()) {
           g::update_status("A " + srcn + " poisons you");
         }
@@ -92,8 +92,8 @@ class game {
         g::update_status("A " + srcn + " hits you");
       }
     } else if (margin == 0) {
-      if (src.type()->poison() > 0) {
-        tgt->poison_by(1 + cno::random(src.type()->poison()));
+      if (src.poison() > 0) {
+        tgt->poison_by(1 + cno::random(src.poison()));
         if (src.is_player()) {
           g::update_status("A " + srcn + " poisons you");
         }

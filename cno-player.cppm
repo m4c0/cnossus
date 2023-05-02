@@ -67,10 +67,9 @@ public:
   void update_inventory(const inv::table &inv) {
     m_armor = 0;
     inv.for_each([this](auto &i) {
-      auto it = i.type();
-      m_armor += it->defense();
-      if (it->attack() > attack_bonus())
-        m_weapon = it;
+      m_armor += i.defense();
+      if (i.attack() > m_attack_bonus)
+        m_attack_bonus = i.attack();
     });
   }
 };

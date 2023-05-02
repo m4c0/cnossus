@@ -98,10 +98,10 @@ public:
                          1};
     });
     fill_colour([](const item &i) {
-      if (i)
+      if (!i)
         return quack::colour{0, 0, 0, 0};
 
-      auto c = i.type()->character();
+      auto c = i.character();
       auto g = static_cast<float>(c % 16) / 16.0f;
       auto b = static_cast<float>(c / 16) / 16.0f;
       return quack::colour{0, g, b, 1};

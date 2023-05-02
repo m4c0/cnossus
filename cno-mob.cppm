@@ -42,6 +42,27 @@ public:
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
   [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
+  [[nodiscard]] constexpr auto character() const noexcept {
+    return m_type->character();
+  }
+  [[nodiscard]] constexpr auto dice_roll(unsigned i) const noexcept {
+    return m_type->dice_roll(i);
+  }
+  [[nodiscard]] constexpr auto hostility() const noexcept {
+    return m_type->hostility();
+  }
+  [[nodiscard]] constexpr auto name() const noexcept { return m_type->name(); }
+  [[nodiscard]] constexpr auto poison() const noexcept {
+    return m_type->poison();
+  }
+  [[nodiscard]] constexpr auto random_drop() const noexcept {
+    return m_type->random_drop();
+  }
+
+  [[nodiscard]] constexpr bool same_species_as(const mob &o) const noexcept {
+    return *o.m_type == *m_type;
+  }
+
   [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
   [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
   [[nodiscard]] virtual int damage_bonus() const noexcept = 0;

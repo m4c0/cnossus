@@ -19,6 +19,17 @@ public:
   [[nodiscard]] constexpr auto count() const noexcept { return m_count; }
   [[nodiscard]] constexpr const auto *type() const noexcept { return m_item; }
 
+  [[nodiscard]] constexpr auto attack() const noexcept {
+    return m_item->attack();
+  }
+  [[nodiscard]] constexpr auto defense() const noexcept {
+    return m_item->defense();
+  }
+
+  [[nodiscard]] constexpr bool contains(const item_type *i) const noexcept {
+    return *m_item == *i;
+  }
+
   [[nodiscard]] bool consume() noexcept {
     if (m_count == 0)
       return false;

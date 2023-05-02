@@ -89,7 +89,7 @@ public:
       if (!i)
         return quack::colour{};
 
-      auto c = i->type()->character();
+      auto c = i->character();
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto b = static_cast<float>(c / 16) / 16.0f;
       return quack::colour{r, 0, b, 1};
@@ -111,17 +111,13 @@ public:
   }
 
   void update_animations(float dt) {
-    for (auto &m : data()) {
-      if (m)
-        m->update_animations(dt);
-    }
+    for_each([dt](auto &m) { m->update_animations(dt); });
   }
 
   void for_each(auto &&fn) {
     for (auto &m : data()) {
-      if (!m)
-        continue;
-      fn(m);
+      if (m)
+        fn(m);
     }
   }
 };
