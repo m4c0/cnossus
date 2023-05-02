@@ -23,9 +23,6 @@ class mob {
   }
 
 protected:
-  [[nodiscard]] virtual map_coord next_move_with_light(map_coord player_pos,
-                                                       unsigned l) noexcept = 0;
-
   void increase_max_actions() { m_max_actions++; }
 
 public:
@@ -71,16 +68,19 @@ public:
     return m_type->is_player();
   }
 
+  [[nodiscard]] virtual map_coord next_move_with_light(map_coord player_pos,
+                                                       unsigned l) noexcept = 0;
+
   void poison_by(unsigned p) noexcept { m_poison += p; }
 
-  [[nodiscard]] map_coord act_with_light(map_coord player_pos, unsigned l) {
+  [[nodiscard]] bool update_actions() {
     if (m_actions <= 0) {
       m_actions += m_max_actions;
       process_poison();
-      return m_coord;
+      return false;
     }
     m_actions -= m_type->dice();
-    return next_move_with_light(player_pos, l);
+    return true;
   }
 
   int damage_by(int margin) {

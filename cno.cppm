@@ -35,7 +35,7 @@ class game {
   void try_move(mob *m) {
     auto pc = m_mobs.player()->coord();
 
-    auto tgt = m->act_with_light(pc, m_light);
+    auto tgt = m->next_move_with_light(pc, m_light);
     if (tgt == m->coord())
       return;
 
@@ -58,7 +58,10 @@ class game {
   }
 
   void process_actions_with_light() {
-    m_mobs.for_each([this](auto &m) { try_move(&*m); });
+    m_mobs.for_each([this](auto &m) {
+      if (m->update_actions())
+        try_move(&*m);
+    });
     m_mobs.for_each([this](auto &m) {
       if (m->life() <= 0) {
         m_items.add_item({m->random_drop(), m->coord()});
