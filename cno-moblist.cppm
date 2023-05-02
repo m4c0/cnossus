@@ -77,6 +77,8 @@ public:
   }
 
   void fill_quack(map_coord pc, unsigned d) {
+    const auto &[px, py] = pc;
+
     fill_pos([](auto &i) {
       if (!i)
         return quack::rect{};
@@ -85,14 +87,19 @@ public:
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
-    fill_colour([](auto &i) {
+    fill_colour([px, py, d](auto &i) {
       if (!i)
         return quack::colour{};
+
+      const auto &[x, y] = i->coord();
+      auto dx = px - x;
+      auto dy = py - y;
 
       auto c = i->character();
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto b = static_cast<float>(c / 16) / 16.0f;
-      return quack::colour{r, 0, b, 1};
+      auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
+      return quack::colour{r, 0, b, a};
     });
   }
 

@@ -106,7 +106,7 @@ public:
       auto c = i.character();
       auto g = static_cast<float>(c % 16) / 16.0f;
       auto b = static_cast<float>(c / 16) / 16.0f;
-      auto a = ((dx * dx) + (dy * dy) < d * d) ? 1.0f : 0.3f;
+      auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
       return quack::colour{0, g, b, a};
     });
   }
