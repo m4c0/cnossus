@@ -8,15 +8,15 @@ import :random;
 
 namespace cno {
 class player : public mob {
-  const item_type *m_weapon;
   int m_armor{};
+  int m_attack_bonus{};
   int m_damage_bonus{};
   unsigned m_extra_life{};
   map_coord m_next_step{};
 
 protected:
   [[nodiscard]] int attack_bonus() const noexcept override {
-    return m_weapon == nullptr ? 0 : m_weapon->attack();
+    return m_attack_bonus;
   }
   [[nodiscard]] int defense_bonus() const noexcept override { return m_armor; }
   [[nodiscard]] int damage_bonus() const noexcept override {
@@ -32,7 +32,7 @@ public:
   explicit player(map_coord c) : mob{&minotaur, c} {}
 
   [[nodiscard]] constexpr auto max_life() const noexcept {
-    return type()->life() + m_extra_life;
+    return minotaur.life() + m_extra_life;
   }
 
   void random_buff() {

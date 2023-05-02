@@ -92,10 +92,7 @@ public:
       auto c = i->type()->character();
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto b = static_cast<float>(c / 16) / 16.0f;
-
-      float a = i->type() == nullptr ? 0.0 : 1.0;
-
-      return quack::colour{r, 0, b, a};
+      return quack::colour{r, 0, b, 1};
     });
   }
 
