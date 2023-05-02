@@ -32,31 +32,33 @@ class game {
     return m_inv.get_item(nit);
   }
 
+  void try_move(mob *m) {
+    auto pc = m_mobs.player()->coord();
+
+    auto tgt = m->act_with_light(pc, m_light);
+    if (tgt == m->coord())
+      return;
+
+    const auto *blk = m_map.at(tgt.x, tgt.y);
+    if (!blk->can_walk()) {
+      if (m->is_player()) {
+        using namespace jute::literals;
+        g::update_status("A "_s + blk->name() + " blocks your way");
+      }
+      return;
+    }
+
+    auto *mm = m_mobs.mob_at(tgt);
+    if (mm != nullptr && !m->same_species_as(**mm)) {
+      attack(*m, *mm);
+      return;
+    }
+
+    m->set_coord(tgt);
+  }
+
   void process_actions_with_light() {
-    m_mobs.for_each([this](auto &m) {
-      auto pc = m_mobs.player()->coord();
-
-      auto tgt = m->act_with_light(pc, m_light);
-      if (tgt == m->coord())
-        return;
-
-      const auto *blk = m_map.at(tgt.x, tgt.y);
-      if (!blk->can_walk()) {
-        if (m->is_player()) {
-          using namespace jute::literals;
-          g::update_status("A "_s + blk->name() + " blocks your way");
-        }
-        return;
-      }
-
-      auto *mm = m_mobs.mob_at(tgt);
-      if (mm != nullptr && !m->same_species_as(**mm)) {
-        attack(*m, *mm);
-        return;
-      }
-
-      m->set_coord(tgt);
-    });
+    m_mobs.for_each([this](auto &m) { try_move(&*m); });
     m_mobs.for_each([this](auto &m) {
       if (m->life() <= 0) {
         m_items.add_item({m->random_drop(), m->coord()});
