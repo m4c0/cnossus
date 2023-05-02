@@ -18,7 +18,7 @@ class game {
   inv::table m_inv{};
   unsigned m_light{};
 
-  bool open_item_at(map_coord c) {
+  [[nodiscard]] bool open_item_at(map_coord c) {
     auto it = m_items.fetch(c);
     if (it == nullptr)
       return false;
@@ -29,7 +29,13 @@ class game {
       return false;
     }
 
-    return m_inv.get_item(nit);
+    if (m_inv.get_item(nit)) {
+      return true;
+    }
+
+    // Add the item back since we can't take it
+    m_items.add_item({it, c});
+    return false;
   }
 
   void try_move(mob *m, map_coord tgt) {
