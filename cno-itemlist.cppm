@@ -66,7 +66,7 @@ public:
 
   void add_item(item new_i) {
     for (auto &i : data()) {
-      if (!i)
+      if (i)
         continue;
 
       i = new_i;
