@@ -167,7 +167,7 @@ public:
     return m_blocks.at(x, y).type;
   }
 
-  void fill_quack() noexcept {
+  void fill_quack(map_coord pc, unsigned d) noexcept {
     m_blocks.fill_colour([](const block &blk) {
       auto c = blk.type->character();
       auto r = static_cast<float>(c % 16) / 16.0f;
@@ -208,20 +208,18 @@ public:
     } else {
       at(1, map_height - 2) = &gt;
     }
-    fill_quack();
   }
 
-  void update_rogueview(unsigned px, unsigned py, unsigned radius) noexcept {
+  void update_rogueview(map_coord pc, unsigned radius) noexcept {
     for (auto x = 0; x < map_width; x++) {
-      auto dx = px - x;
+      auto dx = pc.x - x;
       for (auto y = 0; y < map_height; y++) {
-        auto dy = py - y;
+        auto dy = pc.y - y;
         if (dx * dx + dy * dy <= radius * radius) {
           m_blocks.at(x, y).seen = true;
         }
       }
     }
-    fill_quack();
   }
 
   void process_event(const casein::event &e) noexcept {

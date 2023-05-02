@@ -171,6 +171,14 @@ class game {
     set_level(lvl);
   }
 
+  void repaint() {
+    auto pc = m_mobs.player()->coord();
+    unsigned dist = m_light < 1 ? 2 : 5;
+    m_map.fill_quack(pc, dist);
+    m_mobs.fill_quack(pc, dist);
+    m_items.fill_quack(pc, dist);
+  }
+
   void reset_status() {
     // TODO
   }
@@ -179,15 +187,13 @@ class game {
     m_map.set_level(l);
     m_items.create_for_map(&m_map);
     m_mobs.populate_level(&m_map);
+    repaint();
   }
 
   void tick() {
     process_actions_with_light();
     update_light();
-
-    m_map.fill_quack();
-    m_mobs.fill_quack();
-    m_items.fill_quack();
+    repaint();
   }
 
   void update_light() {

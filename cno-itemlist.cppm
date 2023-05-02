@@ -62,8 +62,6 @@ public:
 
       at(c.y) = {type, c};
     }
-
-    fill_quack();
   }
 
   void add_item(item new_i) {
@@ -89,7 +87,7 @@ public:
     return nullptr;
   }
 
-  void fill_quack() {
+  void fill_quack(map_coord pc, unsigned d) noexcept {
     fill_pos([](const item &i) {
       const auto &c = i.coord();
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,

@@ -76,7 +76,7 @@ public:
     return static_cast<const cno::player *>(&*at(0));
   }
 
-  void fill_quack() {
+  void fill_quack(map_coord pc, unsigned d) {
     fill_pos([](auto &i) {
       if (!i)
         return quack::rect{};
@@ -99,7 +99,6 @@ public:
   void populate_level(const map *m) {
     update_player(m->level());
     create_enemies(m);
-    fill_quack();
   }
 
   [[nodiscard]] constexpr hai::uptr<mob> *mob_at(map_coord c) {
