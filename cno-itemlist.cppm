@@ -68,9 +68,8 @@ public:
 
   void add_item(item new_i) {
     for (auto &i : data()) {
-      if (i.type() != nullptr) {
+      if (!i)
         continue;
-      }
 
       i = new_i;
       break;
@@ -79,7 +78,7 @@ public:
 
   const item_type *fetch(map_coord c) {
     for (auto &i : data()) {
-      if (i.type() == nullptr) {
+      if (!i) {
         continue;
       }
       if (i.coord() != c) {
@@ -99,7 +98,7 @@ public:
                          1};
     });
     fill_colour([](const item &i) {
-      if (i.type() == nullptr)
+      if (i)
         return quack::colour{0, 0, 0, 0};
 
       auto c = i.type()->character();

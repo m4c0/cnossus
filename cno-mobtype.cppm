@@ -36,6 +36,10 @@ public:
     return m_hostility == h_none;
   }
 
+  [[nodiscard]] constexpr bool operator==(const mob_type &o) const noexcept {
+    return m_char == o.m_char;
+  }
+
   [[nodiscard]] int dice_roll(int dice) const noexcept {
     auto roll = 0;
     for (auto i = 0; i < dice; i++) {
