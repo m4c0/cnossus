@@ -154,6 +154,18 @@ class map {
     return y;
   }
 
+  void update_rogueview(map_coord pc, unsigned radius) noexcept {
+    for (auto x = 0; x < map_width; x++) {
+      auto dx = pc.x - x;
+      for (auto y = 0; y < map_height; y++) {
+        auto dy = pc.y - y;
+        if (dx * dx + dy * dy <= radius * radius) {
+          m_blocks.at(x, y).seen = true;
+        }
+      }
+    }
+  }
+
 public:
   constexpr map(quack::renderer *r) : m_blocks{r} {}
 
@@ -168,12 +180,14 @@ public:
   }
 
   void fill_quack(map_coord pc, unsigned d) noexcept {
+    update_rogueview(pc, d);
+
     m_blocks.fill_colour([](const block &blk) {
       auto c = blk.type->character();
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto g = static_cast<float>(c / 16) / 16.0f;
-      auto b = blk.seen ? 1.0f : 0.0f;
-      return quack::colour{r, g, b, 1};
+      auto a = blk.seen ? 1.0f : 0.3f;
+      return quack::colour{r, g, 0, a};
     });
   }
 
@@ -207,18 +221,6 @@ public:
       at(map_width - 2, map_height - 2) = &gt;
     } else {
       at(1, map_height - 2) = &gt;
-    }
-  }
-
-  void update_rogueview(map_coord pc, unsigned radius) noexcept {
-    for (auto x = 0; x < map_width; x++) {
-      auto dx = pc.x - x;
-      for (auto y = 0; y < map_height; y++) {
-        auto dy = pc.y - y;
-        if (dx * dx + dy * dy <= radius * radius) {
-          m_blocks.at(x, y).seen = true;
-        }
-      }
     }
   }
 
