@@ -39,7 +39,7 @@ class game {
       auto tgt = m->act_with_light(pc, m_light);
       const auto *blk = m_map.at(tgt.x, tgt.y);
       if (!blk->can_walk()) {
-        if (m->type() == &minotaur) {
+        if (m->is_player()) {
           using namespace jute::literals;
           g::update_status("A "_s + blk->name() + " blocks your way");
         }
