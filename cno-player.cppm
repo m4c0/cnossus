@@ -12,7 +12,6 @@ class player : public mob {
   int m_attack_bonus{};
   int m_damage_bonus{};
   unsigned m_extra_life{};
-  map_coord m_next_step{};
 
 protected:
   [[nodiscard]] int attack_bonus() const noexcept override {
@@ -25,11 +24,11 @@ protected:
 
   [[nodiscard]] map_coord next_move_with_light(map_coord pp,
                                                unsigned l) noexcept override {
-    return m_next_step;
+    return coord();
   }
 
 public:
-  explicit player(map_coord c) : mob{&minotaur, c}, m_next_step{c} {}
+  explicit player(map_coord c) : mob{&minotaur, c} {}
 
   [[nodiscard]] constexpr auto max_life() const noexcept {
     return minotaur.life() + m_extra_life;
@@ -57,16 +56,6 @@ public:
     auto r = max_life() - life();
     auto d = r > h ? h : r;
     damage_by(-d);
-  }
-
-  void set_coord(map_coord c) noexcept override {
-    mob::set_coord(c);
-    m_next_step = c;
-  }
-
-  void set_next_move(int dx, int dy) {
-    const auto &[x, y] = coord();
-    m_next_step = {x + dx, y + dy};
   }
 
   void update_inventory(const inv::table &inv) {

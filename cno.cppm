@@ -32,13 +32,7 @@ class game {
     return m_inv.get_item(nit);
   }
 
-  void try_move(mob *m) {
-    auto pc = m_mobs.player()->coord();
-
-    auto tgt = m->next_move_with_light(pc, m_light);
-    if (tgt == m->coord())
-      return;
-
+  void try_move(mob *m, map_coord tgt) {
     const auto *blk = m_map.at(tgt.x, tgt.y);
     if (!blk->can_walk()) {
       if (m->is_player()) {
@@ -59,8 +53,13 @@ class game {
 
   void process_actions_with_light() {
     m_mobs.for_each([this](auto &m) {
-      if (m->update_actions())
-        try_move(&*m);
+      if (!m->update_actions())
+        return;
+
+      auto pc = m_mobs.player()->coord();
+      auto tgt = m->next_move_with_light(pc, m_light);
+      if (tgt != m->coord())
+        try_move(&*m, tgt);
     });
     m_mobs.for_each([this](auto &m) {
       if (m->life() <= 0) {
@@ -141,9 +140,10 @@ class game {
       return;
 
     reset_status();
-    m_mobs.player()->set_next_move(dx, dy);
+
+    const auto &[x, y] = m_mobs.player()->coord();
+    try_move(m_mobs.player(), map_coord{x + dx, y + dy});
     tick();
-    m_mobs.player()->set_next_move(0, 0);
   }
 
   void use_item() {

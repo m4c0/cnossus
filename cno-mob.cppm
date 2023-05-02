@@ -58,7 +58,7 @@ public:
     return *o.m_type == *m_type;
   }
 
-  virtual void set_coord(map_coord c) noexcept { m_coord = c; }
+  void set_coord(map_coord c) noexcept { m_coord = c; }
 
   [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
   [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
