@@ -78,34 +78,34 @@ class game {
       if (tgt->damage_by(margin) <= 0) {
         m_items.add_item({tgt->type()->random_drop(), tgt->coord()});
         tgt = {};
-        if (src.type() == &minotaur) {
-          g::update_status(srcn + " kill " + tgtn);
+        if (src.is_player()) {
+          g::update_status("You kill a " + tgtn);
         }
       } else if (src.type()->poison() > 0) {
         tgt->poison_by(1 + cno::random(src.type()->poison()));
-        if (tgt->type() == &minotaur) {
-          g::update_status(srcn + " poisons " + tgtn);
+        if (tgt->is_player()) {
+          g::update_status("A " + srcn + " poisons you");
         }
-      } else if (src.type() == &minotaur) {
-        g::update_status(srcn + " hit " + tgtn);
-      } else if (tgt->type() == &minotaur) {
-        g::update_status(srcn + " hits " + tgtn);
+      } else if (src.is_player()) {
+        g::update_status("You hit a " + tgtn);
+      } else if (tgt->is_player()) {
+        g::update_status("A " + srcn + " hits you");
       }
     } else if (margin == 0) {
       if (src.type()->poison() > 0) {
         tgt->poison_by(1 + cno::random(src.type()->poison()));
-        if (tgt->type() == &minotaur) {
-          g::update_status(srcn + " poisons " + tgtn);
+        if (src.is_player()) {
+          g::update_status("A " + srcn + " poisons you");
         }
-      } else if (src.type() == &minotaur) {
-        g::update_status(srcn + " barely miss " + tgtn);
-      } else if (tgt->type() == &minotaur) {
-        g::update_status(srcn + " barely misses " + tgtn);
+      } else if (src.is_player()) {
+        g::update_status("You barely miss " + tgtn);
+      } else if (tgt->is_player()) {
+        g::update_status("A " + srcn + " barely misses you");
       }
-    } else if (src.type() == &minotaur) {
-      g::update_status(srcn + " miss " + tgtn);
-    } else if (tgt->type() == &minotaur) {
-      g::update_status(srcn + " misses " + tgtn);
+    } else if (src.is_player()) {
+      g::update_status("You miss a " + tgtn);
+    } else if (tgt->is_player()) {
+      g::update_status("A " + srcn + " misses you");
     }
   }
 

@@ -46,6 +46,10 @@ public:
   [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
   [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
 
+  [[nodiscard]] constexpr auto is_player() const noexcept {
+    return m_type->is_player();
+  }
+
   void poison_by(unsigned p) noexcept { m_poison += p; }
 
   [[nodiscard]] map_coord act_with_light(map_coord player_pos, unsigned l) {

@@ -32,6 +32,10 @@ public:
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
   [[nodiscard]] constexpr auto poison() const noexcept { return m_poison; }
 
+  [[nodiscard]] constexpr auto is_player() const noexcept {
+    return m_hostility == h_none;
+  }
+
   [[nodiscard]] int dice_roll(int dice) const noexcept {
     auto roll = 0;
     for (auto i = 0; i < dice; i++) {
