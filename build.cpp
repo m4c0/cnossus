@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
   m->add_part("player");
   m->add_part("enemy");
   m->add_part("moblist");
+  m->add_part("game");
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
