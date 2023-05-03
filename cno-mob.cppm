@@ -15,7 +15,7 @@ class mob {
   float m_damage_timer{};
 
   void process_poison() {
-    if (m_poison == 0)
+    if (m_poison == 0 || m_life == 0)
       return;
 
     m_poison--;
