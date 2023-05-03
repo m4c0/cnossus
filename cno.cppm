@@ -58,11 +58,12 @@ class game {
   }
 
   void process_actions_with_light() {
-    m_mobs.for_each([this](auto &m) {
+    auto pc = m_mobs.player()->coord();
+
+    m_mobs.for_each([this, pc](auto &m) {
       if (!m->update_actions())
         return;
 
-      auto pc = m_mobs.player()->coord();
       auto tgt = m->next_move_with_light(pc, m_light);
       if (tgt != m->coord())
         try_move(&*m, tgt);
