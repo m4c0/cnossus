@@ -89,7 +89,9 @@ class game {
         return;
 
       if (tgt->damage_by(margin) <= 0) {
-        m_items.add_item({tgt->random_drop(), tgt->coord()});
+        auto drop = tgt->random_drop();
+        if (drop != nullptr)
+          m_items.add_item({tgt->random_drop(), tgt->coord()});
         tgt = {};
         if (src.is_player()) {
           g::update_status("You kill a " + tgtn);
