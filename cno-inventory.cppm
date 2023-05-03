@@ -8,10 +8,6 @@ class slot {
   const item_type *m_item;
   unsigned m_count{0};
 
-  bool has_bag() {
-    return false; // TODO
-  }
-
 public:
   constexpr slot() noexcept = default;
   explicit constexpr slot(const item_type *i) noexcept : m_item{i} {}
@@ -39,7 +35,7 @@ public:
     return true;
   }
 
-  [[nodiscard]] bool get_item() noexcept {
+  [[nodiscard]] bool get_item(bool has_bag) noexcept {
     using namespace jute::literals;
 
     if (m_item->max_carry() == 0) {
@@ -47,7 +43,7 @@ public:
       return false;
     }
     if (m_item->max_carry() == -1) {
-      if (m_count == 0 || has_bag()) {
+      if (m_count == 0 || has_bag) {
         m_count++;
         g::update_status("You pick up a " + m_item->name());
         return true;
@@ -69,6 +65,14 @@ public:
 class table {
   slot m_slots[item_type_count];
 
+  [[nodiscard]] bool has_bag() const noexcept {
+    for (auto &s : m_slots) {
+      if (s.contains(&bag))
+        return s.count() != 0;
+    }
+    return false;
+  }
+
 public:
   constexpr table() {
     for (auto i = 0U; i < item_type_count; i++) {
@@ -85,9 +89,10 @@ public:
   }
 
   [[nodiscard]] bool get_item(const item_type *it) noexcept {
+    const bool bag = has_bag();
     for (auto &s : m_slots) {
       if (s.contains(it))
-        return s.get_item();
+        return s.get_item(bag);
     }
     return false;
   }
