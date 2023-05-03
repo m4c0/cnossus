@@ -11,6 +11,10 @@ class block_type {
 public:
   constexpr block_type(jute::view n, char c) : m_name{n}, m_character{c} {}
 
+  [[nodiscard]] constexpr bool operator==(const block_type &o) const noexcept {
+    return m_character == o.m_character;
+  }
+
   [[nodiscard]] constexpr char character() const noexcept {
     return m_character;
   }

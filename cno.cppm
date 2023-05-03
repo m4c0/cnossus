@@ -163,7 +163,7 @@ class game {
       return;
     }
 
-    if (m_map.at(pc.x, pc.y) != &gt) {
+    if (*m_map.at(pc.x, pc.y) != gt) {
       tick();
       return;
     }
