@@ -67,12 +67,6 @@ class game {
       if (tgt != m->coord())
         try_move(&*m, tgt);
     });
-    m_mobs.for_each([this](auto &m) {
-      if (m->life() <= 0) {
-        m_items.add_item({m->random_drop(), m->coord()});
-        m = {};
-      }
-    });
   }
 
   void attack(const mob &src, auto &tgt) {
@@ -88,13 +82,16 @@ class game {
       if (margin < 0)
         return;
 
-      if (tgt->damage_by(margin) <= 0) {
+      tgt->damage_by(margin);
+      if (tgt->life() <= 0) {
         auto drop = tgt->random_drop();
         if (drop != nullptr)
           m_items.add_item({tgt->random_drop(), tgt->coord()});
         tgt = {};
         if (src.is_player()) {
-          g::update_status("You kill a " + tgtn);
+          g::update_status("You killed a " + tgtn);
+        } else {
+          g::update_status("A " + srcn + " killed you");
         }
       } else if (src.poison() > 0) {
         tgt->poison_by(1 + cno::random(src.poison()));

@@ -83,11 +83,11 @@ public:
     return true;
   }
 
-  int damage_by(int margin) {
+  void damage_by(int margin) {
     if (margin > 0)
       m_damage_timer = 0.5;
 
-    return m_life -= margin;
+    m_life = (m_life <= margin) ? 0 : m_life - margin;
   }
 
   void update_animations(float dt) { m_damage_timer -= dt; }
