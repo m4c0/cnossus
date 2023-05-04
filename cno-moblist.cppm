@@ -1,28 +1,8 @@
 export module cno:moblist;
 import :mob;
-import :mobtype;
 import quack;
 
 namespace cno {
-static constexpr const auto max_mobs_per_level = map_height * 2;
-static constexpr const auto max_mob_roll = 5;
-
-static constexpr const struct {
-  const mob_type *mobs[max_level + 1][max_mob_roll];
-} mob_roll_per_level = {{
-    {&snake, &boar, &cerberus},     {&centipede, &boar, &harpy},
-    {&snake, &cerberus, &rat},      {&centipede, &harpy, &rat},
-    {&snake, &cerberus, &boar},     {&centipede, &harpy, &boar},
-    {&snake, &cerberus, &rat},      {&spider, &rat, &harpy},
-    {&scorpion, &boar, &croc},      {&spider, &boar, &harpy},
-    {&scorpion, &croc, &rat, &rat}, {&spider, &rat, &cerberus, &harpy},
-    {&scorpion, &croc, &boar},      {&spider, &boar, &rat, &harpy},
-    {&manticore, &griffin, &croc},  {&griffin, &bull, &spider},
-    {&sphinx, &manticore, &bull},   {&sphinx, &chimera, &bull},
-    {&manticore, &chimera, &bull},  {&drakon, &griffin, &bull},
-}};
-
-// TODO: consider how we can do this without hai/polymorphism
 class mob_list : quack::instance_layout<mob, max_mobs_per_level> {
   void resize(unsigned w, unsigned h) override {
     batch()->resize(map_width, map_height, w, h);
@@ -67,10 +47,6 @@ public:
         return &m;
     }
     return nullptr;
-  }
-
-  void update_animations(float dt) {
-    for_each([dt](auto &m) { m.update_animations(dt); });
   }
 
   void for_each(auto &&fn) {

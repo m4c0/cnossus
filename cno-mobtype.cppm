@@ -93,4 +93,23 @@ constexpr const auto griffin = mob_type{"ogre", 'N', h_aggresive, 12};
 constexpr const auto sphinx = mob_type{"evil human", 'O', h_aggresive, 12};
 constexpr const auto bull = mob_type{"mutant rat", 'P', h_aggresive, 12}.drops(
     &rawmeat, &rawmeat, &rawmeat);
+
+static constexpr const auto max_mobs_per_level = map_height * 2;
+static constexpr const auto max_mob_roll = 5;
+
+static constexpr const struct {
+  const mob_type *mobs[max_level + 1][max_mob_roll];
+} mob_roll_per_level = {{
+    {&snake, &boar, &cerberus},     {&centipede, &boar, &harpy},
+    {&snake, &cerberus, &rat},      {&centipede, &harpy, &rat},
+    {&snake, &cerberus, &boar},     {&centipede, &harpy, &boar},
+    {&snake, &cerberus, &rat},      {&spider, &rat, &harpy},
+    {&scorpion, &boar, &croc},      {&spider, &boar, &harpy},
+    {&scorpion, &croc, &rat, &rat}, {&spider, &rat, &cerberus, &harpy},
+    {&scorpion, &croc, &boar},      {&spider, &boar, &rat, &harpy},
+    {&manticore, &griffin, &croc},  {&griffin, &bull, &spider},
+    {&sphinx, &manticore, &bull},   {&sphinx, &chimera, &bull},
+    {&manticore, &chimera, &bull},  {&drakon, &griffin, &bull},
+}};
+
 } // namespace cno

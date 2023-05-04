@@ -233,7 +233,9 @@ class game {
     }
   }
 
-  void update_animations(float dt) { m_mobs.update_animations(dt); }
+  void update_animations(float dt) {
+    m_mobs.for_each([dt](auto &m) { m.update_animations(dt); });
+  }
 
 public:
   void process_event(const casein::event &e) {
