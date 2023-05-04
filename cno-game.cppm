@@ -16,6 +16,7 @@ class game {
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
   inv::table m_inv{};
+  player m_player{&*m_mobs.at0()};
   unsigned m_light{};
 
   [[nodiscard]] bool open_item_at(map_coord c) {
@@ -57,15 +58,8 @@ class game {
     m->set_coord(tgt);
   }
 
-  [[nodiscard]] const auto *player() const noexcept {
-    return static_cast<const cno::player *>(&*m_mobs.at0());
-  }
-  [[nodiscard]] auto *player() noexcept {
-    return static_cast<cno::player *>(&*m_mobs.at0());
-  }
-
   void process_actions_with_light() {
-    auto pc = player()->coord();
+    auto pc = m_player.coord();
 
     m_mobs.for_each([this, pc](auto &m) {
       if (!m->update_actions())
@@ -81,12 +75,12 @@ class game {
     const auto srcn = src.name();
     const auto tgtn = tgt->name();
 
-    int atk_roll = src.dice_roll(2) + src.attack_bonus();
-    int def_roll = src.dice_roll(2) + tgt->defense_bonus();
+    int atk_roll = src.dice_roll(2) + src.bonus().attack;
+    int def_roll = src.dice_roll(2) + tgt->bonus().defense;
     int margin = atk_roll - def_roll;
 
     if (margin > 0) {
-      margin += src.attack_bonus() - tgt->defense_bonus();
+      margin += src.bonus().attack - tgt->bonus().defense;
       if (margin < 0)
         return;
 
@@ -136,7 +130,7 @@ class game {
       return;
 
     if (t->life_gain() > 0) {
-      player()->recover_health(t->life_gain());
+      m_player.recover_health(t->life_gain());
     }
     if (t->light_provided() > 0) {
       m_light += t->light_provided();
@@ -145,7 +139,7 @@ class game {
   }
 
   [[nodiscard]] bool game_is_over() const {
-    return player() == nullptr || m_map.level() == 20;
+    return m_player.is_dead() || m_map.level() == 20;
   }
 
   void move_hero(int dx, int dy) {
@@ -154,18 +148,17 @@ class game {
 
     reset_status();
 
-    const auto &[x, y] = player()->coord();
-    try_move(player(), map_coord{x + dx, y + dy});
+    const auto &[x, y] = m_player.coord();
+    try_move(m_player.mob(), map_coord{x + dx, y + dy});
     tick();
   }
 
   void use_item() {
     reset_status();
 
-    auto pl = player();
-    auto pc = pl->coord();
+    auto pc = m_player.coord();
     if (open_item_at(pc)) {
-      pl->update_inventory(m_inv);
+      m_player.update_inventory(m_inv);
       tick();
       return;
     }
@@ -197,18 +190,20 @@ class game {
 
   void set_level(unsigned l) {
     if (l == 1) {
-      m_mobs.at0() = hai::uptr<mob>{new cno::player()};
+      auto m = new cno::mob(&minotaur, {});
+      m_mobs.at0() = hai::uptr<mob>{m};
+      m_player = player{m};
     }
-    player()->level_reset(l);
+    m_player.level_reset(l);
 
     m_map.set_level(l);
     m_items.create_for_map(&m_map);
     m_mobs.populate_level(&m_map);
-    repaint(player()->coord());
+    repaint(m_player.coord());
   }
 
   void tick() {
-    auto pc = player()->coord();
+    auto pc = m_player.coord();
 
     process_actions_with_light();
     update_light();

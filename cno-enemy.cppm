@@ -6,8 +6,6 @@ import :random;
 
 namespace cno {
 class enemy : public mob {
-  int m_bonus;
-
   map_coord hunt_hero(map_coord p) { return move_from_hero(p, 1); }
   map_coord run_from_hero(map_coord p) { return move_from_hero(p, -1); }
   map_coord wander() {
@@ -42,10 +40,6 @@ class enemy : public mob {
   }
 
 protected:
-  [[nodiscard]] int attack_bonus() const noexcept override { return m_bonus; }
-  [[nodiscard]] int defense_bonus() const noexcept override { return m_bonus; }
-  [[nodiscard]] int damage_bonus() const noexcept override { return 0; }
-
   [[nodiscard]] map_coord next_move_with_light(map_coord player_pos,
                                                unsigned l) noexcept override {
     switch (hostility()) {
@@ -65,7 +59,9 @@ protected:
   }
 
 public:
-  enemy(const mob_type *t, map_coord c, unsigned level)
-      : mob{t, c}, m_bonus{static_cast<int>(level) / 2} {}
+  enemy(const mob_type *t, map_coord c, unsigned level) : mob{t, c} {
+    int b = static_cast<int>(level) / 2;
+    bonus() = {.attack = b, .defense = b, .damage = 0};
+  }
 };
 } // namespace cno

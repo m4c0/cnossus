@@ -7,26 +7,14 @@ import :mobtype;
 import :random;
 
 namespace cno {
-class player : public mob {
+class player {
   int m_armor{};
   int m_attack_bonus{};
   int m_damage_bonus{};
   unsigned m_extra_life{};
+  mob *m_mob;
 
 protected:
-  [[nodiscard]] int attack_bonus() const noexcept override {
-    return m_attack_bonus;
-  }
-  [[nodiscard]] int defense_bonus() const noexcept override { return m_armor; }
-  [[nodiscard]] int damage_bonus() const noexcept override {
-    return m_damage_bonus;
-  }
-
-  [[nodiscard]] map_coord next_move_with_light(map_coord pp,
-                                               unsigned l) noexcept override {
-    return coord();
-  }
-
   void random_buff() {
     switch (cno::random(3)) {
     case 0:
@@ -39,24 +27,29 @@ protected:
       break;
     default:
       g::update_status("You feel faster");
-      increase_max_actions();
+      m_mob->increase_max_actions();
       break;
     }
     recover_health(1);
   }
 
 public:
-  explicit player() : mob{&minotaur, {}} {}
-  explicit player(map_coord c) : mob{&minotaur, c} {}
+  explicit constexpr player(mob *m) : m_mob{m} {}
 
   [[nodiscard]] constexpr auto max_life() const noexcept {
     return minotaur.life() + m_extra_life;
   }
+  [[nodiscard]] constexpr auto coord() const noexcept { return m_mob->coord(); }
+  [[nodiscard]] constexpr auto mob() const noexcept { return m_mob; }
+
+  [[nodiscard]] constexpr auto is_dead() const noexcept {
+    return m_mob->life() == 0;
+  }
 
   void recover_health(unsigned h) {
-    auto r = max_life() - life();
+    auto r = max_life() - m_mob->life();
     auto d = r > h ? h : r;
-    damage_by(-d);
+    m_mob->damage_by(-d);
   }
 
   void update_inventory(const inv::table &inv) {
@@ -70,7 +63,7 @@ public:
 
   void level_reset(unsigned lvl) {
     auto px = (lvl % 2 == 1) ? 1U : map_width - 2U;
-    set_coord({px, 1});
+    m_mob->set_coord({px, 1});
 
     if (lvl > 1)
       random_buff();

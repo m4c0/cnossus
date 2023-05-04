@@ -3,6 +3,12 @@ import :mobtype;
 import :objects;
 
 namespace cno {
+struct bonus {
+  int attack;
+  int defense;
+  int damage;
+};
+
 class mob {
   static constexpr const auto max_actions = 20;
 
@@ -13,6 +19,7 @@ class mob {
   unsigned m_max_actions;
   unsigned m_poison{};
   float m_damage_timer{};
+  bonus m_bonus{};
 
   void process_poison() {
     if (m_poison == 0 || m_life == 0)
@@ -22,9 +29,6 @@ class mob {
     m_life--;
   }
 
-protected:
-  void increase_max_actions() { m_max_actions++; }
-
 public:
   constexpr mob(const mob_type *t, map_coord c)
       : m_type{t}, m_coord{c}, m_life{m_type->life()}, m_actions{max_actions},
@@ -32,6 +36,10 @@ public:
   constexpr virtual ~mob() = default;
 
   [[nodiscard]] constexpr const auto &coord() const noexcept { return m_coord; }
+
+  [[nodiscard]] constexpr auto bonus() noexcept { return m_bonus; }
+  [[nodiscard]] constexpr const auto &bonus() const noexcept { return m_bonus; }
+
   [[nodiscard]] constexpr auto damaged() const noexcept {
     return m_damage_timer > 0;
   }
@@ -60,16 +68,16 @@ public:
 
   void set_coord(map_coord c) noexcept { m_coord = c; }
 
-  [[nodiscard]] virtual int attack_bonus() const noexcept = 0;
-  [[nodiscard]] virtual int defense_bonus() const noexcept = 0;
-  [[nodiscard]] virtual int damage_bonus() const noexcept = 0;
-
   [[nodiscard]] constexpr auto is_player() const noexcept {
     return m_type->is_player();
   }
 
+  void increase_max_actions() { m_max_actions++; }
+
   [[nodiscard]] virtual map_coord next_move_with_light(map_coord player_pos,
-                                                       unsigned l) noexcept = 0;
+                                                       unsigned l) noexcept {
+    return coord();
+  }
 
   void poison_by(unsigned p) noexcept { m_poison += p; }
 
