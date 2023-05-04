@@ -17,8 +17,6 @@ jobs:
         uses: m4c0/ecow/.github/actions/setup@main
       - name: 🧴 Setup Casein
         uses: m4c0/casein/.github/actions/deps@main
-      - name: 🙏🏼 Setup Hai
-        uses: m4c0/hai/.github/actions/deps@main
       - name: 🧵 Setup Jute
         uses: m4c0/jute/.github/actions/deps@main
       - name: 🦆 Setup Quack

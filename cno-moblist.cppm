@@ -3,7 +3,6 @@ import :enemy;
 import :map;
 import :mob;
 import :mobtype;
-import hai;
 import quack;
 
 namespace cno {
@@ -26,7 +25,7 @@ static constexpr const struct {
 }};
 
 // TODO: consider how we can do this without hai/polymorphism
-class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
+class mob_list : quack::instance_layout<mob, max_mobs_per_level> {
   void resize(unsigned w, unsigned h) override {
     batch()->resize(map_width, map_height, w, h);
   }
@@ -45,19 +44,16 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
         c.x = cno::random(map_width);
       } while (!m->at(c.x, c.y)->can_walk());
 
-      auto mm = new mob{t, c};
-      enemy{mm}.reset_level(m->level());
-      at(c.y) = hai::uptr<mob>{mm};
+      auto &mm = at(c.y) = {t, c};
+      enemy{&mm}.reset_level(m->level());
     }
   }
 
 public:
   explicit mob_list(quack::renderer *r) : instance_layout{r} {}
 
+  using instance_layout::at;
   using instance_layout::process_event;
-
-  [[nodiscard]] const auto &at0() const noexcept { return at(0); }
-  [[nodiscard]] auto &at0() noexcept { return at(0); }
 
   void fill_quack(map_coord pc, unsigned d) {
     const auto &[px, py] = pc;
@@ -66,7 +62,7 @@ public:
       if (!i)
         return quack::rect{};
 
-      const auto &c = i->coord();
+      const auto &c = i.coord();
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
@@ -74,11 +70,11 @@ public:
       if (!i)
         return quack::colour{};
 
-      const auto &[x, y] = i->coord();
+      const auto &[x, y] = i.coord();
       auto dx = px - x;
       auto dy = py - y;
 
-      auto c = i->character();
+      auto c = i.character();
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto b = static_cast<float>(c / 16) / 16.0f;
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
@@ -88,16 +84,16 @@ public:
 
   void populate_level(const map *m) { create_enemies(m); }
 
-  [[nodiscard]] constexpr hai::uptr<mob> *mob_at(map_coord c) {
+  [[nodiscard]] constexpr mob *mob_at(map_coord c) {
     for (auto &m : data()) {
-      if (m && m->coord() == c)
+      if (m && m.coord() == c)
         return &m;
     }
     return nullptr;
   }
 
   void update_animations(float dt) {
-    for_each([dt](auto &m) { m->update_animations(dt); });
+    for_each([dt](auto &m) { m.update_animations(dt); });
   }
 
   void for_each(auto &&fn) {

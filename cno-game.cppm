@@ -5,7 +5,6 @@ import :map;
 import :moblist;
 import :player;
 import casein;
-import hai;
 import jute;
 import quack;
 
@@ -16,7 +15,7 @@ class game {
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
   inv::table m_inv{};
-  player m_player{&*m_mobs.at0()};
+  player m_player{&m_mobs.at(0)};
   unsigned m_light{};
 
   [[nodiscard]] bool open_item_at(map_coord c) {
@@ -50,7 +49,7 @@ class game {
     }
 
     auto *mm = m_mobs.mob_at(tgt);
-    if (mm != nullptr && !m->same_species_as(**mm)) {
+    if (mm != nullptr && !m->same_species_as(*mm)) {
       attack(*m, *mm);
       return;
     }
@@ -62,33 +61,33 @@ class game {
     auto pc = m_player.coord();
 
     m_mobs.for_each([this, pc](auto &m) {
-      if (!m->update_actions())
+      if (!m.update_actions())
         return;
 
-      auto tgt = enemy{&*m}.next_move_with_light(pc, m_light);
-      if (tgt != m->coord())
-        try_move(&*m, tgt);
+      auto tgt = enemy{&m}.next_move_with_light(pc, m_light);
+      if (tgt != m.coord())
+        try_move(&m, tgt);
     });
   }
 
   void attack(const mob &src, auto &tgt) {
     const auto srcn = src.name();
-    const auto tgtn = tgt->name();
+    const auto tgtn = tgt.name();
 
     int atk_roll = src.dice_roll(2) + src.bonus().attack;
-    int def_roll = src.dice_roll(2) + tgt->bonus().defense;
+    int def_roll = src.dice_roll(2) + tgt.bonus().defense;
     int margin = atk_roll - def_roll;
 
     if (margin > 0) {
-      margin += src.bonus().attack - tgt->bonus().defense;
+      margin += src.bonus().attack - tgt.bonus().defense;
       if (margin < 0)
         return;
 
-      tgt->damage_by(margin);
-      if (tgt->life() <= 0) {
-        auto drop = tgt->random_drop();
+      tgt.damage_by(margin);
+      if (tgt.life() <= 0) {
+        auto drop = tgt.random_drop();
         if (drop != nullptr)
-          m_items.add_item({tgt->random_drop(), tgt->coord()});
+          m_items.add_item({tgt.random_drop(), tgt.coord()});
         tgt = {};
         if (src.is_player()) {
           g::update_status("You killed a " + tgtn);
@@ -96,29 +95,29 @@ class game {
           g::update_status("A " + srcn + " killed you");
         }
       } else if (src.poison() > 0) {
-        tgt->poison_by(1 + cno::random(src.poison()));
-        if (tgt->is_player()) {
+        tgt.poison_by(1 + cno::random(src.poison()));
+        if (tgt.is_player()) {
           g::update_status("A " + srcn + " poisons you");
         }
       } else if (src.is_player()) {
         g::update_status("You hit a " + tgtn);
-      } else if (tgt->is_player()) {
+      } else if (tgt.is_player()) {
         g::update_status("A " + srcn + " hits you");
       }
     } else if (margin == 0) {
       if (src.poison() > 0) {
-        tgt->poison_by(1 + cno::random(src.poison()));
+        tgt.poison_by(1 + cno::random(src.poison()));
         if (src.is_player()) {
           g::update_status("A " + srcn + " poisons you");
         }
       } else if (src.is_player()) {
         g::update_status("You barely miss " + tgtn);
-      } else if (tgt->is_player()) {
+      } else if (tgt.is_player()) {
         g::update_status("A " + srcn + " barely misses you");
       }
     } else if (src.is_player()) {
       g::update_status("You miss a " + tgtn);
-    } else if (tgt->is_player()) {
+    } else if (tgt.is_player()) {
       g::update_status("A " + srcn + " misses you");
     }
   }
@@ -189,13 +188,7 @@ class game {
   }
 
   void set_level(unsigned l) {
-    if (l == 1) {
-      auto m = new cno::mob(&minotaur, {});
-      m_mobs.at0() = hai::uptr<mob>{m};
-      m_player = player{m};
-    }
     m_player.level_reset(l);
-
     m_map.set_level(l);
     m_items.create_for_map(&m_map);
     m_mobs.populate_level(&m_map);

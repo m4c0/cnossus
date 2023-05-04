@@ -12,11 +12,11 @@ struct bonus {
 class mob {
   static constexpr const auto max_actions = 20;
 
-  const mob_type *m_type;
-  map_coord m_coord;
-  unsigned m_life;
-  int m_actions;
-  unsigned m_max_actions;
+  const mob_type *m_type{};
+  map_coord m_coord{};
+  unsigned m_life{};
+  int m_actions{};
+  unsigned m_max_actions{};
   unsigned m_poison{};
   float m_damage_timer{};
   bonus m_bonus{};
@@ -30,9 +30,14 @@ class mob {
   }
 
 public:
+  constexpr mob() noexcept = default;
   constexpr mob(const mob_type *t, map_coord c)
       : m_type{t}, m_coord{c}, m_life{m_type->life()}, m_actions{max_actions},
         m_max_actions{max_actions} {}
+
+  [[nodiscard]] constexpr operator bool() const noexcept {
+    return m_type != nullptr;
+  }
 
   [[nodiscard]] constexpr const auto &coord() const noexcept { return m_coord; }
 

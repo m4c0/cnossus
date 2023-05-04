@@ -1,6 +1,5 @@
 #include "../casein/build.hpp"
 #include "../ecow/ecow.hpp"
-#include "../hai/build.hpp"
 #include "../jute/build.hpp"
 #include "../quack/build.hpp"
 #include "../silog/build.hpp"
@@ -10,7 +9,6 @@ int main(int argc, char **argv) {
 
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
-  m->add_wsdep("hai", hai());
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
   m->add_wsdep("silog", silog());
