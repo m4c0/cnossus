@@ -1,14 +1,14 @@
 export module cno:mobtype;
 import :itemtype;
+import :random;
 import jute;
 
 namespace cno {
 static constexpr const auto max_mob_drops = 3;
 
 enum hostilities { h_none, h_scaried, h_aggresive };
-struct mob_drops {
-  const item_type *table[max_mob_drops]{};
-};
+
+using mob_drops = rnd_roll<const item_type *, max_mob_drops>;
 
 class mob_type {
   jute::view m_name;
@@ -48,7 +48,7 @@ public:
     return roll;
   }
   [[nodiscard]] const item_type *random_drop() const noexcept {
-    return m_drops.table[cno::random(max_mob_drops)];
+    return m_drops.roll();
   }
 
   [[nodiscard]] constexpr mob_type drops(auto... d) const noexcept {
@@ -97,19 +97,28 @@ constexpr const auto bull = mob_type{"mutant rat", 'P', h_aggresive, 12}.drops(
 static constexpr const auto max_mobs_per_level = map_height * 2;
 static constexpr const auto max_mob_roll = 5;
 
-static constexpr const struct {
-  const mob_type *mobs[max_level + 1][max_mob_roll];
-} mob_roll_per_level = {{
-    {&snake, &boar, &cerberus},     {&centipede, &boar, &harpy},
-    {&snake, &cerberus, &rat},      {&centipede, &harpy, &rat},
-    {&snake, &cerberus, &boar},     {&centipede, &harpy, &boar},
-    {&snake, &cerberus, &rat},      {&spider, &rat, &harpy},
-    {&scorpion, &boar, &croc},      {&spider, &boar, &harpy},
-    {&scorpion, &croc, &rat, &rat}, {&spider, &rat, &cerberus, &harpy},
-    {&scorpion, &croc, &boar},      {&spider, &boar, &rat, &harpy},
-    {&manticore, &griffin, &croc},  {&griffin, &bull, &spider},
-    {&sphinx, &manticore, &bull},   {&sphinx, &chimera, &bull},
-    {&manticore, &chimera, &bull},  {&drakon, &griffin, &bull},
-}};
+using mob_rolls = rnd_roll_per_level<const mob_type *, max_mob_roll>;
+static constexpr const mob_rolls mob_roll_per_level = {
+    mob_rolls::roll_t{&snake, &boar, &cerberus},
+    mob_rolls::roll_t{&centipede, &boar, &harpy},
+    mob_rolls::roll_t{&snake, &cerberus, &rat},
+    mob_rolls::roll_t{&centipede, &harpy, &rat},
+    mob_rolls::roll_t{&snake, &cerberus, &boar},
+    mob_rolls::roll_t{&centipede, &harpy, &boar},
+    mob_rolls::roll_t{&snake, &cerberus, &rat},
+    mob_rolls::roll_t{&spider, &rat, &harpy},
+    mob_rolls::roll_t{&scorpion, &boar, &croc},
+    mob_rolls::roll_t{&spider, &boar, &harpy},
+    mob_rolls::roll_t{&scorpion, &croc, &rat, &rat},
+    mob_rolls::roll_t{&spider, &rat, &cerberus, &harpy},
+    mob_rolls::roll_t{&scorpion, &croc, &boar},
+    mob_rolls::roll_t{&spider, &boar, &rat, &harpy},
+    mob_rolls::roll_t{&manticore, &griffin, &croc},
+    mob_rolls::roll_t{&griffin, &bull, &spider},
+    mob_rolls::roll_t{&sphinx, &manticore, &bull},
+    mob_rolls::roll_t{&sphinx, &chimera, &bull},
+    mob_rolls::roll_t{&manticore, &chimera, &bull},
+    mob_rolls::roll_t{&drakon, &griffin, &bull},
+};
 
 } // namespace cno

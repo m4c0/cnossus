@@ -20,10 +20,9 @@ class game {
   unsigned m_light{};
 
   void create_enemies() {
-    const auto &mob_roll = mob_roll_per_level.mobs[m_map.level()];
     map_coord c{};
     for (c.y = 1; c.y < map_height - 1; c.y++) {
-      const mob_type *t = mob_roll[cno::random(max_mobs_per_level)];
+      const mob_type *t = mob_roll_per_level.roll(m_map.level());
       if (t == nullptr) {
         m_mobs.at(c.y) = {};
         continue;

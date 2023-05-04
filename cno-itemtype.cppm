@@ -12,9 +12,7 @@ struct inventory_pos {
 };
 
 class item_type;
-struct item_loot_table {
-  const item_type *table[max_level][max_item_drops]{};
-};
+using item_loot_table = rnd_roll_per_level<const item_type *, max_item_drops>;
 
 class item_type {
   jute::view m_name;
@@ -63,8 +61,7 @@ public:
       return this;
     }
 
-    auto rd = cno::random(max_item_drops);
-    auto *drop = m_drops->table[l - 1][rd];
+    auto *drop = m_drops->roll(l);
     if (drop == nullptr || drop->name() == "") {
       using namespace jute::literals;
       g::update_status("The "_s + m_name + " crumbled to dust");
@@ -157,40 +154,50 @@ constexpr const auto scale =
 constexpr const auto shield =
     item_type{"shield", 'u'}.defense(5).inventory_at(1, 4);
 
-constexpr const auto jar_drops = item_loot_table{{
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &candle},
-    {&candle, &cheese},
-    {&driedfruit, &candle},
-    {&cheese},
-    {&driedfruit, &candle},
-    {&cheese},
-    {&driedfruit, &candle},
-    {&driedfruit, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &cheese},
-    {&driedfruit, &candle, &cheese},
-    {&driedfruit, &cheese},
-    {&driedfruit, &candle, &cheese},
-}};
-constexpr const auto chest_drops = item_loot_table{{
-    {&cloth, &knife, &bag},       {&cloth, &knife, &bag},
-    {&leather, &knife, &bag},     {&cloth, &knife, &bag},
-    {&cloth, &sickle, &bag},      {&greave, &sickle, &bag},
-    {&greave, &sickle, &bag},     {&greave, &sickle, &bag},
-    {&armguard, &adze, &bag},     {&armguard, &adze, &bag},
-    {&armguard, &adze, &oillamp}, {&pauldron, &adze, &bag},
-    {&pauldron, &axe, &oillamp},  {&pauldron, &axe, &bag},
-    {&leather, &axe, &oillamp},   {&leather, &axe, &bag},
-    {&leather, &sword, &oillamp}, {&scale, &sword, &bag},
-    {&scale, &sword, &oillamp},   {&scale, &sword, &bag},
-}};
+constexpr const auto jar_drops = item_loot_table{
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle},
+    item_loot_table::roll_t{&candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle},
+    item_loot_table::roll_t{&cheese},
+    item_loot_table::roll_t{&driedfruit, &candle},
+    item_loot_table::roll_t{&cheese},
+    item_loot_table::roll_t{&driedfruit, &candle},
+    item_loot_table::roll_t{&driedfruit, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+    item_loot_table::roll_t{&driedfruit, &cheese},
+    item_loot_table::roll_t{&driedfruit, &candle, &cheese},
+};
+constexpr const auto chest_drops = item_loot_table{
+    item_loot_table::roll_t{&cloth, &knife, &bag},
+    item_loot_table::roll_t{&cloth, &knife, &bag},
+    item_loot_table::roll_t{&leather, &knife, &bag},
+    item_loot_table::roll_t{&cloth, &knife, &bag},
+    item_loot_table::roll_t{&cloth, &sickle, &bag},
+    item_loot_table::roll_t{&greave, &sickle, &bag},
+    item_loot_table::roll_t{&greave, &sickle, &bag},
+    item_loot_table::roll_t{&greave, &sickle, &bag},
+    item_loot_table::roll_t{&armguard, &adze, &bag},
+    item_loot_table::roll_t{&armguard, &adze, &bag},
+    item_loot_table::roll_t{&armguard, &adze, &oillamp},
+    item_loot_table::roll_t{&pauldron, &adze, &bag},
+    item_loot_table::roll_t{&pauldron, &axe, &oillamp},
+    item_loot_table::roll_t{&pauldron, &axe, &bag},
+    item_loot_table::roll_t{&leather, &axe, &oillamp},
+    item_loot_table::roll_t{&leather, &axe, &bag},
+    item_loot_table::roll_t{&leather, &sword, &oillamp},
+    item_loot_table::roll_t{&scale, &sword, &bag},
+    item_loot_table::roll_t{&scale, &sword, &oillamp},
+    item_loot_table::roll_t{&scale, &sword, &bag},
+};
 
 constexpr const auto jar = item_type{"jar", 'v', &jar_drops};
 constexpr const auto coffer = item_type{"chest", 'w', &chest_drops};
