@@ -51,10 +51,6 @@ public:
     return m_light_provided;
   }
 
-  [[nodiscard]] constexpr auto consumable() const noexcept {
-    return m_life_gain > 0 || m_light_provided > 0;
-  }
-
   [[nodiscard]] constexpr bool operator==(const item_type &o) const noexcept {
     return m_char == o.m_char;
   }

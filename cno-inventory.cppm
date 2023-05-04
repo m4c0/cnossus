@@ -28,7 +28,7 @@ public:
   [[nodiscard]] bool consume() noexcept {
     if (m_count == 0)
       return false;
-    if (!m_item->consumable())
+    if (m_item->life_gain() == 0 && m_item->light_provided() == 0)
       return false;
 
     m_count--;
