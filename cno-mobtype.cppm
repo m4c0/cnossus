@@ -40,13 +40,6 @@ public:
     return m_char == o.m_char;
   }
 
-  [[nodiscard]] int dice_roll(int dice) const noexcept {
-    auto roll = 0;
-    for (auto i = 0; i < dice; i++) {
-      roll += 1 + cno::random(m_dice);
-    }
-    return roll;
-  }
   [[nodiscard]] const item_type *random_drop() const noexcept {
     return m_drops.roll();
   }

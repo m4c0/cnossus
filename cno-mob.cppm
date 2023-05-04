@@ -1,6 +1,7 @@
 export module cno:mob;
 import :mobtype;
 import :objects;
+import :random;
 
 namespace cno {
 struct bonus {
@@ -53,7 +54,7 @@ public:
     return m_type->character();
   }
   [[nodiscard]] constexpr auto dice_roll(unsigned i) const noexcept {
-    return m_type->dice_roll(i);
+    return roll_dice(m_type->dice(), i);
   }
   [[nodiscard]] constexpr auto hostility() const noexcept {
     return m_type->hostility();

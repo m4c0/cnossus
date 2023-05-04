@@ -8,6 +8,14 @@ import traits;
 namespace cno {
 [[nodiscard]] inline auto random(unsigned max) noexcept { return rand() % max; }
 
+[[nodiscard]] int roll_dice(int dice, int dice_count) noexcept {
+  auto roll = 0;
+  for (auto i = 0; i < dice_count; i++) {
+    roll += 1 + cno::random(dice);
+  }
+  return roll;
+}
+
 template <typename Tp, unsigned N> class rnd_roll {
   Tp m_table[N]{};
 
