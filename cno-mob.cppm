@@ -64,7 +64,7 @@ public:
     return m_type->poison();
   }
   [[nodiscard]] constexpr auto random_drop() const noexcept {
-    return m_type->random_drop();
+    return m_type->drops().roll();
   }
 
   [[nodiscard]] constexpr bool same_species_as(const mob &o) const noexcept {
@@ -74,7 +74,7 @@ public:
   void set_coord(map_coord c) noexcept { m_coord = c; }
 
   [[nodiscard]] constexpr auto is_player() const noexcept {
-    return m_type->is_player();
+    return cno::is_player(m_type);
   }
 
   void increase_max_actions() { m_max_actions++; }

@@ -25,24 +25,13 @@ public:
 
   [[nodiscard]] constexpr auto character() const noexcept { return m_char; }
   [[nodiscard]] constexpr auto dice() const noexcept { return m_dice; }
+  [[nodiscard]] constexpr auto &drops() const noexcept { return m_drops; }
   [[nodiscard]] constexpr auto hostility() const noexcept {
     return m_hostility;
   }
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
   [[nodiscard]] constexpr auto poison() const noexcept { return m_poison; }
-
-  [[nodiscard]] constexpr auto is_player() const noexcept {
-    return m_hostility == h_none;
-  }
-
-  [[nodiscard]] constexpr bool operator==(const mob_type &o) const noexcept {
-    return m_char == o.m_char;
-  }
-
-  [[nodiscard]] const item_type *random_drop() const noexcept {
-    return m_drops.roll();
-  }
 
   [[nodiscard]] constexpr mob_type drops(auto... d) const noexcept {
     auto r = *this;
@@ -60,6 +49,14 @@ public:
     return r;
   }
 };
+
+[[nodiscard]] constexpr bool operator==(const mob_type &a,
+                                        const mob_type &b) noexcept {
+  return a.character() == b.character();
+}
+[[nodiscard]] constexpr auto is_player(const mob_type *a) noexcept {
+  return a->hostility() == h_none;
+}
 
 constexpr const auto minotaur = mob_type{"you", 'A', h_none, 10}.life(20);
 
