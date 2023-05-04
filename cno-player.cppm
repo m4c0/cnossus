@@ -37,7 +37,7 @@ public:
   explicit constexpr player(mob *m) : m_mob{m} { *m = {&minotaur, {}}; }
 
   [[nodiscard]] constexpr auto max_life() const noexcept {
-    return minotaur.life() + m_extra_life;
+    return minotaur.life + m_extra_life;
   }
   [[nodiscard]] constexpr auto coord() const noexcept { return m_mob->coord(); }
   [[nodiscard]] constexpr auto mob() const noexcept { return m_mob; }

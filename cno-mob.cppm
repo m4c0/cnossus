@@ -33,7 +33,7 @@ class mob {
 public:
   constexpr mob() noexcept = default;
   constexpr mob(const mob_type *t, map_coord c)
-      : m_type{t}, m_coord{c}, m_life{m_type->life()}, m_actions{max_actions},
+      : m_type{t}, m_coord{c}, m_life{m_type->life}, m_actions{max_actions},
         m_max_actions{max_actions} {}
 
   [[nodiscard]] constexpr operator bool() const noexcept {
@@ -51,20 +51,20 @@ public:
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
 
   [[nodiscard]] constexpr auto character() const noexcept {
-    return m_type->character();
+    return m_type->character;
   }
   [[nodiscard]] constexpr auto dice_roll(unsigned i) const noexcept {
-    return roll_dice(m_type->dice(), i);
+    return roll_dice(m_type->dice, i);
   }
   [[nodiscard]] constexpr auto hostility() const noexcept {
-    return m_type->hostility();
+    return m_type->hostility;
   }
-  [[nodiscard]] constexpr auto name() const noexcept { return m_type->name(); }
+  [[nodiscard]] constexpr auto name() const noexcept { return m_type->name; }
   [[nodiscard]] constexpr auto poison() const noexcept {
-    return m_type->poison();
+    return m_type->poison;
   }
   [[nodiscard]] constexpr auto random_drop() const noexcept {
-    return m_type->drops().roll();
+    return m_type->drops.roll();
   }
 
   [[nodiscard]] constexpr bool same_species_as(const mob &o) const noexcept {
@@ -87,7 +87,7 @@ public:
       process_poison();
       return false;
     }
-    m_actions -= m_type->dice();
+    m_actions -= m_type->dice;
     return true;
   }
 
