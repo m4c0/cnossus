@@ -27,13 +27,6 @@ protected:
     return coord();
   }
 
-public:
-  explicit player(map_coord c) : mob{&minotaur, c} {}
-
-  [[nodiscard]] constexpr auto max_life() const noexcept {
-    return minotaur.life() + m_extra_life;
-  }
-
   void random_buff() {
     switch (cno::random(3)) {
     case 0:
@@ -52,6 +45,14 @@ public:
     recover_health(1);
   }
 
+public:
+  explicit player() : mob{&minotaur, {}} {}
+  explicit player(map_coord c) : mob{&minotaur, c} {}
+
+  [[nodiscard]] constexpr auto max_life() const noexcept {
+    return minotaur.life() + m_extra_life;
+  }
+
   void recover_health(unsigned h) {
     auto r = max_life() - life();
     auto d = r > h ? h : r;
@@ -65,6 +66,14 @@ public:
       if (i.attack() > m_attack_bonus)
         m_attack_bonus = i.attack();
     });
+  }
+
+  void level_reset(unsigned lvl) {
+    auto px = (lvl % 2 == 1) ? 1U : map_width - 2U;
+    set_coord({px, 1});
+
+    if (lvl > 1)
+      random_buff();
   }
 };
 } // namespace cno

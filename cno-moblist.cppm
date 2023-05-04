@@ -34,16 +34,10 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
   }
 
   void update_player(unsigned lvl) {
-    auto px = (lvl % 2 == 1) ? 1U : map_width - 2U;
-    map_coord pc{px, 1};
-
     if (lvl == 1) {
-      at(0) = hai::uptr<mob>{new cno::player(pc)};
-    } else {
-      auto p = player();
-      p->set_coord(pc);
-      p->random_buff();
+      at(0) = hai::uptr<mob>{new cno::player()};
     }
+    player()->level_reset(lvl);
   }
 
   void create_enemies(const map *m) {
