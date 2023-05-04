@@ -1,8 +1,11 @@
 export module cno:game;
+import :inventory;
 import :itemlist;
 import :map;
 import :moblist;
+import :player;
 import casein;
+import hai;
 import jute;
 import quack;
 
@@ -54,8 +57,15 @@ class game {
     m->set_coord(tgt);
   }
 
+  [[nodiscard]] const auto *player() const noexcept {
+    return static_cast<const cno::player *>(&*m_mobs.at0());
+  }
+  [[nodiscard]] auto *player() noexcept {
+    return static_cast<cno::player *>(&*m_mobs.at0());
+  }
+
   void process_actions_with_light() {
-    auto pc = m_mobs.player()->coord();
+    auto pc = player()->coord();
 
     m_mobs.for_each([this, pc](auto &m) {
       if (!m->update_actions())
@@ -126,7 +136,7 @@ class game {
       return;
 
     if (t->life_gain() > 0) {
-      m_mobs.player()->recover_health(t->life_gain());
+      player()->recover_health(t->life_gain());
     }
     if (t->light_provided() > 0) {
       m_light += t->light_provided();
@@ -135,7 +145,7 @@ class game {
   }
 
   [[nodiscard]] bool game_is_over() const {
-    return m_mobs.player() == nullptr || m_map.level() == 20;
+    return player() == nullptr || m_map.level() == 20;
   }
 
   void move_hero(int dx, int dy) {
@@ -144,15 +154,15 @@ class game {
 
     reset_status();
 
-    const auto &[x, y] = m_mobs.player()->coord();
-    try_move(m_mobs.player(), map_coord{x + dx, y + dy});
+    const auto &[x, y] = player()->coord();
+    try_move(player(), map_coord{x + dx, y + dy});
     tick();
   }
 
   void use_item() {
     reset_status();
 
-    auto pl = m_mobs.player();
+    auto pl = player();
     auto pc = pl->coord();
     if (open_item_at(pc)) {
       pl->update_inventory(m_inv);
@@ -186,14 +196,19 @@ class game {
   }
 
   void set_level(unsigned l) {
+    if (l == 1) {
+      m_mobs.at0() = hai::uptr<mob>{new cno::player()};
+    }
+    player()->level_reset(l);
+
     m_map.set_level(l);
     m_items.create_for_map(&m_map);
     m_mobs.populate_level(&m_map);
-    repaint(m_mobs.player()->coord());
+    repaint(player()->coord());
   }
 
   void tick() {
-    auto pc = m_mobs.player()->coord();
+    auto pc = player()->coord();
 
     process_actions_with_light();
     update_light();

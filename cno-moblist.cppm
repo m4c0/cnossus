@@ -1,10 +1,8 @@
 export module cno:moblist;
 import :enemy;
-import :globals;
 import :map;
 import :mob;
 import :mobtype;
-import :player;
 import hai;
 import quack;
 
@@ -33,13 +31,6 @@ class mob_list : quack::instance_layout<hai::uptr<mob>, max_mobs_per_level> {
     batch()->resize(map_width, map_height, w, h);
   }
 
-  void update_player(unsigned lvl) {
-    if (lvl == 1) {
-      at(0) = hai::uptr<mob>{new cno::player()};
-    }
-    player()->level_reset(lvl);
-  }
-
   void create_enemies(const map *m) {
     const auto &mob_roll = mob_roll_per_level.mobs[m->level()];
     map_coord c{};
@@ -63,12 +54,8 @@ public:
 
   using instance_layout::process_event;
 
-  [[nodiscard]] cno::player *player() noexcept {
-    return static_cast<cno::player *>(&*at(0));
-  }
-  [[nodiscard]] const cno::player *player() const noexcept {
-    return static_cast<const cno::player *>(&*at(0));
-  }
+  [[nodiscard]] const auto &at0() const noexcept { return at(0); }
+  [[nodiscard]] auto &at0() noexcept { return at(0); }
 
   void fill_quack(map_coord pc, unsigned d) {
     const auto &[px, py] = pc;
@@ -97,10 +84,7 @@ public:
     });
   }
 
-  void populate_level(const map *m) {
-    update_player(m->level());
-    create_enemies(m);
-  }
+  void populate_level(const map *m) { create_enemies(m); }
 
   [[nodiscard]] constexpr hai::uptr<mob> *mob_at(map_coord c) {
     for (auto &m : data()) {
