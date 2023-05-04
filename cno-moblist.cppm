@@ -1,6 +1,4 @@
 export module cno:moblist;
-import :enemy;
-import :map;
 import :mob;
 import :mobtype;
 import quack;
@@ -28,25 +26,6 @@ static constexpr const struct {
 class mob_list : quack::instance_layout<mob, max_mobs_per_level> {
   void resize(unsigned w, unsigned h) override {
     batch()->resize(map_width, map_height, w, h);
-  }
-
-  void create_enemies(const map *m) {
-    const auto &mob_roll = mob_roll_per_level.mobs[m->level()];
-    map_coord c{};
-    for (c.y = 1; c.y < map_height - 1; c.y++) {
-      const mob_type *t = mob_roll[cno::random(max_mobs_per_level)];
-      if (t == nullptr) {
-        at(c.y) = {};
-        continue;
-      }
-
-      do {
-        c.x = cno::random(map_width);
-      } while (!m->at(c.x, c.y)->can_walk());
-
-      auto &mm = at(c.y) = {t, c};
-      enemy{&mm}.reset_level(m->level());
-    }
   }
 
 public:
@@ -81,8 +60,6 @@ public:
       return quack::colour{r, 0, b, a};
     });
   }
-
-  void populate_level(const map *m) { create_enemies(m); }
 
   [[nodiscard]] constexpr mob *mob_at(map_coord c) {
     for (auto &m : data()) {

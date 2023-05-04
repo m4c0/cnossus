@@ -1,4 +1,5 @@
 export module cno:game;
+import :enemy;
 import :inventory;
 import :itemlist;
 import :map;
@@ -17,6 +18,25 @@ class game {
   inv::table m_inv{};
   player m_player{&m_mobs.at(0)};
   unsigned m_light{};
+
+  void create_enemies() {
+    const auto &mob_roll = mob_roll_per_level.mobs[m_map.level()];
+    map_coord c{};
+    for (c.y = 1; c.y < map_height - 1; c.y++) {
+      const mob_type *t = mob_roll[cno::random(max_mobs_per_level)];
+      if (t == nullptr) {
+        m_mobs.at(c.y) = {};
+        continue;
+      }
+
+      do {
+        c.x = cno::random(map_width);
+      } while (!m_map.at(c.x, c.y)->can_walk());
+
+      auto &mm = m_mobs.at(c.y) = {t, c};
+      enemy{&mm}.reset_level(m_map.level());
+    }
+  }
 
   [[nodiscard]] bool open_item_at(map_coord c) {
     auto it = m_items.fetch(c);
@@ -191,7 +211,7 @@ class game {
     m_player.level_reset(l);
     m_map.set_level(l);
     m_items.create_for_map(&m_map);
-    m_mobs.populate_level(&m_map);
+    create_enemies();
     repaint(m_player.coord());
   }
 
