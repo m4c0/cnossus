@@ -33,7 +33,6 @@ public:
   constexpr mob(const mob_type *t, map_coord c)
       : m_type{t}, m_coord{c}, m_life{m_type->life()}, m_actions{max_actions},
         m_max_actions{max_actions} {}
-  constexpr virtual ~mob() = default;
 
   [[nodiscard]] constexpr const auto &coord() const noexcept { return m_coord; }
 
@@ -73,11 +72,6 @@ public:
   }
 
   void increase_max_actions() { m_max_actions++; }
-
-  [[nodiscard]] virtual map_coord next_move_with_light(map_coord player_pos,
-                                                       unsigned l) noexcept {
-    return coord();
-  }
 
   void poison_by(unsigned p) noexcept { m_poison += p; }
 

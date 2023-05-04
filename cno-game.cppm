@@ -65,7 +65,7 @@ class game {
       if (!m->update_actions())
         return;
 
-      auto tgt = m->next_move_with_light(pc, m_light);
+      auto tgt = enemy{&*m}.next_move_with_light(pc, m_light);
       if (tgt != m->coord())
         try_move(&*m, tgt);
     });

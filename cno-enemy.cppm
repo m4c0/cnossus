@@ -5,7 +5,9 @@ import :mobtype;
 import :random;
 
 namespace cno {
-class enemy : public mob {
+class enemy {
+  mob *m_mob;
+
   map_coord hunt_hero(map_coord p) { return move_from_hero(p, 1); }
   map_coord run_from_hero(map_coord p) { return move_from_hero(p, -1); }
   map_coord wander() {
@@ -22,7 +24,7 @@ class enemy : public mob {
   }
 
   map_coord move_from_hero(map_coord p, int s) {
-    const auto &[mx, my] = coord();
+    const auto &[mx, my] = m_mob->coord();
     const auto &[px, py] = p;
 
     if (mx == px) {
@@ -35,16 +37,18 @@ class enemy : public mob {
   }
 
   map_coord move(int dx, int dy) {
-    const auto &[x, y] = coord();
+    const auto &[x, y] = m_mob->coord();
     return {x + dx, y + dy};
   }
 
-protected:
+public:
+  explicit enemy(mob *m) : m_mob{m} {}
+
   [[nodiscard]] map_coord next_move_with_light(map_coord player_pos,
-                                               unsigned l) noexcept override {
-    switch (hostility()) {
+                                               unsigned l) noexcept {
+    switch (m_mob->hostility()) {
     case h_none:
-      return coord();
+      return m_mob->coord();
     case h_scaried:
       if (l < 1)
         return wander();
@@ -58,10 +62,9 @@ protected:
     }
   }
 
-public:
-  enemy(const mob_type *t, map_coord c, unsigned level) : mob{t, c} {
+  void reset_level(unsigned level) {
     int b = static_cast<int>(level) / 2;
-    bonus() = {.attack = b, .defense = b, .damage = 0};
+    m_mob->bonus() = {.attack = b, .defense = b, .damage = 0};
   }
 };
 } // namespace cno
