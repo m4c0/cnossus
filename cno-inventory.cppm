@@ -38,11 +38,7 @@ public:
   [[nodiscard]] bool get_item(bool has_bag) noexcept {
     using namespace jute::literals;
 
-    if (m_item->max_carry() == 0) {
-      g::update_status("That's hardly possible");
-      return false;
-    }
-    if (m_item->max_carry() == -1) {
+    if (m_item->carry() == carry_many) {
       if (m_count == 0 || has_bag) {
         m_count++;
         g::update_status("You pick up a " + m_item->name());
@@ -52,7 +48,8 @@ public:
         return false;
       }
     }
-    if (m_count < m_item->max_carry()) {
+    auto max = m_item->carry() == carry_two ? 2 : 1;
+    if (m_count < max) {
       m_count++;
       g::update_status("You pick up a " + m_item->name());
       return true;

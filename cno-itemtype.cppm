@@ -6,6 +6,11 @@ import jute;
 namespace cno {
 static constexpr const auto max_item_drops = 5;
 
+enum carry_type {
+  carry_one,
+  carry_two,
+  carry_many,
+};
 struct inventory_pos {
   unsigned sec;
   unsigned row;
@@ -19,7 +24,7 @@ class item_type {
   char m_char;
   int m_attack{};
   int m_defense{};
-  int m_max_carry{-1}; // TODO: consider a aux enum for this logic
+  carry_type m_carry{carry_many};
   int m_life_gain{};
   int m_light_provided{};
   inventory_pos m_inv_coords{~0U, ~0U};
@@ -29,15 +34,13 @@ class item_type {
 
 public:
   explicit constexpr item_type(jute::view n, char c) : m_name{n}, m_char{c} {}
-  constexpr item_type(jute::view n, char c, int m)
-      : m_name{n}, m_char{c}, m_max_carry{m} {}
+  constexpr item_type(jute::view n, char c, carry_type m)
+      : m_name{n}, m_char{c}, m_carry{m} {}
   constexpr item_type(jute::view n, char c, const item_loot_table *d)
       : m_name{n}, m_char{c}, m_drops{d} {}
 
   [[nodiscard]] constexpr auto character() const noexcept { return m_char; }
-  [[nodiscard]] constexpr auto max_carry() const noexcept {
-    return m_max_carry;
-  }
+  [[nodiscard]] constexpr auto carry() const noexcept { return m_carry; }
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
   [[nodiscard]] constexpr auto attack() const noexcept { return m_attack; }
   [[nodiscard]] constexpr auto defense() const noexcept { return m_defense; }
@@ -79,19 +82,19 @@ public:
   [[nodiscard]] constexpr item_type attack(int a) const noexcept {
     auto r = *this;
     r.m_attack = a;
-    r.m_max_carry = 1;
+    r.m_carry = carry_one;
     return r;
   }
   [[nodiscard]] constexpr item_type defense(int a) const noexcept {
     auto r = *this;
     r.m_defense = a;
-    r.m_max_carry = 1;
+    r.m_carry = carry_one;
     return r;
   }
   [[nodiscard]] constexpr item_type defense_pair(int a) const noexcept {
     auto r = *this;
     r.m_defense = a;
-    r.m_max_carry = 2;
+    r.m_carry = carry_two;
     return r;
   }
   [[nodiscard]] constexpr item_type light_provided(int a) const noexcept {
@@ -120,7 +123,7 @@ constexpr const auto leather =
     item_type{"leather vest", 'b'}.defense(2).inventory_at(1, 4).nullify();
 constexpr const auto sword = item_type{"short sword", 'c'}.attack(12).nullify();
 
-constexpr const auto bag = item_type{"bag", 'd', 1};
+constexpr const auto bag = item_type{"bag", 'd', carry_one};
 
 constexpr const auto knife = item_type{"rust knife", 'e'}.attack(2);
 constexpr const auto sickle = item_type{"sickle", 'f'}.attack(3);
