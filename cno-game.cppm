@@ -42,11 +42,11 @@ class game {
     if (it == nullptr)
       return false;
 
-    auto drops = it->drops();
+    auto drops = it->drops;
     auto nit = (drops == nullptr) ? it : drops->roll(m_map.level());
-    if (nit == nullptr || nit->name() == "") {
+    if (nit == nullptr || nit->name == "") {
       using namespace jute::literals;
-      g::update_status("The "_s + it->name() + " crumbled to dust");
+      g::update_status("The "_s + it->name + " crumbled to dust");
       return false;
     }
 
@@ -155,11 +155,11 @@ class game {
     if (!m_inv.consume(t))
       return;
 
-    if (t->life_gain() > 0) {
-      m_player.recover_health(t->life_gain());
+    if (t->life_gain > 0) {
+      m_player.recover_health(t->life_gain);
     }
-    if (t->light_provided() > 0) {
-      m_light += t->light_provided();
+    if (t->light_provided > 0) {
+      m_light += t->light_provided;
     }
     tick();
   }

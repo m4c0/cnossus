@@ -15,10 +15,10 @@ public:
   [[nodiscard]] constexpr auto count() const noexcept { return m_count; }
 
   [[nodiscard]] constexpr auto attack() const noexcept {
-    return m_item->attack();
+    return m_item->attack;
   }
   [[nodiscard]] constexpr auto defense() const noexcept {
-    return m_item->defense();
+    return m_item->defense;
   }
 
   [[nodiscard]] constexpr bool contains(const item_type *i) const noexcept {
@@ -28,7 +28,7 @@ public:
   [[nodiscard]] bool consume() noexcept {
     if (m_count == 0)
       return false;
-    if (m_item->life_gain() == 0 && m_item->light_provided() == 0)
+    if (m_item->life_gain == 0 && m_item->light_provided == 0)
       return false;
 
     m_count--;
@@ -38,20 +38,20 @@ public:
   [[nodiscard]] bool get_item(bool has_bag) noexcept {
     using namespace jute::literals;
 
-    if (m_item->carry() == carry_many) {
+    if (m_item->carry == carry_many) {
       if (m_count == 0 || has_bag) {
         m_count++;
-        g::update_status("You pick up a " + m_item->name());
+        g::update_status("You pick up a " + m_item->name);
         return true;
       } else {
         g::update_status("You need a bag to carry more");
         return false;
       }
     }
-    auto max = m_item->carry() == carry_two ? 2 : 1;
+    auto max = m_item->carry == carry_two ? 2 : 1;
     if (m_count < max) {
       m_count++;
-      g::update_status("You pick up a " + m_item->name());
+      g::update_status("You pick up a " + m_item->name);
       return true;
     }
     g::update_status("Already got enough of these");

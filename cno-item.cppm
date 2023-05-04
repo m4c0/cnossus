@@ -18,7 +18,7 @@ public:
   }
 
   [[nodiscard]] constexpr auto character() const noexcept {
-    return m_type->character();
+    return m_type->character;
   }
 
   [[nodiscard]] constexpr auto fetch() noexcept {
