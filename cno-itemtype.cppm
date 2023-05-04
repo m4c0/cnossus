@@ -1,5 +1,4 @@
 export module cno:itemtype;
-import :globals;
 import :random;
 import jute;
 
@@ -41,6 +40,7 @@ public:
 
   [[nodiscard]] constexpr auto character() const noexcept { return m_char; }
   [[nodiscard]] constexpr auto carry() const noexcept { return m_carry; }
+  [[nodiscard]] constexpr auto drops() const noexcept { return m_drops; }
   [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
   [[nodiscard]] constexpr auto attack() const noexcept { return m_attack; }
   [[nodiscard]] constexpr auto defense() const noexcept { return m_defense; }
@@ -57,22 +57,6 @@ public:
 
   [[nodiscard]] constexpr bool operator==(const item_type &o) const noexcept {
     return m_char == o.m_char;
-  }
-
-  [[nodiscard]] const item_type *drop_for_level(unsigned l) const noexcept {
-    if (m_drops == nullptr) {
-      return this;
-    }
-
-    auto *drop = m_drops->roll(l);
-    if (drop == nullptr || drop->name() == "") {
-      using namespace jute::literals;
-      g::update_status("The "_s + m_name + " crumbled to dust");
-      return nullptr;
-    }
-
-    g::update_status("Something fells on the ground");
-    return drop;
   }
 
   [[nodiscard]] constexpr item_type nullify() const noexcept {

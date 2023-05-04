@@ -42,8 +42,16 @@ class game {
     if (it == nullptr)
       return false;
 
-    auto nit = it->drop_for_level(m_map.level());
+    auto drops = it->drops();
+    auto nit = (drops == nullptr) ? it : drops->roll(m_map.level());
+    if (nit == nullptr || nit->name() == "") {
+      using namespace jute::literals;
+      g::update_status("The "_s + it->name() + " crumbled to dust");
+      return false;
+    }
+
     if (nit != it) {
+      g::update_status("Something fells on the ground");
       m_items.add_item({nit, c});
       return false;
     }

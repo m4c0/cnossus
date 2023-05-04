@@ -26,10 +26,5 @@ public:
     m_type = {};
     return t;
   }
-
-  [[nodiscard]] item open_at_level(unsigned l) const noexcept {
-    auto nt = m_type->drop_for_level(l);
-    return item{nt, m_coord};
-  }
 };
 } // namespace cno
