@@ -7,9 +7,6 @@ import :random;
 
 namespace cno {
 class player {
-  int m_armor{};
-  int m_attack_bonus{};
-  int m_damage_bonus{};
   unsigned m_extra_life{};
   mob *m_mob;
 
@@ -18,7 +15,7 @@ protected:
     switch (cno::random(3)) {
     case 0:
       g::update_status("You feel stronger");
-      m_damage_bonus++;
+      m_mob->bonus.damage++;
       break;
     case 1:
       g::update_status("You feel sturdier");
@@ -52,11 +49,11 @@ public:
   }
 
   void update_inventory(const inv::table &inv) {
-    m_armor = 0;
+    m_mob->bonus.defense = 0;
     inv.for_each([this](auto &i) {
-      m_armor += i.defense();
-      if (i.attack() > m_attack_bonus)
-        m_attack_bonus = i.attack();
+      m_mob->bonus.defense += i.defense();
+      if (i.attack() > m_mob->bonus.attack)
+        m_mob->bonus.attack = i.attack();
     });
   }
 
