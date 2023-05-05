@@ -22,23 +22,11 @@ class mob {
   float m_damage_timer{};
   bonus m_bonus{};
 
-  void process_poison() {
-    if (m_poison == 0 || m_life == 0)
-      return;
-
-    m_poison--;
-    m_life--;
-  }
-
 public:
   constexpr mob() noexcept = default;
   constexpr mob(const mob_type *t, map_coord c)
       : m_type{t}, m_coord{c}, m_life{m_type->life}, m_actions{max_actions},
         m_max_actions{max_actions} {}
-
-  [[nodiscard]] constexpr operator bool() const noexcept {
-    return m_type != nullptr;
-  }
 
   [[nodiscard]] constexpr const auto &coord() const noexcept { return m_coord; }
 
@@ -60,7 +48,10 @@ public:
   [[nodiscard]] bool update_actions() {
     if (m_actions <= 0) {
       m_actions += m_max_actions;
-      process_poison();
+      if (m_poison > 0 && m_life > 0) {
+        m_poison--;
+        m_life--;
+      }
       return false;
     }
     m_actions -= m_type->dice;

@@ -18,7 +18,7 @@ public:
     const auto &[px, py] = pc;
 
     fill_pos([](auto &i) {
-      if (!i)
+      if (i.type() == nullptr)
         return quack::rect{};
 
       const auto &c = i.coord();
@@ -26,7 +26,7 @@ public:
                          1};
     });
     fill_colour([px, py, d](auto &i) {
-      if (!i)
+      if (i.type() == nullptr)
         return quack::colour{};
 
       const auto &[x, y] = i.coord();
@@ -43,7 +43,7 @@ public:
 
   [[nodiscard]] constexpr mob *mob_at(map_coord c) {
     for (auto &m : data()) {
-      if (m && m.coord() == c)
+      if (m.type() != nullptr && m.coord() == c)
         return &m;
     }
     return nullptr;
@@ -51,7 +51,7 @@ public:
 
   void for_each(auto &&fn) {
     for (auto &m : data()) {
-      if (m)
+      if (m.type() != nullptr)
         fn(m);
     }
   }
