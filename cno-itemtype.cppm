@@ -41,14 +41,14 @@ constexpr const item_type cloth{
     .character = 'a',
     .defense = 1,
     .carry = carry_one,
-    .inv_coords = {1, 3},
+    .inv_coords = {1, 5},
 };
 constexpr const item_type leather{
     .name = "leather vest",
     .character = 'b',
     .defense = 2,
     .carry = carry_one,
-    .inv_coords = {1, 4},
+    .inv_coords = {1, 6},
 };
 constexpr const item_type sword{
     .name = "short sword",
