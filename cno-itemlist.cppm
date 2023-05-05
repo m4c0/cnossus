@@ -45,24 +45,7 @@ class item_list : quack::instance_layout<item, max_items_per_level> {
 public:
   explicit item_list(quack::renderer *r) : instance_layout{r} {}
 
-  void create_for_map(const cno::map *map) noexcept {
-    const auto &cur_lvl_items = item_roll_per_level.items[map->level() - 1];
-    reset_grid();
-
-    map_coord c{};
-    for (c.y = 1; c.y < map_height - 2; c.y++) {
-      const auto *type = cur_lvl_items[cno::random(max_item_roll)];
-      if (type == nullptr) {
-        continue;
-      }
-
-      do {
-        c.x = cno::random(map_width);
-      } while (!map->at(c.x, c.y)->can_walk());
-
-      at(c.y) = {type, c};
-    }
-  }
+  using instance_layout::reset_grid;
 
   void add_item(item new_i) {
     for (auto &i : data()) {

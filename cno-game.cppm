@@ -168,6 +168,25 @@ class game {
     return m_player.is_dead() || m_map.level() == 20;
   }
 
+  void create_items() {
+    const auto &cur_lvl_items = item_roll_per_level.items[m_map.level() - 1];
+    m_items.reset_grid();
+
+    map_coord c{};
+    for (c.y = 1; c.y < map_height - 2; c.y++) {
+      const auto *type = cur_lvl_items[cno::random(max_item_roll)];
+      if (type == nullptr) {
+        continue;
+      }
+
+      do {
+        c.x = cno::random(map_width);
+      } while (!m_map.at(c.x, c.y)->can_walk());
+
+      m_items.add_item({type, c});
+    }
+  }
+
   void move_hero(int dx, int dy) {
     if (game_is_over())
       return;
@@ -217,7 +236,7 @@ class game {
   void set_level(unsigned l) {
     m_player.level_reset(l);
     m_map.set_level(l);
-    m_items.create_for_map(&m_map);
+    create_items();
     create_enemies();
     repaint(m_player.coord());
   }
