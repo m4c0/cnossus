@@ -46,7 +46,7 @@ public:
 
   [[nodiscard]] map_coord next_move_with_light(map_coord player_pos,
                                                unsigned l) noexcept {
-    switch (m_mob->hostility()) {
+    switch (m_mob->type()->hostility) {
     case h_none:
       return m_mob->coord();
     case h_scaried:

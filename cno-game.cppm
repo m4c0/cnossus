@@ -68,7 +68,7 @@ class game {
   void try_move(mob *m, map_coord tgt) {
     const auto *blk = m_map.at(tgt.x, tgt.y);
     if (!blk->can_walk()) {
-      if (m->is_player()) {
+      if (is_player(m->type())) {
         using namespace jute::literals;
         g::update_status("A "_s + blk->name() + " blocks your way");
       }
@@ -76,7 +76,7 @@ class game {
     }
 
     auto *mm = m_mobs.mob_at(tgt);
-    if (mm != nullptr && !m->same_species_as(*mm)) {
+    if (mm != nullptr && (m->type() != mm->type())) {
       attack(*m, *mm);
       return;
     }
@@ -98,11 +98,11 @@ class game {
   }
 
   void attack(const mob &src, auto &tgt) {
-    const auto srcn = src.name();
-    const auto tgtn = tgt.name();
+    const auto srcn = src.type()->name;
+    const auto tgtn = tgt.type()->name;
 
-    int atk_roll = src.dice_roll(2) + src.bonus().attack;
-    int def_roll = src.dice_roll(2) + tgt.bonus().defense;
+    int atk_roll = roll_dice(src.type()->dice, 2) + src.bonus().attack;
+    int def_roll = roll_dice(src.type()->dice, 2) + tgt.bonus().defense;
     int margin = atk_roll - def_roll;
 
     if (margin > 0) {
@@ -112,39 +112,39 @@ class game {
 
       tgt.damage_by(margin);
       if (tgt.life() <= 0) {
-        auto drop = tgt.random_drop();
+        auto drop = tgt.type()->drops.roll();
         if (drop != nullptr)
-          m_items.add_item({tgt.random_drop(), tgt.coord()});
-        tgt = {};
-        if (src.is_player()) {
+          m_items.add_item({drop, tgt.coord()});
+        if (is_player(src.type())) {
           g::update_status("You killed a " + tgtn);
-        } else {
+        } else if (is_player(tgt.type())) {
           g::update_status("A " + srcn + " killed you");
         }
-      } else if (src.poison() > 0) {
-        tgt.poison_by(1 + cno::random(src.poison()));
-        if (tgt.is_player()) {
+        tgt = {};
+      } else if (src.type()->poison > 0) {
+        tgt.poison_by(1 + cno::random(src.type()->poison));
+        if (is_player(tgt.type())) {
           g::update_status("A " + srcn + " poisons you");
         }
-      } else if (src.is_player()) {
+      } else if (is_player(src.type())) {
         g::update_status("You hit a " + tgtn);
-      } else if (tgt.is_player()) {
+      } else if (is_player(tgt.type())) {
         g::update_status("A " + srcn + " hits you");
       }
     } else if (margin == 0) {
-      if (src.poison() > 0) {
-        tgt.poison_by(1 + cno::random(src.poison()));
-        if (src.is_player()) {
+      if (src.type()->poison > 0) {
+        tgt.poison_by(1 + cno::random(src.type()->poison));
+        if (is_player(src.type())) {
           g::update_status("A " + srcn + " poisons you");
         }
-      } else if (src.is_player()) {
+      } else if (is_player(src.type())) {
         g::update_status("You barely miss " + tgtn);
-      } else if (tgt.is_player()) {
+      } else if (is_player(tgt.type())) {
         g::update_status("A " + srcn + " barely misses you");
       }
-    } else if (src.is_player()) {
+    } else if (is_player(src.type())) {
       g::update_status("You miss a " + tgtn);
-    } else if (tgt.is_player()) {
+    } else if (is_player(tgt.type())) {
       g::update_status("A " + srcn + " misses you");
     }
   }

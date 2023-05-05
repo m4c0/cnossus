@@ -49,33 +49,9 @@ public:
     return m_damage_timer > 0;
   }
   [[nodiscard]] constexpr auto life() const noexcept { return m_life; }
-
-  [[nodiscard]] constexpr auto character() const noexcept {
-    return m_type->character;
-  }
-  [[nodiscard]] constexpr auto dice_roll(unsigned i) const noexcept {
-    return roll_dice(m_type->dice, i);
-  }
-  [[nodiscard]] constexpr auto hostility() const noexcept {
-    return m_type->hostility;
-  }
-  [[nodiscard]] constexpr auto name() const noexcept { return m_type->name; }
-  [[nodiscard]] constexpr auto poison() const noexcept {
-    return m_type->poison;
-  }
-  [[nodiscard]] constexpr auto random_drop() const noexcept {
-    return m_type->drops.roll();
-  }
-
-  [[nodiscard]] constexpr bool same_species_as(const mob &o) const noexcept {
-    return *o.m_type == *m_type;
-  }
+  [[nodiscard]] constexpr auto type() const noexcept { return m_type; }
 
   void set_coord(map_coord c) noexcept { m_coord = c; }
-
-  [[nodiscard]] constexpr auto is_player() const noexcept {
-    return cno::is_player(m_type);
-  }
 
   void increase_max_actions() { m_max_actions++; }
 
