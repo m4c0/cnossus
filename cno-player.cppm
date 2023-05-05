@@ -23,7 +23,7 @@ protected:
       break;
     default:
       g::update_status("You feel faster");
-      m_mob->max_actions++;
+      m_mob->actions.add_max(1);
       break;
     }
     recover_health(1);

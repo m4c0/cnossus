@@ -97,11 +97,11 @@ class game {
       }
 
       if (m.poison > 0) {
-        m.poison--;
-        m.life--;
+        --m.poison;
+        --m.life;
       }
 
-      m.actions += m.max_actions;
+      m.actions.to_max();
 
       auto tgt = enemy{&m}.next_move_with_light(pc, m_light);
       if (tgt != m.coord)
