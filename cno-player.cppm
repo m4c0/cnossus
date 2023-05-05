@@ -2,8 +2,7 @@ export module cno:player;
 import :globals;
 import :inventory;
 import :itemtype;
-import :mob;
-import :mobtype;
+import :moblist;
 import :random;
 
 namespace cno {
@@ -27,7 +26,7 @@ protected:
       break;
     default:
       g::update_status("You feel faster");
-      m_mob->increase_max_actions();
+      m_mob->max_actions++;
       break;
     }
     recover_health(1);
@@ -39,17 +38,17 @@ public:
   [[nodiscard]] constexpr auto max_life() const noexcept {
     return minotaur.life + m_extra_life;
   }
-  [[nodiscard]] constexpr auto coord() const noexcept { return m_mob->coord(); }
+  [[nodiscard]] constexpr auto coord() const noexcept { return m_mob->coord; }
   [[nodiscard]] constexpr auto mob() const noexcept { return m_mob; }
 
   [[nodiscard]] constexpr auto is_dead() const noexcept {
-    return m_mob->life() == 0;
+    return m_mob->life == 0;
   }
 
   void recover_health(unsigned h) {
-    auto r = max_life() - m_mob->life();
+    auto r = max_life() - m_mob->life;
     auto d = r > h ? h : r;
-    m_mob->damage_by(-d);
+    m_mob->life += d;
   }
 
   void update_inventory(const inv::table &inv) {
@@ -63,7 +62,7 @@ public:
 
   void level_reset(unsigned lvl) {
     auto px = (lvl % 2 == 1) ? 1U : map_width - 2U;
-    m_mob->set_coord({px, 1});
+    m_mob->coord = {px, 1};
 
     if (lvl > 1)
       random_buff();

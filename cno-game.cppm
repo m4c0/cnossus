@@ -68,7 +68,7 @@ class game {
   void try_move(mob *m, map_coord tgt) {
     const auto *blk = m_map.at(tgt.x, tgt.y);
     if (!blk->can_walk()) {
-      if (is_player(m->type())) {
+      if (is_player(m->type)) {
         using namespace jute::literals;
         g::update_status("A "_s + blk->name() + " blocks your way");
       }
@@ -76,75 +76,88 @@ class game {
     }
 
     auto *mm = m_mobs.mob_at(tgt);
-    if (mm != nullptr && (m->type() != mm->type())) {
+    if (mm != nullptr && (m->type != mm->type)) {
       attack(*m, *mm);
       return;
     }
 
-    m->set_coord(tgt);
+    m->coord = tgt;
   }
 
   void process_actions_with_light() {
     auto pc = m_player.coord();
 
     m_mobs.for_each([this, pc](auto &m) {
-      if (!m.update_actions())
+      if (m.life == 0)
         return;
 
+      if (m.actions > 0) {
+        m.actions -= m.type->dice;
+        return;
+      }
+
+      if (m.poison > 0) {
+        m.poison--;
+        m.life--;
+      }
+
+      m.actions += m.max_actions;
+
       auto tgt = enemy{&m}.next_move_with_light(pc, m_light);
-      if (tgt != m.coord())
+      if (tgt != m.coord)
         try_move(&m, tgt);
     });
   }
 
-  void attack(const mob &src, auto &tgt) {
-    const auto srcn = src.type()->name;
-    const auto tgtn = tgt.type()->name;
+  void attack(const mob &src, mob &tgt) {
+    const auto srcn = src.type->name;
+    const auto tgtn = tgt.type->name;
 
-    int atk_roll = roll_dice(src.type()->dice, 2) + src.bonus().attack;
-    int def_roll = roll_dice(src.type()->dice, 2) + tgt.bonus().defense;
+    int atk_roll = roll_dice(src.type->dice, 2) + src.bonus.attack;
+    int def_roll = roll_dice(tgt.type->dice, 2) + tgt.bonus.defense;
     int margin = atk_roll - def_roll;
 
     if (margin > 0) {
-      margin += src.bonus().attack - tgt.bonus().defense;
-      if (margin < 0)
+      margin += src.bonus.attack - tgt.bonus.defense;
+      if (margin <= 0)
         return;
 
-      tgt.damage_by(margin);
-      if (tgt.life() <= 0) {
-        auto drop = tgt.type()->drops.roll();
+      tgt.damage_timer = 0.5;
+      tgt.life -= (tgt.life <= margin) ? tgt.life : margin;
+      if (tgt.life == 0) {
+        auto drop = tgt.type->drops.roll();
         if (drop != nullptr)
-          m_items.add_item({drop, tgt.coord()});
-        if (is_player(src.type())) {
+          m_items.add_item({drop, tgt.coord});
+        if (is_player(src.type)) {
           g::update_status("You killed a " + tgtn);
-        } else if (is_player(tgt.type())) {
+        } else if (is_player(tgt.type)) {
           g::update_status("A " + srcn + " killed you");
         }
         tgt = {};
-      } else if (src.type()->poison > 0) {
-        tgt.poison_by(1 + cno::random(src.type()->poison));
-        if (is_player(tgt.type())) {
+      } else if (src.type->poison > 0) {
+        tgt.poison += 1 + cno::random(src.type->poison);
+        if (is_player(tgt.type)) {
           g::update_status("A " + srcn + " poisons you");
         }
-      } else if (is_player(src.type())) {
+      } else if (is_player(src.type)) {
         g::update_status("You hit a " + tgtn);
-      } else if (is_player(tgt.type())) {
+      } else if (is_player(tgt.type)) {
         g::update_status("A " + srcn + " hits you");
       }
     } else if (margin == 0) {
-      if (src.type()->poison > 0) {
-        tgt.poison_by(1 + cno::random(src.type()->poison));
-        if (is_player(src.type())) {
+      if (src.type->poison > 0) {
+        tgt.poison += 1 + cno::random(src.type->poison);
+        if (is_player(src.type)) {
           g::update_status("A " + srcn + " poisons you");
         }
-      } else if (is_player(src.type())) {
+      } else if (is_player(src.type)) {
         g::update_status("You barely miss " + tgtn);
-      } else if (is_player(tgt.type())) {
+      } else if (is_player(tgt.type)) {
         g::update_status("A " + srcn + " barely misses you");
       }
-    } else if (is_player(src.type())) {
+    } else if (is_player(src.type)) {
       g::update_status("You miss a " + tgtn);
-    } else if (is_player(tgt.type())) {
+    } else if (is_player(tgt.type)) {
       g::update_status("A " + srcn + " misses you");
     }
   }
@@ -259,7 +272,7 @@ class game {
   }
 
   void update_animations(float dt) {
-    m_mobs.for_each([dt](auto &m) { m.update_animations(dt); });
+    m_mobs.for_each([dt](auto &m) { m.damage_timer -= dt; });
   }
 
 public:

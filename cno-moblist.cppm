@@ -1,8 +1,26 @@
 export module cno:moblist;
-import :mob;
+import :mobtype;
 import quack;
 
 namespace cno {
+struct bonus {
+  int attack;
+  int defense;
+  int damage;
+};
+struct mob {
+  static constexpr const auto initial_max_actions = 20;
+
+  const mob_type *type{};
+  map_coord coord{};
+  unsigned life{type->life};
+  int actions{initial_max_actions};
+  unsigned max_actions{initial_max_actions};
+  unsigned poison{};
+  float damage_timer{};
+  bonus bonus{};
+};
+
 class mob_list : quack::instance_layout<mob, max_mobs_per_level> {
   void resize(unsigned w, unsigned h) override {
     batch()->resize(map_width, map_height, w, h);
@@ -18,22 +36,22 @@ public:
     const auto &[px, py] = pc;
 
     fill_pos([](auto &i) {
-      if (i.type() == nullptr)
+      if (i.type == nullptr)
         return quack::rect{};
 
-      const auto &c = i.coord();
+      const auto &c = i.coord;
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
     fill_colour([px, py, d](auto &i) {
-      if (i.type() == nullptr)
+      if (i.type == nullptr)
         return quack::colour{};
 
-      const auto &[x, y] = i.coord();
+      const auto &[x, y] = i.coord;
       auto dx = px - x;
       auto dy = py - y;
 
-      auto c = i.type()->character;
+      auto c = i.type->character;
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto b = static_cast<float>(c / 16) / 16.0f;
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
@@ -43,7 +61,7 @@ public:
 
   [[nodiscard]] constexpr mob *mob_at(map_coord c) {
     for (auto &m : data()) {
-      if (m.type() != nullptr && m.coord() == c)
+      if (m.type != nullptr && m.coord == c)
         return &m;
     }
     return nullptr;
@@ -51,7 +69,7 @@ public:
 
   void for_each(auto &&fn) {
     for (auto &m : data()) {
-      if (m.type() != nullptr)
+      if (m.type != nullptr)
         fn(m);
     }
   }

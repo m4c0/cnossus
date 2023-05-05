@@ -1,6 +1,6 @@
 export module cno:enemy;
 import :objects;
-import :mob;
+import :moblist;
 import :mobtype;
 import :random;
 
@@ -24,7 +24,7 @@ class enemy {
   }
 
   map_coord move_from_hero(map_coord p, int s) {
-    const auto &[mx, my] = m_mob->coord();
+    const auto &[mx, my] = m_mob->coord;
     const auto &[px, py] = p;
 
     if (mx == px) {
@@ -37,7 +37,7 @@ class enemy {
   }
 
   map_coord move(int dx, int dy) {
-    const auto &[x, y] = m_mob->coord();
+    const auto &[x, y] = m_mob->coord;
     return {x + dx, y + dy};
   }
 
@@ -46,9 +46,9 @@ public:
 
   [[nodiscard]] map_coord next_move_with_light(map_coord player_pos,
                                                unsigned l) noexcept {
-    switch (m_mob->type()->hostility) {
+    switch (m_mob->type->hostility) {
     case h_none:
-      return m_mob->coord();
+      return m_mob->coord;
     case h_scaried:
       if (l < 1)
         return wander();
@@ -64,7 +64,7 @@ public:
 
   void reset_level(unsigned level) {
     int b = static_cast<int>(level) / 2;
-    m_mob->bonus() = {.attack = b, .defense = b, .damage = 0};
+    m_mob->bonus = {.attack = b, .defense = b, .damage = 0};
   }
 };
 } // namespace cno
