@@ -169,12 +169,11 @@ class game {
   }
 
   void create_items() {
-    const auto &cur_lvl_items = item_roll_per_level.items[m_map.level() - 1];
     m_items.reset_grid();
 
     map_coord c{};
     for (c.y = 1; c.y < map_height - 2; c.y++) {
-      const auto *type = cur_lvl_items[cno::random(max_item_roll)];
+      const auto *type = item_roll_per_level.roll(m_map.level());
       if (type == nullptr) {
         continue;
       }

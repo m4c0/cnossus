@@ -1,9 +1,6 @@
 export module cno:itemlist;
-import :blocktype;
-import :globals;
 import :item;
 import :itemtype;
-import :map;
 import :random;
 import casein;
 import quack;
@@ -12,30 +9,29 @@ namespace cno {
 static constexpr const auto max_items_per_level = map_height * 2;
 static constexpr const auto max_item_roll = 5;
 
-static constexpr const struct {
-  const item_type *items[max_level + 1][max_item_roll];
-} item_roll_per_level = {{
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &coffer, &torch},
-    {&jar, &doubleaxe, &coffer, &torch},
-    {&jar, &doubleaxe, &coffer, &torch},
-    {&jar, &doubleaxe, &coffer, &torch},
-    {&jar, &spear, &coffer, &shield, &torch},
-    {&jar, &spear, &coffer, &shield, &torch},
-    {&jar, &spear, &coffer, &shield, &torch},
-}};
+using item_roll_t = rnd_roll_per_level<const item_type *, max_item_roll>;
+static constexpr const item_roll_t item_roll_per_level = {
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &doubleaxe, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &doubleaxe, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &doubleaxe, &coffer, &torch},
+    item_roll_t::roll_t{&jar, &spear, &coffer, &shield, &torch},
+    item_roll_t::roll_t{&jar, &spear, &coffer, &shield, &torch},
+    item_roll_t::roll_t{&jar, &spear, &coffer, &shield, &torch},
+};
 
 class item_list : quack::instance_layout<item, max_items_per_level> {
   void resize(unsigned w, unsigned h) override {
