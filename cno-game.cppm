@@ -1,4 +1,5 @@
 export module cno:game;
+import :atlas;
 import :enemy;
 import :inventory;
 import :itemlist;
@@ -281,6 +282,10 @@ public:
     m_map.process_event(e);
     m_items.process_event(e);
     m_mobs.process_event(e);
+
+    if (e.type() == casein::CREATE_WINDOW) {
+      atlas::load(m_r);
+    }
   }
 
   void reset() {
