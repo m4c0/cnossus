@@ -15,28 +15,37 @@ struct char_pixels {
 struct all_chars {
   char_pixels chars[256];
 };
+struct image {
+  pixel pixels[width * height];
+};
 
-class image {
-  static constexpr const pixel black{0, 0, 0, 255};
-  static constexpr const pixel white{255, 255, 255, 255};
+static constexpr const pixel black{0, 0, 0, 255};
+static constexpr const pixel white{255, 255, 255, 255};
 
-  static constexpr all_chars glyphs = [] {
-    all_chars res{};
+static constexpr all_chars glyphs = [] {
+  all_chars res{};
 
-    res.chars[dot.character()] = {{
-        {black, white, black, white},
-        {white, black, white, black},
-        {black, white, black, white},
-        {white, black, white, black},
-    }};
-    return res;
-  }();
+  res.chars[comma.character()] = {{
+      {black, white, black, white},
+      {white, black, white, black},
+      {black, white, black, white},
+      {white, black, white, black},
+  }};
+  res.chars[dot.character()] = {{
+      {black, black, black, black},
+      {black, black, black, black},
+      {black, black, black, black},
+      {black, black, black, black},
+  }};
+  return res;
+}();
+static constexpr image img = [] {
+  image i{};
 
-  constexpr void load(const auto &t, pixel *a_data) {
-    auto c = t.character();
+  for (auto c = 0; c < 256; c++) {
     auto cx = glyph_width * (c % 16);
     auto cy = glyph_height * (c / 16);
-    auto da_base = &a_data[cy * width + cx];
+    auto da_base = &i.pixels[cy * width + cx];
     auto &dc_base = glyphs.chars[c];
     for (auto y = 0; y < glyph_height; y++) {
       auto da_row = &da_base[y * width];
@@ -47,9 +56,14 @@ class image {
     }
   }
 
-public:
-  void operator()(pixel *data) { load(dot, data); }
-};
+  return i;
+}();
 
-void load(quack::renderer &r) { r.load_atlas(width, height, image{}); }
+void load(quack::renderer &r) {
+  r.load_atlas(width, height, [](auto *p) {
+    for (auto i = 0; i < width * height; i++) {
+      p[i] = img.pixels[i];
+    }
+  });
+}
 } // namespace cno::atlas
