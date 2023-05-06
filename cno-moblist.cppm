@@ -37,7 +37,7 @@ struct mob {
 
   const mob_type *type{};
   map_coord coord{};
-  ranged life{type->life};
+  ranged life{type == nullptr ? 0 : type->life};
   ranged actions{initial_max_actions};
   unsigned poison{};
   float damage_timer{};
