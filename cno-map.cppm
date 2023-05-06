@@ -183,6 +183,9 @@ public:
     update_rogueview(pc, d);
 
     m_blocks.fill_uv([](const block &blk) {
+      if (!blk.seen)
+        return quack::uv{};
+
       auto c = blk.type->character();
       auto u = static_cast<float>(c % 16);
       auto v = static_cast<float>(c / 16);
