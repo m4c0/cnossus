@@ -12,7 +12,6 @@ int main(int argc, char **argv) {
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
   m->add_wsdep("silog", silog());
-  m->add_part("atlas");
   m->add_part("objects");
   m->add_part("globals");
   m->add_part("random");
@@ -25,6 +24,7 @@ int main(int argc, char **argv) {
   m->add_part("moblist");
   m->add_part("player");
   m->add_part("enemy");
+  m->add_part("atlas");
   m->add_part("game");
 
   auto a = unit::create<app>("cnossus");

@@ -201,7 +201,7 @@ public:
       auto c = blk.type->character();
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto g = static_cast<float>(c / 16) / 16.0f;
-      auto a = blk.seen ? 1.0f : 0.3f;
+      auto a = blk.seen ? 0.0f : 0.3f;
       return quack::colour{r, g, 0, a};
     });
   }
