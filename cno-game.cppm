@@ -12,7 +12,7 @@ import quack;
 
 namespace cno {
 class game {
-  quack::renderer m_r{2};
+  quack::renderer m_r{3};
   map m_map{&m_r};
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
