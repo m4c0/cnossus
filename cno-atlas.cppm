@@ -19,23 +19,23 @@ struct image {
   pixel pixels[width * height];
 };
 
-static constexpr const pixel black{0, 0, 0, 255};
-static constexpr const pixel white{255, 255, 255, 255};
+static constexpr const pixel floor_pal_0{16, 32, 64, 255};
+static constexpr const pixel floor_pal_1{64, 96, 128, 255};
 
 static constexpr all_chars glyphs = [] {
   all_chars res{};
 
   res.chars[comma.character()] = {{
-      {black, white, black, white},
-      {white, black, white, black},
-      {black, white, black, white},
-      {white, black, white, black},
+      {floor_pal_0, floor_pal_1, floor_pal_0, floor_pal_1},
+      {floor_pal_1, floor_pal_0, floor_pal_1, floor_pal_0},
+      {floor_pal_0, floor_pal_1, floor_pal_0, floor_pal_1},
+      {floor_pal_1, floor_pal_0, floor_pal_1, floor_pal_0},
   }};
   res.chars[dot.character()] = {{
-      {black, black, black, black},
-      {black, black, black, black},
-      {black, black, black, black},
-      {black, black, black, black},
+      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
+      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
+      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
+      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
   }};
   return res;
 }();
