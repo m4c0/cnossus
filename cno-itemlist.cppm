@@ -94,6 +94,7 @@ public:
       auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
       return quack::colour{0, g, b, a};
     });
+    fill_mult([](const item &i) { return quack::colour{1, 1, 1, 1}; });
   }
 
   using instance_layout::process_event;

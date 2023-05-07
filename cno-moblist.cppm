@@ -80,6 +80,7 @@ public:
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
       return quack::colour{r, 0, b, a};
     });
+    fill_mult([](auto &i) { return quack::colour{1, 1, 1, 1}; });
   }
 
   [[nodiscard]] constexpr mob *mob_at(map_coord c) {

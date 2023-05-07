@@ -204,6 +204,9 @@ public:
       auto a = blk.seen ? 0.0f : 0.3f;
       return quack::colour{r, g, 0, a};
     });
+    m_blocks.fill_mult([](const block &blk) {
+      return quack::colour{1, 1, 1, 1};
+    });
   }
 
   void set_level(unsigned l) noexcept {
