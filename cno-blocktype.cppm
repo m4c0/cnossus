@@ -2,56 +2,65 @@ export module cno:blocktype;
 import jute;
 
 namespace cno {
-class block_type {
-  jute::view m_name{};
-  bool m_can_walk{};
-  bool m_transparent{};
-  char m_character{};
+struct block_type {
+  jute::view name{};
+  char character{};
+  bool can_walk{};
+  bool transparent{};
+};
+[[nodiscard]] constexpr bool operator==(const block_type &a,
+                                        const block_type &b) noexcept {
+  return a.character == b.character;
+}
 
-public:
-  constexpr block_type(jute::view n, char c) : m_name{n}, m_character{c} {}
-
-  [[nodiscard]] constexpr bool operator==(const block_type &o) const noexcept {
-    return m_character == o.m_character;
-  }
-
-  [[nodiscard]] constexpr char character() const noexcept {
-    return m_character;
-  }
-  [[nodiscard]] constexpr bool can_walk() const noexcept { return m_can_walk; }
-  [[nodiscard]] constexpr auto name() const noexcept { return m_name; }
-
-  [[nodiscard]] constexpr block_type walkable() const noexcept {
-    auto v = *this;
-    v.m_can_walk = true;
-    return v;
-  }
-  [[nodiscard]] constexpr block_type transparent() const noexcept {
-    auto v = *this;
-    v.m_transparent = true;
-    return v;
-  }
+constexpr const block_type blank{
+    .name = "void",
+    .character = ' ',
+    .transparent = true,
 };
 
-constexpr const block_type blank =
-    block_type{"void", ' '}.transparent(); // void
-
 // Varies with floor
-constexpr const block_type dot = block_type{"floor", '.'}.walkable(); // floor
-constexpr const block_type hash = block_type{"wall", '&'};            // wall
+constexpr const block_type dot{
+    .name = "floor",
+    .character = '.',
+    .can_walk = true,
+};
+constexpr const block_type hash{
+    .name = "wall",
+    .character = '&',
+};
 
 // Fixed textures
-constexpr const block_type comma =
-    block_type{"mosaic", ','}.walkable();                   // mosaic
-constexpr const block_type tilda = block_type{"pool", '%'}; // pool
+constexpr const block_type comma{
+    .name = "mosaic",
+    .character = ',',
+    .can_walk = true,
+};
+constexpr const block_type tilda{
+    .name = "pool",
+    .character = '%',
+};
 
 // Requires combining with "floor"
-constexpr const block_type vbar =
-    block_type{"knowledge", '#'}.transparent(); // column
-constexpr const block_type star =
-    block_type{"fountain", '$'}.transparent(); // basin
-constexpr const block_type gt =
-    block_type{"stairs", '<'}.transparent().walkable(); // stairs
-constexpr const block_type andsign =
-    block_type{"statue", '('}.transparent(); // statue
+constexpr const block_type vbar{
+    .name = "knowledge",
+    .character = '#',
+    .transparent = true,
+};
+constexpr const block_type star{
+    .name = "fountain",
+    .character = '$',
+    .transparent = true,
+};
+constexpr const block_type gt{
+    .name = "stairs",
+    .character = '<',
+    .can_walk = true,
+    .transparent = true,
+};
+constexpr const block_type andsign{
+    .name = "statue",
+    .character = '(',
+    .transparent = true,
+};
 } // namespace cno

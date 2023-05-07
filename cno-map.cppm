@@ -186,7 +186,7 @@ public:
       if (!blk.seen)
         return quack::uv{};
 
-      auto c = blk.type->character();
+      auto c = blk.type->character;
       auto u = static_cast<float>(c % 16);
       auto v = static_cast<float>(c / 16);
 
@@ -198,7 +198,7 @@ public:
       return quack::uv{{u0, v0}, {u1, v1}};
     });
     m_blocks.fill_colour([](const block &blk) {
-      auto c = blk.type->character();
+      auto c = blk.type->character;
       auto r = static_cast<float>(c % 16) / 16.0f;
       auto g = static_cast<float>(c / 16) / 16.0f;
       auto a = blk.seen ? 0.0f : 0.3f;

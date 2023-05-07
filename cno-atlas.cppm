@@ -30,31 +30,31 @@ static constexpr const pixel water_pal_1{16, 24, 64, 255};
 static constexpr all_chars glyphs = [] {
   all_chars res{};
 
-  res.chars[comma.character()] = {{
+  res.chars[comma.character] = {{
       {floor_pal_0, floor_pal_1, floor_pal_0, floor_pal_1},
       {floor_pal_1, floor_pal_0, floor_pal_1, floor_pal_0},
       {floor_pal_0, floor_pal_1, floor_pal_0, floor_pal_1},
       {floor_pal_1, floor_pal_0, floor_pal_1, floor_pal_0},
   }};
-  res.chars[dot.character()] = {{
+  res.chars[dot.character] = {{
       {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
       {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
       {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
       {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
   }};
-  res.chars[gt.character()] = {{
+  res.chars[gt.character] = {{
       {trans, trans, trans, wall_pal_1},
       {trans, trans, wall_pal_0, wall_pal_0},
       {trans, wall_pal_1, wall_pal_1, wall_pal_0},
       {wall_pal_0, wall_pal_0, wall_pal_0, wall_pal_0},
   }};
-  res.chars[hash.character()] = {{
+  res.chars[hash.character] = {{
       {wall_pal_0, wall_pal_1, wall_pal_1, wall_pal_1},
       {wall_pal_0, wall_pal_0, wall_pal_0, wall_pal_0},
       {wall_pal_1, wall_pal_1, wall_pal_1, wall_pal_0},
       {wall_pal_0, wall_pal_0, wall_pal_0, wall_pal_0},
   }};
-  res.chars[tilda.character()] = {{
+  res.chars[tilda.character] = {{
       {water_pal_0, water_pal_1, water_pal_1, water_pal_1},
       {water_pal_0, water_pal_0, water_pal_0, water_pal_0},
       {water_pal_1, water_pal_1, water_pal_1, water_pal_0},

@@ -31,7 +31,7 @@ class game {
 
       do {
         c.x = cno::random(map_width);
-      } while (!m_map.at(c.x, c.y)->can_walk());
+      } while (!m_map.at(c.x, c.y)->can_walk);
 
       auto &mm = m_mobs.at(c.y) = {t, c};
       enemy{&mm}.reset_level(m_map.level());
@@ -68,10 +68,10 @@ class game {
 
   void try_move(mob *m, map_coord tgt) {
     const auto *blk = m_map.at(tgt.x, tgt.y);
-    if (!blk->can_walk()) {
+    if (!blk->can_walk) {
       if (is_player(m->type)) {
         using namespace jute::literals;
-        g::update_status("A "_s + blk->name() + " blocks your way");
+        g::update_status("A "_s + blk->name + " blocks your way");
       }
       return;
     }
@@ -194,7 +194,7 @@ class game {
 
       do {
         c.x = cno::random(map_width);
-      } while (!m_map.at(c.x, c.y)->can_walk());
+      } while (!m_map.at(c.x, c.y)->can_walk);
 
       m_items.add_item({type, c});
     }
