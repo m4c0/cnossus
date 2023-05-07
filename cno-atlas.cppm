@@ -19,13 +19,12 @@ struct image {
   pixel pixels[width * height];
 };
 
-static constexpr const pixel trans{};
 static constexpr const pixel floor_pal_0{16, 32, 64, 255};
 static constexpr const pixel floor_pal_1{64, 96, 128, 255};
 static constexpr const pixel wall_pal_0{128, 140, 160, 255};
 static constexpr const pixel wall_pal_1{140, 150, 160, 255};
-static constexpr const pixel water_pal_0{0, 0, 64, 255};
-static constexpr const pixel water_pal_1{16, 24, 64, 255};
+static constexpr const pixel water_pal_0{0, 64, 196, 255};
+static constexpr const pixel water_pal_1{16, 96, 196, 255};
 
 static constexpr all_chars glyphs = [] {
   all_chars res{};
@@ -43,9 +42,9 @@ static constexpr all_chars glyphs = [] {
       {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
   }};
   res.chars[gt.character] = {{
-      {trans, trans, trans, wall_pal_1},
-      {trans, trans, wall_pal_0, wall_pal_0},
-      {trans, wall_pal_1, wall_pal_1, wall_pal_0},
+      {floor_pal_0, floor_pal_0, floor_pal_0, wall_pal_1},
+      {floor_pal_0, floor_pal_0, wall_pal_0, wall_pal_0},
+      {floor_pal_0, wall_pal_1, wall_pal_1, wall_pal_0},
       {wall_pal_0, wall_pal_0, wall_pal_0, wall_pal_0},
   }};
   res.chars[hash.character] = {{
