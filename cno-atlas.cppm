@@ -29,6 +29,12 @@ static constexpr all_chars glyphs = [] {
 
   all_chars res{};
 
+  res.chars[andsign.character] = {{
+      {f0, g0, f0, f0},
+      {f0, g0, g0, f0},
+      {f0, g1, g1, f0},
+      {f0, g0, g0, f0},
+  }};
   res.chars[comma.character] = {{
       {f0, f1, f0, f1},
       {f1, f0, f1, f0},
@@ -53,11 +59,23 @@ static constexpr all_chars glyphs = [] {
       {g1, g1, g1, g0},
       {g0, g0, g0, g0},
   }};
+  res.chars[star.character] = {{
+      {f0, f0, w0, f0},
+      {f0, w0, f0, f0},
+      {g0, g0, g0, g0},
+      {f0, g0, g0, f0},
+  }};
   res.chars[tilda.character] = {{
       {w0, w1, w1, w1},
       {w0, w0, w0, w0},
       {w1, w1, w1, w0},
       {w0, w0, w0, w0},
+  }};
+  res.chars[vbar.character] = {{
+      {g0, g0, g0, g1},
+      {f0, g0, g0, f0},
+      {f0, g1, g1, f0},
+      {g0, g0, g0, g0},
   }};
   return res;
 }();
