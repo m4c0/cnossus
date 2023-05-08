@@ -29,8 +29,10 @@ static constexpr all_chars glyphs = [] {
   constexpr const pixel w0{0, 64, 196, 255};
   constexpr const pixel w1{16, 96, 196, 255};
   constexpr const pixel br{128, 140, 70, 255};
+  constexpr const pixel gr{50, 140, 10, 255};
   constexpr const pixel rd{140, 40, 10, 255};
   constexpr const pixel yl{140, 150, 10, 255};
+  constexpr const pixel bl{10, 30, 140, 255};
 
   all_chars res{};
 
@@ -40,17 +42,29 @@ static constexpr all_chars glyphs = [] {
       {f0, g1, g1, f0},
       {f0, g0, g0, f0},
   }};
-  res.chars[cheese.character] = {{
-      {tr, tr, tr, tr},
-      {yl, tr, tr, tr},
-      {yl, yl, tr, tr},
-      {yl, yl, yl, tr},
+  res.chars[bag.character] = {{
+      {tr, tr, br, tr},
+      {tr, br, br, tr},
+      {br, br, br, br},
+      {tr, br, br, br},
   }};
   res.chars[candle.character] = {{
       {tr, rd, tr, tr},
       {tr, rd, rd, tr},
       {tr, br, br, tr},
       {tr, br, br, tr},
+  }};
+  res.chars[cheese.character] = {{
+      {tr, tr, tr, tr},
+      {yl, tr, tr, tr},
+      {yl, yl, tr, tr},
+      {yl, yl, yl, tr},
+  }};
+  res.chars[cloth.character] = {{
+      {tr, gr, gr, tr},
+      {gr, yl, yl, gr},
+      {gr, yl, yl, gr},
+      {gr, yl, yl, gr},
   }};
   res.chars[coffer.character] = {{
       {tr, tr, tr, tr},
@@ -93,6 +107,12 @@ static constexpr all_chars glyphs = [] {
       {tr, br, br, tr},
       {br, br, br, br},
       {tr, br, br, tr},
+  }};
+  res.chars[knife.character] = {{
+      {tr, tr, tr, tr},
+      {tr, tr, tr, tr},
+      {tr, gr, tr, tr},
+      {br, tr, tr, tr},
   }};
   res.chars[star.character] = {{
       {f0, f0, w0, f0},
