@@ -6,9 +6,10 @@ import casein;
 import quack;
 
 namespace cno {
+enum block_vibility { bv_none, bv_fog, bv_visible };
 struct block {
   const block_type *type;
-  bool seen;
+  block_vibility vis;
 };
 
 struct cell_size {
@@ -159,8 +160,11 @@ class map {
       auto dx = pc.x - x;
       for (auto y = 0; y < map_height; y++) {
         auto dy = pc.y - y;
+        auto &vis = m_blocks.at(x, y).vis;
         if (dx * dx + dy * dy <= radius * radius) {
-          m_blocks.at(x, y).seen = true;
+          vis = bv_visible;
+        } else if (vis == bv_visible) {
+          vis = bv_fog;
         }
       }
     }
@@ -183,7 +187,7 @@ public:
     update_rogueview(pc, d);
 
     m_blocks.fill_uv([](const block &blk) {
-      if (!blk.seen)
+      if (blk.vis == bv_none)
         return quack::uv{};
 
       auto c = blk.type->character;
@@ -197,15 +201,10 @@ public:
 
       return quack::uv{{u0, v0}, {u1, v1}};
     });
-    m_blocks.fill_colour([](const block &blk) {
-      auto c = blk.type->character;
-      auto r = static_cast<float>(c % 16) / 16.0f;
-      auto g = static_cast<float>(c / 16) / 16.0f;
-      auto a = blk.seen ? 0.0f : 0.3f;
-      return quack::colour{r, g, 0, a};
-    });
+    m_blocks.fill_colour([](const block &blk) { return quack::colour{}; });
     m_blocks.fill_mult([](const block &blk) {
-      return quack::colour{1, 1, 1, 1};
+      auto a = blk.vis == bv_visible ? 1.0f : 0.8f;
+      return quack::colour{1, 1, 1, a};
     });
   }
 
