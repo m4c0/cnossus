@@ -19,45 +19,45 @@ struct image {
   pixel pixels[width * height];
 };
 
-static constexpr const pixel floor_pal_0{16, 32, 64, 255};
-static constexpr const pixel floor_pal_1{64, 96, 128, 255};
-static constexpr const pixel wall_pal_0{128, 140, 160, 255};
-static constexpr const pixel wall_pal_1{140, 150, 160, 255};
-static constexpr const pixel water_pal_0{0, 64, 196, 255};
-static constexpr const pixel water_pal_1{16, 96, 196, 255};
-
 static constexpr all_chars glyphs = [] {
+  constexpr const pixel f0{16, 32, 64, 255};
+  constexpr const pixel f1{64, 96, 128, 255};
+  constexpr const pixel g0{128, 140, 160, 255};
+  constexpr const pixel g1{140, 150, 160, 255};
+  constexpr const pixel w0{0, 64, 196, 255};
+  constexpr const pixel w1{16, 96, 196, 255};
+
   all_chars res{};
 
   res.chars[comma.character] = {{
-      {floor_pal_0, floor_pal_1, floor_pal_0, floor_pal_1},
-      {floor_pal_1, floor_pal_0, floor_pal_1, floor_pal_0},
-      {floor_pal_0, floor_pal_1, floor_pal_0, floor_pal_1},
-      {floor_pal_1, floor_pal_0, floor_pal_1, floor_pal_0},
+      {f0, f1, f0, f1},
+      {f1, f0, f1, f0},
+      {f0, f1, f0, f1},
+      {f1, f0, f1, f0},
   }};
   res.chars[dot.character] = {{
-      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
-      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
-      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
-      {floor_pal_0, floor_pal_0, floor_pal_0, floor_pal_0},
+      {f0, f0, f0, f0},
+      {f0, f0, f0, f0},
+      {f0, f0, f0, f0},
+      {f0, f0, f0, f0},
   }};
   res.chars[gt.character] = {{
-      {floor_pal_0, floor_pal_0, floor_pal_0, wall_pal_1},
-      {floor_pal_0, floor_pal_0, wall_pal_0, wall_pal_0},
-      {floor_pal_0, wall_pal_1, wall_pal_1, wall_pal_0},
-      {wall_pal_0, wall_pal_0, wall_pal_0, wall_pal_0},
+      {f0, f0, f0, g1},
+      {f0, f0, g0, g0},
+      {f0, g1, g1, g0},
+      {g0, g0, g0, g0},
   }};
   res.chars[hash.character] = {{
-      {wall_pal_0, wall_pal_1, wall_pal_1, wall_pal_1},
-      {wall_pal_0, wall_pal_0, wall_pal_0, wall_pal_0},
-      {wall_pal_1, wall_pal_1, wall_pal_1, wall_pal_0},
-      {wall_pal_0, wall_pal_0, wall_pal_0, wall_pal_0},
+      {g0, g1, g1, g1},
+      {g0, g0, g0, g0},
+      {g1, g1, g1, g0},
+      {g0, g0, g0, g0},
   }};
   res.chars[tilda.character] = {{
-      {water_pal_0, water_pal_1, water_pal_1, water_pal_1},
-      {water_pal_0, water_pal_0, water_pal_0, water_pal_0},
-      {water_pal_1, water_pal_1, water_pal_1, water_pal_0},
-      {water_pal_0, water_pal_0, water_pal_0, water_pal_0},
+      {w0, w1, w1, w1},
+      {w0, w0, w0, w0},
+      {w1, w1, w1, w0},
+      {w0, w0, w0, w0},
   }};
   return res;
 }();
