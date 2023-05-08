@@ -1,5 +1,6 @@
 export module cno:atlas;
 import :blocktype;
+import :itemtype;
 import quack;
 
 namespace cno::atlas {
@@ -20,12 +21,15 @@ struct image {
 };
 
 static constexpr all_chars glyphs = [] {
+  constexpr const pixel tr{};
   constexpr const pixel f0{16, 32, 64, 255};
   constexpr const pixel f1{64, 96, 128, 255};
   constexpr const pixel g0{128, 140, 160, 255};
   constexpr const pixel g1{140, 150, 160, 255};
   constexpr const pixel w0{0, 64, 196, 255};
   constexpr const pixel w1{16, 96, 196, 255};
+  constexpr const pixel b0{128, 140, 70, 255};
+  constexpr const pixel b1{140, 150, 80, 255};
 
   all_chars res{};
 
@@ -34,6 +38,12 @@ static constexpr all_chars glyphs = [] {
       {f0, g0, g0, f0},
       {f0, g1, g1, f0},
       {f0, g0, g0, f0},
+  }};
+  res.chars[coffer.character] = {{
+      {tr, tr, tr, tr},
+      {tr, b0, b0, tr},
+      {b1, b1, b1, b1},
+      {b0, b0, b0, b0},
   }};
   res.chars[comma.character] = {{
       {f0, f1, f0, f1},
@@ -58,6 +68,12 @@ static constexpr all_chars glyphs = [] {
       {g0, g0, g0, g0},
       {g1, g1, g1, g0},
       {g0, g0, g0, g0},
+  }};
+  res.chars[jar.character] = {{
+      {tr, b0, b0, tr},
+      {tr, b0, b0, tr},
+      {b1, b1, b1, b1},
+      {tr, b0, b0, tr},
   }};
   res.chars[star.character] = {{
       {f0, f0, w0, f0},
