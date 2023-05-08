@@ -28,8 +28,9 @@ static constexpr all_chars glyphs = [] {
   constexpr const pixel g1{140, 150, 160, 255};
   constexpr const pixel w0{0, 64, 196, 255};
   constexpr const pixel w1{16, 96, 196, 255};
-  constexpr const pixel b0{128, 140, 70, 255};
-  constexpr const pixel b1{140, 150, 80, 255};
+  constexpr const pixel br{128, 140, 70, 255};
+  constexpr const pixel rd{140, 40, 10, 255};
+  constexpr const pixel yl{140, 150, 10, 255};
 
   all_chars res{};
 
@@ -39,11 +40,23 @@ static constexpr all_chars glyphs = [] {
       {f0, g1, g1, f0},
       {f0, g0, g0, f0},
   }};
+  res.chars[cheese.character] = {{
+      {tr, tr, tr, tr},
+      {yl, tr, tr, tr},
+      {yl, yl, tr, tr},
+      {yl, yl, yl, tr},
+  }};
+  res.chars[candle.character] = {{
+      {tr, rd, tr, tr},
+      {tr, rd, rd, tr},
+      {tr, br, br, tr},
+      {tr, br, br, tr},
+  }};
   res.chars[coffer.character] = {{
       {tr, tr, tr, tr},
-      {tr, b0, b0, tr},
-      {b1, b1, b1, b1},
-      {b0, b0, b0, b0},
+      {tr, br, br, tr},
+      {br, br, br, br},
+      {br, br, br, br},
   }};
   res.chars[comma.character] = {{
       {f0, f1, f0, f1},
@@ -56,6 +69,12 @@ static constexpr all_chars glyphs = [] {
       {f0, f0, f0, f0},
       {f0, f0, f0, f0},
       {f0, f0, f0, f0},
+  }};
+  res.chars[driedfruit.character] = {{
+      {tr, tr, tr, tr},
+      {tr, tr, tr, tr},
+      {tr, yl, yl, tr},
+      {tr, yl, yl, tr},
   }};
   res.chars[gt.character] = {{
       {f0, f0, f0, g1},
@@ -70,10 +89,10 @@ static constexpr all_chars glyphs = [] {
       {g0, g0, g0, g0},
   }};
   res.chars[jar.character] = {{
-      {tr, b0, b0, tr},
-      {tr, b0, b0, tr},
-      {b1, b1, b1, b1},
-      {tr, b0, b0, tr},
+      {tr, br, br, tr},
+      {tr, br, br, tr},
+      {br, br, br, br},
+      {tr, br, br, tr},
   }};
   res.chars[star.character] = {{
       {f0, f0, w0, f0},
@@ -86,6 +105,12 @@ static constexpr all_chars glyphs = [] {
       {w0, w0, w0, w0},
       {w1, w1, w1, w0},
       {w0, w0, w0, w0},
+  }};
+  res.chars[torch.character] = {{
+      {tr, tr, rd, rd},
+      {tr, tr, br, rd},
+      {tr, br, tr, tr},
+      {br, tr, tr, tr},
   }};
   res.chars[vbar.character] = {{
       {g0, g0, g0, g1},
