@@ -80,21 +80,29 @@ public:
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
-    fill_colour([px, py, d](const item &i) {
+    fill_uv([](const item &i) {
       if (i.type == nullptr)
-        return quack::colour{0, 0, 0, 0};
+        return quack::uv{};
 
+      auto c = i.type->character;
+      auto u = static_cast<float>(c % 16);
+      auto v = static_cast<float>(c / 16);
+
+      auto u0 = u / 16.0f;
+      auto v0 = v / 16.0f;
+      auto u1 = (u + 1.0f) / 16.0f;
+      auto v1 = (v + 1.0f) / 16.0f;
+
+      return quack::uv{{u0, v0}, {u1, v1}};
+    });
+    fill_colour([](const item &i) { return quack::colour{}; });
+    fill_mult([px, py, d](const item &i) {
       const auto &[x, y] = i.coord;
       auto dx = x - px;
       auto dy = y - py;
-
-      auto c = i.type->character;
-      auto g = static_cast<float>(c % 16) / 16.0f;
-      auto b = static_cast<float>(c / 16) / 16.0f;
       auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
-      return quack::colour{0, g, b, a};
+      return quack::colour{1, 1, 1, a};
     });
-    fill_mult([](const item &i) { return quack::colour{1, 1, 1, 1}; });
   }
 
   using instance_layout::process_event;
