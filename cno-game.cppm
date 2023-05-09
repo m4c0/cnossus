@@ -69,7 +69,7 @@ class game {
   void try_move(mob *m, map_coord tgt) {
     const auto *blk = m_map.at(tgt.x, tgt.y);
     if (!blk->can_walk) {
-      if (is_player(m->type)) {
+      if (is_player(*m)) {
         using namespace jute::literals;
         g::update_status("A "_s + blk->name + " blocks your way");
       }
@@ -129,36 +129,36 @@ class game {
         auto drop = tgt.type->drops.roll();
         if (drop != nullptr)
           m_items.add_item({drop, tgt.coord});
-        if (is_player(src.type)) {
+        if (is_player(src)) {
           g::update_status("You killed a " + tgtn);
-        } else if (is_player(tgt.type)) {
+        } else if (is_player(tgt)) {
           g::update_status("A " + srcn + " killed you");
         }
         tgt = {};
       } else if (src.type->poison > 0) {
         tgt.poison += 1 + cno::random(src.type->poison);
-        if (is_player(tgt.type)) {
+        if (is_player(tgt)) {
           g::update_status("A " + srcn + " poisons you");
         }
-      } else if (is_player(src.type)) {
+      } else if (is_player(src)) {
         g::update_status("You hit a " + tgtn);
-      } else if (is_player(tgt.type)) {
+      } else if (is_player(tgt)) {
         g::update_status("A " + srcn + " hits you");
       }
     } else if (margin == 0) {
       if (src.type->poison > 0) {
         tgt.poison += 1 + cno::random(src.type->poison);
-        if (is_player(src.type)) {
+        if (is_player(src)) {
           g::update_status("A " + srcn + " poisons you");
         }
-      } else if (is_player(src.type)) {
+      } else if (is_player(src)) {
         g::update_status("You barely miss " + tgtn);
-      } else if (is_player(tgt.type)) {
+      } else if (is_player(tgt)) {
         g::update_status("A " + srcn + " barely misses you");
       }
-    } else if (is_player(src.type)) {
+    } else if (is_player(src)) {
       g::update_status("You miss a " + tgtn);
-    } else if (is_player(tgt.type)) {
+    } else if (is_player(tgt)) {
       g::update_status("A " + srcn + " misses you");
     }
   }

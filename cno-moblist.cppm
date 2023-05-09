@@ -43,6 +43,9 @@ struct mob {
   float damage_timer{};
   bonus bonus{};
 };
+[[nodiscard]] constexpr auto is_player(const mob &a) noexcept {
+  return a.type->hostility == h_none;
+}
 
 class mob_list : quack::instance_layout<mob, max_mobs_per_level> {
   void resize(unsigned w, unsigned h) override {

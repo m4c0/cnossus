@@ -21,10 +21,6 @@ struct mob_type {
   mob_drops drops{};
 };
 
-[[nodiscard]] constexpr auto is_player(const mob_type *a) noexcept {
-  return a->hostility == h_none;
-}
-
 constexpr const mob_type minotaur{
     .name = "you",
     .id = 'A',
