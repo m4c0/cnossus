@@ -67,7 +67,7 @@ class game {
   }
 
   void try_move(mob *m, map_coord tgt) {
-    const auto *blk = m_map.at(tgt.x, tgt.y);
+    auto blk = m_map.at(tgt.x, tgt.y);
     if (!blk->can_walk) {
       if (is_player(*m)) {
         using namespace jute::literals;
@@ -221,7 +221,7 @@ class game {
       return;
     }
 
-    if (*m_map.at(pc.x, pc.y) != gt) {
+    if (m_map.at(pc.x, pc.y) != sprite{&gt}) {
       tick();
       return;
     }

@@ -8,7 +8,7 @@ import quack;
 namespace cno {
 enum block_vibility { bv_none, bv_fog, bv_visible };
 struct block {
-  const block_type *type;
+  sprite<block_type> type;
   block_vibility vis;
 };
 
@@ -23,7 +23,7 @@ class map {
   quack::grid_ilayout<map_width, map_height, block> m_blocks;
 
   [[nodiscard]] auto random_furniture() const noexcept {
-    return cno::random(2) == 0 ? &star : &andsign;
+    return sprite{cno::random(2) == 0 ? &star : &andsign};
   }
 
   void furnish_room(unsigned x1, unsigned y1, unsigned x2,
@@ -35,14 +35,14 @@ class map {
       at(x1 + 1, y1 + 1) = random_furniture();
     } else if (w == 3) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
-        at(x1 + 1, y) = &vbar;
+        at(x1 + 1, y) = sprite{&vbar};
       }
       if ((h % 2) == 0) {
         at(x2 - 1, y2) = random_furniture();
       }
     } else if (h == 3) {
       for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-        at(x, y1 + 1) = &vbar;
+        at(x, y1 + 1) = sprite{&vbar};
       }
       if ((w % 2) == 0) {
         at(x2, y2 - 1) = random_furniture();
@@ -50,21 +50,21 @@ class map {
     } else if ((w == 4) || (h == 4)) {
       for (auto y = y1 + 1; y <= y2 - 1; y++) {
         for (auto x = x1 + 1; x <= x2 - 1; x++) {
-          at(x, y) = &tilda;
+          at(x, y) = sprite{&tilda};
         }
       }
     } else if (w == 5) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
-        at(x1 + 1, y) = &vbar;
-        at(x2 - 1, y) = &vbar;
+        at(x1 + 1, y) = sprite{&vbar};
+        at(x2 - 1, y) = sprite{&vbar};
       }
       if ((h % 2) == 0) {
         at(x2 - 2, y2) = random_furniture();
       }
     } else if (h == 5) {
       for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-        at(x, y1 + 1) = &vbar;
-        at(x, y2 - 1) = &vbar;
+        at(x, y1 + 1) = sprite{&vbar};
+        at(x, y2 - 1) = sprite{&vbar};
       }
       if ((w % 2) == 0) {
         at(x2, y2 - 2) = random_furniture();
@@ -72,16 +72,16 @@ class map {
     } else if ((w == 7) && (h == 7)) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
         for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-          at(x, y) = &vbar;
+          at(x, y) = sprite{&vbar};
         }
       }
       at(x1 + 3, y1 + 3) = random_furniture();
     } else if ((w > 2) && (h > 2)) {
       for (auto y = y1; y <= y2; y++) {
-        at(x1, y) = at(x2, y) = &comma;
+        at(x1, y) = at(x2, y) = sprite{&comma};
       }
       for (auto x = x1; x <= x2; x++) {
-        at(x, y1) = at(x, y2) = &comma;
+        at(x, y1) = at(x, y2) = sprite{&comma};
       }
       if (((w == 6) && (h == 6)) || ((w == 9) && (h == 9))) {
         furnish_room(x1 + 1, y1 + 1, x2 - 1, y2 - 1);
@@ -105,7 +105,7 @@ class map {
     }
 
     for (auto y = y1; y <= y2; y++) {
-      at(x, y) = &hash;
+      at(x, y) = sprite{&hash};
     }
 
     auto wall_1 = subdivide_high(x1, y1, x - 1, y2);
@@ -116,9 +116,9 @@ class map {
       door_y = y1 + cno::random(h);
     } while ((door_y == wall_1) || (door_y == wall_2));
 
-    at(x, door_y) = &dot;
-    at(x - 1, door_y) = &dot;
-    at(x + 1, door_y) = &dot;
+    at(x, door_y) = sprite{&dot};
+    at(x - 1, door_y) = sprite{&dot};
+    at(x + 1, door_y) = sprite{&dot};
     return x;
   }
 
@@ -138,7 +138,7 @@ class map {
     }
 
     for (auto x = x1; x <= x2; x++) {
-      at(x, y) = &hash;
+      at(x, y) = sprite{&hash};
     }
 
     auto wall_1 = subdivide_wide(x1, y1, x2, y - 1);
@@ -149,9 +149,9 @@ class map {
       door_x = x1 + cno::random(w);
     } while ((door_x == wall_1) || (door_x == wall_2));
 
-    at(door_x, y) = &dot;
-    at(door_x, y - 1) = &dot;
-    at(door_x, y + 1) = &dot;
+    at(door_x, y) = sprite{&dot};
+    at(door_x, y - 1) = sprite{&dot};
+    at(door_x, y + 1) = sprite{&dot};
     return y;
   }
 
@@ -174,21 +174,20 @@ public:
   constexpr map(quack::renderer *r) : m_blocks{r} {}
 
   [[nodiscard]] constexpr auto level() const noexcept { return m_level; }
-  [[nodiscard]] constexpr const block_type *&at(unsigned x,
-                                                unsigned y) noexcept {
+  [[nodiscard]] constexpr sprite<block_type> &at(unsigned x,
+                                                 unsigned y) noexcept {
     return m_blocks.at(x, y).type;
   }
-  [[nodiscard]] constexpr const block_type *at(unsigned x,
-                                               unsigned y) const noexcept {
+  [[nodiscard]] constexpr sprite<block_type> at(unsigned x,
+                                                unsigned y) const noexcept {
     return m_blocks.at(x, y).type;
   }
 
   void fill_quack(map_coord pc, unsigned d) noexcept {
     update_rogueview(pc, d);
 
-    m_blocks.fill_uv([](auto &i) {
-      return (i.type == nullptr) ? quack::uv{} : i.type->id.uv();
-    });
+    m_blocks.fill_uv(
+        [](auto &i) { return i.type ? i.type->id.uv() : quack::uv{}; });
     m_blocks.fill_colour([](const block &blk) { return quack::colour{}; });
     m_blocks.fill_mult([](const block &blk) {
       switch (blk.vis) {
@@ -206,16 +205,16 @@ public:
     m_level = l;
 
     for (auto &b : m_blocks.data()) {
-      b = {&dot};
+      b = {sprite{&dot}};
     }
 
     for (auto x = 0; x < map_width; x++) {
-      at(x, 0) = &hash;
-      at(x, map_height - 1) = &hash;
+      at(x, 0) = sprite{&hash};
+      at(x, map_height - 1) = sprite{&hash};
     }
     for (int y = 0; y < map_height; y++) {
-      at(0, y) = &hash;
-      at(map_width - 1, y) = &hash;
+      at(0, y) = sprite{&hash};
+      at(map_width - 1, y) = sprite{&hash};
     }
     if (m_level == max_level + 1)
       return;
@@ -229,9 +228,9 @@ public:
     subdivide_wide(1, 1, map_width - 2, map_height - 2);
 
     if ((m_level % 2) == 1) {
-      at(map_width - 2, map_height - 2) = &gt;
+      at(map_width - 2, map_height - 2) = sprite{&gt};
     } else {
-      at(1, map_height - 2) = &gt;
+      at(1, map_height - 2) = sprite{&gt};
     }
   }
 
