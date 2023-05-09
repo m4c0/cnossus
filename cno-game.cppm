@@ -40,12 +40,12 @@ class game {
 
   [[nodiscard]] bool open_item_at(map_coord c) {
     auto it = m_items.fetch(c);
-    if (it == nullptr)
+    if (!it)
       return false;
 
     auto drops = it->drops;
-    auto nit = (drops == nullptr) ? it : drops->roll(m_map.level());
-    if (nit == nullptr || nit->name == "") {
+    auto nit = (drops == nullptr) ? it : sprite{drops->roll(m_map.level())};
+    if (!nit) {
       using namespace jute::literals;
       g::update_status("The "_s + it->name + " crumbled to dust");
       return false;
@@ -126,8 +126,8 @@ class game {
       tgt.damage_timer = 0.5;
       tgt.life -= (tgt.life <= margin) ? tgt.life : margin;
       if (tgt.life == 0) {
-        auto drop = tgt.type->drops.roll();
-        if (drop != nullptr)
+        auto drop = sprite{tgt.type->drops.roll()};
+        if (drop)
           m_items.add_item({drop, tgt.coord});
         if (is_player(src)) {
           g::update_status("You killed a " + tgtn);
@@ -163,7 +163,7 @@ class game {
     }
   }
 
-  void consume(const item_type *t) {
+  void consume(sprite<item_type> t) {
     reset_status();
 
     if (!m_inv.consume(t))
@@ -187,8 +187,8 @@ class game {
 
     map_coord c{};
     for (c.y = 1; c.y < map_height - 2; c.y++) {
-      const auto *type = item_roll_per_level.roll(m_map.level());
-      if (type == nullptr) {
+      auto type = sprite{item_roll_per_level.roll(m_map.level())};
+      if (!type) {
         continue;
       }
 

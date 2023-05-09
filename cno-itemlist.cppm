@@ -9,7 +9,7 @@ static constexpr const auto max_items_per_level = map_height * 2;
 static constexpr const auto max_item_roll = 5;
 
 struct item {
-  const item_type *type;
+  sprite<item_type> type;
   map_coord coord;
 };
 
@@ -49,7 +49,7 @@ public:
 
   void add_item(item new_i) {
     for (auto &i : data()) {
-      if (i.type != nullptr)
+      if (i.type)
         continue;
 
       i = new_i;
@@ -57,19 +57,19 @@ public:
     }
   }
 
-  const item_type *fetch(map_coord c) {
+  sprite<item_type> fetch(map_coord c) {
     for (auto &i : data()) {
-      if (i.type == nullptr) {
+      if (!i.type)
         continue;
-      }
+
       if (i.coord != c) {
         continue;
       }
       auto res = i.type;
-      i.type = nullptr;
+      i.type = {};
       return res;
     }
-    return nullptr;
+    return {};
   }
 
   void fill_quack(map_coord pc, unsigned d) noexcept {
@@ -80,9 +80,8 @@ public:
       return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
                          1};
     });
-    fill_uv([](const item &i) {
-      return (i.type == nullptr) ? quack::uv{} : i.type->id.uv();
-    });
+    fill_uv(
+        [](const item &i) { return i.type ? i.type->id.uv() : quack::uv{}; });
     fill_colour([](const item &i) { return quack::colour{}; });
     fill_mult([px, py, d](const item &i) {
       const auto &[x, y] = i.coord;
