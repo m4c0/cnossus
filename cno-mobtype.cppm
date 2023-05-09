@@ -1,6 +1,7 @@
 export module cno:mobtype;
 import :itemtype;
 import :random;
+import :sprite;
 import jute;
 
 namespace cno {
@@ -12,7 +13,7 @@ using mob_drops = rnd_roll<const item_type *, max_mob_drops>;
 
 struct mob_type {
   jute::view name;
-  char character;
+  sid id;
   unsigned life;
   unsigned dice = life;
   hostilities hostility;
@@ -20,17 +21,13 @@ struct mob_type {
   mob_drops drops{};
 };
 
-[[nodiscard]] constexpr bool operator==(const mob_type &a,
-                                        const mob_type &b) noexcept {
-  return a.character == b.character;
-}
 [[nodiscard]] constexpr auto is_player(const mob_type *a) noexcept {
   return a->hostility == h_none;
 }
 
 constexpr const mob_type minotaur{
     .name = "you",
-    .character = 'A',
+    .id = 'A',
     .life = 20,
     .dice = 10,
     .hostility = h_none,
@@ -38,7 +35,7 @@ constexpr const mob_type minotaur{
 
 constexpr const mob_type snake{
     .name = "snake",
-    .character = 'B',
+    .id = 'B',
     .life = 8,
     .hostility = h_scaried,
     .poison = 6,
@@ -46,28 +43,28 @@ constexpr const mob_type snake{
 };
 constexpr const mob_type spider{
     .name = "spider",
-    .character = 'C',
+    .id = 'C',
     .life = 4,
     .hostility = h_scaried,
     .poison = 4,
 };
 constexpr const mob_type rat{
     .name = "bat",
-    .character = 'D',
+    .id = 'D',
     .life = 6,
     .hostility = h_scaried,
     .drops = {&rawmeat},
 };
 constexpr const mob_type scorpion{
     .name = "wasp",
-    .character = 'E',
+    .id = 'E',
     .life = 4,
     .hostility = h_scaried,
     .poison = 8,
 };
 constexpr const mob_type centipede{
     .name = "centipede",
-    .character = 'F',
+    .id = 'F',
     .life = 6,
     .hostility = h_scaried,
     .poison = 8,
@@ -75,65 +72,65 @@ constexpr const mob_type centipede{
 
 constexpr const mob_type cerberus{
     .name = "zombie",
-    .character = 'G',
+    .id = 'G',
     .life = 8,
     .hostility = h_aggresive,
 };
 constexpr const mob_type harpy{
     .name = "demon",
-    .character = 'H',
+    .id = 'H',
     .life = 8,
     .hostility = h_aggresive,
 };
 constexpr const mob_type chimera{
     .name = "chimera",
-    .character = 'I',
+    .id = 'I',
     .life = 12,
     .hostility = h_aggresive,
     .poison = 10,
 };
 constexpr const mob_type manticore{
     .name = "goblin",
-    .character = 'J',
+    .id = 'J',
     .life = 12,
     .hostility = h_aggresive,
 };
 constexpr const mob_type croc{
     .name = "crocodile man",
-    .character = 'K',
+    .id = 'K',
     .life = 20,
     .hostility = h_aggresive,
     .drops = {&rawmeat, &leather},
 };
 constexpr const mob_type drakon{
     .name = "dragon",
-    .character = 'L',
+    .id = 'L',
     .life = 20,
     .hostility = h_aggresive,
     .drops = {&shield, &shield},
 };
 constexpr const mob_type boar{
     .name = "rat",
-    .character = 'M',
+    .id = 'M',
     .life = 8,
     .hostility = h_aggresive,
     .drops = {&rawmeat, &rawmeat},
 };
 constexpr const mob_type griffin{
     .name = "ogre",
-    .character = 'N',
+    .id = 'N',
     .life = 12,
     .hostility = h_aggresive,
 };
 constexpr const mob_type sphinx{
     .name = "evil human",
-    .character = 'O',
+    .id = 'O',
     .life = 12,
     .hostility = h_aggresive,
 };
 constexpr const mob_type bull{
     .name = "mutant rat",
-    .character = 'P',
+    .id = 'P',
     .life = 12,
     .hostility = h_aggresive,
     .drops = {&rawmeat, &rawmeat, &rawmeat},

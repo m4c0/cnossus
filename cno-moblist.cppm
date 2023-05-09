@@ -74,9 +74,7 @@ public:
       auto dx = px - x;
       auto dy = py - y;
 
-      auto c = i.type->character;
-      auto r = static_cast<float>(c % 16) / 16.0f;
-      auto b = static_cast<float>(c / 16) / 16.0f;
+      const auto &[r, b] = i.type->id.uv();
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
       return quack::colour{r, 0, b, a};
     });
