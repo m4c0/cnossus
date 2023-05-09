@@ -187,19 +187,7 @@ public:
     update_rogueview(pc, d);
 
     m_blocks.fill_uv([](const block &blk) {
-      if (blk.vis == bv_none)
-        return quack::uv{};
-
-      auto c = blk.type->character;
-      auto u = static_cast<float>(c % 16);
-      auto v = static_cast<float>(c / 16);
-
-      auto u0 = u / 16.0f;
-      auto v0 = v / 16.0f;
-      auto u1 = (u + 1.0f) / 16.0f;
-      auto v1 = (v + 1.0f) / 16.0f;
-
-      return quack::uv{{u0, v0}, {u1, v1}};
+      return (blk.vis == bv_none) ? quack::uv{} : blk.type->id.uv();
     });
     m_blocks.fill_colour([](const block &blk) { return quack::colour{}; });
     m_blocks.fill_mult([](const block &blk) {

@@ -36,7 +36,7 @@ static constexpr all_chars glyphs = [] {
 
   all_chars res{};
 
-  res.chars[andsign.character] = {{
+  res.chars[andsign.id] = {{
       {f0, g0, f0, f0},
       {f0, g0, g0, f0},
       {f0, g1, g1, f0},
@@ -72,13 +72,13 @@ static constexpr all_chars glyphs = [] {
       {br, br, br, br},
       {br, br, br, br},
   }};
-  res.chars[comma.character] = {{
+  res.chars[comma.id] = {{
       {f0, f1, f0, f1},
       {f1, f0, f1, f0},
       {f0, f1, f0, f1},
       {f1, f0, f1, f0},
   }};
-  res.chars[dot.character] = {{
+  res.chars[dot.id] = {{
       {f0, f0, f0, f0},
       {f0, f0, f0, f0},
       {f0, f0, f0, f0},
@@ -90,13 +90,13 @@ static constexpr all_chars glyphs = [] {
       {tr, yl, yl, tr},
       {tr, yl, yl, tr},
   }};
-  res.chars[gt.character] = {{
+  res.chars[gt.id] = {{
       {f0, f0, f0, g1},
       {f0, f0, g0, g0},
       {f0, g1, g1, g0},
       {g0, g0, g0, g0},
   }};
-  res.chars[hash.character] = {{
+  res.chars[hash.id] = {{
       {g0, g1, g1, g1},
       {g0, g0, g0, g0},
       {g1, g1, g1, g0},
@@ -114,13 +114,13 @@ static constexpr all_chars glyphs = [] {
       {tr, gr, tr, tr},
       {br, tr, tr, tr},
   }};
-  res.chars[star.character] = {{
+  res.chars[star.id] = {{
       {f0, f0, w0, f0},
       {f0, w0, f0, f0},
       {g0, g0, g0, g0},
       {f0, g0, g0, f0},
   }};
-  res.chars[tilda.character] = {{
+  res.chars[tilda.id] = {{
       {w0, w1, w1, w1},
       {w0, w0, w0, w0},
       {w1, w1, w1, w0},
@@ -132,7 +132,7 @@ static constexpr all_chars glyphs = [] {
       {tr, br, tr, tr},
       {br, tr, tr, tr},
   }};
-  res.chars[vbar.character] = {{
+  res.chars[vbar.id] = {{
       {g0, g0, g0, g1},
       {f0, g0, g0, f0},
       {f0, g1, g1, f0},
