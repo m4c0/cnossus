@@ -35,9 +35,9 @@ struct bonus {
 struct mob {
   static constexpr const auto initial_max_actions = 20;
 
-  const mob_type *type{};
+  sprite<mob_type> type{};
   map_coord coord{};
-  ranged life{type == nullptr ? 0 : type->life};
+  ranged life{type ? type->life : 0};
   ranged actions{initial_max_actions};
   unsigned poison{};
   float damage_timer{};
@@ -62,7 +62,7 @@ public:
     const auto &[px, py] = pc;
 
     fill_pos([](auto &i) {
-      if (i.type == nullptr)
+      if (!i.type)
         return quack::rect{};
 
       const auto &c = i.coord;
@@ -70,7 +70,7 @@ public:
                          1};
     });
     fill_colour([px, py, d](auto &i) {
-      if (i.type == nullptr)
+      if (!i.type)
         return quack::colour{};
 
       const auto &[x, y] = i.coord;
@@ -81,9 +81,7 @@ public:
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
       return quack::colour{r, 0, b, a};
     });
-    fill_uv([](auto &i) {
-      return (i.type == nullptr) ? quack::uv{} : i.type->id.uv();
-    });
+    fill_uv([](auto &i) { return i.type ? i.type->id.uv() : quack::uv{}; });
     fill_mult([px, py, d](auto &i) {
       const auto &[x, y] = i.coord;
       auto dx = x - px;
@@ -95,7 +93,7 @@ public:
 
   [[nodiscard]] constexpr mob *mob_at(map_coord c) {
     for (auto &m : data()) {
-      if (m.type != nullptr && m.coord == c)
+      if (m.type && m.coord == c)
         return &m;
     }
     return nullptr;
@@ -103,7 +101,7 @@ public:
 
   void for_each(auto &&fn) {
     for (auto &m : data()) {
-      if (m.type != nullptr)
+      if (m.type)
         fn(m);
     }
   }

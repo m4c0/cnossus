@@ -33,7 +33,7 @@ class game {
         c.x = cno::random(map_width);
       } while (!m_map.at(c.x, c.y)->can_walk);
 
-      auto &mm = m_mobs.at(c.y) = {t, c};
+      auto &mm = m_mobs.at(c.y) = {sprite{t}, c};
       enemy{&mm}.reset_level(m_map.level());
     }
   }

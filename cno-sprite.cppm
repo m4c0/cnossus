@@ -28,12 +28,31 @@ public:
 };
 
 template <typename Tp>
-concept sprite_holder = requires(const Tp &x) {
+concept sid_holder = requires(const Tp &x) {
   { x.id } -> traits::same_as<const sid &>;
 };
 
-[[nodiscard]] constexpr bool operator==(const sprite_holder auto &a,
-                                        const sprite_holder auto &b) noexcept {
+[[nodiscard]] constexpr bool operator==(const sid_holder auto &a,
+                                        const sid_holder auto &b) noexcept {
   return a.id == b.id;
 }
+
+template <sid_holder Tp> class sprite {
+  const Tp *m_type{};
+
+public:
+  constexpr sprite() noexcept = default;
+  explicit constexpr sprite(const Tp *t) noexcept : m_type{t} {}
+
+  [[nodiscard]] explicit constexpr operator bool() const noexcept {
+    return m_type != nullptr;
+  }
+  [[nodiscard]] constexpr const Tp *operator->() const noexcept {
+    return m_type;
+  }
+
+  [[nodiscard]] constexpr bool operator==(const sprite<Tp> &o) const noexcept {
+    return *m_type == *o.m_type;
+  }
+};
 } // namespace cno
