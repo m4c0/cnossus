@@ -186,13 +186,19 @@ public:
   void fill_quack(map_coord pc, unsigned d) noexcept {
     update_rogueview(pc, d);
 
-    m_blocks.fill_uv([](const block &blk) {
-      return (blk.vis == bv_none) ? quack::uv{} : blk.type->id.uv();
+    m_blocks.fill_uv([](auto &i) {
+      return (i.type == nullptr) ? quack::uv{} : i.type->id.uv();
     });
     m_blocks.fill_colour([](const block &blk) { return quack::colour{}; });
     m_blocks.fill_mult([](const block &blk) {
-      auto a = blk.vis == bv_visible ? 1.0f : 0.8f;
-      return quack::colour{1, 1, 1, a};
+      switch (blk.vis) {
+      case bv_visible:
+        return quack::colour{1, 1, 1, 1};
+      case bv_none:
+        return quack::colour{1, 1, 1, 0};
+      default:
+        return quack::colour{1, 1, 1, 0.8f};
+      }
     });
   }
 

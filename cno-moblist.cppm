@@ -78,7 +78,16 @@ public:
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
       return quack::colour{r, 0, b, a};
     });
-    fill_mult([](auto &i) { return quack::colour{1, 1, 1, 1}; });
+    fill_uv([](auto &i) {
+      return (i.type == nullptr) ? quack::uv{} : i.type->id.uv();
+    });
+    fill_mult([px, py, d](auto &i) {
+      const auto &[x, y] = i.coord;
+      auto dx = x - px;
+      auto dy = y - py;
+      auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
+      return quack::colour{1, 1, 1, a};
+    });
   }
 
   [[nodiscard]] constexpr mob *mob_at(map_coord c) {
