@@ -1,5 +1,6 @@
 export module cno:itemtype;
 import :random;
+import :sprite;
 import jute;
 
 namespace cno {
@@ -19,8 +20,8 @@ class item_type;
 using item_loot_table = rnd_roll_per_level<const item_type *, max_item_drops>;
 
 struct item_type {
-  jute::view name{};
-  char character{};
+  jute::view name;
+  sid id;
   int attack{};
   int defense{};
   carry_type carry{carry_many};
@@ -29,30 +30,26 @@ struct item_type {
   inventory_pos inv_coords{~0U, ~0U};
   const item_loot_table *drops{};
 };
-[[nodiscard]] constexpr bool operator==(const item_type &a,
-                                        const item_type &b) noexcept {
-  return a.character == b.character;
-}
 
 // Missing in previous code.
 // Then missing parts can be added or these can be entirely removed
 constexpr const item_type cloth{
     .name = "linen tunic",
-    .character = 'a',
+    .id = 'a',
     .defense = 1,
     .carry = carry_one,
     .inv_coords = {1, 5},
 };
 constexpr const item_type leather{
     .name = "leather vest",
-    .character = 'b',
+    .id = 'b',
     .defense = 2,
     .carry = carry_one,
     .inv_coords = {1, 6},
 };
 constexpr const item_type sword{
     .name = "short sword",
-    .character = 'c',
+    .id = 'c',
     .attack = 12,
     .carry = carry_one,
 };
@@ -60,58 +57,58 @@ constexpr const item_type sword{
 // Bag
 constexpr const item_type bag{
     .name = "bag",
-    .character = 'd',
+    .id = 'd',
     .carry = carry_one,
 };
 
 // Attack items
 constexpr const item_type knife{
     .name = "rust knife",
-    .character = 'e',
+    .id = 'e',
     .attack = 2,
 };
 constexpr const item_type sickle{
     .name = "sickle",
-    .character = 'f',
+    .id = 'f',
     .attack = 3,
 };
 constexpr const item_type adze{
     .name = "adze",
-    .character = 'g',
+    .id = 'g',
     .attack = 5,
 };
 constexpr const item_type axe{
     .name = "axe",
-    .character = 'h',
+    .id = 'h',
     .attack = 8,
 };
 constexpr const item_type doubleaxe{
     .name = "battle axe",
-    .character = 'i',
+    .id = 'i',
     .attack = 10,
 };
 constexpr const item_type spear{
     .name = "spear",
-    .character = 'j',
+    .id = 'j',
     .attack = 15,
 };
 
 // Food
 constexpr const item_type driedfruit{
     .name = "strange fruit",
-    .character = 'k',
+    .id = 'k',
     .life_gain = 3,
     .inv_coords = {0, 0},
 };
 constexpr const item_type cheese{
     .name = "cheese",
-    .character = 'l',
+    .id = 'l',
     .life_gain = 5,
     .inv_coords = {0, 1},
 };
 constexpr const item_type rawmeat{
     .name = "raw meat",
-    .character = 'm',
+    .id = 'm',
     .life_gain = 8,
     .inv_coords = {0, 2},
 };
@@ -119,19 +116,19 @@ constexpr const item_type rawmeat{
 // Lights
 constexpr const item_type torch{
     .name = "torch",
-    .character = 'n',
+    .id = 'n',
     .light_provided = 10,
     .inv_coords = {0, 3},
 };
 constexpr const item_type candle{
     .name = "candle",
-    .character = 'o',
+    .id = 'o',
     .light_provided = 15,
     .inv_coords = {0, 3},
 };
 constexpr const item_type oillamp{
     .name = "lamp",
-    .character = 'p',
+    .id = 'p',
     .light_provided = 25,
     .inv_coords = {0, 4},
 };
@@ -139,35 +136,35 @@ constexpr const item_type oillamp{
 // Defense
 constexpr const item_type greave{
     .name = "boots",
-    .character = 'q',
+    .id = 'q',
     .defense = 1,
     .carry = carry_two,
     .inv_coords = {1, 0},
 };
 constexpr const item_type armguard{
     .name = "gloves",
-    .character = 'r',
+    .id = 'r',
     .defense = 1,
     .carry = carry_two,
     .inv_coords = {1, 1},
 };
 constexpr const item_type pauldron{
     .name = "helmet",
-    .character = 's',
+    .id = 's',
     .defense = 1,
     .carry = carry_one,
     .inv_coords = {1, 2},
 };
 constexpr const item_type scale{
     .name = "chest armor",
-    .character = 't',
+    .id = 't',
     .defense = 3,
     .carry = carry_one,
     .inv_coords = {1, 3},
 };
 constexpr const item_type shield{
     .name = "shield",
-    .character = 'u',
+    .id = 'u',
     .defense = 5,
     .inv_coords = {1, 4},
 };
@@ -219,12 +216,12 @@ constexpr const auto chest_drops = item_loot_table{
 
 constexpr const item_type jar{
     .name = "jar",
-    .character = 'v',
+    .id = 'v',
     .drops = &jar_drops,
 };
 constexpr const item_type coffer{
     .name = "chest",
-    .character = 'w',
+    .id = 'w',
     .drops = &chest_drops,
 };
 

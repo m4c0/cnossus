@@ -81,19 +81,7 @@ public:
                          1};
     });
     fill_uv([](const item &i) {
-      if (i.type == nullptr)
-        return quack::uv{};
-
-      auto c = i.type->character;
-      auto u = static_cast<float>(c % 16);
-      auto v = static_cast<float>(c / 16);
-
-      auto u0 = u / 16.0f;
-      auto v0 = v / 16.0f;
-      auto u1 = (u + 1.0f) / 16.0f;
-      auto v1 = (v + 1.0f) / 16.0f;
-
-      return quack::uv{{u0, v0}, {u1, v1}};
+      return (i.type == nullptr) ? quack::uv{} : i.type->id.uv();
     });
     fill_colour([](const item &i) { return quack::colour{}; });
     fill_mult([px, py, d](const item &i) {

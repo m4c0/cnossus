@@ -42,31 +42,31 @@ static constexpr all_chars glyphs = [] {
       {f0, g1, g1, f0},
       {f0, g0, g0, f0},
   }};
-  res.chars[bag.character] = {{
+  res.chars[bag.id] = {{
       {tr, tr, br, tr},
       {tr, br, br, tr},
       {br, br, br, br},
       {tr, br, br, br},
   }};
-  res.chars[candle.character] = {{
+  res.chars[candle.id] = {{
       {tr, rd, tr, tr},
       {tr, rd, rd, tr},
       {tr, br, br, tr},
       {tr, br, br, tr},
   }};
-  res.chars[cheese.character] = {{
+  res.chars[cheese.id] = {{
       {tr, tr, tr, tr},
       {yl, tr, tr, tr},
       {yl, yl, tr, tr},
       {yl, yl, yl, tr},
   }};
-  res.chars[cloth.character] = {{
+  res.chars[cloth.id] = {{
       {tr, gr, gr, tr},
       {gr, yl, yl, gr},
       {gr, yl, yl, gr},
       {gr, yl, yl, gr},
   }};
-  res.chars[coffer.character] = {{
+  res.chars[coffer.id] = {{
       {tr, tr, tr, tr},
       {tr, br, br, tr},
       {br, br, br, br},
@@ -84,7 +84,7 @@ static constexpr all_chars glyphs = [] {
       {f0, f0, f0, f0},
       {f0, f0, f0, f0},
   }};
-  res.chars[driedfruit.character] = {{
+  res.chars[driedfruit.id] = {{
       {tr, tr, tr, tr},
       {tr, tr, tr, tr},
       {tr, yl, yl, tr},
@@ -102,13 +102,13 @@ static constexpr all_chars glyphs = [] {
       {g1, g1, g1, g0},
       {g0, g0, g0, g0},
   }};
-  res.chars[jar.character] = {{
+  res.chars[jar.id] = {{
       {tr, br, br, tr},
       {tr, br, br, tr},
       {br, br, br, br},
       {tr, br, br, tr},
   }};
-  res.chars[knife.character] = {{
+  res.chars[knife.id] = {{
       {tr, tr, tr, tr},
       {tr, tr, tr, tr},
       {tr, gr, tr, tr},
@@ -126,7 +126,7 @@ static constexpr all_chars glyphs = [] {
       {w1, w1, w1, w0},
       {w0, w0, w0, w0},
   }};
-  res.chars[torch.character] = {{
+  res.chars[torch.id] = {{
       {tr, tr, rd, rd},
       {tr, tr, br, rd},
       {tr, br, tr, tr},

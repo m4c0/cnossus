@@ -1,6 +1,7 @@
 export module cno:inventory;
 import :globals;
 import :itemtype;
+import :sprite;
 import jute;
 
 namespace cno::inv {
