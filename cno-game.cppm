@@ -76,13 +76,14 @@ class game {
       return;
     }
 
-    auto *mm = m_mobs.mob_at(tgt);
-    if (mm != nullptr && (m->type != mm->type)) {
-      attack(*m, *mm);
-      return;
-    }
+    auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
+      if (m->type != mm.type) {
+        attack(*m, mm);
+      }
+    });
 
-    m->coord = tgt;
+    if (!attacked)
+      m->coord = tgt;
   }
 
   void process_actions_with_light() {

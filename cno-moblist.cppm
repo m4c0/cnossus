@@ -47,13 +47,9 @@ struct mob {
   return a.type->hostility == h_none;
 }
 
-class mob_list : sbatch<mob, max_mobs_per_level> {
+class mob_list : public sbatch<mob, max_mobs_per_level> {
 public:
   using sbatch::sbatch;
-
-  using sbatch::at;
-  using sbatch::for_each;
-  using sbatch::process_event;
 
   void fill_quack(map_coord pc, unsigned d) {
     sbatch::fill_quack(pc, d);
@@ -71,14 +67,6 @@ public:
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
       return quack::colour{r, 0, b, a};
     });
-  }
-
-  [[nodiscard]] constexpr mob *mob_at(map_coord c) {
-    for (auto &m : data()) {
-      if (m.type && m.coord == c)
-        return &m;
-    }
-    return nullptr;
   }
 };
 } // namespace cno

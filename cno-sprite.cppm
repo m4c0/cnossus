@@ -85,6 +85,16 @@ public:
     }
   }
 
+  bool find_at(map_coord c, auto &&fn) {
+    for (auto &m : this->data()) {
+      if (m.type && m.coord == c) {
+        fn(m);
+        return true;
+      }
+    }
+    return false;
+  }
+
   void fill_quack(map_coord pc, unsigned d) noexcept {
     this->fill_colour([](const auto &i) { return quack::colour{}; });
     this->fill_mult([pc, d](const auto &i) {
