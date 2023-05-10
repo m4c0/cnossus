@@ -77,5 +77,26 @@ public:
       break;
     }
   }
+
+  void fill_quack(map_coord pc, unsigned d) noexcept {
+    this->fill_colour([](const auto &i) { return quack::colour{}; });
+    this->fill_mult([pc, d](const auto &i) {
+      const auto &[px, py] = pc;
+      const auto &[x, y] = i.coord;
+      auto dx = x - px;
+      auto dy = y - py;
+      auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
+      return quack::colour{1, 1, 1, a};
+    });
+    this->fill_pos([](const auto &i) {
+      const auto &c = i.coord;
+      auto x = static_cast<float>(c.x);
+      auto y = static_cast<float>(c.y);
+      return quack::rect{x, y, 1, 1};
+    });
+    this->fill_uv([](const auto &i) -> quack::uv {
+      return i.type ? i.type->id.uv() : quack::uv{};
+    });
+  }
 };
 } // namespace cno

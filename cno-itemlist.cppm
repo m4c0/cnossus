@@ -42,6 +42,8 @@ public:
   using sbatch::sbatch;
 
   using sbatch::add;
+  using sbatch::fill_quack;
+  using sbatch::process_event;
   using sbatch::reset_grid;
 
   sprite<item_type> fetch(map_coord c) {
@@ -58,27 +60,5 @@ public:
     }
     return {};
   }
-
-  void fill_quack(map_coord pc, unsigned d) noexcept {
-    const auto &[px, py] = pc;
-
-    fill_pos([](const item &i) {
-      const auto &c = i.coord;
-      return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
-                         1};
-    });
-    fill_uv(
-        [](const item &i) { return i.type ? i.type->id.uv() : quack::uv{}; });
-    fill_colour([](const item &i) { return quack::colour{}; });
-    fill_mult([px, py, d](const item &i) {
-      const auto &[x, y] = i.coord;
-      auto dx = x - px;
-      auto dy = y - py;
-      auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
-      return quack::colour{1, 1, 1, a};
-    });
-  }
-
-  using instance_layout::process_event;
 };
 } // namespace cno

@@ -55,16 +55,9 @@ public:
   using sbatch::process_event;
 
   void fill_quack(map_coord pc, unsigned d) {
+    sbatch::fill_quack(pc, d);
+
     const auto &[px, py] = pc;
-
-    fill_pos([](auto &i) {
-      if (!i.type)
-        return quack::rect{};
-
-      const auto &c = i.coord;
-      return quack::rect{static_cast<float>(c.x), static_cast<float>(c.y), 1,
-                         1};
-    });
     fill_colour([px, py, d](auto &i) {
       if (!i.type)
         return quack::colour{};
@@ -76,14 +69,6 @@ public:
       const auto &[r, b] = i.type->id.uv().start;
       auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
       return quack::colour{r, 0, b, a};
-    });
-    fill_uv([](auto &i) { return i.type ? i.type->id.uv() : quack::uv{}; });
-    fill_mult([px, py, d](auto &i) {
-      const auto &[x, y] = i.coord;
-      auto dx = x - px;
-      auto dy = y - py;
-      auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
-      return quack::colour{1, 1, 1, a};
     });
   }
 
