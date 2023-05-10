@@ -3,6 +3,7 @@ import :atlas;
 import :enemy;
 import :inventory;
 import :itemlist;
+import :labyrinth;
 import :map;
 import :moblist;
 import :player;
@@ -31,7 +32,7 @@ class game {
 
       do {
         c.x = cno::random(map_width);
-      } while (!m_map.at(c.x, c.y)->can_walk);
+      } while (!m_map.at(c.x, c.y).type->can_walk);
 
       auto &mm = m_mobs.at(c.y) = {sprite{t}, c};
       enemy{&mm}.reset_level(m_map.level());
@@ -67,10 +68,10 @@ class game {
 
   void try_move(mob *m, map_coord tgt) {
     auto blk = m_map.at(tgt.x, tgt.y);
-    if (!blk->can_walk) {
+    if (!blk.type->can_walk) {
       if (is_player(*m)) {
         using namespace jute::literals;
-        g::update_status("A "_s + blk->name + " blocks your way");
+        g::update_status("A "_s + blk.type->name + " blocks your way");
       }
       return;
     }
@@ -194,7 +195,7 @@ class game {
 
       do {
         c.x = cno::random(map_width);
-      } while (!m_map.at(c.x, c.y)->can_walk);
+      } while (!m_map.at(c.x, c.y).type->can_walk);
 
       m_items.add({type, c});
     }
@@ -222,7 +223,7 @@ class game {
     // This should be a different action. If we try to fetch an item from ground
     // and we fail and the item is over the stair, we move to the next level.
     // TODO: fix this.
-    if (m_map.at(pc.x, pc.y) != sprite{&gt}) {
+    if (m_map.at(pc.x, pc.y).type->id != gt.id) {
       tick();
       return;
     }
@@ -250,6 +251,7 @@ class game {
   void set_level(unsigned l) {
     m_player.level_reset(l);
     m_map.set_level(l);
+    maze_builder{&m_map}.build_level(l);
     create_items();
     create_enemies();
     repaint(m_player.coord());
