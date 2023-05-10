@@ -67,5 +67,15 @@ class sbatch : public quack::instance_layout<Tp, Max> {
 
 public:
   using parent_t::parent_t;
+
+  void add(Tp n) {
+    for (auto &i : this->data()) {
+      if (i.type)
+        continue;
+
+      i = n;
+      break;
+    }
+  }
 };
 } // namespace cno

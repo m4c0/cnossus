@@ -53,7 +53,7 @@ class game {
 
     if (nit != it) {
       g::update_status("Something fells on the ground");
-      m_items.add_item({nit, c});
+      m_items.add({nit, c});
       return false;
     }
 
@@ -62,7 +62,7 @@ class game {
     }
 
     // Add the item back since we can't take it
-    m_items.add_item({it, c});
+    m_items.add({it, c});
     return false;
   }
 
@@ -128,7 +128,7 @@ class game {
       if (tgt.life == 0) {
         auto drop = sprite{tgt.type->drops.roll()};
         if (drop)
-          m_items.add_item({drop, tgt.coord});
+          m_items.add({drop, tgt.coord});
         if (is_player(src)) {
           g::update_status("You killed a " + tgtn);
         } else if (is_player(tgt)) {
@@ -196,7 +196,7 @@ class game {
         c.x = cno::random(map_width);
       } while (!m_map.at(c.x, c.y)->can_walk);
 
-      m_items.add_item({type, c});
+      m_items.add({type, c});
     }
   }
 

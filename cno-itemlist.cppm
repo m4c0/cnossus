@@ -41,17 +41,8 @@ class item_list : sbatch<item, max_items_per_level> {
 public:
   using sbatch::sbatch;
 
+  using sbatch::add;
   using sbatch::reset_grid;
-
-  void add_item(item new_i) {
-    for (auto &i : data()) {
-      if (i.type)
-        continue;
-
-      i = new_i;
-      break;
-    }
-  }
 
   sprite<item_type> fetch(map_coord c) {
     for (auto &i : data()) {
