@@ -47,8 +47,7 @@ struct mob {
   return a.type->hostility == h_none;
 }
 
-class mob_list : public sbatch<mob, max_mobs_per_level> {
-public:
+struct mob_list : public sbatch<mob, max_mobs_per_level> {
   using sbatch::sbatch;
 
   void fill_quack(map_coord pc, unsigned d) {

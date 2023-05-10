@@ -39,31 +39,30 @@ class game {
   }
 
   [[nodiscard]] bool open_item_at(map_coord c) {
-    auto it = m_items.fetch(c);
-    if (!it)
-      return false;
+    return m_items.find_at(c, [this, c](auto &it) {
+      auto drops = it.type->drops;
+      auto nit =
+          (drops == nullptr) ? it.type : sprite{drops->roll(m_map.level())};
+      if (!nit) {
+        using namespace jute::literals;
+        g::update_status("The "_s + it.type->name + " crumbled to dust");
+        it = {};
+        return;
+      }
 
-    auto drops = it->drops;
-    auto nit = (drops == nullptr) ? it : sprite{drops->roll(m_map.level())};
-    if (!nit) {
-      using namespace jute::literals;
-      g::update_status("The "_s + it->name + " crumbled to dust");
-      return false;
-    }
+      if (nit != it.type) {
+        g::update_status("Something fells on the ground");
+        it.type = nit;
+        return;
+      }
 
-    if (nit != it) {
-      g::update_status("Something fells on the ground");
-      m_items.add({nit, c});
-      return false;
-    }
-
-    if (m_inv.get_item(nit)) {
-      return true;
-    }
-
-    // Add the item back since we can't take it
-    m_items.add({it, c});
-    return false;
+      if (m_inv.get_item(nit)) {
+        it = {};
+        m_player.update_inventory(m_inv);
+        tick();
+        return;
+      }
+    });
   }
 
   void try_move(mob *m, map_coord tgt) {
@@ -217,11 +216,12 @@ class game {
 
     auto pc = m_player.coord();
     if (open_item_at(pc)) {
-      m_player.update_inventory(m_inv);
-      tick();
       return;
     }
 
+    // This should be a different action. If we try to fetch an item from ground
+    // and we fail and the item is over the stair, we move to the next level.
+    // TODO: fix this.
     if (m_map.at(pc.x, pc.y) != sprite{&gt}) {
       tick();
       return;

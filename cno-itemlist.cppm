@@ -37,28 +37,5 @@ static constexpr const item_roll_t item_roll_per_level = {
     item_roll_t::roll_t{&jar, &spear, &coffer, &shield, &torch},
 };
 
-class item_list : sbatch<item, max_items_per_level> {
-public:
-  using sbatch::sbatch;
-
-  using sbatch::add;
-  using sbatch::fill_quack;
-  using sbatch::process_event;
-  using sbatch::reset_grid;
-
-  sprite<item_type> fetch(map_coord c) {
-    for (auto &i : data()) {
-      if (!i.type)
-        continue;
-
-      if (i.coord != c) {
-        continue;
-      }
-      auto res = i.type;
-      i.type = {};
-      return res;
-    }
-    return {};
-  }
-};
+using item_list = sbatch<item, max_items_per_level>;
 } // namespace cno
