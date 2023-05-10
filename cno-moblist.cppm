@@ -52,6 +52,7 @@ public:
   using sbatch::sbatch;
 
   using sbatch::at;
+  using sbatch::for_each;
   using sbatch::process_event;
 
   void fill_quack(map_coord pc, unsigned d) {
@@ -78,13 +79,6 @@ public:
         return &m;
     }
     return nullptr;
-  }
-
-  void for_each(auto &&fn) {
-    for (auto &m : data()) {
-      if (m.type)
-        fn(m);
-    }
   }
 };
 } // namespace cno

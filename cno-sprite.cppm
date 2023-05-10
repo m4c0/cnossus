@@ -78,6 +78,13 @@ public:
     }
   }
 
+  void for_each(auto &&fn) {
+    for (auto &m : this->data()) {
+      if (m.type)
+        fn(m);
+    }
+  }
+
   void fill_quack(map_coord pc, unsigned d) noexcept {
     this->fill_colour([](const auto &i) { return quack::colour{}; });
     this->fill_mult([pc, d](const auto &i) {
