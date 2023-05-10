@@ -37,15 +37,11 @@ static constexpr const item_roll_t item_roll_per_level = {
     item_roll_t::roll_t{&jar, &spear, &coffer, &shield, &torch},
 };
 
-class item_list : quack::instance_layout<item, max_items_per_level> {
-  void resize(unsigned w, unsigned h) override {
-    batch()->resize(map_width, map_height, w, h);
-  }
-
+class item_list : sbatch<item, max_items_per_level> {
 public:
-  explicit item_list(quack::renderer *r) : instance_layout{r} {}
+  using sbatch::sbatch;
 
-  using instance_layout::reset_grid;
+  using sbatch::reset_grid;
 
   void add_item(item new_i) {
     for (auto &i : data()) {

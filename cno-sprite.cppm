@@ -1,4 +1,5 @@
 export module cno:sprite;
+import :globals;
 import quack;
 import traits;
 
@@ -54,5 +55,17 @@ public:
   [[nodiscard]] constexpr bool operator==(const sprite<Tp> &o) const noexcept {
     return *m_type == *o.m_type;
   }
+};
+
+template <typename Tp, unsigned Max>
+class sbatch : public quack::instance_layout<Tp, Max> {
+  using parent_t = quack::instance_layout<Tp, Max>;
+
+  void resize(unsigned w, unsigned h) override {
+    this->batch()->resize(map_width, map_height, w, h);
+  }
+
+public:
+  using parent_t::parent_t;
 };
 } // namespace cno

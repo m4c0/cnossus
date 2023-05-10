@@ -47,16 +47,12 @@ struct mob {
   return a.type->hostility == h_none;
 }
 
-class mob_list : quack::instance_layout<mob, max_mobs_per_level> {
-  void resize(unsigned w, unsigned h) override {
-    batch()->resize(map_width, map_height, w, h);
-  }
-
+class mob_list : sbatch<mob, max_mobs_per_level> {
 public:
-  explicit mob_list(quack::renderer *r) : instance_layout{r} {}
+  using sbatch::sbatch;
 
-  using instance_layout::at;
-  using instance_layout::process_event;
+  using sbatch::at;
+  using sbatch::process_event;
 
   void fill_quack(map_coord pc, unsigned d) {
     const auto &[px, py] = pc;
