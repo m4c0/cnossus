@@ -9,22 +9,24 @@ namespace cno {
 enum block_vibility { bv_none, bv_fog, bv_visible };
 struct block {
   sprite<block_type> type;
+  map_coord coord;
   block_vibility vis;
 };
 
 class map {
-  quack::grid_ilayout<map_width, map_height, block> m_blocks;
+  sbatch<block, map_width * map_height> m_blocks;
 
   void update_rogueview(map_coord pc, unsigned radius) noexcept {
-    for (auto x = 0; x < map_width; x++) {
+    for (auto x = 0U; x < map_width; x++) {
       auto dx = pc.x - x;
-      for (auto y = 0; y < map_height; y++) {
+      for (auto y = 0U; y < map_height; y++) {
         auto dy = pc.y - y;
-        auto &vis = m_blocks.at(x, y).vis;
+        auto &blk = at(x, y);
+        blk.coord = {x, y};
         if (dx * dx + dy * dy <= radius * radius) {
-          vis = bv_visible;
-        } else if (vis == bv_visible) {
-          vis = bv_fog;
+          blk.vis = bv_visible;
+        } else if (blk.vis == bv_visible) {
+          blk.vis = bv_fog;
         }
       }
     }
@@ -35,18 +37,16 @@ public:
 
   // TODO: migrate to sbatch
   [[nodiscard]] constexpr block &at(unsigned x, unsigned y) noexcept {
-    return m_blocks.at(x, y);
+    return m_blocks.at(y * map_width + x);
   }
   [[nodiscard]] constexpr block at(unsigned x, unsigned y) const noexcept {
-    return m_blocks.at(x, y);
+    return m_blocks.at(y * map_width + x);
   }
 
   void fill_quack(map_coord pc, unsigned d) noexcept {
     update_rogueview(pc, d);
 
-    m_blocks.fill_uv(
-        [](auto &i) { return i.type ? i.type->id.uv() : quack::uv{}; });
-    m_blocks.fill_colour([](const block &blk) { return quack::colour{}; });
+    m_blocks.fill_quack(pc, d);
     m_blocks.fill_mult([](const block &blk) {
       switch (blk.vis) {
       case bv_visible:
