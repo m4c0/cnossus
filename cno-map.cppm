@@ -13,9 +13,7 @@ struct block {
   block_vibility vis;
 };
 
-class map {
-  sbatch<block, map_width * map_height> m_blocks;
-
+class map : sbatch<block, map_width * map_height> {
   void update_rogueview(map_coord pc, unsigned radius) noexcept {
     for (auto x = 0U; x < map_width; x++) {
       auto dx = pc.x - x;
@@ -33,21 +31,23 @@ class map {
   }
 
 public:
-  constexpr map(quack::renderer *r) : m_blocks{r} {}
+  using sbatch::sbatch;
+
+  using sbatch::process_event;
 
   // TODO: migrate to sbatch
   [[nodiscard]] constexpr block &at(unsigned x, unsigned y) noexcept {
-    return m_blocks.at(y * map_width + x);
+    return sbatch::at(y * map_width + x);
   }
   [[nodiscard]] constexpr block at(unsigned x, unsigned y) const noexcept {
-    return m_blocks.at(y * map_width + x);
+    return sbatch::at(y * map_width + x);
   }
 
   void fill_quack(map_coord pc, unsigned d) noexcept {
     update_rogueview(pc, d);
 
-    m_blocks.fill_quack(pc, d);
-    m_blocks.fill_mult([](const block &blk) {
+    sbatch::fill_quack(pc, d);
+    fill_mult([](const block &blk) {
       switch (blk.vis) {
       case bv_visible:
         return quack::colour{1, 1, 1, 1};
@@ -57,10 +57,6 @@ public:
         return quack::colour{1, 1, 1, 0.8f};
       }
     });
-  }
-
-  void process_event(const casein::event &e) noexcept {
-    m_blocks.process_event(e);
   }
 };
 } // namespace cno
