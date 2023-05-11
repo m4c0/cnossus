@@ -32,12 +32,9 @@ struct bonus {
   int defense;
   int damage;
 };
-struct mob {
+struct mob : sprite<mob_type> {
   static constexpr const auto initial_max_actions = 20;
 
-  stype<mob_type> type{};
-  map_coord coord{};
-  sprite_visibility vis{};
   ranged life{type ? type->life : 0};
   ranged actions{initial_max_actions};
   unsigned poison{};

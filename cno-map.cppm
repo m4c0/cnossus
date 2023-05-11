@@ -6,11 +6,7 @@ import casein;
 import quack;
 
 namespace cno {
-struct block {
-  stype<block_type> type;
-  map_coord coord;
-  sprite_visibility vis;
-};
+using block = sprite<block_type>;
 
 class map : sbatch<block, map_width * map_height> {
 public:

@@ -4,7 +4,7 @@ import quack;
 import traits;
 
 namespace cno {
-enum sprite_visibility { sv_none, sv_fog, sv_visible };
+enum svis { sv_none, sv_fog, sv_visible };
 
 class sid {
   char m_value;
@@ -57,6 +57,12 @@ public:
   [[nodiscard]] constexpr bool operator==(const stype<Tp> &o) const noexcept {
     return *m_type == *o.m_type;
   }
+};
+
+template <sid_holder Tp> struct sprite {
+  stype<Tp> type;
+  map_coord coord;
+  svis vis;
 };
 
 template <typename Tp, unsigned Max>

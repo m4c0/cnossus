@@ -8,11 +8,7 @@ namespace cno {
 static constexpr const auto max_items_per_level = map_height * 2;
 static constexpr const auto max_item_roll = 5;
 
-struct item {
-  stype<item_type> type;
-  map_coord coord;
-  sprite_visibility vis;
-};
+using item = sprite<item_type>;
 
 using item_roll_t = rnd_roll_per_level<const item_type *, max_item_roll>;
 static constexpr const item_roll_t item_roll_per_level = {
