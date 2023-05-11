@@ -20,11 +20,12 @@ class game {
   inv::table m_inv{};
   player m_player{&m_mobs.at(0)};
   unsigned m_light{};
+  unsigned m_level{};
 
   void create_enemies() {
     map_coord c{};
     for (c.y = 1; c.y < map_height - 1; c.y++) {
-      const mob_type *t = mob_roll_per_level.roll(m_map.level());
+      const mob_type *t = mob_roll_per_level.roll(m_level);
       if (t == nullptr) {
         m_mobs.at(c.y) = {};
         continue;
@@ -35,15 +36,14 @@ class game {
       } while (!m_map.at(c.x, c.y).type->can_walk);
 
       auto &mm = m_mobs.at(c.y) = {sprite{t}, c};
-      enemy{&mm}.reset_level(m_map.level());
+      enemy{&mm}.reset_level(m_level);
     }
   }
 
   [[nodiscard]] bool open_item_at(map_coord c) {
     return m_items.find_at(c, [this, c](auto &it) {
       auto drops = it.type->drops;
-      auto nit =
-          (drops == nullptr) ? it.type : sprite{drops->roll(m_map.level())};
+      auto nit = (drops == nullptr) ? it.type : sprite{drops->roll(m_level)};
       if (!nit) {
         using namespace jute::literals;
         g::update_status("The "_s + it.type->name + " crumbled to dust");
@@ -180,7 +180,7 @@ class game {
   }
 
   [[nodiscard]] bool game_is_over() const {
-    return m_player.is_dead() || m_map.level() == 20;
+    return m_player.is_dead() || m_level == max_level + 1;
   }
 
   void create_items() {
@@ -188,7 +188,7 @@ class game {
 
     map_coord c{};
     for (c.y = 1; c.y < map_height - 2; c.y++) {
-      auto type = sprite{item_roll_per_level.roll(m_map.level())};
+      auto type = sprite{item_roll_per_level.roll(m_level)};
       if (!type) {
         continue;
       }
@@ -228,7 +228,7 @@ class game {
       return;
     }
 
-    auto lvl = m_map.level() + 1;
+    auto lvl = m_level + 1;
     if (lvl == max_level + 1) {
       g::update_status("You left the dungeon. The world is yours now.");
     } else {
@@ -249,8 +249,8 @@ class game {
   }
 
   void set_level(unsigned l) {
+    m_level = l;
     m_player.level_reset(l);
-    m_map.set_level(l);
     maze_builder{&m_map}.build_level(l);
     create_items();
     create_enemies();

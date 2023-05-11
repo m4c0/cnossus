@@ -13,7 +13,6 @@ struct block {
 };
 
 class map {
-  unsigned m_level;
   quack::grid_ilayout<map_width, map_height, block> m_blocks;
 
   void update_rogueview(map_coord pc, unsigned radius) noexcept {
@@ -34,7 +33,7 @@ class map {
 public:
   constexpr map(quack::renderer *r) : m_blocks{r} {}
 
-  [[nodiscard]] constexpr auto level() const noexcept { return m_level; }
+  // TODO: migrate to sbatch
   [[nodiscard]] constexpr block &at(unsigned x, unsigned y) noexcept {
     return m_blocks.at(x, y);
   }
@@ -59,8 +58,6 @@ public:
       }
     });
   }
-
-  void set_level(unsigned l) noexcept { m_level = l; }
 
   void process_event(const casein::event &e) noexcept {
     m_blocks.process_event(e);
