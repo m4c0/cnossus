@@ -158,7 +158,7 @@ public:
         m_map->at(x, y) = {
             .type = sprite{&dot},
             .coord = {x, y},
-            .vis = bv_none,
+            .vis = sv_none,
         };
       }
     }

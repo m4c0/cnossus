@@ -37,6 +37,7 @@ struct mob {
 
   sprite<mob_type> type{};
   map_coord coord{};
+  sprite_visibility vis{};
   ranged life{type ? type->life : 0};
   ranged actions{initial_max_actions};
   unsigned poison{};

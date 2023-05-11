@@ -11,6 +11,7 @@ static constexpr const auto max_item_roll = 5;
 struct item {
   sprite<item_type> type;
   map_coord coord;
+  sprite_visibility vis;
 };
 
 using item_roll_t = rnd_roll_per_level<const item_type *, max_item_roll>;

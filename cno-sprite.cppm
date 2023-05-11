@@ -4,6 +4,8 @@ import quack;
 import traits;
 
 namespace cno {
+enum sprite_visibility { sv_none, sv_fog, sv_visible };
+
 class sid {
   char m_value;
 
@@ -65,6 +67,18 @@ class sbatch : public quack::instance_layout<Tp, Max> {
     this->batch()->resize(map_width, map_height, w, h);
   }
 
+  void update_rogueview(map_coord pc, unsigned radius) noexcept {
+    for (auto &blk : this->data()) {
+      auto dx = pc.x - blk.coord.x;
+      auto dy = pc.y - blk.coord.y;
+      if (dx * dx + dy * dy <= radius * radius) {
+        blk.vis = sv_visible;
+      } else if (blk.vis == sv_visible) {
+        blk.vis = sv_fog;
+      }
+    }
+  }
+
 public:
   using parent_t::parent_t;
 
@@ -96,14 +110,18 @@ public:
   }
 
   void fill_quack(map_coord pc, unsigned d) noexcept {
+    update_rogueview(pc, d);
+
     this->fill_colour([](const auto &i) { return quack::colour{}; });
     this->fill_mult([pc, d](const auto &i) {
-      const auto &[px, py] = pc;
-      const auto &[x, y] = i.coord;
-      auto dx = x - px;
-      auto dy = y - py;
-      auto a = ((dx * dx) + (dy * dy) <= d * d) ? 1.0f : 0.3f;
-      return quack::colour{1, 1, 1, a};
+      switch (i.vis) {
+      case sv_visible:
+        return quack::colour{1, 1, 1, 1};
+      case sv_none:
+        return quack::colour{1, 1, 1, 0};
+      default:
+        return quack::colour{1, 1, 1, 0.8f};
+      }
     });
     this->fill_pos([](const auto &i) {
       const auto &c = i.coord;
