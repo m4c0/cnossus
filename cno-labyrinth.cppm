@@ -1,6 +1,7 @@
 export module cno:labyrinth;
 import :blocktype;
 import :map;
+import :random;
 
 namespace cno {
 class maze_builder {
@@ -13,7 +14,7 @@ class maze_builder {
   cell_size m_cell;
 
   [[nodiscard]] auto &at(unsigned x, unsigned y) noexcept {
-    return m_map->at(x, y).type;
+    return map_at(m_map, x, y).type;
   }
 
   [[nodiscard]] auto random_furniture() const noexcept {
@@ -155,7 +156,7 @@ public:
   void build_level(unsigned lvl) noexcept {
     for (auto y = 0U; y < map_height; y++) {
       for (auto x = 0U; x < map_width; x++) {
-        m_map->at(x, y) = {
+        map_at(m_map, x, y) = {
             .type = stype{&dot},
             .coord = {x, y},
             .vis = sv_none,

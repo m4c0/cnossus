@@ -33,7 +33,7 @@ class game {
 
       do {
         c.x = cno::random(map_width);
-      } while (!m_map.at(c.x, c.y).type->can_walk);
+      } while (!map_at(&m_map, c).type->can_walk);
 
       auto &mm = m_mobs.at(c.y) = {stype{t}, c};
       enemy{&mm}.reset_level(m_level);
@@ -67,7 +67,7 @@ class game {
   }
 
   void try_move(mob *m, map_coord tgt) {
-    auto blk = m_map.at(tgt.x, tgt.y);
+    auto blk = map_at(&m_map, tgt);
     if (!blk.type->can_walk) {
       if (is_player(*m)) {
         using namespace jute::literals;
@@ -195,7 +195,7 @@ class game {
 
       do {
         c.x = cno::random(map_width);
-      } while (!m_map.at(c.x, c.y).type->can_walk);
+      } while (!map_at(&m_map, c).type->can_walk);
 
       m_items.add({type, c});
     }
@@ -223,7 +223,7 @@ class game {
     // This should be a different action. If we try to fetch an item from ground
     // and we fail and the item is over the stair, we move to the next level.
     // TODO: fix this.
-    if (m_map.at(pc.x, pc.y).type->id != gt.id) {
+    if (map_at(&m_map, pc).type->id != gt.id) {
       tick();
       return;
     }

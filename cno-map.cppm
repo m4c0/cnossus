@@ -1,19 +1,15 @@
 export module cno:map;
 import :blocktype;
 import :globals;
-import :random;
-import casein;
-import quack;
 
 namespace cno {
 using block = sprite<block_type>;
+using map = sbatch<block, map_width * map_height>;
 
-struct map : sbatch<block, map_width * map_height> {
-public:
-  using sbatch::sbatch;
-
-  [[nodiscard]] constexpr auto &at(unsigned x, unsigned y) noexcept {
-    return sbatch::at(y * map_width + x);
-  }
-};
+[[nodiscard]] constexpr auto &map_at(map *m, unsigned x, unsigned y) noexcept {
+  return m->at(y * map_width + x);
+}
+[[nodiscard]] constexpr auto &map_at(map *m, map_coord c) noexcept {
+  return map_at(m, c.x, c.y);
+}
 } // namespace cno
