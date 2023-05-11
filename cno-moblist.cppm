@@ -27,18 +27,11 @@ struct mob_list : public sbatch<mob, max_mobs_per_level> {
   void fill_quack(map_coord pc, unsigned d) {
     sbatch::fill_quack(pc, d);
 
-    const auto &[px, py] = pc;
-    fill_colour([px, py, d](auto &i) {
-      if (!i.type)
+    fill_colour([](auto &i) {
+      if (i.vis == sv_visible)
+        return quack::colour{1, 0, 1, 1};
+      else
         return quack::colour{};
-
-      const auto &[x, y] = i.coord;
-      auto dx = px - x;
-      auto dy = py - y;
-
-      const auto &[r, b] = i.type->id.uv().start;
-      auto a = (dx * dx + dy * dy) <= d ? 1.0f : 0.3f;
-      return quack::colour{r, 0, b, a};
     });
   }
 };

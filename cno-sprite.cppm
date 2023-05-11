@@ -60,9 +60,9 @@ public:
 };
 
 template <sid_holder Tp> struct sprite {
-  stype<Tp> type;
-  map_coord coord;
-  svis vis;
+  stype<Tp> type{};
+  map_coord coord{};
+  svis vis{};
 };
 
 template <typename Tp, unsigned Max>
@@ -75,6 +75,11 @@ class sbatch : public quack::instance_layout<Tp, Max> {
 
   void update_rogueview(map_coord pc, unsigned radius) noexcept {
     for (auto &blk : this->data()) {
+      if (!blk.type) {
+        blk.vis = sv_none;
+        continue;
+      }
+
       auto dx = pc.x - blk.coord.x;
       auto dy = pc.y - blk.coord.y;
       if (dx * dx + dy * dy <= radius * radius) {
