@@ -237,11 +237,16 @@ class game {
     set_level(lvl);
   }
 
-  void repaint(map_coord pc) {
+  void repaint() {
+    auto pc = m_player.coord();
     unsigned dist = m_light < 1 ? 2 : 5;
-    m_map.fill_quack(pc, dist);
-    m_mobs.fill_quack(pc, dist);
-    m_items.fill_quack(pc, dist);
+    m_map.update_rogueview(pc, dist);
+    m_mobs.update_rogueview(pc, dist);
+    m_items.update_rogueview(pc, dist);
+
+    m_map.fill_quack();
+    m_mobs.fill_quack();
+    m_items.fill_quack();
   }
 
   void reset_status() {
@@ -254,15 +259,13 @@ class game {
     maze_builder{&m_map}.build_level(l);
     create_items();
     create_enemies();
-    repaint(m_player.coord());
+    repaint();
   }
 
   void tick() {
-    auto pc = m_player.coord();
-
     process_actions_with_light();
     update_light();
-    repaint(pc);
+    repaint();
   }
 
   void update_light() {

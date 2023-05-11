@@ -73,23 +73,6 @@ class sbatch : public quack::instance_layout<Tp, Max> {
     this->batch()->resize(map_width, map_height, w, h);
   }
 
-  void update_rogueview(map_coord pc, unsigned radius) noexcept {
-    for (auto &blk : this->data()) {
-      if (!blk.type) {
-        blk.vis = sv_none;
-        continue;
-      }
-
-      auto dx = pc.x - blk.coord.x;
-      auto dy = pc.y - blk.coord.y;
-      if (dx * dx + dy * dy <= radius * radius) {
-        blk.vis = sv_visible;
-      } else if (blk.vis == sv_visible) {
-        blk.vis = sv_fog;
-      }
-    }
-  }
-
 public:
   using parent_t::parent_t;
 
@@ -120,11 +103,26 @@ public:
     return false;
   }
 
-  void fill_quack(map_coord pc, unsigned d) noexcept {
-    update_rogueview(pc, d);
+  void update_rogueview(map_coord pc, unsigned radius) noexcept {
+    for (auto &blk : this->data()) {
+      if (!blk.type) {
+        blk.vis = sv_none;
+        continue;
+      }
 
+      auto dx = pc.x - blk.coord.x;
+      auto dy = pc.y - blk.coord.y;
+      if (dx * dx + dy * dy <= radius * radius) {
+        blk.vis = sv_visible;
+      } else if (blk.vis == sv_visible) {
+        blk.vis = sv_fog;
+      }
+    }
+  }
+
+  void fill_quack() noexcept {
     this->fill_colour([](const auto &i) { return quack::colour{}; });
-    this->fill_mult([pc, d](const auto &i) {
+    this->fill_mult([](const auto &i) {
       switch (i.vis) {
       case sv_visible:
         return quack::colour{1, 1, 1, 1};
