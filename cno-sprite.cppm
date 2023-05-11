@@ -40,12 +40,12 @@ concept sid_holder = requires(const Tp &x) {
   return a.id == b.id;
 }
 
-template <sid_holder Tp> class sprite {
+template <sid_holder Tp> class stype {
   const Tp *m_type{};
 
 public:
-  constexpr sprite() noexcept = default;
-  explicit constexpr sprite(const Tp *t) noexcept : m_type{t} {}
+  constexpr stype() noexcept = default;
+  explicit constexpr stype(const Tp *t) noexcept : m_type{t} {}
 
   [[nodiscard]] explicit constexpr operator bool() const noexcept {
     return m_type != nullptr;
@@ -54,7 +54,7 @@ public:
     return m_type;
   }
 
-  [[nodiscard]] constexpr bool operator==(const sprite<Tp> &o) const noexcept {
+  [[nodiscard]] constexpr bool operator==(const stype<Tp> &o) const noexcept {
     return *m_type == *o.m_type;
   }
 };

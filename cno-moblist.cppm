@@ -35,7 +35,7 @@ struct bonus {
 struct mob {
   static constexpr const auto initial_max_actions = 20;
 
-  sprite<mob_type> type{};
+  stype<mob_type> type{};
   map_coord coord{};
   sprite_visibility vis{};
   ranged life{type ? type->life : 0};

@@ -30,7 +30,7 @@ protected:
   }
 
 public:
-  explicit constexpr player(mob *m) : m_mob{m} { *m = {sprite{&minotaur}}; }
+  explicit constexpr player(mob *m) : m_mob{m} { *m = {stype{&minotaur}}; }
 
   [[nodiscard]] constexpr auto max_life() const noexcept {
     return minotaur.life + m_extra_life;

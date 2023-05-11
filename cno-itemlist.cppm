@@ -9,7 +9,7 @@ static constexpr const auto max_items_per_level = map_height * 2;
 static constexpr const auto max_item_roll = 5;
 
 struct item {
-  sprite<item_type> type;
+  stype<item_type> type;
   map_coord coord;
   sprite_visibility vis;
 };
