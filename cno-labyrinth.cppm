@@ -153,9 +153,13 @@ public:
   constexpr maze_builder(map *m) : m_map{m} {}
 
   void build_level(unsigned lvl) noexcept {
-    for (auto y = 0; y < map_height; y++) {
-      for (auto x = 0; x < map_width; x++) {
-        m_map->at(x, y) = {sprite{&dot}};
+    for (auto y = 0U; y < map_height; y++) {
+      for (auto x = 0U; x < map_width; x++) {
+        m_map->at(x, y) = {
+            .type = sprite{&dot},
+            .coord = {x, y},
+            .vis = bv_none,
+        };
       }
     }
 

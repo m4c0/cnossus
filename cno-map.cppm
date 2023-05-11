@@ -15,17 +15,13 @@ struct block {
 
 class map : sbatch<block, map_width * map_height> {
   void update_rogueview(map_coord pc, unsigned radius) noexcept {
-    for (auto x = 0U; x < map_width; x++) {
-      auto dx = pc.x - x;
-      for (auto y = 0U; y < map_height; y++) {
-        auto dy = pc.y - y;
-        auto &blk = at(x, y);
-        blk.coord = {x, y};
-        if (dx * dx + dy * dy <= radius * radius) {
-          blk.vis = bv_visible;
-        } else if (blk.vis == bv_visible) {
-          blk.vis = bv_fog;
-        }
+    for (auto &blk : data()) {
+      auto dx = pc.x - blk.coord.x;
+      auto dy = pc.y - blk.coord.y;
+      if (dx * dx + dy * dy <= radius * radius) {
+        blk.vis = bv_visible;
+      } else if (blk.vis == bv_visible) {
+        blk.vis = bv_fog;
       }
     }
   }
@@ -35,11 +31,7 @@ public:
 
   using sbatch::process_event;
 
-  // TODO: migrate to sbatch
-  [[nodiscard]] constexpr block &at(unsigned x, unsigned y) noexcept {
-    return sbatch::at(y * map_width + x);
-  }
-  [[nodiscard]] constexpr block at(unsigned x, unsigned y) const noexcept {
+  [[nodiscard]] constexpr auto &at(unsigned x, unsigned y) noexcept {
     return sbatch::at(y * map_width + x);
   }
 
