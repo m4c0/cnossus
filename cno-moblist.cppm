@@ -21,25 +21,15 @@ struct mob : sprite<mob_type> {
   return a.type->hostility == h_none;
 }
 
-struct mob_list : public sbatch<mob, max_mobs_per_level> {
-  using sbatch::sbatch;
+using mob_list = sbatch<mob, max_mobs_per_level>;
 
-  void update_rogueview(map_coord pc, unsigned d) {
-    sbatch::update_rogueview(pc, d);
-
-    sbatch::for_each([](auto &i) {
-      if (i.vis == sv_fog)
-        i.vis = sv_none;
-    });
-  }
-
-  // TODO: remove this after add mob atlas
-  void fill_quack() {
-    sbatch::fill_quack();
-    fill_colour([](auto &i) {
-      auto a = i.vis == sv_none ? 0.0f : 1.0f;
-      return quack::colour{1, 1, 1, a};
-    });
-  }
-};
+void hide_mobs_in_fog(mob_list *m) {
+  m->for_each([](auto &i) { i.vis = (i.vis == sv_fog) ? sv_none : i.vis; });
+}
+void debug_mobs(mob_list *m) {
+  m->fill_colour([](auto &i) {
+    auto a = i.vis == sv_none ? 0.0f : 1.0f;
+    return quack::colour{1, 1, 1, a};
+  });
+}
 } // namespace cno
