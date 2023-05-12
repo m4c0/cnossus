@@ -117,8 +117,7 @@ constexpr const mob_type bull{
 };
 
 static constexpr const auto max_mob_roll = 5;
-
-using mob_rolls = rnd_roll_per_level<const mob_type *, max_mob_roll>;
+using mob_rolls = rnd_roll_per_level<mob_type, max_mob_roll>;
 static constexpr const mob_rolls mob_roll_per_level = {
     mob_rolls::roll_t{&snake, &boar, &cerberus},
     mob_rolls::roll_t{&centipede, &boar, &harpy},

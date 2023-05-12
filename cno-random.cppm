@@ -16,7 +16,7 @@ namespace cno {
 }
 
 template <typename Tp, unsigned N> class rnd_roll {
-  Tp m_table[N]{};
+  const Tp *m_table[N]{};
 
 public:
   constexpr rnd_roll() = default;
@@ -40,12 +40,3 @@ public:
   }
 };
 } // namespace cno
-
-static_assert([] {
-  cno::rnd_roll_per_level<int, 5> s{
-      cno::rnd_roll<int, 5>{0, 1, 2},
-      cno::rnd_roll<int, 5>{1},
-      cno::rnd_roll<int, 5>{2, 3, 4, 5},
-  };
-  return true;
-}());

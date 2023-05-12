@@ -24,7 +24,7 @@ struct inventory_pos {
 
 class item_type;
 static constexpr const auto max_item_drops = 5;
-using item_loot_table = rnd_roll_per_level<const item_type *, max_item_drops>;
+using item_loot_table = rnd_roll_per_level<item_type, max_item_drops>;
 
 struct item_type {
   jute::view name;
@@ -41,7 +41,7 @@ struct item_type {
 enum hostilities { h_none, h_scaried, h_aggresive };
 
 static constexpr const auto max_mob_drops = 3;
-using mob_drops = rnd_roll<const item_type *, max_mob_drops>;
+using mob_drops = rnd_roll<item_type, max_mob_drops>;
 struct mob_type {
   jute::view name;
   qsu::id id;
