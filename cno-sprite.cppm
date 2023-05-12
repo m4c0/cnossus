@@ -7,12 +7,6 @@ namespace cno {
 using scoord = qsu::coord;
 using svis = qsu::vis;
 
-template <qsu::id_holder Tp> struct sprite {
-  qsu::type<Tp> type{};
-  scoord coord{};
-  svis vis{};
-};
-
 template <typename Tp, unsigned W, unsigned H>
 class sbatch : public quack::instance_layout<Tp, W * H> {
   using parent_t = quack::instance_layout<Tp, W * H>;

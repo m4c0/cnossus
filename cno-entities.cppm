@@ -53,15 +53,15 @@ struct mob_type {
   mob_drops drops{};
 };
 
-using block = sprite<block_type>;
-using item = sprite<item_type>;
+using block = qsu::sprite<block_type>;
+using item = qsu::sprite<item_type>;
 
 struct bonus {
   int attack;
   int defense;
   int damage;
 };
-struct mob : sprite<mob_type> {
+struct mob : qsu::sprite<mob_type> {
   static constexpr const auto initial_max_actions = 20;
 
   ranged life{type ? type->life : 0};

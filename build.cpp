@@ -16,6 +16,7 @@ int main(int argc, char **argv) {
   qsu->add_part("idholder");
   qsu->add_part("type");
   qsu->add_part("vis");
+  qsu->add_part("sprite");
 
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
