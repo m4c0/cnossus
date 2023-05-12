@@ -20,8 +20,8 @@ int main(int argc, char **argv) {
   m->add_part("random");
   m->add_part("blocktype");
   m->add_part("itemtype");
-  m->add_part("mobtype");
   m->add_part("entities");
+  m->add_part("mobtype");
   m->add_part("map");
   m->add_part("labyrinth");
   m->add_part("inventory");

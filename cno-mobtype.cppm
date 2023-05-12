@@ -1,26 +1,11 @@
 export module cno:mobtype;
+import :entities;
 import :itemtype;
 import :random;
 import :sprite;
 import jute;
 
 namespace cno {
-static constexpr const auto max_mob_drops = 3;
-
-enum hostilities { h_none, h_scaried, h_aggresive };
-
-using mob_drops = rnd_roll<const item_type *, max_mob_drops>;
-
-struct mob_type {
-  jute::view name;
-  sid id;
-  unsigned life;
-  unsigned dice = life;
-  hostilities hostility;
-  unsigned poison{};
-  mob_drops drops{};
-};
-
 constexpr const mob_type minotaur{
     .name = "you",
     .id = 'A',
@@ -132,7 +117,6 @@ constexpr const mob_type bull{
     .drops = {&rawmeat, &rawmeat, &rawmeat},
 };
 
-static constexpr const auto max_mobs_per_level = map_height * 2;
 static constexpr const auto max_mob_roll = 5;
 
 using mob_rolls = rnd_roll_per_level<const mob_type *, max_mob_roll>;
