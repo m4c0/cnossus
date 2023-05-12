@@ -1,15 +1,7 @@
 export module cno:blocktype;
-import :sprite;
-import jute;
+import :entities;
 
 namespace cno {
-struct block_type {
-  jute::view name;
-  sid id;
-  bool can_walk{};
-  bool transparent{};
-};
-
 constexpr const block_type blank{
     .name = "void",
     .id = ' ',

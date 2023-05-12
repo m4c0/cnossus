@@ -1,36 +1,9 @@
 export module cno:itemtype;
+import :entities;
 import :random;
-import :sprite;
 import jute;
 
 namespace cno {
-static constexpr const auto max_item_drops = 5;
-
-enum carry_type {
-  carry_one,
-  carry_two,
-  carry_many,
-};
-struct inventory_pos {
-  unsigned sec;
-  unsigned row;
-};
-
-class item_type;
-using item_loot_table = rnd_roll_per_level<const item_type *, max_item_drops>;
-
-struct item_type {
-  jute::view name;
-  sid id;
-  int attack{};
-  int defense{};
-  carry_type carry{carry_many};
-  int life_gain{};
-  int light_provided{};
-  inventory_pos inv_coords{~0U, ~0U};
-  const item_loot_table *drops{};
-};
-
 // Missing in previous code.
 // Then missing parts can be added or these can be entirely removed
 constexpr const item_type cloth{

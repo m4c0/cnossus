@@ -1,12 +1,43 @@
 export module cno:entities;
-import :blocktype;
 import :globals;
-import :itemtype;
 import :random;
 import :sprite;
 import jute;
 
 namespace cno {
+struct block_type {
+  jute::view name;
+  sid id;
+  bool can_walk{};
+  bool transparent{};
+};
+
+enum carry_type {
+  carry_one,
+  carry_two,
+  carry_many,
+};
+struct inventory_pos {
+  unsigned sec;
+  unsigned row;
+};
+
+class item_type;
+static constexpr const auto max_item_drops = 5;
+using item_loot_table = rnd_roll_per_level<const item_type *, max_item_drops>;
+
+struct item_type {
+  jute::view name;
+  sid id;
+  int attack{};
+  int defense{};
+  carry_type carry{carry_many};
+  int life_gain{};
+  int light_provided{};
+  inventory_pos inv_coords{~0U, ~0U};
+  const item_loot_table *drops{};
+};
+
 enum hostilities { h_none, h_scaried, h_aggresive };
 
 static constexpr const auto max_mob_drops = 3;
