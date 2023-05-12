@@ -1,8 +1,9 @@
 export module cno:objects;
 import :sprite;
+import qsu;
 
 namespace cno {
-using map_coord = scoord;
+using map_coord = qsu::coord;
 
 class ranged {
   unsigned m_value;

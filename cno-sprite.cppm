@@ -4,8 +4,7 @@ import quack;
 import traits;
 
 namespace cno {
-using scoord = qsu::coord;
-using svis = qsu::vis;
+using coord = qsu::coord;
 
 template <typename Tp, unsigned W, unsigned H>
 class sbatch : public quack::instance_layout<Tp, W * H> {
@@ -35,7 +34,7 @@ public:
     }
   }
 
-  bool find_at(scoord c, auto &&fn) {
+  bool find_at(coord c, auto &&fn) {
     for (auto &m : this->data()) {
       if (m.type && m.coord == c) {
         fn(m);
@@ -45,7 +44,7 @@ public:
     return false;
   }
 
-  void update_rogueview(scoord pc, unsigned radius) noexcept {
+  void update_rogueview(coord pc, unsigned radius) noexcept {
     for (auto &blk : this->data()) {
       if (!blk.type) {
         blk.vis = qsu::v_none;
