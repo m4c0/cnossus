@@ -1,7 +1,6 @@
 export module cno:entities;
 import :globals;
 import :random;
-import :sprite;
 import jute;
 import qsu;
 
@@ -71,7 +70,7 @@ struct mob : qsu::sprite<mob_type> {
   bonus bonus{};
 };
 
-using item_list = sbatch<item, map_width, map_height>;
-using map = sbatch<block, map_width, map_height>;
-using mob_list = sbatch<mob, map_width, map_height>;
+using item_list = qsu::layout<item, map_width, map_height>;
+using map = qsu::layout<block, map_width, map_height>;
+using mob_list = qsu::layout<mob, map_width, map_height>;
 } // namespace cno

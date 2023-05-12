@@ -1,5 +1,4 @@
 export module cno:objects;
-import :sprite;
 import qsu;
 
 namespace cno {

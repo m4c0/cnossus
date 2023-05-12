@@ -17,6 +17,7 @@ int main(int argc, char **argv) {
   qsu->add_part("type");
   qsu->add_part("vis");
   qsu->add_part("sprite");
+  qsu->add_part("layout");
 
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
@@ -24,7 +25,6 @@ int main(int argc, char **argv) {
   m->add_wsdep("quack", quack());
   m->add_wsdep("silog", silog());
   m->add_wsdep("traits", traits());
-  m->add_part("sprite");
   m->add_part("objects");
   m->add_part("globals");
   m->add_part("random");

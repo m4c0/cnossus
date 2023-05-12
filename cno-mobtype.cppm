@@ -2,7 +2,6 @@ export module cno:mobtype;
 import :entities;
 import :itemtype;
 import :random;
-import :sprite;
 import jute;
 
 namespace cno {

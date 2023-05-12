@@ -1,13 +1,11 @@
-export module cno:sprite;
-import qsu;
+export module qsu:layout;
+import :coord;
+import :vis;
 import quack;
-import traits;
 
-namespace cno {
-using coord = qsu::coord;
-
+export namespace qsu {
 template <typename Tp, unsigned W, unsigned H>
-class sbatch : public quack::instance_layout<Tp, W * H> {
+class layout : public quack::instance_layout<Tp, W * H> {
   using parent_t = quack::instance_layout<Tp, W * H>;
 
   void resize(unsigned w, unsigned h) override {
@@ -47,16 +45,16 @@ public:
   void update_rogueview(coord pc, unsigned radius) noexcept {
     for (auto &blk : this->data()) {
       if (!blk.type) {
-        blk.vis = qsu::v_none;
+        blk.vis = v_none;
         continue;
       }
 
       auto dx = pc.x - blk.coord.x;
       auto dy = pc.y - blk.coord.y;
       if (dx * dx + dy * dy <= radius * radius) {
-        blk.vis = qsu::v_visible;
-      } else if (blk.vis == qsu::v_visible) {
-        blk.vis = qsu::v_fog;
+        blk.vis = v_visible;
+      } else if (blk.vis == v_visible) {
+        blk.vis = v_fog;
       }
     }
   }
@@ -65,9 +63,9 @@ public:
     this->fill_colour([](const auto &i) { return quack::colour{}; });
     this->fill_mult([](const auto &i) {
       switch (i.vis) {
-      case qsu::v_visible:
+      case v_visible:
         return quack::colour{1, 1, 1, 1};
-      case qsu::v_none:
+      case v_none:
         return quack::colour{1, 1, 1, 0};
       default:
         return quack::colour{1, 1, 1, 0.8f};
@@ -84,4 +82,4 @@ public:
     });
   }
 };
-} // namespace cno
+} // namespace qsu
