@@ -8,15 +8,18 @@
 int main(int argc, char **argv) {
   using namespace ecow;
 
+  auto qsu = unit::create<mod>("qsu");
+  qsu->add_part("coord");
+
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
   m->add_wsdep("silog", silog());
   m->add_wsdep("traits", traits());
+  m->add_part("sprite");
   m->add_part("objects");
   m->add_part("globals");
-  m->add_part("sprite");
   m->add_part("random");
   m->add_part("entities");
   m->add_part("blocktype");
@@ -34,6 +37,7 @@ int main(int argc, char **argv) {
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
+  a->add_ref(qsu);
   a->add_ref(m);
 
   return run_main(a, argc, argv);

@@ -1,16 +1,10 @@
 export module cno:sprite;
+import qsu;
 import quack;
 import traits;
 
 namespace cno {
-struct scoord {
-  unsigned x;
-  unsigned y;
-};
-[[nodiscard]] constexpr bool operator==(const scoord &a,
-                                        const scoord &b) noexcept {
-  return a.x == b.x && a.y == b.y;
-}
+using scoord = qsu::coord;
 
 enum svis { sv_none, sv_fog, sv_visible };
 
