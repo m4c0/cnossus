@@ -4,6 +4,7 @@ import :inventory;
 import :itemtype;
 import :moblist;
 import :random;
+import qsu;
 
 namespace cno {
 class player {
@@ -30,7 +31,7 @@ protected:
   }
 
 public:
-  explicit constexpr player(mob *m) : m_mob{m} { *m = {stype{&minotaur}}; }
+  explicit constexpr player(mob *m) : m_mob{m} { *m = {qsu::type{&minotaur}}; }
 
   [[nodiscard]] constexpr auto max_life() const noexcept {
     return minotaur.life + m_extra_life;

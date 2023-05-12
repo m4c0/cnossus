@@ -9,6 +9,7 @@ import :moblist;
 import :player;
 import casein;
 import jute;
+import qsu;
 import quack;
 
 namespace cno {
@@ -35,7 +36,7 @@ class game {
         c.x = cno::random(map_width);
       } while (!map_at(&m_map, c).type->can_walk);
 
-      auto &mm = m_mobs.at(c.y) = {stype{t}, c};
+      auto &mm = m_mobs.at(c.y) = {qsu::type{t}, c};
       enemy{&mm}.reset_level(m_level);
     }
   }
@@ -43,7 +44,7 @@ class game {
   [[nodiscard]] bool open_item_at(map_coord c) {
     return m_items.find_at(c, [this, c](auto &it) {
       auto drops = it.type->drops;
-      auto nit = (drops == nullptr) ? it.type : stype{drops->roll(m_level)};
+      auto nit = (drops == nullptr) ? it.type : qsu::type{drops->roll(m_level)};
       if (!nit) {
         using namespace jute::literals;
         g::update_status("The "_s + it.type->name + " crumbled to dust");
@@ -127,7 +128,7 @@ class game {
       tgt.damage_timer = 0.5;
       tgt.life -= (tgt.life <= margin) ? tgt.life : margin;
       if (tgt.life == 0) {
-        auto drop = stype{tgt.type->drops.roll()};
+        auto drop = qsu::type{tgt.type->drops.roll()};
         if (drop)
           m_items.add({drop, tgt.coord});
         if (is_player(src)) {
@@ -164,7 +165,7 @@ class game {
     }
   }
 
-  void consume(stype<item_type> t) {
+  void consume(qsu::type<item_type> t) {
     reset_status();
 
     if (!m_inv.consume(t))
@@ -188,7 +189,7 @@ class game {
 
     map_coord c{};
     for (c.y = 1; c.y < map_height - 2; c.y++) {
-      auto type = stype{item_roll_per_level.roll(m_level)};
+      auto type = qsu::type{item_roll_per_level.roll(m_level)};
       if (!type) {
         continue;
       }

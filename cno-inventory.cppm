@@ -3,15 +3,16 @@ import :globals;
 import :itemtype;
 import :sprite;
 import jute;
+import qsu;
 
 namespace cno::inv {
 class slot {
-  stype<item_type> m_item;
+  qsu::type<item_type> m_item;
   unsigned m_count{0};
 
 public:
   constexpr slot() noexcept = default;
-  explicit constexpr slot(stype<item_type> i) noexcept : m_item{i} {}
+  explicit constexpr slot(qsu::type<item_type> i) noexcept : m_item{i} {}
 
   [[nodiscard]] constexpr auto count() const noexcept { return m_count; }
 
@@ -22,7 +23,7 @@ public:
     return m_item->defense;
   }
 
-  [[nodiscard]] constexpr bool contains(stype<item_type> i) const noexcept {
+  [[nodiscard]] constexpr bool contains(qsu::type<item_type> i) const noexcept {
     return m_item->id == i->id;
   }
 
@@ -65,7 +66,7 @@ class table {
 
   [[nodiscard]] bool has_bag() const noexcept {
     for (auto &s : m_slots) {
-      if (s.contains(stype{&bag}))
+      if (s.contains(qsu::type{&bag}))
         return s.count() != 0;
     }
     return false;
@@ -74,11 +75,11 @@ class table {
 public:
   constexpr table() {
     for (auto i = 0U; i < item_type_count; i++) {
-      m_slots[i] = slot{stype{item_types[i]}};
+      m_slots[i] = slot{qsu::type{item_types[i]}};
     }
   }
 
-  [[nodiscard]] bool consume(stype<item_type> it) noexcept {
+  [[nodiscard]] bool consume(qsu::type<item_type> it) noexcept {
     for (auto &s : m_slots) {
       if (s.contains(it))
         return s.consume();
@@ -86,7 +87,7 @@ public:
     return false;
   }
 
-  [[nodiscard]] bool get_item(stype<item_type> it) noexcept {
+  [[nodiscard]] bool get_item(qsu::type<item_type> it) noexcept {
     const bool bag = has_bag();
     for (auto &s : m_slots) {
       if (s.contains(it))

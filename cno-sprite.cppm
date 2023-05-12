@@ -7,23 +7,8 @@ namespace cno {
 using scoord = qsu::coord;
 using svis = qsu::vis;
 
-template <qsu::id_holder Tp> class stype {
-  const Tp *m_type{};
-
-public:
-  constexpr stype() noexcept = default;
-  explicit constexpr stype(const Tp *t) noexcept : m_type{t} {}
-
-  [[nodiscard]] explicit constexpr operator bool() const noexcept {
-    return m_type != nullptr;
-  }
-  [[nodiscard]] constexpr const Tp *operator->() const noexcept {
-    return m_type;
-  }
-};
-
 template <qsu::id_holder Tp> struct sprite {
-  stype<Tp> type{};
+  qsu::type<Tp> type{};
   scoord coord{};
   svis vis{};
 };

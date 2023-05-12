@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
   qsu->add_part("coord");
   qsu->add_part("id");
   qsu->add_part("idholder");
+  qsu->add_part("type");
   qsu->add_part("vis");
 
   auto m = unit::create<mod>("cno");
