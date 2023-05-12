@@ -1,9 +1,17 @@
 export module cno:sprite;
-import :globals;
 import quack;
 import traits;
 
 namespace cno {
+struct scoord {
+  unsigned x;
+  unsigned y;
+};
+[[nodiscard]] constexpr bool operator==(const scoord &a,
+                                        const scoord &b) noexcept {
+  return a.x == b.x && a.y == b.y;
+}
+
 enum svis { sv_none, sv_fog, sv_visible };
 
 class sid {
@@ -61,16 +69,16 @@ public:
 
 template <sid_holder Tp> struct sprite {
   stype<Tp> type{};
-  map_coord coord{};
+  scoord coord{};
   svis vis{};
 };
 
-template <typename Tp, unsigned Max>
-class sbatch : public quack::instance_layout<Tp, Max> {
-  using parent_t = quack::instance_layout<Tp, Max>;
+template <typename Tp, unsigned W, unsigned H>
+class sbatch : public quack::instance_layout<Tp, W * H> {
+  using parent_t = quack::instance_layout<Tp, W * H>;
 
   void resize(unsigned w, unsigned h) override {
-    this->batch()->resize(map_width, map_height, w, h);
+    this->batch()->resize(W, H, w, h);
   }
 
 public:
@@ -93,7 +101,7 @@ public:
     }
   }
 
-  bool find_at(map_coord c, auto &&fn) {
+  bool find_at(scoord c, auto &&fn) {
     for (auto &m : this->data()) {
       if (m.type && m.coord == c) {
         fn(m);
@@ -103,7 +111,7 @@ public:
     return false;
   }
 
-  void update_rogueview(map_coord pc, unsigned radius) noexcept {
+  void update_rogueview(scoord pc, unsigned radius) noexcept {
     for (auto &blk : this->data()) {
       if (!blk.type) {
         blk.vis = sv_none;

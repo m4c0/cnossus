@@ -70,11 +70,7 @@ struct mob : sprite<mob_type> {
   bonus bonus{};
 };
 
-static constexpr const auto max_items_per_level = map_height * 2;
-using item_list = sbatch<item, max_items_per_level>;
-
-using map = sbatch<block, map_width * map_height>;
-
-static constexpr const auto max_mobs_per_level = map_height;
-using mob_list = sbatch<mob, max_mobs_per_level>;
+using item_list = sbatch<item, map_width, map_height>;
+using map = sbatch<block, map_width, map_height>;
+using mob_list = sbatch<mob, map_width, map_height>;
 } // namespace cno
