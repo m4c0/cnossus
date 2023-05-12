@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
 
   auto qsu = unit::create<mod>("qsu");
   qsu->add_part("coord");
+  qsu->add_part("vis");
 
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());

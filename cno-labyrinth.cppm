@@ -159,7 +159,6 @@ public:
         map_at(m_map, x, y) = {
             .type = stype{&dot},
             .coord = {x, y},
-            .vis = sv_none,
         };
       }
     }

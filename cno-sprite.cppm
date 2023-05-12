@@ -5,8 +5,7 @@ import traits;
 
 namespace cno {
 using scoord = qsu::coord;
-
-enum svis { sv_none, sv_fog, sv_visible };
+using svis = qsu::vis;
 
 class sid {
   char m_value;
@@ -108,16 +107,16 @@ public:
   void update_rogueview(scoord pc, unsigned radius) noexcept {
     for (auto &blk : this->data()) {
       if (!blk.type) {
-        blk.vis = sv_none;
+        blk.vis = qsu::v_none;
         continue;
       }
 
       auto dx = pc.x - blk.coord.x;
       auto dy = pc.y - blk.coord.y;
       if (dx * dx + dy * dy <= radius * radius) {
-        blk.vis = sv_visible;
-      } else if (blk.vis == sv_visible) {
-        blk.vis = sv_fog;
+        blk.vis = qsu::v_visible;
+      } else if (blk.vis == qsu::v_visible) {
+        blk.vis = qsu::v_fog;
       }
     }
   }
@@ -126,9 +125,9 @@ public:
     this->fill_colour([](const auto &i) { return quack::colour{}; });
     this->fill_mult([](const auto &i) {
       switch (i.vis) {
-      case sv_visible:
+      case qsu::v_visible:
         return quack::colour{1, 1, 1, 1};
-      case sv_none:
+      case qsu::v_none:
         return quack::colour{1, 1, 1, 0};
       default:
         return quack::colour{1, 1, 1, 0.8f};
