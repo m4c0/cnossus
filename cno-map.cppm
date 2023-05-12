@@ -1,11 +1,8 @@
 export module cno:map;
-import :blocktype;
+import :entities;
 import :globals;
 
 namespace cno {
-using block = sprite<block_type>;
-using map = sbatch<block, map_width * map_height>;
-
 [[nodiscard]] constexpr auto &map_at(map *m, unsigned x, unsigned y) noexcept {
   return m->at(y * map_width + x);
 }
