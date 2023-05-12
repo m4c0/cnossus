@@ -51,7 +51,7 @@ class game {
         return;
       }
 
-      if (nit != it.type) {
+      if (nit->id != it.type->id) {
         g::update_status("Something fells on the ground");
         it.type = nit;
         return;
@@ -77,7 +77,7 @@ class game {
     }
 
     auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
-      if (m->type != mm.type) {
+      if (m->type->id != mm.type->id) {
         attack(*m, mm);
       }
     });

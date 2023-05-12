@@ -9,7 +9,11 @@ int main(int argc, char **argv) {
   using namespace ecow;
 
   auto qsu = unit::create<mod>("qsu");
+  qsu->add_wsdep("quack", quack());
+  qsu->add_wsdep("traits", traits());
   qsu->add_part("coord");
+  qsu->add_part("id");
+  qsu->add_part("idholder");
   qsu->add_part("vis");
 
   auto m = unit::create<mod>("cno");

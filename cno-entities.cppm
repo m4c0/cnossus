@@ -3,11 +3,12 @@ import :globals;
 import :random;
 import :sprite;
 import jute;
+import qsu;
 
 namespace cno {
 struct block_type {
   jute::view name;
-  sid id;
+  qsu::id id;
   bool can_walk{};
   bool transparent{};
 };
@@ -28,7 +29,7 @@ using item_loot_table = rnd_roll_per_level<const item_type *, max_item_drops>;
 
 struct item_type {
   jute::view name;
-  sid id;
+  qsu::id id;
   int attack{};
   int defense{};
   carry_type carry{carry_many};
@@ -44,7 +45,7 @@ static constexpr const auto max_mob_drops = 3;
 using mob_drops = rnd_roll<const item_type *, max_mob_drops>;
 struct mob_type {
   jute::view name;
-  sid id;
+  qsu::id id;
   unsigned life;
   unsigned dice = life;
   hostilities hostility;

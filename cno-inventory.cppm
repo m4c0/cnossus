@@ -23,7 +23,7 @@ public:
   }
 
   [[nodiscard]] constexpr bool contains(stype<item_type> i) const noexcept {
-    return m_item == i;
+    return m_item->id == i->id;
   }
 
   [[nodiscard]] bool consume() noexcept {
