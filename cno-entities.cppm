@@ -52,9 +52,6 @@ struct mob_type {
   mob_drops drops{};
 };
 
-using block = qsu::sprite<block_type>;
-using item = qsu::sprite<item_type>;
-
 struct bonus {
   int attack;
   int defense;
@@ -70,7 +67,7 @@ struct mob : qsu::sprite<mob_type> {
   bonus bonus{};
 };
 
-using item_list = qsu::layout<item, map_width, map_height>;
-using map = qsu::layout<block, map_width, map_height>;
+using item_list = qsu::layout<qsu::sprite<item_type>, map_width, map_height>;
+using map = qsu::layout<qsu::sprite<block_type>, map_width, map_height>;
 using mob_list = qsu::layout<mob, map_width, map_height>;
 } // namespace cno
