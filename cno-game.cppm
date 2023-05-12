@@ -245,11 +245,12 @@ class game {
     m_items.update_rogueview(pc, dist);
 
     hide_mobs_in_fog(&m_mobs);
-    debug_mobs(&m_mobs);
 
     m_map.fill_quack();
     m_mobs.fill_quack();
     m_items.fill_quack();
+
+    debug_mobs(&m_mobs);
   }
 
   void reset_status() {
