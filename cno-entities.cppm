@@ -9,7 +9,6 @@ struct block_type {
   jute::view name;
   qsu::id id;
   bool can_walk{};
-  bool transparent{};
 };
 
 enum carry_type {

@@ -5,7 +5,6 @@ namespace cno {
 constexpr const block_type blank{
     .name = "void",
     .id = ' ',
-    .transparent = true,
 };
 
 // Varies with floor
@@ -34,22 +33,18 @@ constexpr const block_type tilda{
 constexpr const block_type vbar{
     .name = "knowledge",
     .id = '#',
-    .transparent = true,
 };
 constexpr const block_type star{
     .name = "fountain",
     .id = '$',
-    .transparent = true,
 };
 constexpr const block_type gt{
     .name = "stairs",
     .id = '<',
     .can_walk = true,
-    .transparent = true,
 };
 constexpr const block_type andsign{
     .name = "statue",
     .id = '(',
-    .transparent = true,
 };
 } // namespace cno
