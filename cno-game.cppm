@@ -6,6 +6,7 @@ import :itemlist;
 import :labyrinth;
 import :light;
 import :map;
+import :mobs;
 import :moblist;
 import :player;
 import casein;
@@ -88,25 +89,10 @@ class game {
       m->coord = tgt;
   }
 
-  void process_actions_with_light() {
+  void move_enemies() {
     auto pc = m_player.coord();
 
     m_mobs.for_each([this, pc](auto &m) {
-      if (m.life == 0)
-        return;
-
-      if (m.actions > 0) {
-        m.actions -= m.type->dice;
-        return;
-      }
-
-      if (m.poison > 0) {
-        --m.poison;
-        --m.life;
-      }
-
-      m.actions.to_max();
-
       auto tgt = enemy{&m}.next_move_with_light(pc, m_light);
       if (tgt != m.coord)
         try_move(&m, tgt);
@@ -255,7 +241,8 @@ class game {
   }
 
   void tick() {
-    process_actions_with_light();
+    tick_mobs(&m_mobs);
+    move_enemies();
     m_light.tick();
     repaint();
   }
