@@ -31,7 +31,7 @@ struct item_type {
   int attack{};
   int defense{};
   carry_type carry{carry_many};
-  int life_gain{};
+  unsigned life_gain{};
   int light_provided{};
   inventory_pos inv_coords{~0U, ~0U};
   const item_loot_table *drops{};

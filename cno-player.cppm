@@ -8,7 +8,6 @@ import qsu;
 
 namespace cno {
 class player {
-  unsigned m_extra_life{};
   mob *m_mob;
 
 protected:
@@ -20,28 +19,19 @@ protected:
       break;
     case 1:
       g::update_status("You feel sturdier");
-      m_extra_life++;
+      m_mob->life.add_max(1);
       break;
     default:
       g::update_status("You feel faster");
       m_mob->actions.add_max(1);
       break;
     }
-    recover_health(1);
-  }
-
-  void recover_health(unsigned h) {
-    auto r = max_life() - m_mob->life;
-    auto d = r > h ? h : r;
-    m_mob->life += d;
+    m_mob->life += 1;
   }
 
 public:
   explicit constexpr player(mob *m) : m_mob{m} { *m = {qsu::type{&minotaur}}; }
 
-  [[nodiscard]] constexpr unsigned max_life() const noexcept {
-    return minotaur.life + m_extra_life;
-  }
   [[nodiscard]] constexpr auto coord() const noexcept { return m_mob->coord; }
   [[nodiscard]] constexpr auto mob() const noexcept { return m_mob; }
 
@@ -49,11 +39,7 @@ public:
     return m_mob->life == 0;
   }
 
-  void consume(qsu::type<item_type> t) {
-    if (t->life_gain > 0) {
-      recover_health(t->life_gain);
-    }
-  }
+  void consume(qsu::type<item_type> t) { m_mob->life += t->life_gain; }
 
   void update_inventory(const inv::table &inv) {
     m_mob->bonus.defense = 0;
