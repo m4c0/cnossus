@@ -167,8 +167,6 @@ class game {
   }
 
   void consume(qsu::type<item_type> t) {
-    reset_status();
-
     if (!m_inv.consume(t))
       return;
 
@@ -205,16 +203,12 @@ class game {
     if (game_is_over())
       return;
 
-    reset_status();
-
     const auto &[x, y] = m_player.coord();
     try_move(m_player.mob(), map_coord{x + dx, y + dy});
     tick();
   }
 
   void use_item() {
-    reset_status();
-
     auto pc = m_player.coord();
     if (open_item_at(pc)) {
       return;
@@ -253,10 +247,6 @@ class game {
     debug_mobs(&m_mobs);
   }
 
-  void reset_status() {
-    // TODO
-  }
-
   void set_level(unsigned l) {
     m_level = l;
     m_player.level_reset(l);
@@ -289,7 +279,6 @@ public:
   }
 
   void reset() {
-    reset_status();
     set_level(1);
     m_inv = {};
   }
