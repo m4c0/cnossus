@@ -81,9 +81,9 @@ class game {
     }
 
     auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
-      if (m->type->id != mm.type->id) {
-        attack(*m, mm);
-      }
+      auto drop = attack(*m, mm);
+      if (drop.type)
+        m_items.add(drop);
     });
 
     if (!attacked)
@@ -100,7 +100,10 @@ class game {
     });
   }
 
-  void attack(const mob &src, mob &tgt) {
+  [[nodiscard]] static qsu::sprite<item_type> attack(const mob &src, mob &tgt) {
+    if (src.type->id == tgt.type->id)
+      return {};
+
     const auto srcn = src.type->name;
     const auto tgtn = tgt.type->name;
 
@@ -111,16 +114,16 @@ class game {
     if (margin > 0) {
       margin += src.bonus.attack - tgt.bonus.defense;
       if (margin <= 0)
-        return;
+        return {};
 
       tgt.damage_timer = 0.5;
       tgt.life -= (tgt.life <= margin) ? tgt.life : margin;
       if (tgt.life == 0) {
-        auto drop = qsu::type{tgt.type->drops.roll()};
-        if (drop)
-          m_items.add({drop, tgt.coord});
+        auto drop = qsu::sprite<item_type>{qsu::type{tgt.type->drops.roll()},
+                                           tgt.coord};
         status::killed(src, tgt);
         tgt = {};
+        return drop;
       } else if (src.type->poison > 0) {
         tgt.poison += 1 + cno::random(src.type->poison);
         status::poisoned(src, tgt);
@@ -137,6 +140,7 @@ class game {
     } else {
       status::miss(src, tgt);
     }
+    return {};
   }
 
   void consume(qsu::type<item_type> t) {
