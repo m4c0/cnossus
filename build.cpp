@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
   m->add_part("enemy");
   m->add_part("mobs");
   m->add_part("atlas");
+  m->add_part("status");
   m->add_part("game");
 
   auto a = unit::create<app>("cnossus");

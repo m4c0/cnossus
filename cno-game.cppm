@@ -9,6 +9,7 @@ import :map;
 import :mobs;
 import :moblist;
 import :player;
+import :status;
 import casein;
 import jute;
 import qsu;
@@ -118,37 +119,23 @@ class game {
         auto drop = qsu::type{tgt.type->drops.roll()};
         if (drop)
           m_items.add({drop, tgt.coord});
-        if (is_player(src)) {
-          g::update_status("You killed a " + tgtn);
-        } else if (is_player(tgt)) {
-          g::update_status("A " + srcn + " killed you");
-        }
+        status::killed(src, tgt);
         tgt = {};
       } else if (src.type->poison > 0) {
         tgt.poison += 1 + cno::random(src.type->poison);
-        if (is_player(tgt)) {
-          g::update_status("A " + srcn + " poisons you");
-        }
-      } else if (is_player(src)) {
-        g::update_status("You hit a " + tgtn);
-      } else if (is_player(tgt)) {
-        g::update_status("A " + srcn + " hits you");
+        status::poisoned(src, tgt);
+      } else {
+        status::hit(src, tgt);
       }
     } else if (margin == 0) {
       if (src.type->poison > 0) {
         tgt.poison += 1 + cno::random(src.type->poison);
-        if (is_player(src)) {
-          g::update_status("A " + srcn + " poisons you");
-        }
-      } else if (is_player(src)) {
-        g::update_status("You barely miss " + tgtn);
-      } else if (is_player(tgt)) {
-        g::update_status("A " + srcn + " barely misses you");
+        status::poisoned(src, tgt);
+      } else {
+        status::near_miss(src, tgt);
       }
-    } else if (is_player(src)) {
-      g::update_status("You miss a " + tgtn);
-    } else if (is_player(tgt)) {
-      g::update_status("A " + srcn + " misses you");
+    } else {
+      status::miss(src, tgt);
     }
   }
 
