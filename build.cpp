@@ -38,6 +38,7 @@ int main(int argc, char **argv) {
   m->add_part("itemlist");
   m->add_part("moblist");
   m->add_part("player");
+  m->add_part("light");
   m->add_part("enemy");
   m->add_part("atlas");
   m->add_part("game");

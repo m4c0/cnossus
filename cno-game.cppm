@@ -4,6 +4,7 @@ import :enemy;
 import :inventory;
 import :itemlist;
 import :labyrinth;
+import :light;
 import :map;
 import :moblist;
 import :player;
@@ -20,7 +21,7 @@ class game {
   mob_list m_mobs{&m_r};
   inv::table m_inv{};
   player m_player{&m_mobs.at(0)};
-  unsigned m_light{};
+  light m_light{};
   unsigned m_level{};
 
   void create_enemies() {
@@ -174,9 +175,7 @@ class game {
     if (t->life_gain > 0) {
       m_player.recover_health(t->life_gain);
     }
-    if (t->light_provided > 0) {
-      m_light += t->light_provided;
-    }
+    m_light.consume(t);
     tick();
   }
 
@@ -240,7 +239,7 @@ class game {
 
   void repaint() {
     auto pc = m_player.coord();
-    unsigned dist = m_light < 1 ? 2 : 5;
+    unsigned dist = m_light.visible_distance();
     m_map.update_rogueview(pc, dist);
     m_mobs.update_rogueview(pc, dist);
     m_items.update_rogueview(pc, dist);
@@ -269,18 +268,8 @@ class game {
 
   void tick() {
     process_actions_with_light();
-    update_light();
+    m_light.tick();
     repaint();
-  }
-
-  void update_light() {
-    if (m_light == 0)
-      return;
-
-    m_light--;
-    if (m_light == 0) {
-      g::update_status("Your light runs out");
-    }
   }
 
   void update_animations(float dt) {

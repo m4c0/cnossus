@@ -1,7 +1,8 @@
 export module cno:enemy;
-import :objects;
+import :light;
 import :moblist;
 import :mobtype;
+import :objects;
 import :random;
 
 namespace cno {
@@ -45,20 +46,14 @@ public:
   explicit enemy(mob *m) : m_mob{m} {}
 
   [[nodiscard]] map_coord next_move_with_light(map_coord player_pos,
-                                               unsigned l) noexcept {
+                                               const light &l) noexcept {
     switch (m_mob->type->hostility) {
     case h_none:
       return m_mob->coord;
     case h_scaried:
-      if (l < 1)
-        return wander();
-      else
-        return run_from_hero(player_pos);
+      return l.too_bright_for_enemies() ? run_from_hero(player_pos) : wander();
     case h_aggresive:
-      if (l < 1)
-        return hunt_hero(player_pos);
-      else
-        return wander();
+      return l.too_bright_for_enemies() ? wander() : hunt_hero(player_pos);
     }
   }
 
