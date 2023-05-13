@@ -170,9 +170,7 @@ class game {
     if (!m_inv.consume(t))
       return;
 
-    if (t->life_gain > 0) {
-      m_player.recover_health(t->life_gain);
-    }
+    m_player.consume(t);
     m_light.consume(t);
     tick();
   }

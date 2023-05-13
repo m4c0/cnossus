@@ -30,10 +30,16 @@ protected:
     recover_health(1);
   }
 
+  void recover_health(unsigned h) {
+    auto r = max_life() - m_mob->life;
+    auto d = r > h ? h : r;
+    m_mob->life += d;
+  }
+
 public:
   explicit constexpr player(mob *m) : m_mob{m} { *m = {qsu::type{&minotaur}}; }
 
-  [[nodiscard]] constexpr auto max_life() const noexcept {
+  [[nodiscard]] constexpr unsigned max_life() const noexcept {
     return minotaur.life + m_extra_life;
   }
   [[nodiscard]] constexpr auto coord() const noexcept { return m_mob->coord; }
@@ -43,10 +49,10 @@ public:
     return m_mob->life == 0;
   }
 
-  void recover_health(unsigned h) {
-    auto r = max_life() - m_mob->life;
-    auto d = r > h ? h : r;
-    m_mob->life += d;
+  void consume(qsu::type<item_type> t) {
+    if (t->life_gain > 0) {
+      recover_health(t->life_gain);
+    }
   }
 
   void update_inventory(const inv::table &inv) {
