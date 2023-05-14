@@ -8,6 +8,9 @@
 int main(int argc, char **argv) {
   using namespace ecow;
 
+  auto ab = unit::create<tool>("ab");
+  ab->add_unit("ab");
+
   auto qsu = unit::create<mod>("qsu");
   qsu->add_wsdep("quack", quack());
   qsu->add_wsdep("traits", traits());
@@ -50,5 +53,9 @@ int main(int argc, char **argv) {
   a->add_ref(qsu);
   a->add_ref(m);
 
-  return run_main(a, argc, argv);
+  auto all = unit::create<seq>("all");
+  all->add_ref(ab);
+  all->add_ref(a);
+
+  return run_main(all, argc, argv);
 }
