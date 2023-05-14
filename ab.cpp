@@ -1,5 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "stb_image_resize.h"
 
 #include <fstream>
 #include <iostream>
@@ -7,6 +9,7 @@
 constexpr const auto tile_side = 32;
 constexpr const auto tile_stride = 16;
 constexpr const auto atlas_width = tile_side * tile_stride;
+constexpr const auto num_channels = 4;
 
 struct rgb {
   int r;
@@ -21,25 +24,22 @@ void stamp(const char *fname, char id) {
   int w;
   int h;
   int n;
-  auto data = stbi_load(fname, &w, &h, &n, 4);
-  if (data == nullptr) {
+  auto raw = stbi_load(fname, &w, &h, &n, num_channels);
+  if (raw == nullptr) {
     std::cerr << "Failure reading " << fname << "\n";
     throw 0;
   }
 
-  if (w != h && w != tile_side) {
-    std::cerr << "Expecting tiles of " << fname << " to be a square of "
-              << tile_side << "x" << tile_side << "\n";
-    // throw 0;
-  }
+  uint8_t data[tile_side * tile_side * num_channels];
+  stbir_resize_uint8(raw, w, h, 0, data, tile_side, tile_side, 0, num_channels);
 
   unsigned tx = (id % tile_stride) * tile_side;
   unsigned ty = (id / tile_stride) * tile_side;
   for (auto y = 0; y < tile_side; y++) {
     auto &p_row = pixies[y + ty];
-    auto *t_row = &data[y * tile_side * 4];
+    auto *t_row = &data[y * tile_side * num_channels];
     for (auto x = 0; x < tile_side; x++) {
-      auto *t_pix = &t_row[x * 4];
+      auto *t_pix = &t_row[x * num_channels];
       p_row[tx + x] = {
           .r = t_pix[0],
           .g = t_pix[1],
