@@ -34,12 +34,14 @@ bool stamp(const char *fname, char id) {
     return false;
   }
 
+  unsigned tx = (id % tile_stride) * tile_side;
+  unsigned ty = (id / tile_stride) * tile_side;
   for (auto y = 0; y < tile_side; y++) {
-    auto &p_row = pixies[y];
+    auto &p_row = pixies[y + ty];
     auto *t_row = &data[y * tile_side * 4];
     for (auto x = 0; x < tile_side; x++) {
       auto *t_pix = &t_row[x * 4];
-      p_row[x] = {
+      p_row[tx + x] = {
           .r = t_pix[0],
           .g = t_pix[1],
           .b = t_pix[2],
@@ -62,7 +64,9 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  if (!stamp("atlas/adze.png", '0'))
+  if (!stamp("atlas/adze.png", '4'))
+    return 1;
+  if (!stamp("atlas/armguard.png", 's'))
     return 1;
 
   f << "P3\n" << atlas_width << " " << atlas_width << " 255\n";
