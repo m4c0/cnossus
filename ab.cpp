@@ -17,21 +17,20 @@ struct rgb {
 
 rgb pixies[atlas_width][atlas_width]{};
 
-bool stamp(const char *fname, char id) {
+void stamp(const char *fname, char id) {
   int w;
   int h;
   int n;
   auto data = stbi_load(fname, &w, &h, &n, 4);
   if (data == nullptr) {
-    std::cerr << "Failure reading image"
-              << "\n";
-    return false;
+    std::cerr << "Failure reading " << fname << "\n";
+    throw 0;
   }
 
   if (w != h && w != tile_side) {
-    std::cerr << "Expecting tiles to be a square of " << tile_side << "x"
-              << tile_side << "\n";
-    return false;
+    std::cerr << "Expecting tiles of " << fname << " to be a square of "
+              << tile_side << "x" << tile_side << "\n";
+    // throw 0;
   }
 
   unsigned tx = (id % tile_stride) * tile_side;
@@ -49,8 +48,6 @@ bool stamp(const char *fname, char id) {
       };
     }
   }
-
-  return true;
 }
 
 int main(int argc, char **argv) {
@@ -64,10 +61,18 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  if (!stamp("atlas/adze.png", '4'))
+  try {
+    stamp("atlas/floor.png", '.');
+    stamp("atlas/wall.png", '&');
+    stamp("atlas/mosaic.png", ',');
+    stamp("atlas/pool.png", '%');
+    stamp("atlas/column.png", '#');
+    stamp("atlas/basin.png", '$');
+    stamp("atlas/stairs.png", '<');
+    stamp("atlas/statue.png", '(');
+  } catch (...) {
     return 1;
-  if (!stamp("atlas/armguard.png", 's'))
-    return 1;
+  }
 
   f << "P3\n" << atlas_width << " " << atlas_width << " 255\n";
   for (auto y = 0; y < atlas_width; y++) {
