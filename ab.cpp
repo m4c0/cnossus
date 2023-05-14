@@ -12,6 +12,7 @@ struct rgb {
   int r;
   int g;
   int b;
+  int a;
 };
 
 int main(int argc, char **argv) {
@@ -41,6 +42,20 @@ int main(int argc, char **argv) {
     std::cerr << "Expecting tiles to be a square of " << tile_side << "x"
               << tile_side << "\n";
     return 1;
+  }
+
+  for (auto y = 0; y < tile_side; y++) {
+    auto &p_row = pixies[y];
+    auto *t_row = &data[y * tile_side * 4];
+    for (auto x = 0; x < tile_side; x++) {
+      auto *t_pix = &t_row[x * 4];
+      p_row[x] = {
+          .r = t_pix[0],
+          .g = t_pix[1],
+          .b = t_pix[2],
+          .a = t_pix[3],
+      };
+    }
   }
 
   f << "P3\n" << atlas_width << " " << atlas_width << " 255\n";
