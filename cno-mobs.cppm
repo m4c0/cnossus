@@ -20,4 +20,8 @@ void tick_mobs(mob_list *mobs) {
     m.actions.to_max();
   });
 }
+
+void update_animations(mob_list *mobs, float dt) {
+  mobs->for_each([dt](auto &m) { m.damage_timer -= dt; });
+}
 } // namespace cno

@@ -236,10 +236,6 @@ class game {
     repaint();
   }
 
-  void update_animations(float dt) {
-    m_mobs.for_each([dt](auto &m) { m.damage_timer -= dt; });
-  }
-
 public:
   void process_event(const casein::event &e) {
     m_r.process_event(e);
