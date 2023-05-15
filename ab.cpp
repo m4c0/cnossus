@@ -12,10 +12,10 @@ constexpr const auto atlas_width = tile_side * tile_stride;
 constexpr const auto num_channels = 4;
 
 struct rgb {
-  int r;
-  int g;
-  int b;
-  int a;
+  uint8_t r;
+  uint8_t g;
+  uint8_t b;
+  uint8_t a;
 };
 
 rgb pixies[atlas_width][atlas_width]{};
@@ -115,13 +115,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  f << "P3\n" << atlas_width << " " << atlas_width << " 255\n";
-  for (auto y = 0; y < atlas_width; y++) {
-    for (auto x = 0; x < atlas_width; x++) {
-      auto &c = pixies[y][x];
-      f << c.r << " " << c.g << " " << c.b << "\n";
-    }
-  }
-
+  f.rdbuf()->sputn(reinterpret_cast<const char *>(pixies),
+                   atlas_width * atlas_width * num_channels);
   return 0;
 }
