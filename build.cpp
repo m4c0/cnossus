@@ -35,7 +35,10 @@ int main(int argc, char **argv) {
   using namespace ecow;
 
   auto qsu = unit::create<mod>("qsu");
+  qsu->add_wsdep("casein", casein());
   qsu->add_wsdep("quack", quack());
+  qsu->add_wsdep("silog", silog());
+  qsu->add_wsdep("sires", sires());
   qsu->add_wsdep("traits", traits());
   qsu->add_part("coord");
   qsu->add_part("id");
@@ -44,13 +47,13 @@ int main(int argc, char **argv) {
   qsu->add_part("vis");
   qsu->add_part("sprite");
   qsu->add_part("layout");
+  qsu->add_part("renderer");
 
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
   m->add_wsdep("silog", silog());
-  m->add_wsdep("sires", sires());
   m->add_wsdep("traits", traits());
   m->add_part("objects");
   m->add_part("globals");
@@ -68,7 +71,6 @@ int main(int argc, char **argv) {
   m->add_part("light");
   m->add_part("enemy");
   m->add_part("mobs");
-  m->add_part("atlas");
   m->add_part("status");
   m->add_part("game");
 

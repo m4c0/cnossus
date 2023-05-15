@@ -1,5 +1,4 @@
 export module cno:game;
-import :atlas;
 import :enemy;
 import :inventory;
 import :itemlist;
@@ -10,14 +9,13 @@ import :mobs;
 import :moblist;
 import :player;
 import :status;
-import casein;
 import jute;
 import qsu;
 import quack;
 
 namespace cno {
 class game {
-  quack::renderer m_r{3};
+  qsu::renderer m_r{3};
   map m_map{&m_r};
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
@@ -237,15 +235,11 @@ class game {
   }
 
 public:
-  void process_event(const casein::event &e) {
+  void process_event(const auto &e) {
     m_r.process_event(e);
     m_map.process_event(e);
     m_items.process_event(e);
     m_mobs.process_event(e);
-
-    if (e.type() == casein::CREATE_WINDOW) {
-      atlas::load(m_r);
-    }
   }
 
   void reset() {
