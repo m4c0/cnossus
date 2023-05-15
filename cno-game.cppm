@@ -218,8 +218,6 @@ class game {
     m_map.fill_quack();
     m_mobs.fill_quack();
     m_items.fill_quack();
-
-    debug_mobs(&m_mobs);
   }
 
   void set_level(unsigned l) {
