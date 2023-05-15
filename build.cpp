@@ -5,11 +5,33 @@
 #include "../silog/build.hpp"
 #include "../traits/build.hpp"
 
+class atlas : public ecow::seq {
+  std::string exe;
+
+  void build_self() const override {
+    seq::build_self();
+
+    const auto img = ecow::impl::current_target()->build_path() / name();
+
+    std::cerr << "assembling " << name() << std::endl;
+    auto cmd = exe + " " + img.string();
+    if (std::system(cmd.c_str()) != 0)
+      throw std::runtime_error("Failed to assemble atlas");
+  }
+  [[nodiscard]] pathset self_objects() const override { return {}; }
+
+public:
+  explicit atlas(const std::string &name) : seq{name} {
+    auto ab = ecow::unit::create<ecow::tool>("ab");
+    ab->add_unit("ab");
+    this->add_ref(ab);
+
+    exe = ab->executable().string();
+  }
+};
+
 int main(int argc, char **argv) {
   using namespace ecow;
-
-  auto ab = unit::create<tool>("ab");
-  ab->add_unit("ab");
 
   auto qsu = unit::create<mod>("qsu");
   qsu->add_wsdep("quack", quack());
@@ -52,10 +74,8 @@ int main(int argc, char **argv) {
   a->add_requirement(native);
   a->add_ref(qsu);
   a->add_ref(m);
+  a->add_unit<atlas>("atlas.img");
+  a->add_resource("atlas.img");
 
-  auto all = unit::create<seq>("all");
-  all->add_ref(ab);
-  all->add_ref(a);
-
-  return run_main(all, argc, argv);
+  return run_main(a, argc, argv);
 }
