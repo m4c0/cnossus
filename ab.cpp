@@ -94,6 +94,23 @@ int main(int argc, char **argv) {
     stamp("atlas/shield.png", 'u');
     stamp("atlas/jar.png", 'v');
     stamp("atlas/coffer.png", 'w');
+
+    stamp("atlas/minotaur.png", 'A');
+    stamp("atlas/snake.png", 'B');
+    stamp("atlas/spider.png", 'C');
+    stamp("atlas/rat.png", 'D');
+    stamp("atlas/scorpion.png", 'E');
+    stamp("atlas/centipede.png", 'F');
+    stamp("atlas/cerberus.png", 'G');
+    stamp("atlas/harpy.png", 'H');
+    stamp("atlas/chimera.png", 'I');
+    stamp("atlas/manticore.png", 'J');
+    stamp("atlas/crocodile.png", 'K');
+    stamp("atlas/drakon.png", 'L');
+    stamp("atlas/boar.png", 'M');
+    stamp("atlas/griffin.png", 'N');
+    stamp("atlas/sphinx.png", 'O');
+    stamp("atlas/bull.png", 'P');
   } catch (...) {
     return 1;
   }
