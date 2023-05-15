@@ -3,6 +3,7 @@
 #include "../jute/build.hpp"
 #include "../quack/build.hpp"
 #include "../silog/build.hpp"
+#include "../sires/build.hpp"
 #include "../traits/build.hpp"
 
 class atlas : public ecow::seq {
@@ -49,6 +50,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
   m->add_wsdep("silog", silog());
+  m->add_wsdep("sires", sires());
   m->add_wsdep("traits", traits());
   m->add_part("objects");
   m->add_part("globals");
