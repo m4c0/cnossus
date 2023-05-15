@@ -70,6 +70,30 @@ int main(int argc, char **argv) {
     stamp("atlas/basin.png", '$');
     stamp("atlas/stairs.png", '<');
     stamp("atlas/statue.png", '(');
+
+    // stamp("atlas/tunic", 'a');
+    // stamp("atlas/vest", 'b');
+    // stamp("atlas/sword", 'c');
+    stamp("atlas/bag.png", 'd');
+    stamp("atlas/knife.png", 'e');
+    stamp("atlas/sickle.png", 'f');
+    stamp("atlas/adze.png", 'g');
+    stamp("atlas/axe.png", 'h');
+    stamp("atlas/doubleaxe.png", 'i');
+    stamp("atlas/spear.png", 'j');
+    stamp("atlas/driedfruit.png", 'k');
+    stamp("atlas/cheese.png", 'l');
+    stamp("atlas/rawmeat.png", 'm');
+    stamp("atlas/torch.png", 'n');
+    stamp("atlas/candle.png", 'o');
+    stamp("atlas/oillamp.png", 'p');
+    stamp("atlas/greave.png", 'q');
+    stamp("atlas/armguard.png", 'r');
+    stamp("atlas/pauldron.png", 's');
+    stamp("atlas/scale.png", 't');
+    stamp("atlas/shield.png", 'u');
+    stamp("atlas/jar.png", 'v');
+    stamp("atlas/coffer.png", 'w');
   } catch (...) {
     return 1;
   }
