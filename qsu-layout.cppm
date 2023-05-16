@@ -47,6 +47,8 @@ public:
   }
 
   void update_rogueview(coord pc, unsigned radius) noexcept {
+    center_view(pc);
+
     for (auto &blk : this->data()) {
       if (!blk.type) {
         blk.vis = v_none;
