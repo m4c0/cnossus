@@ -49,6 +49,11 @@ int main(int argc, char **argv) {
   qsu->add_part("layout");
   qsu->add_part("renderer");
 
+  auto map = unit::create<mod>("map");
+  map->add_wsdep("jute", jute());
+  map->add_part("block");
+  map->add_part("maze");
+
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
   m->add_wsdep("jute", jute());
@@ -59,11 +64,9 @@ int main(int argc, char **argv) {
   m->add_part("globals");
   m->add_part("random");
   m->add_part("entities");
-  m->add_part("blocktype");
   m->add_part("itemtype");
   m->add_part("mobtype");
   m->add_part("map");
-  m->add_part("labyrinth");
   m->add_part("inventory");
   m->add_part("itemlist");
   m->add_part("moblist");
@@ -77,6 +80,7 @@ int main(int argc, char **argv) {
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
   a->add_ref(qsu);
+  a->add_ref(map);
   a->add_ref(m);
   a->add_unit<atlas>("atlas.img");
   a->add_resource("atlas.img");

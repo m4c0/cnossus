@@ -1,25 +1,30 @@
-export module cno:labyrinth;
-import :blocktype;
-import :map;
-import :random;
+export module map:maze;
+import :block;
 import qsu;
 
-namespace cno {
-class maze_builder {
+extern "C" int rand();
+
+namespace map {
+export constexpr const auto width = 30;
+export constexpr const auto height = 20;
+
+[[nodiscard]] auto random(unsigned max) { return rand() % max; }
+
+class maze {
   struct cell_size {
     unsigned w;
     unsigned h;
   };
 
-  map *m_map;
+  qsu::type<block> m_map[height][width]{};
   cell_size m_cell;
 
   [[nodiscard]] auto &at(unsigned x, unsigned y) noexcept {
-    return map_at(m_map, x, y).type;
+    return m_map[y][x];
   }
 
   [[nodiscard]] auto random_furniture() const noexcept {
-    return qsu::type{cno::random(2) == 0 ? &star : &andsign};
+    return qsu::type{random(2) == 0 ? &star : &andsign};
   }
 
   void furnish_room(unsigned x1, unsigned y1, unsigned x2,
@@ -97,7 +102,7 @@ class maze_builder {
 
     auto x = x1 + 1;
     if (w != 3) {
-      x += cno::random(w - 2);
+      x += random(w - 2);
     }
 
     for (auto y = y1; y <= y2; y++) {
@@ -109,7 +114,7 @@ class maze_builder {
 
     unsigned door_y;
     do {
-      door_y = y1 + cno::random(h);
+      door_y = y1 + random(h);
     } while ((door_y == wall_1) || (door_y == wall_2));
 
     at(x, door_y) = qsu::type{&dot};
@@ -130,7 +135,7 @@ class maze_builder {
 
     auto y = y1 + 1;
     if (h != 3) {
-      y += cno::random(h - 2);
+      y += random(h - 2);
     }
 
     for (auto x = x1; x <= x2; x++) {
@@ -142,7 +147,7 @@ class maze_builder {
 
     unsigned door_x;
     do {
-      door_x = x1 + cno::random(w);
+      door_x = x1 + random(w);
     } while ((door_x == wall_1) || (door_x == wall_2));
 
     at(door_x, y) = qsu::type{&dot};
@@ -152,42 +157,37 @@ class maze_builder {
   }
 
 public:
-  constexpr maze_builder(map *m) : m_map{m} {}
-
   void build_level(unsigned lvl) noexcept {
-    for (auto y = 0U; y < map_height; y++) {
-      for (auto x = 0U; x < map_width; x++) {
-        map_at(m_map, x, y) = {
-            .type = qsu::type{&dot},
-            .coord = {x, y},
-        };
+    for (auto &row : m_map) {
+      for (auto &blk : row) {
+        blk = qsu::type{&dot};
       }
     }
 
-    for (auto x = 0; x < map_width; x++) {
+    for (auto x = 0; x < width; x++) {
       at(x, 0) = qsu::type{&hash};
-      at(x, map_height - 1) = qsu::type{&hash};
+      at(x, height - 1) = qsu::type{&hash};
     }
-    for (int y = 0; y < map_height; y++) {
+    for (int y = 0; y < height; y++) {
       at(0, y) = qsu::type{&hash};
-      at(map_width - 1, y) = qsu::type{&hash};
+      at(width - 1, y) = qsu::type{&hash};
     }
-    if (lvl == max_level + 1)
-      return;
 
     static constexpr const auto max_cell_sizes = 5;
     static constexpr const cell_size cell_sizes[max_cell_sizes] = {
         {7, 7}, {7, 5}, {5, 5}, {5, 3}, {3, 3},
     };
-    m_cell = cell_sizes[cno::random(max_cell_sizes)];
+    m_cell = cell_sizes[random(max_cell_sizes)];
 
-    subdivide_wide(1, 1, map_width - 2, map_height - 2);
+    subdivide_wide(1, 1, width - 2, height - 2);
 
     if ((lvl % 2) == 1) {
-      at(map_width - 2, map_height - 2) = qsu::type{&gt};
+      at(width - 2, height - 2) = qsu::type{&gt};
     } else {
-      at(1, map_height - 2) = qsu::type{&gt};
+      at(1, height - 2) = qsu::type{&gt};
     }
   }
+
+  [[nodiscard]] constexpr const auto &data() const noexcept { return m_map; }
 };
-} // namespace cno
+} // namespace map

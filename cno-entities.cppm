@@ -2,15 +2,10 @@ export module cno:entities;
 import :globals;
 import :random;
 import jute;
+import map;
 import qsu;
 
 namespace cno {
-struct block_type {
-  jute::view name;
-  qsu::id id;
-  bool can_walk{};
-};
-
 enum carry_type {
   carry_one,
   carry_two,
@@ -66,7 +61,8 @@ struct mob : qsu::sprite<mob_type> {
   bonus bonus{};
 };
 
-using item_list = qsu::layout<qsu::sprite<item_type>, map_width, map_height>;
-using map = qsu::layout<qsu::sprite<block_type>, map_width, map_height>;
-using mob_list = qsu::layout<mob, map_width, map_height>;
+using item_list =
+    qsu::layout<qsu::sprite<item_type>, ::map::width, ::map::height>;
+using map = qsu::layout<qsu::sprite<::map::block>, ::map::width, ::map::height>;
+using mob_list = qsu::layout<mob, ::map::width, ::map::height>;
 } // namespace cno

@@ -4,6 +4,7 @@ import :inventory;
 import :itemtype;
 import :moblist;
 import :random;
+import map;
 import qsu;
 
 namespace cno {
@@ -51,7 +52,7 @@ public:
   }
 
   void level_reset(unsigned lvl) {
-    auto px = (lvl % 2 == 1) ? 1U : map_width - 2U;
+    auto px = (lvl % 2 == 1) ? 1U : ::map::width - 2U;
     m_mob->coord = {px, 1};
 
     if (lvl > 1)

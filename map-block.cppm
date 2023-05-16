@@ -1,50 +1,57 @@
-export module cno:blocktype;
-import :entities;
+export module map:block;
+import jute;
+import qsu;
 
-namespace cno {
-constexpr const block_type blank{
+export namespace map {
+struct block {
+  jute::view name;
+  qsu::id id;
+  bool can_walk{};
+};
+
+constexpr const block blank{
     .name = "void",
     .id = ' ',
 };
 
 // Varies with floor
-constexpr const block_type dot{
+constexpr const block dot{
     .name = "floor",
     .id = '.',
     .can_walk = true,
 };
-constexpr const block_type hash{
+constexpr const block hash{
     .name = "wall",
     .id = '&',
 };
 
 // Fixed textures
-constexpr const block_type comma{
+constexpr const block comma{
     .name = "mosaic",
     .id = ',',
     .can_walk = true,
 };
-constexpr const block_type tilda{
+constexpr const block tilda{
     .name = "pool",
     .id = '%',
 };
 
 // Requires combining with "floor"
-constexpr const block_type vbar{
+constexpr const block vbar{
     .name = "knowledge",
     .id = '#',
 };
-constexpr const block_type star{
+constexpr const block star{
     .name = "fountain",
     .id = '$',
 };
-constexpr const block_type gt{
+constexpr const block gt{
     .name = "stairs",
     .id = '<',
     .can_walk = true,
 };
-constexpr const block_type andsign{
+constexpr const block andsign{
     .name = "statue",
     .id = '(',
 };
-} // namespace cno
+} // namespace map

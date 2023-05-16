@@ -3,9 +3,6 @@ import :objects;
 import jute;
 
 namespace cno {
-static constexpr const auto map_width = 30;
-static constexpr const auto map_height = 20;
-
 static constexpr const auto max_level = 20;
 } // namespace cno
 

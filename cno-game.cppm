@@ -2,7 +2,6 @@ export module cno:game;
 import :enemy;
 import :inventory;
 import :itemlist;
-import :labyrinth;
 import :light;
 import :map;
 import :mobs;
@@ -10,6 +9,7 @@ import :moblist;
 import :player;
 import :status;
 import jute;
+import map;
 import qsu;
 import quack;
 
@@ -26,7 +26,7 @@ class game {
 
   void create_enemies() {
     map_coord c{};
-    for (c.y = 1; c.y < map_height - 1; c.y++) {
+    for (c.y = 1; c.y < ::map::height - 1; c.y++) {
       const mob_type *t = mob_roll_per_level.roll(m_level);
       if (t == nullptr) {
         m_mobs.at(c.y) = {};
@@ -34,7 +34,7 @@ class game {
       }
 
       do {
-        c.x = cno::random(map_width);
+        c.x = cno::random(::map::width);
       } while (!map_at(&m_map, c).type->can_walk);
 
       auto &mm = m_mobs.at(c.y) = {qsu::type{t}, c};
@@ -115,14 +115,14 @@ class game {
     m_items.reset_grid();
 
     map_coord c{};
-    for (c.y = 1; c.y < map_height - 2; c.y++) {
+    for (c.y = 1; c.y < ::map::height - 2; c.y++) {
       auto type = qsu::type{item_roll_per_level.roll(m_level)};
       if (!type) {
         continue;
       }
 
       do {
-        c.x = cno::random(map_width);
+        c.x = cno::random(::map::width);
       } while (!map_at(&m_map, c).type->can_walk);
 
       m_items.add({type, c});
@@ -147,7 +147,7 @@ class game {
     // This should be a different action. If we try to fetch an item from ground
     // and we fail and the item is over the stair, we move to the next level.
     // TODO: fix this.
-    if (map_at(&m_map, pc).type->id != gt.id) {
+    if (map_at(&m_map, pc).type->id != ::map::gt.id) {
       tick();
       return;
     }
@@ -178,7 +178,7 @@ class game {
   void set_level(unsigned l) {
     m_level = l;
     m_player.level_reset(l);
-    maze_builder{&m_map}.build_level(l);
+    ::map::build(&m_map, l);
     create_items();
     create_enemies();
     repaint();
