@@ -42,9 +42,11 @@ public:
     return false;
   }
 
-  void update_rogueview(coord pc, unsigned radius) noexcept {
+  void center_view(coord pc) noexcept {
     this->batch()->center_at(pc.x + 0.5f, pc.y + 0.5f);
+  }
 
+  void update_rogueview(coord pc, unsigned radius) noexcept {
     for (auto &blk : this->data()) {
       if (!blk.type) {
         blk.vis = v_none;

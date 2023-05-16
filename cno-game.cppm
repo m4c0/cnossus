@@ -197,6 +197,12 @@ public:
     m_map.process_event(e);
     m_items.process_event(e);
     m_mobs.process_event(e);
+
+    // TODO: easy in the movement:
+    auto pc = m_player.coord();
+    m_map.center_view(pc);
+    m_items.center_view(pc);
+    m_mobs.center_view(pc);
   }
 
   void reset() {
