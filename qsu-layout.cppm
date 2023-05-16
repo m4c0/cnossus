@@ -9,7 +9,7 @@ class layout : public quack::instance_layout<Tp, W * H> {
   using parent_t = quack::instance_layout<Tp, W * H>;
 
   void resize(unsigned w, unsigned h) override {
-    this->batch()->resize(W, H, w, h);
+    this->batch()->resize(5, 5, w, h);
   }
 
 public:
@@ -43,6 +43,8 @@ public:
   }
 
   void update_rogueview(coord pc, unsigned radius) noexcept {
+    this->batch()->center_at(pc.x + 0.5f, pc.y + 0.5f);
+
     for (auto &blk : this->data()) {
       if (!blk.type) {
         blk.vis = v_none;
