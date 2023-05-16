@@ -79,7 +79,7 @@ class game {
     }
 
     auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
-      auto drop = attack(*m, mm);
+      auto drop = mobs::attack(*m, mm);
       if (drop.type)
         m_items.add(drop);
     });
@@ -185,7 +185,7 @@ class game {
   }
 
   void tick() {
-    tick_mobs(&m_mobs);
+    mobs::tick(&m_mobs);
     move_enemies();
     m_light.tick();
     repaint();
