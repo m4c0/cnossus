@@ -3,7 +3,6 @@ import :enemy;
 import :inventory;
 import :itemlist;
 import :light;
-import :map;
 import :mobs;
 import :moblist;
 import :player;
@@ -15,8 +14,10 @@ import quack;
 
 namespace cno {
 class game {
+  using map_t = qsu::layout<qsu::sprite<map::block>, map::width, map::height>;
+
   qsu::renderer m_r{3};
-  map m_map{&m_r};
+  map_t m_map{&m_r};
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
   inv::table m_inv{};
@@ -24,9 +25,13 @@ class game {
   light m_light{};
   unsigned m_level{};
 
+  [[nodiscard]] constexpr auto &map_at(map_coord c) noexcept {
+    return m_map.at(c.y * map::width + c.x);
+  }
+
   void create_enemies() {
     map_coord c{};
-    for (c.y = 1; c.y < ::map::height - 1; c.y++) {
+    for (c.y = 1; c.y < map::height - 1; c.y++) {
       const mob_type *t = mob_roll_per_level.roll(m_level);
       if (t == nullptr) {
         m_mobs.at(c.y) = {};
@@ -34,8 +39,8 @@ class game {
       }
 
       do {
-        c.x = cno::random(::map::width);
-      } while (!map_at(&m_map, c).type->can_walk);
+        c.x = cno::random(map::width);
+      } while (!map_at(c).type->can_walk);
 
       auto &mm = m_mobs.at(c.y) = {qsu::type{t}, c};
       enemy{&mm}.reset_level(m_level);
@@ -69,7 +74,7 @@ class game {
   }
 
   void try_move(mob *m, map_coord tgt) {
-    auto blk = map_at(&m_map, tgt);
+    auto blk = map_at(tgt);
     if (!blk.type->can_walk) {
       if (is_player(*m)) {
         using namespace jute::literals;
@@ -112,7 +117,7 @@ class game {
   }
 
   void create_map() {
-    ::map::maze m{};
+    map::maze m{};
     m.build_level(m_level);
     m.build_sprites(&m_map);
   }
@@ -121,15 +126,15 @@ class game {
     m_items.reset_grid();
 
     map_coord c{};
-    for (c.y = 1; c.y < ::map::height - 2; c.y++) {
+    for (c.y = 1; c.y < map::height - 2; c.y++) {
       auto type = qsu::type{item_roll_per_level.roll(m_level)};
       if (!type) {
         continue;
       }
 
       do {
-        c.x = cno::random(::map::width);
-      } while (!map_at(&m_map, c).type->can_walk);
+        c.x = cno::random(map::width);
+      } while (!map_at(c).type->can_walk);
 
       m_items.add({type, c});
     }
@@ -153,7 +158,7 @@ class game {
     // This should be a different action. If we try to fetch an item from ground
     // and we fail and the item is over the stair, we move to the next level.
     // TODO: fix this.
-    if (map_at(&m_map, pc).type->id != ::map::gt.id) {
+    if (map_at(pc).type->id != map::gt.id) {
       tick();
       return;
     }

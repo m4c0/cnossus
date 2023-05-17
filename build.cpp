@@ -66,7 +66,6 @@ int main(int argc, char **argv) {
   m->add_part("entities");
   m->add_part("itemtype");
   m->add_part("mobtype");
-  m->add_part("map");
   m->add_part("inventory");
   m->add_part("itemlist");
   m->add_part("moblist");
