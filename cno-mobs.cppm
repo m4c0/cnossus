@@ -69,4 +69,13 @@ void update_animations(mob_list *mobs, float dt) {
   }
   return {};
 }
+
+[[nodiscard]] constexpr auto is_player(const mob &a) noexcept {
+  return a.type->hostility == h_none;
+}
+
+void hide_mobs_in_fog(mob_list *m) {
+  m->for_each(
+      [](auto &i) { i.vis = (i.vis == qsu::v_fog) ? qsu::v_none : i.vis; });
+}
 } // namespace cno::mobs
