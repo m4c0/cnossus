@@ -21,7 +21,7 @@ class game {
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
   inv::table m_inv{};
-  player m_player{&m_mobs.at(0)};
+  player m_player{};
   light m_light{};
   unsigned m_level{};
 
@@ -37,16 +37,18 @@ class game {
   }
 
   void create_enemies() {
+    m_mobs.reset_grid();
+    m_player.copy_mob_to(m_mobs.at(0));
+
     map_coord c{};
     for (c.y = 1; c.y < map::height - 1; c.y++) {
-      const mob_type *t = mob_roll_per_level.roll(m_level);
-      if (t == nullptr) {
-        m_mobs.at(c.y) = {};
+      qsu::type<mob_type> t = qsu::type{mob_roll_per_level.roll(m_level)};
+      if (!t)
         continue;
-      }
+
       c.x = find_empty_x(c.y);
 
-      auto &mm = m_mobs.at(c.y) = {qsu::type{t}, c};
+      auto &mm = m_mobs.at(c.y) = {t, c};
       enemy{&mm}.reset_level(m_level);
     }
   }
@@ -189,14 +191,15 @@ class game {
 
   void set_level(unsigned l) {
     m_level = l;
-    m_player.level_reset(l);
     create_map();
+    m_player.level_reset(l);
     create_items();
     create_enemies();
     repaint();
   }
 
   void tick() {
+    m_player.copy_mob_to(m_mobs.at(0));
     mobs::tick(&m_mobs);
     move_enemies();
     m_light.tick();
