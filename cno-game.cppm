@@ -1,6 +1,5 @@
 export module cno:game;
 import :enemy;
-import :inventory;
 import :itemlist;
 import :light;
 import :mobs;
@@ -20,7 +19,6 @@ class game {
   map_t m_map{&m_r};
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
-  inv::table m_inv{};
   player m_player{};
   light m_light{};
   unsigned m_level{};
@@ -70,9 +68,8 @@ class game {
         return;
       }
 
-      if (m_inv.get_item(nit)) {
+      if (m_player.get_item(nit)) {
         it = {};
-        m_player.update_inventory(m_inv);
         tick();
         return;
       }
@@ -110,10 +107,9 @@ class game {
   }
 
   void consume(qsu::type<item_type> t) {
-    if (!m_inv.consume(t))
+    if (!m_player.consume(t))
       return;
 
-    m_player.consume(t);
     m_light.consume(t);
     tick();
   }
@@ -221,8 +217,8 @@ public:
   }
 
   void reset() {
+    m_player = {};
     set_level(1);
-    m_inv = {};
   }
 
   void use() {
@@ -230,7 +226,6 @@ public:
       return;
 
     use_item();
-    // center at player
   }
 
   void down() { move_hero(0, 1); }
