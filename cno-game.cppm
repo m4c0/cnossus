@@ -111,6 +111,12 @@ class game {
     return m_player.is_dead() || m_level == max_level + 1;
   }
 
+  void create_map() {
+    ::map::maze m{};
+    m.build_level(m_level);
+    m.build_sprites(&m_map);
+  }
+
   void create_items() {
     m_items.reset_grid();
 
@@ -178,7 +184,7 @@ class game {
   void set_level(unsigned l) {
     m_level = l;
     m_player.level_reset(l);
-    ::map::build(&m_map, l);
+    create_map();
     create_items();
     create_enemies();
     repaint();
