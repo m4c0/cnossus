@@ -10,7 +10,7 @@ export constexpr const auto height = 20;
 
 [[nodiscard]] auto random(unsigned max) { return rand() % max; }
 
-class maze {
+export class maze {
   struct cell_size {
     unsigned w;
     unsigned h;
@@ -189,5 +189,16 @@ public:
   }
 
   [[nodiscard]] constexpr const auto &data() const noexcept { return m_map; }
+
+  void build_sprites(qsu::layout<qsu::sprite<block>, width, height> *tgt) {
+    for (auto y = 0U; y < height; y++) {
+      for (auto x = 0U; x < width; x++) {
+        tgt->at(y * width + x) = {
+            .type = m_map[y][x],
+            .coord = {x, y},
+        };
+      }
+    }
+  }
 };
 } // namespace map
