@@ -60,6 +60,9 @@ struct mob : qsu::sprite<mob_type> {
   float damage_timer{};
   bonus bonus{};
 };
+[[nodiscard]] constexpr auto is_player(const mob &a) noexcept {
+  return a.type->hostility == h_none;
+}
 
 using item_list =
     qsu::layout<qsu::sprite<item_type>, ::map::width, ::map::height>;

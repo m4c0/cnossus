@@ -3,7 +3,6 @@ import :enemy;
 import :itemlist;
 import :light;
 import :mobs;
-import :moblist;
 import :player;
 import :status;
 import jute;
@@ -178,7 +177,7 @@ class game {
     m_mobs.update_rogueview(pc, dist);
     m_items.update_rogueview(pc, dist);
 
-    hide_mobs_in_fog(&m_mobs);
+    mobs::hide_mobs_in_fog(&m_mobs);
 
     m_map.fill_quack();
     m_mobs.fill_quack();

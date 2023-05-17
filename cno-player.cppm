@@ -2,7 +2,7 @@ export module cno:player;
 import :globals;
 import :inventory;
 import :itemtype;
-import :moblist;
+import :mobtype;
 import :random;
 import map;
 import qsu;

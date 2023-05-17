@@ -1,6 +1,6 @@
 export module cno:status;
 import :entities;
-import :moblist;
+import :mobtype;
 import jute;
 
 namespace cno::status {

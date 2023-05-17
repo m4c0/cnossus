@@ -1,6 +1,5 @@
 export module cno:enemy;
 import :light;
-import :moblist;
 import :mobtype;
 import :objects;
 import :random;
