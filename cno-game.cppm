@@ -28,6 +28,13 @@ class game {
   [[nodiscard]] constexpr auto &map_at(map_coord c) noexcept {
     return m_map.at(c.y * map::width + c.x);
   }
+  [[nodiscard]] auto find_empty_x(unsigned y) noexcept {
+    unsigned x{};
+    do {
+      x = cno::random(map::width);
+    } while (!map_at({x, y}).type->can_walk);
+    return x;
+  }
 
   void create_enemies() {
     map_coord c{};
@@ -37,10 +44,7 @@ class game {
         m_mobs.at(c.y) = {};
         continue;
       }
-
-      do {
-        c.x = cno::random(map::width);
-      } while (!map_at(c).type->can_walk);
+      c.x = find_empty_x(c.y);
 
       auto &mm = m_mobs.at(c.y) = {qsu::type{t}, c};
       enemy{&mm}.reset_level(m_level);
@@ -131,10 +135,7 @@ class game {
       if (!type) {
         continue;
       }
-
-      do {
-        c.x = cno::random(map::width);
-      } while (!map_at(c).type->can_walk);
+      c.x = find_empty_x(c.y);
 
       m_items.add({type, c});
     }
