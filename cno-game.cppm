@@ -4,7 +4,6 @@ import :itemlist;
 import :light;
 import :mobs;
 import :player;
-import :status;
 import jute;
 import map;
 import qsu;
@@ -56,13 +55,11 @@ class game {
       auto nit = (drops == nullptr) ? it.type : qsu::type{drops->roll(m_level)};
       if (!nit) {
         using namespace jute::literals;
-        g::update_status("The "_s + it.type->name + " crumbled to dust");
         it = {};
         return;
       }
 
       if (nit->id != it.type->id) {
-        g::update_status("Something fells on the ground");
         it.type = nit;
         return;
       }
@@ -77,13 +74,8 @@ class game {
 
   void try_move(mob *m, map_coord tgt) {
     auto blk = map_at(tgt);
-    if (!blk.type->can_walk) {
-      if (is_player(*m)) {
-        using namespace jute::literals;
-        g::update_status("A "_s + blk.type->name + " blocks your way");
-      }
+    if (!blk.type->can_walk)
       return;
-    }
 
     auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
       auto drop = mobs::attack(*m, mm);
@@ -163,9 +155,7 @@ class game {
 
     auto lvl = m_level + 1;
     if (lvl == max_level + 1) {
-      g::update_status("You left the dungeon. The world is yours now.");
-    } else {
-      g::update_status("You stumble in darkness, stairs crumbling behind you!");
+      // TODO: game over
     }
     set_level(lvl);
   }

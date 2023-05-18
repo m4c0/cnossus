@@ -26,9 +26,6 @@ public:
       return;
 
     m_value--;
-    if (m_value == 0) {
-      g::update_status("Your light runs out");
-    }
   }
 };
 } // namespace cno

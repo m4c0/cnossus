@@ -15,15 +15,12 @@ class player {
   void random_buff() {
     switch (cno::random(3)) {
     case 0:
-      g::update_status("You feel stronger");
       m_mob.bonus.damage++;
       break;
     case 1:
-      g::update_status("You feel sturdier");
       m_mob.life.add_max(1);
       break;
     default:
-      g::update_status("You feel faster");
       m_mob.actions.add_max(1);
       break;
     }

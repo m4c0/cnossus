@@ -4,8 +4,6 @@ import :globals;
 import casein;
 import silog;
 
-void cno::g::update_status(const char *msg) { silog::log(silog::info, msg); }
-
 extern "C" void casein_handle(const casein::event &e) {
   static cno::game gg{};
   static constexpr const auto k_map = [] {

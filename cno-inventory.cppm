@@ -42,20 +42,15 @@ public:
     if (m_item->carry == carry_many) {
       if (m_count == 0 || has_bag) {
         m_count++;
-        g::update_status("You pick up a " + m_item->name);
         return true;
-      } else {
-        g::update_status("You need a bag to carry more");
-        return false;
       }
+      return false;
     }
     auto max = m_item->carry == carry_two ? 2 : 1;
     if (m_count < max) {
       m_count++;
-      g::update_status("You pick up a " + m_item->name);
       return true;
     }
-    g::update_status("Already got enough of these");
     return false;
   }
 };

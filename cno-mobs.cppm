@@ -1,6 +1,5 @@
 export module cno:mobs;
 import :entities;
-import :status;
 import qsu;
 
 namespace cno::mobs {
@@ -48,24 +47,15 @@ void update_animations(mob_list *mobs, float dt) {
     if (tgt.life == 0) {
       auto drop =
           qsu::sprite<item_type>{qsu::type{tgt.type->drops.roll()}, tgt.coord};
-      status::killed(src, tgt);
       tgt = {};
       return drop;
     } else if (src.type->poison > 0) {
       tgt.poison += 1 + cno::random(src.type->poison);
-      status::poisoned(src, tgt);
-    } else {
-      status::hit(src, tgt);
     }
   } else if (margin == 0) {
     if (src.type->poison > 0) {
       tgt.poison += 1 + cno::random(src.type->poison);
-      status::poisoned(src, tgt);
-    } else {
-      status::near_miss(src, tgt);
     }
-  } else {
-    status::miss(src, tgt);
   }
   return {};
 }
