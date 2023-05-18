@@ -1,5 +1,4 @@
 export module cno:inventory;
-import :globals;
 import :itemtype;
 import jute;
 import qsu;

@@ -1,5 +1,4 @@
 export module cno:player;
-import :globals;
 import :inventory;
 import :itemtype;
 import :mobtype;

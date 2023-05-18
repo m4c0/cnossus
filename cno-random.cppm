@@ -2,9 +2,10 @@ module;
 extern "C" int rand();
 
 export module cno:random;
-import :globals;
 
 namespace cno {
+static constexpr const auto max_level = 20;
+
 [[nodiscard]] inline auto random(unsigned max) noexcept { return rand() % max; }
 
 [[nodiscard]] int roll_dice(int dice, int dice_count) noexcept {

@@ -1,6 +1,5 @@
 export module cno:light;
 import :entities;
-import :globals;
 import qsu;
 
 namespace cno {

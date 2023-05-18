@@ -1,5 +1,4 @@
 export module cno:entities;
-import :globals;
 import :objects;
 import :random;
 import jute;

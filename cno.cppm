@@ -1,6 +1,5 @@
 export module cno;
 import :game;
-import :globals;
 import casein;
 import silog;
 
