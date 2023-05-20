@@ -1,6 +1,7 @@
 #include "../casein/build.hpp"
 #include "../ecow/ecow.hpp"
 #include "../jute/build.hpp"
+#include "../pog/build.hpp"
 #include "../quack/build.hpp"
 #include "../silog/build.hpp"
 #include "../sires/build.hpp"
@@ -54,6 +55,9 @@ int main(int argc, char **argv) {
   map->add_part("block");
   map->add_part("maze");
 
+  auto ecs = unit::create<mod>("ecs");
+  ecs->add_wsdep("pog", pog());
+
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
   m->add_wsdep("jute", jute());
@@ -75,6 +79,7 @@ int main(int argc, char **argv) {
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
+  a->add_ref(ecs);
   a->add_ref(qsu);
   a->add_ref(map);
   a->add_ref(m);
