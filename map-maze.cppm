@@ -1,12 +1,13 @@
 export module map:maze;
 import :block;
+import ecs;
 import qsu;
 
 extern "C" int rand();
 
 namespace map {
-export constexpr const auto width = 30;
-export constexpr const auto height = 20;
+export constexpr const auto width = ecs::map_width;
+export constexpr const auto height = ecs::map_height;
 
 [[nodiscard]] auto random(unsigned max) { return rand() % max; }
 
