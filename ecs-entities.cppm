@@ -16,7 +16,7 @@ namespace ecs {
 export auto add_enemy(ecs::ec *ec) {
   auto e = ec->e.alloc();
   auto c = find_empty_location(ec);
-  ec->blockers.set(e, c);
+  ec->blockers.put(e, c);
   ec->coords.add(e, c);
   return e;
 }
@@ -28,12 +28,12 @@ export auto add_item(ecs::ec *ec) {
 }
 export void add_player(ecs::ec *ec, pog::grid_coord c) {
   auto e = ec->e.alloc();
-  ec->blockers.set(e, c);
+  ec->blockers.put(e, c);
   ec->coords.add(e, c);
 }
 export void add_rigid_block(ecs::ec *ec, pog::grid_coord c) {
   auto e = ec->e.alloc();
-  ec->blockers.set(e, c);
+  ec->blockers.put(e, c);
   ec->coords.add(e, c);
 }
 } // namespace ecs

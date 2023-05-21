@@ -70,9 +70,11 @@ class game {
   }
 
   void try_move(mob *m, map_coord tgt) {
-    auto blk = map_at(tgt);
-    if (!blk.type->can_walk)
+    if (m_ec.blockers.has({tgt.x, tgt.y}))
       return;
+
+    auto [x, y] = m->coord;
+    auto e = m_ec.blockers.get({x, y});
 
     auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
       auto drop = mobs::attack(*m, mm);
@@ -80,8 +82,15 @@ class game {
         m_items.add(drop);
     });
 
-    if (!attacked)
-      m->coord = tgt;
+    if (attacked)
+      return;
+
+    m->coord = tgt;
+
+    m_ec.blockers.remove(e);
+    m_ec.blockers.put(e, {tgt.x, tgt.y});
+
+    m_ec.coords.set(e, {tgt.x, tgt.y});
   }
 
   void move_enemies() {
