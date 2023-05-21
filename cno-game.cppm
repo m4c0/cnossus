@@ -38,6 +38,7 @@ class game {
   void create_enemies() {
     m_mobs.reset_grid();
     m_player.copy_mob_to(m_mobs.at(0));
+    m_player.add_entity(&m_ec);
 
     map_coord c{};
     for (c.y = 1; c.y < map::height - 1; c.y++) {

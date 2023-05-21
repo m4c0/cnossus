@@ -3,6 +3,7 @@ import :inventory;
 import :itemtype;
 import :mobtype;
 import :random;
+import ecs;
 import map;
 import qsu;
 
@@ -41,6 +42,11 @@ public:
 
   [[nodiscard]] constexpr auto is_dead() const noexcept {
     return m_mob.life == 0;
+  }
+
+  void add_entity(ecs::ec *ec) const noexcept {
+    const auto &[x, y] = m_mob.coord;
+    ecs::add_player(ec, {x, y});
   }
 
   void level_reset(unsigned lvl) {
