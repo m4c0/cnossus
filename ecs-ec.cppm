@@ -1,4 +1,5 @@
 export module ecs:ec;
+import :compos;
 import pog;
 
 namespace ecs {
@@ -10,5 +11,6 @@ export struct ec {
   pog::entity_list<max_entities> e;
   pog::grid<map_width, map_height, max_entities> blockers;
   pog::sparse_set<pog::grid_coord, max_entities> coords;
+  pog::sparse_set<ecs::c::exit, 1> exit;
 };
 } // namespace ecs
