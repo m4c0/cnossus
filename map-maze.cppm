@@ -189,8 +189,6 @@ public:
     }
   }
 
-  [[nodiscard]] constexpr const auto &data() const noexcept { return m_map; }
-
   void build_sprites(qsu::layout<qsu::sprite<block>, width, height> *tgt) {
     for (auto y = 0U; y < height; y++) {
       for (auto x = 0U; x < width; x++) {
