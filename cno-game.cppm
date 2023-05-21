@@ -27,30 +27,21 @@ class game {
   [[nodiscard]] constexpr auto &map_at(map_coord c) noexcept {
     return m_map.at(c.y * map::width + c.x);
   }
-  [[nodiscard]] auto find_empty_x(unsigned y) noexcept {
-    unsigned x{};
-    do {
-      x = cno::random(map::width);
-    } while (!map_at({x, y}).type->can_walk);
-    return x;
-  }
 
   void create_enemies() {
     m_mobs.reset_grid();
     m_player.copy_mob_to(m_mobs.at(0));
     m_player.add_entity(&m_ec);
 
-    map_coord c{};
-    for (c.y = 1; c.y < map::height - 1; c.y++) {
+    for (auto i = 0; i < map::height - 1; i++) {
       qsu::type<mob_type> t = qsu::type{mob_roll_per_level.roll(m_level)};
       if (!t)
         continue;
 
-      c.x = find_empty_x(c.y);
+      auto id = add_enemy(&m_ec);
+      auto [x, y] = m_ec.blockers.get(id);
 
-      add_enemy(&m_ec, {c.x, c.y});
-
-      auto &mm = m_mobs.at(c.y) = {t, c};
+      auto &mm = m_mobs.at(i + 1) = {t, {x, y}};
       enemy{&mm}.reset_level(m_level);
     }
   }
@@ -125,16 +116,15 @@ class game {
   void create_items() {
     m_items.reset_grid();
 
-    map_coord c{};
-    for (c.y = 1; c.y < map::height - 2; c.y++) {
+    for (auto i = 1; i < map::height - 2; i++) {
       auto type = qsu::type{item_roll_per_level.roll(m_level)};
       if (!type) {
         continue;
       }
-      c.x = find_empty_x(c.y);
 
-      add_item(&m_ec, {c.x, c.y});
-      m_items.add({type, c});
+      auto id = add_item(&m_ec);
+      auto [x, y] = m_ec.coords.get(id);
+      m_items.add({type, {x, y}});
     }
   }
 

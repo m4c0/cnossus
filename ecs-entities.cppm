@@ -1,22 +1,39 @@
 export module ecs:entities;
 import :ec;
+import :random;
 import pog;
 
 namespace ecs {
-export void add_enemy(ecs::ec *ec, pog::grid_coord c) {
-  auto e = ec->e.alloc();
-  ec->blockers.set(e, c);
+[[nodiscard]] auto find_empty_location(ecs::ec *ec) noexcept {
+  pog::grid_coord c;
+  do {
+    c.x = random(map_width);
+    c.y = random(map_height);
+  } while (ec->blockers.has(c));
+  return c;
 }
-export void add_item(ecs::ec *ec, pog::grid_coord c) {
+
+export auto add_enemy(ecs::ec *ec) {
   auto e = ec->e.alloc();
+  auto c = find_empty_location(ec);
   ec->blockers.set(e, c);
+  ec->coords.add(e, c);
+  return e;
+}
+export auto add_item(ecs::ec *ec) {
+  auto e = ec->e.alloc();
+  auto c = find_empty_location(ec);
+  ec->coords.add(e, c);
+  return e;
 }
 export void add_player(ecs::ec *ec, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->blockers.set(e, c);
+  ec->coords.add(e, c);
 }
 export void add_rigid_block(ecs::ec *ec, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->blockers.set(e, c);
+  ec->coords.add(e, c);
 }
 } // namespace ecs
