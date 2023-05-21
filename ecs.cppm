@@ -11,4 +11,16 @@ export struct ec {
   pog::grid<map_width, map_height, max_entities> blockers;
 };
 
+export void add_enemy(ecs::ec *ec, pog::grid_coord c) {
+  auto e = ec->e.alloc();
+  ec->blockers.set(e, c);
+}
+export void add_item(ecs::ec *ec, pog::grid_coord c) {
+  auto e = ec->e.alloc();
+  ec->blockers.set(e, c);
+}
+export void add_rigid_block(ecs::ec *ec, pog::grid_coord c) {
+  auto e = ec->e.alloc();
+  ec->blockers.set(e, c);
+}
 } // namespace ecs

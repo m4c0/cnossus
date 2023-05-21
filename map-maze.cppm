@@ -206,8 +206,7 @@ public:
         if (m_map[y][x]->can_walk)
           continue;
 
-        auto e = ec->e.alloc();
-        ec->blockers.set(e, {x, y});
+        ecs::add_rigid_block(ec, {x, y});
       }
     }
   }

@@ -47,6 +47,8 @@ class game {
 
       c.x = find_empty_x(c.y);
 
+      add_enemy(&m_ec, {c.x, c.y});
+
       auto &mm = m_mobs.at(c.y) = {t, c};
       enemy{&mm}.reset_level(m_level);
     }
@@ -130,6 +132,7 @@ class game {
       }
       c.x = find_empty_x(c.y);
 
+      add_item(&m_ec, {c.x, c.y});
       m_items.add({type, c});
     }
   }
