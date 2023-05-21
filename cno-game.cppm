@@ -4,6 +4,7 @@ import :itemlist;
 import :light;
 import :mobs;
 import :player;
+import ecs;
 import jute;
 import map;
 import qsu;
@@ -20,6 +21,8 @@ class game {
   player m_player{};
   light m_light{};
   unsigned m_level{};
+
+  ecs::ec m_ec;
 
   [[nodiscard]] constexpr auto &map_at(map_coord c) noexcept {
     return m_map.at(c.y * map::width + c.x);
@@ -113,6 +116,7 @@ class game {
     map::maze m{};
     m.build_level(m_level);
     m.build_sprites(&m_map);
+    m.build_entities(&m_ec);
   }
 
   void create_items() {

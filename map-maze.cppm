@@ -201,5 +201,17 @@ public:
       }
     }
   }
+
+  void build_entities(ecs::ec *ec) {
+    for (auto y = 0U; y < height; y++) {
+      for (auto x = 0U; x < width; x++) {
+        if (m_map[y][x]->can_walk)
+          continue;
+
+        auto e = ec->e.alloc();
+        ec->blockers.set(e, {x, y});
+      }
+    }
+  }
 };
 } // namespace map
