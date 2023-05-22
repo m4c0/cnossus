@@ -40,8 +40,7 @@ public:
         *uvs++ = id{spr.id}.uv();
       }
     });
-
-    // TODO: set batch size in batch
+    batch()->set_count(ec->sprites.size());
   }
 };
 
