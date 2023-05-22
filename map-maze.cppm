@@ -200,9 +200,14 @@ public:
     }
   }
 
+  // TODO: just add entities in `build level`
   void build_entities(ecs::ec *ec) {
     for (auto y = 0U; y < height; y++) {
       for (auto x = 0U; x < width; x++) {
+        if (m_map[y][x]->id == gt.id) {
+          ecs::add_exit(ec, {x, y});
+          continue;
+        }
         if (m_map[y][x]->can_walk)
           continue;
 

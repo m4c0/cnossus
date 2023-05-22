@@ -24,10 +24,6 @@ class game {
 
   ecs::ec m_ec;
 
-  [[nodiscard]] constexpr auto &map_at(map_coord c) noexcept {
-    return m_map.at(c.y * map::width + c.x);
-  }
-
   void create_enemies() {
     m_mobs.reset_grid();
     m_player.copy_mob_to(m_mobs.at(0));
@@ -146,25 +142,36 @@ class game {
     tick();
   }
 
+  void next_level() {
+    auto lvl = m_level + 1;
+    if (lvl == max_level + 1) {
+      // TODO: game over
+    }
+    set_level(lvl);
+  }
+
   void use_item() {
     auto pc = m_player.coord();
     if (open_item_at(pc)) {
       return;
     }
 
-    // This should be a different action. If we try to fetch an item from ground
-    // and we fail and the item is over the stair, we move to the next level.
-    // TODO: fix this.
-    if (map_at(pc).type->id != map::gt.id) {
-      tick();
-      return;
+    for (auto [_, id] : m_ec.usables) {
+      auto c = m_ec.coords.get(id);
+      if (c.x != pc.x || c.y != pc.y)
+        continue;
+
+      // This should be a different action. If we try to fetch an item from
+      // ground and we fail and the item is over the stair, we move to the next
+      // level.
+      // TODO: fix this.
+      if (m_ec.exit.has(id)) {
+        next_level();
+        return;
+      }
     }
 
-    auto lvl = m_level + 1;
-    if (lvl == max_level + 1) {
-      // TODO: game over
-    }
-    set_level(lvl);
+    tick();
   }
 
   void repaint() {

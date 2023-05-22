@@ -41,5 +41,6 @@ export void add_exit(ecs::ec *ec, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->coords.add(e, c);
   ec->exit.add(e, {});
+  ec->usables.add(e, {});
 }
 } // namespace ecs
