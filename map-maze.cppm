@@ -204,14 +204,15 @@ public:
   void build_entities(ecs::ec *ec) {
     for (auto y = 0U; y < height; y++) {
       for (auto x = 0U; x < width; x++) {
-        if (m_map[y][x]->id == gt.id) {
-          ecs::add_exit(ec, {x, y});
+        auto &b = m_map[y][x];
+        if (b->id == gt.id) {
+          ecs::add_exit(ec, b->id, {x, y});
           continue;
         }
-        if (m_map[y][x]->can_walk) {
-          ecs::add_walkable_block(ec, {x, y});
+        if (b->can_walk) {
+          ecs::add_walkable_block(ec, b->id, {x, y});
         } else {
-          ecs::add_rigid_block(ec, {x, y});
+          ecs::add_rigid_block(ec, b->id, {x, y});
         }
       }
     }
