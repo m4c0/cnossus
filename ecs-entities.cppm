@@ -31,7 +31,7 @@ export void add_player(ecs::ec *ec, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->blockers.put(e, c);
   ec->coords.add(e, c);
-  ec->player.add(e, {});
+  ec->player.set(e, {});
 }
 
 export void add_rigid_block(ecs::ec *ec, char id, pog::grid_coord c) {
@@ -48,7 +48,7 @@ export void add_walkable_block(ecs::ec *ec, char id, pog::grid_coord c) {
 export void add_exit(ecs::ec *ec, char id, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->coords.add(e, c);
-  ec->exit.add(e, {});
+  ec->exit.set(e, {});
   ec->sprites.add(e, {id, 1});
   ec->usables.add(e, {});
 }
