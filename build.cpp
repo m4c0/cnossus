@@ -51,7 +51,6 @@ int main(int argc, char **argv) {
   qsu->add_part("renderer");
 
   auto map = unit::create<mod>("map");
-  map->add_wsdep("jute", jute());
   map->add_part("block");
   map->add_part("maze");
 
