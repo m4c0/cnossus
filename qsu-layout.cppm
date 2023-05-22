@@ -1,5 +1,6 @@
 export module qsu:layout;
 import :coord;
+import :id;
 import :vis;
 import ecs;
 import quack;
@@ -18,7 +19,29 @@ public:
   }
 
   void fill_quack(ecs::ec *ec) noexcept {
-    batch()->colours().map([](const auto &cs) { return quack::colour{}; });
+    batch()->colours().map([ec](auto *cs) {
+      for (auto _ : ec->sprites) {
+        *cs++ = {};
+      }
+    });
+    batch()->multipliers().map([ec](auto *ms) {
+      for (auto [spr, _] : ec->sprites) {
+        *ms++ = {1, 1, 1, spr.alpha};
+      }
+    });
+    batch()->positions().map([ec](auto *ps) {
+      for (auto [spr, id] : ec->sprites) {
+        auto [x, y] = ec->coords.get(id);
+        *ps++ = quack::rect{static_cast<float>(x), static_cast<float>(y), 1, 1};
+      }
+    });
+    batch()->uvs().map([ec](auto *uvs) {
+      for (auto [spr, _] : ec->sprites) {
+        *uvs++ = id{spr.id}.uv();
+      }
+    });
+
+    // TODO: set batch size in batch
   }
 };
 
