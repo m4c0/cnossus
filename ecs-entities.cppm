@@ -18,6 +18,7 @@ export auto add_enemy(ecs::ec *ec) {
   auto c = find_empty_location(ec);
   ec->blockers.put(e, c);
   ec->coords.add(e, c);
+  ec->enemies.add(e, {});
   return e;
 }
 export auto add_item(ecs::ec *ec) {

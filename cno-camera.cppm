@@ -16,7 +16,7 @@ void update_rogueview(ecs::ec *ec) {
     if (sq_dist <= sq_light) {
       spr.alpha = 1.0;
       spr.seen = true;
-    } else if (spr.seen) {
+    } else if (spr.seen && !ec->enemies.has(sid)) {
       spr.alpha = 0.5;
     } else {
       spr.alpha = 0.0;
