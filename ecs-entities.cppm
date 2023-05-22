@@ -38,6 +38,10 @@ export void add_rigid_block(ecs::ec *ec, pog::grid_coord c) {
   ec->blockers.put(e, c);
   ec->coords.add(e, c);
 }
+export void add_walkable_block(ecs::ec *ec, pog::grid_coord c) {
+  auto e = ec->e.alloc();
+  ec->coords.add(e, c);
+}
 export void add_exit(ecs::ec *ec, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->coords.add(e, c);

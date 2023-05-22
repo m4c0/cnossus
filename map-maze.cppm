@@ -208,10 +208,11 @@ public:
           ecs::add_exit(ec, {x, y});
           continue;
         }
-        if (m_map[y][x]->can_walk)
-          continue;
-
-        ecs::add_rigid_block(ec, {x, y});
+        if (m_map[y][x]->can_walk) {
+          ecs::add_walkable_block(ec, {x, y});
+        } else {
+          ecs::add_rigid_block(ec, {x, y});
+        }
       }
     }
   }
