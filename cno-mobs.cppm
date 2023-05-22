@@ -59,9 +59,4 @@ void update_animations(mob_list *mobs, float dt) {
   }
   return {};
 }
-
-void hide_mobs_in_fog(mob_list *m) {
-  m->for_each(
-      [](auto &i) { i.vis = (i.vis == qsu::v_fog) ? qsu::v_none : i.vis; });
-}
 } // namespace cno::mobs

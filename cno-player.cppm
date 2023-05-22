@@ -46,7 +46,7 @@ public:
 
   void add_entity(ecs::ec *ec) const noexcept {
     const auto &[x, y] = m_mob.coord;
-    ecs::add_player(ec, {x, y});
+    ecs::add_player(ec, minotaur.id, {x, y});
   }
 
   void level_reset(unsigned lvl) {

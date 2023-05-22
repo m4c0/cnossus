@@ -31,7 +31,7 @@ class game {
       if (!t)
         continue;
 
-      auto id = add_enemy(&m_ec);
+      auto id = add_enemy(&m_ec, t->id);
       auto [x, y] = m_ec.blockers.get(id);
 
       auto &mm = m_mobs.at(i + 1) = {t, {x, y}};
@@ -122,7 +122,7 @@ class game {
         continue;
       }
 
-      auto id = add_item(&m_ec);
+      auto id = add_item(&m_ec, type->id);
       auto [x, y] = m_ec.coords.get(id);
       m_items.add({type, {x, y}});
     }
@@ -173,14 +173,7 @@ class game {
     auto pc = m_player.coord();
     unsigned dist = m_light.visible_distance();
     update_rogueview(&m_ec);
-    m_mobs.update_rogueview(pc, dist);
-    m_items.update_rogueview(pc, dist);
-
-    mobs::hide_mobs_in_fog(&m_mobs);
-
     m_qsu.fill_quack(&m_ec);
-    m_mobs.fill_quack();
-    m_items.fill_quack();
   }
 
   void set_level(unsigned l) {
@@ -204,14 +197,10 @@ public:
   void process_event(const auto &e) {
     m_r.process_event(e);
     m_qsu.process_event(e);
-    m_items.process_event(e);
-    m_mobs.process_event(e);
 
     // TODO: easy in the movement:
     auto pc = m_player.coord();
     m_qsu.center_view(pc);
-    m_items.center_view(pc);
-    m_mobs.center_view(pc);
   }
 
   void reset() {
