@@ -14,6 +14,7 @@ export struct ec {
   pog::sparse_set<pog::grid_coord, max_entities> coords;
   pog::sparse_set<ecs::c::sprite, max_entities> sprites;
   pog::sparse_set<ecs::c::usable, max_items> usables;
+  pog::sparse_set<ecs::c::player, 1> player;
   pog::sparse_set<ecs::c::exit, 1> exit;
 };
 
@@ -21,6 +22,7 @@ export void wipeout_entity(ec *ec, pog::eid id) {
   ec->blockers.remove(id);
   ec->coords.remove(id);
   ec->exit.remove(id);
+  ec->player.remove(id);
   ec->sprites.remove(id);
   ec->usables.remove(id);
 
