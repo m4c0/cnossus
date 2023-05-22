@@ -67,6 +67,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("quack", quack());
   m->add_wsdep("silog", silog());
   m->add_wsdep("traits", traits());
+  m->add_part("camera");
   m->add_part("objects");
   m->add_part("random");
   m->add_part("entities");

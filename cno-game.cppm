@@ -1,4 +1,5 @@
 export module cno:game;
+import :camera;
 import :enemy;
 import :itemlist;
 import :light;
@@ -171,8 +172,7 @@ class game {
   void repaint() {
     auto pc = m_player.coord();
     unsigned dist = m_light.visible_distance();
-    // TODO: another system for "rogue view"
-    // m_map.update_rogueview(pc, dist);
+    update_rogueview(&m_ec);
     m_mobs.update_rogueview(pc, dist);
     m_items.update_rogueview(pc, dist);
 
