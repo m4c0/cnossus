@@ -24,6 +24,7 @@ export auto add_item(ecs::ec *ec) {
   auto e = ec->e.alloc();
   auto c = find_empty_location(ec);
   ec->coords.add(e, c);
+  ec->usables.add(e, {});
   return e;
 }
 export void add_player(ecs::ec *ec, pog::grid_coord c) {
