@@ -15,4 +15,12 @@ export struct ec {
   pog::sparse_set<ecs::c::usable, max_items> usables;
   pog::sparse_set<ecs::c::exit, 1> exit;
 };
+
+export void wipeout_entity(ec *ec, pog::eid id) {
+  ec->blockers.remove(id);
+  ec->coords.remove(id);
+  ec->usables.remove(id);
+  ec->exit.remove(id);
+  ec->e.dealloc(id);
+}
 } // namespace ecs
