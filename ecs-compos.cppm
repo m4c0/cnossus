@@ -8,5 +8,6 @@ struct usable {};
 struct sprite {
   char id;
   float alpha;
+  bool seen;
 };
 } // namespace ecs::c

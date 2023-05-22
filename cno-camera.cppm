@@ -15,8 +15,11 @@ void update_rogueview(ecs::ec *ec) {
     auto sq_dist = dx * dx + dy * dy;
     if (sq_dist <= sq_light) {
       spr.alpha = 1.0;
-    } else {
+      spr.seen = true;
+    } else if (spr.seen) {
       spr.alpha = 0.5;
+    } else {
+      spr.alpha = 0.0;
     }
   }
 }
