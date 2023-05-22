@@ -5,10 +5,8 @@ import :light;
 import :mobs;
 import :player;
 import ecs;
-import jute;
 import map;
 import qsu;
-import quack;
 
 namespace cno {
 class game {
@@ -47,7 +45,6 @@ class game {
       auto drops = it.type->drops;
       auto nit = (drops == nullptr) ? it.type : qsu::type{drops->roll(m_level)};
       if (!nit) {
-        using namespace jute::literals;
         it = {};
         return;
       }
