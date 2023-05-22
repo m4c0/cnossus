@@ -1,9 +1,27 @@
 export module qsu:layout;
 import :coord;
 import :vis;
+import ecs;
 import quack;
 
 export namespace qsu {
+class layout2 : public quack::instance_layout<void, ecs::max_entities> {
+  using parent_t = quack::instance_layout<void, ecs::max_entities>;
+
+  void resize(unsigned w, unsigned h) override { batch()->resize(5, 5, w, h); }
+
+public:
+  using parent_t::parent_t;
+
+  void center_view(coord pc) noexcept {
+    batch()->center_at(pc.x + 0.5f, pc.y + 0.5f);
+  }
+
+  void fill_quack(ecs::ec *ec) noexcept {
+    batch()->colours().map([](const auto &cs) { return quack::colour{}; });
+  }
+};
+
 template <typename Tp, unsigned W, unsigned H>
 class layout : public quack::instance_layout<Tp, W * H> {
   using parent_t = quack::instance_layout<Tp, W * H>;

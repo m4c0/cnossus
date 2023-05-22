@@ -189,17 +189,6 @@ public:
     }
   }
 
-  void build_sprites(qsu::layout<qsu::sprite<block>, width, height> *tgt) {
-    for (auto y = 0U; y < height; y++) {
-      for (auto x = 0U; x < width; x++) {
-        tgt->at(y * width + x) = {
-            .type = m_map[y][x],
-            .coord = {x, y},
-        };
-      }
-    }
-  }
-
   // TODO: just add entities in `build level`
   void build_entities(ecs::ec *ec) {
     for (auto y = 0U; y < height; y++) {

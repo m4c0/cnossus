@@ -10,10 +10,8 @@ import qsu;
 
 namespace cno {
 class game {
-  using map_t = qsu::layout<qsu::sprite<map::block>, map::width, map::height>;
-
   qsu::renderer m_r{3};
-  map_t m_map{&m_r};
+  qsu::layout2 m_qsu{&m_r};
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
   player m_player{};
@@ -111,7 +109,6 @@ class game {
   void create_map() {
     map::maze m{};
     m.build_level(m_level);
-    m.build_sprites(&m_map);
     m.build_entities(&m_ec);
   }
 
@@ -174,13 +171,14 @@ class game {
   void repaint() {
     auto pc = m_player.coord();
     unsigned dist = m_light.visible_distance();
-    m_map.update_rogueview(pc, dist);
+    // TODO: another system for "rogue view"
+    // m_map.update_rogueview(pc, dist);
     m_mobs.update_rogueview(pc, dist);
     m_items.update_rogueview(pc, dist);
 
     mobs::hide_mobs_in_fog(&m_mobs);
 
-    m_map.fill_quack();
+    m_qsu.fill_quack(&m_ec);
     m_mobs.fill_quack();
     m_items.fill_quack();
   }
@@ -205,13 +203,13 @@ class game {
 public:
   void process_event(const auto &e) {
     m_r.process_event(e);
-    m_map.process_event(e);
+    m_qsu.process_event(e);
     m_items.process_event(e);
     m_mobs.process_event(e);
 
     // TODO: easy in the movement:
     auto pc = m_player.coord();
-    m_map.center_view(pc);
+    m_qsu.center_view(pc);
     m_items.center_view(pc);
     m_mobs.center_view(pc);
   }
