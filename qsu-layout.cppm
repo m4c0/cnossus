@@ -6,7 +6,7 @@ import ecs;
 import quack;
 
 export namespace qsu {
-class layout2 : public quack::instance_layout<void, ecs::max_entities> {
+class layout : public quack::instance_layout<void, ecs::max_entities> {
   using parent_t = quack::instance_layout<void, ecs::max_entities>;
 
   void resize(unsigned w, unsigned h) override { batch()->resize(5, 5, w, h); }
@@ -45,7 +45,7 @@ public:
 };
 
 template <typename Tp, unsigned W, unsigned H>
-class layout : public quack::instance_layout<Tp, W * H> {
+class layout2 : public quack::instance_layout<Tp, W * H> {
   using parent_t = quack::instance_layout<Tp, W * H>;
 
   void resize(unsigned w, unsigned h) override {

@@ -11,7 +11,7 @@ import qsu;
 namespace cno {
 class game {
   qsu::renderer m_r{3};
-  qsu::layout2 m_qsu{&m_r};
+  qsu::layout m_qsu{&m_r};
   item_list m_items{&m_r};
   mob_list m_mobs{&m_r};
   player m_player{};

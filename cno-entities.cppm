@@ -65,6 +65,6 @@ struct mob : qsu::sprite<mob_type> {
 }
 
 using item_list =
-    qsu::layout<qsu::sprite<item_type>, ::map::width, ::map::height>;
-using mob_list = qsu::layout<mob, ::map::width, ::map::height>;
+    qsu::layout2<qsu::sprite<item_type>, ::map::width, ::map::height>;
+using mob_list = qsu::layout2<mob, ::map::width, ::map::height>;
 } // namespace cno
