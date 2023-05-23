@@ -30,9 +30,6 @@ void update_animations(mob_list *mobs, float dt) {
   if (src.type->id == tgt.type->id)
     return {};
 
-  const auto srcn = src.type->name;
-  const auto tgtn = tgt.type->name;
-
   int atk_roll = roll_dice(src.type->dice, 2) + src.bonus.attack;
   int def_roll = roll_dice(tgt.type->dice, 2) + tgt.bonus.defense;
   int margin = atk_roll - def_roll;
