@@ -53,8 +53,6 @@ int main(int argc, char **argv) {
   qsu->add_part("renderer");
 
   auto map = unit::create<mod>("map");
-  map->add_part("block");
-  map->add_part("maze");
 
   auto ecs = unit::create<mod>("ecs");
   ecs->add_wsdep("pog", pog());
