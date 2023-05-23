@@ -14,11 +14,12 @@ export struct ec {
 
   pog::grid<map_width, map_height, max_entities> blockers;
   pog::sparse_set<pog::grid_coord, max_entities> coords;
-  pog::sparse_set<ecs::c::enemy, max_enemies> enemies;
-  pog::sparse_set<ecs::c::sprite, max_entities> sprites;
-  pog::sparse_set<ecs::c::usable, max_items> usables;
-  pog::singleton<ecs::c::player> player;
-  pog::singleton<ecs::c::exit> exit;
+  pog::sparse_set<c::marker, max_enemies> enemies;
+  pog::sparse_set<c::sprite, max_entities> sprites;
+  pog::sparse_set<c::marker, max_items> hostiles;
+  pog::sparse_set<c::marker, max_items> usables;
+  pog::singleton<c::marker> player;
+  pog::singleton<c::marker> exit;
 };
 
 export void wipeout_entity(ec *ec, pog::eid id) {
@@ -26,6 +27,7 @@ export void wipeout_entity(ec *ec, pog::eid id) {
   ec->coords.remove(id);
   ec->enemies.remove(id);
   ec->exit.remove(id);
+  ec->hostiles.remove(id);
   ec->player.remove(id);
   ec->sprites.remove(id);
   ec->usables.remove(id);

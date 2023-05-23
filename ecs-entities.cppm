@@ -22,12 +22,19 @@ auto add_mob(ec *ec, char id, pog::grid_coord c) {
   return e;
 }
 
-export auto add_enemy(ec *ec, char id) {
+auto add_enemy(ec *ec, char id) {
   auto c = find_empty_location(ec);
   auto e = add_mob(ec, id, c);
   ec->enemies.add(e, {});
   return e;
 }
+export auto add_hostile_enemy(ec *ec, char id) {
+  auto e = add_enemy(ec, id);
+  ec->hostiles.add(e, {});
+  return e;
+}
+export auto add_scared_enemy(ec *ec, char id) { return add_enemy(ec, id); }
+
 export auto add_item(ec *ec, char id) {
   auto e = ec->e.alloc();
   auto c = find_empty_location(ec);

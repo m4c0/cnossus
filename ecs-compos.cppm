@@ -1,10 +1,7 @@
 export module ecs:compos;
 
 namespace ecs::c {
-struct enemy {};
-struct exit {};
-struct player {};
-struct usable {};
+struct marker {};
 
 struct sprite {
   char id;
