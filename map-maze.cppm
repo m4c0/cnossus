@@ -16,6 +16,7 @@ class maze {
     unsigned h;
   };
 
+  ecs::ec *m_ec;
   block m_map[height][width]{};
   cell_size m_cell;
 
@@ -157,6 +158,8 @@ class maze {
   }
 
 public:
+  constexpr maze(ecs::ec *ec) : m_ec{ec} {}
+
   void build_level(unsigned lvl) noexcept {
     for (auto &row : m_map) {
       for (auto &blk : row) {
@@ -186,21 +189,18 @@ public:
     } else {
       at(1, height - 2) = gt;
     }
-  }
 
-  // TODO: just add entities in `build level`
-  void build_entities(ecs::ec *ec) {
     for (auto y = 0U; y < height; y++) {
       for (auto x = 0U; x < width; x++) {
         auto &b = m_map[y][x];
         if (b.id == gt.id) {
-          ecs::add_exit(ec, b.id, {x, y});
+          ecs::add_exit(m_ec, b.id, {x, y});
           continue;
         }
         if (b.can_walk) {
-          ecs::add_walkable_block(ec, b.id, {x, y});
+          ecs::add_walkable_block(m_ec, b.id, {x, y});
         } else {
-          ecs::add_rigid_block(ec, b.id, {x, y});
+          ecs::add_rigid_block(m_ec, b.id, {x, y});
         }
       }
     }
