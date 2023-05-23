@@ -25,6 +25,9 @@ export struct ec {
 };
 
 export constexpr void wipeout_entity(ec *ec, pog::eid id) {
+  if (!id)
+    return;
+
   ec->blockers.remove(id);
   ec->coords.remove(id);
   ec->enemies.remove(id);

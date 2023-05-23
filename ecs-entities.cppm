@@ -67,7 +67,7 @@ export constexpr void add_rigid_block(ec *ec, char id, pog::grid_coord c) {
 export constexpr void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
   add_block(ec, id, c);
 }
-export void add_exit(ec *ec, char id, pog::grid_coord c) {
+export constexpr void add_exit(ec *ec, char id, pog::grid_coord c) {
   auto e = add_block(ec, id, c);
   ec->exit.set(e, {});
   ec->usables.add(e, {});
