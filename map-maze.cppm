@@ -1,7 +1,6 @@
 export module map:maze;
 import :block;
 import ecs;
-import qsu;
 
 extern "C" int rand();
 
@@ -17,7 +16,7 @@ class maze {
     unsigned h;
   };
 
-  qsu::type<block> m_map[height][width]{};
+  block m_map[height][width]{};
   cell_size m_cell;
 
   [[nodiscard]] auto &at(unsigned x, unsigned y) noexcept {
@@ -25,7 +24,7 @@ class maze {
   }
 
   [[nodiscard]] auto random_furniture() const noexcept {
-    return qsu::type{random(2) == 0 ? &star : &andsign};
+    return random(2) == 0 ? star : andsign;
   }
 
   void furnish_room(unsigned x1, unsigned y1, unsigned x2,
@@ -37,14 +36,14 @@ class maze {
       at(x1 + 1, y1 + 1) = random_furniture();
     } else if (w == 3) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
-        at(x1 + 1, y) = qsu::type{&vbar};
+        at(x1 + 1, y) = vbar;
       }
       if ((h % 2) == 0) {
         at(x2 - 1, y2) = random_furniture();
       }
     } else if (h == 3) {
       for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-        at(x, y1 + 1) = qsu::type{&vbar};
+        at(x, y1 + 1) = vbar;
       }
       if ((w % 2) == 0) {
         at(x2, y2 - 1) = random_furniture();
@@ -52,21 +51,21 @@ class maze {
     } else if ((w == 4) || (h == 4)) {
       for (auto y = y1 + 1; y <= y2 - 1; y++) {
         for (auto x = x1 + 1; x <= x2 - 1; x++) {
-          at(x, y) = qsu::type{&tilda};
+          at(x, y) = tilda;
         }
       }
     } else if (w == 5) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
-        at(x1 + 1, y) = qsu::type{&vbar};
-        at(x2 - 1, y) = qsu::type{&vbar};
+        at(x1 + 1, y) = vbar;
+        at(x2 - 1, y) = vbar;
       }
       if ((h % 2) == 0) {
         at(x2 - 2, y2) = random_furniture();
       }
     } else if (h == 5) {
       for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-        at(x, y1 + 1) = qsu::type{&vbar};
-        at(x, y2 - 1) = qsu::type{&vbar};
+        at(x, y1 + 1) = vbar;
+        at(x, y2 - 1) = vbar;
       }
       if ((w % 2) == 0) {
         at(x2, y2 - 2) = random_furniture();
@@ -74,16 +73,16 @@ class maze {
     } else if ((w == 7) && (h == 7)) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
         for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-          at(x, y) = qsu::type{&vbar};
+          at(x, y) = vbar;
         }
       }
       at(x1 + 3, y1 + 3) = random_furniture();
     } else if ((w > 2) && (h > 2)) {
       for (auto y = y1; y <= y2; y++) {
-        at(x1, y) = at(x2, y) = qsu::type{&comma};
+        at(x1, y) = at(x2, y) = comma;
       }
       for (auto x = x1; x <= x2; x++) {
-        at(x, y1) = at(x, y2) = qsu::type{&comma};
+        at(x, y1) = at(x, y2) = comma;
       }
       if (((w == 6) && (h == 6)) || ((w == 9) && (h == 9))) {
         furnish_room(x1 + 1, y1 + 1, x2 - 1, y2 - 1);
@@ -107,7 +106,7 @@ class maze {
     }
 
     for (auto y = y1; y <= y2; y++) {
-      at(x, y) = qsu::type{&hash};
+      at(x, y) = hash;
     }
 
     auto wall_1 = subdivide_high(x1, y1, x - 1, y2);
@@ -118,9 +117,9 @@ class maze {
       door_y = y1 + random(h);
     } while ((door_y == wall_1) || (door_y == wall_2));
 
-    at(x, door_y) = qsu::type{&dot};
-    at(x - 1, door_y) = qsu::type{&dot};
-    at(x + 1, door_y) = qsu::type{&dot};
+    at(x, door_y) = dot;
+    at(x - 1, door_y) = dot;
+    at(x + 1, door_y) = dot;
     return x;
   }
 
@@ -140,7 +139,7 @@ class maze {
     }
 
     for (auto x = x1; x <= x2; x++) {
-      at(x, y) = qsu::type{&hash};
+      at(x, y) = hash;
     }
 
     auto wall_1 = subdivide_wide(x1, y1, x2, y - 1);
@@ -151,9 +150,9 @@ class maze {
       door_x = x1 + random(w);
     } while ((door_x == wall_1) || (door_x == wall_2));
 
-    at(door_x, y) = qsu::type{&dot};
-    at(door_x, y - 1) = qsu::type{&dot};
-    at(door_x, y + 1) = qsu::type{&dot};
+    at(door_x, y) = dot;
+    at(door_x, y - 1) = dot;
+    at(door_x, y + 1) = dot;
     return y;
   }
 
@@ -161,17 +160,17 @@ public:
   void build_level(unsigned lvl) noexcept {
     for (auto &row : m_map) {
       for (auto &blk : row) {
-        blk = qsu::type{&dot};
+        blk = dot;
       }
     }
 
     for (auto x = 0; x < width; x++) {
-      at(x, 0) = qsu::type{&hash};
-      at(x, height - 1) = qsu::type{&hash};
+      at(x, 0) = hash;
+      at(x, height - 1) = hash;
     }
     for (int y = 0; y < height; y++) {
-      at(0, y) = qsu::type{&hash};
-      at(width - 1, y) = qsu::type{&hash};
+      at(0, y) = hash;
+      at(width - 1, y) = hash;
     }
 
     static constexpr const auto max_cell_sizes = 5;
@@ -183,9 +182,9 @@ public:
     subdivide_wide(1, 1, width - 2, height - 2);
 
     if ((lvl % 2) == 1) {
-      at(width - 2, height - 2) = qsu::type{&gt};
+      at(width - 2, height - 2) = gt;
     } else {
-      at(1, height - 2) = qsu::type{&gt};
+      at(1, height - 2) = gt;
     }
   }
 
@@ -194,14 +193,14 @@ public:
     for (auto y = 0U; y < height; y++) {
       for (auto x = 0U; x < width; x++) {
         auto &b = m_map[y][x];
-        if (b->id == gt.id) {
-          ecs::add_exit(ec, b->id, {x, y});
+        if (b.id == gt.id) {
+          ecs::add_exit(ec, b.id, {x, y});
           continue;
         }
-        if (b->can_walk) {
-          ecs::add_walkable_block(ec, b->id, {x, y});
+        if (b.can_walk) {
+          ecs::add_walkable_block(ec, b.id, {x, y});
         } else {
-          ecs::add_rigid_block(ec, b->id, {x, y});
+          ecs::add_rigid_block(ec, b.id, {x, y});
         }
       }
     }

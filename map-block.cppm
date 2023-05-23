@@ -1,9 +1,8 @@
 export module map:block;
-import qsu;
 
 export namespace map {
 struct block {
-  qsu::id id;
+  char id;
   bool can_walk{};
 };
 

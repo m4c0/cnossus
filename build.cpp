@@ -84,8 +84,8 @@ int main(int argc, char **argv) {
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
   a->add_ref(ecs);
-  a->add_ref(qsu);
   a->add_ref(map);
+  a->add_ref(qsu);
   a->add_ref(m);
   a->add_unit<atlas>("atlas.img");
   a->add_resource("atlas.img");
