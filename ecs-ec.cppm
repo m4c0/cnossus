@@ -17,6 +17,7 @@ export struct ec {
   pog::sparse_set<c::marker, max_enemies> enemies;
   pog::singleton<c::marker> exit;
   pog::sparse_set<c::marker, max_enemies> hostiles;
+  pog::sparse_set<c::marker, max_enemies> mobs;
   pog::sparse_set<c::marker, max_enemies> non_hostiles;
   pog::singleton<c::marker> player;
   pog::sparse_set<c::sprite, max_entities> sprites;
@@ -29,6 +30,7 @@ export void wipeout_entity(ec *ec, pog::eid id) {
   ec->enemies.remove(id);
   ec->exit.remove(id);
   ec->hostiles.remove(id);
+  ec->mobs.remove(id);
   ec->non_hostiles.remove(id);
   ec->player.remove(id);
   ec->sprites.remove(id);

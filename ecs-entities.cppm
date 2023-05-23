@@ -17,7 +17,7 @@ auto add_mob(ec *ec, char id, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->blockers.put(e, c);
   ec->coords.add(e, c);
-  ec->enemies.add(e, {});
+  ec->mobs.add(e, {});
   ec->sprites.add(e, {id});
   return e;
 }
