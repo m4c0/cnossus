@@ -31,8 +31,9 @@ class game {
       if (!t)
         continue;
 
-      auto id = t->hostility == h_aggresive ? add_hostile_enemy(&m_ec, t->id)
-                                            : add_scared_enemy(&m_ec, t->id);
+      auto id = t->hostility == h_aggresive
+                    ? add_hostile_enemy(&m_ec, t->id)
+                    : add_non_hostile_enemy(&m_ec, t->id);
       auto [x, y] = m_ec.blockers.get(id);
 
       auto &mm = m_mobs.at(i + 1) = {t, {x, y}};

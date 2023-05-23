@@ -33,7 +33,11 @@ export auto add_hostile_enemy(ec *ec, char id) {
   ec->hostiles.add(e, {});
   return e;
 }
-export auto add_scared_enemy(ec *ec, char id) { return add_enemy(ec, id); }
+export auto add_non_hostile_enemy(ec *ec, char id) {
+  auto e = add_enemy(ec, id);
+  ec->non_hostiles.add(e, {});
+  return e;
+}
 
 export auto add_item(ec *ec, char id) {
   auto e = ec->e.alloc();
