@@ -5,6 +5,8 @@ import pog;
 namespace ecs {
 export constexpr const auto map_width = 30;
 export constexpr const auto map_height = 20;
+
+export constexpr const auto max_blocks = map_width * map_height;
 export constexpr const auto max_entities = map_width * map_height * 2;
 export constexpr const auto max_items = map_height * 2;
 export constexpr const auto max_enemies = map_height;
@@ -22,6 +24,7 @@ export struct ec {
   pog::singleton<c::marker> player;
   pog::sparse_set<c::sprite, max_entities> sprites;
   pog::sparse_set<c::marker, max_items> usables;
+  pog::grid<map_width, map_height, max_blocks> walls;
 };
 
 export void wipeout_entity(ec *ec, pog::eid id) {
@@ -35,6 +38,7 @@ export void wipeout_entity(ec *ec, pog::eid id) {
   ec->player.remove(id);
   ec->sprites.remove(id);
   ec->usables.remove(id);
+  ec->walls.remove(id);
 
   ec->e.dealloc(id);
 }

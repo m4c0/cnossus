@@ -53,22 +53,23 @@ export auto add_player(ec *ec, char id, pog::grid_coord c) {
   return e;
 }
 
-export void add_rigid_block(ec *ec, char id, pog::grid_coord c) {
+auto add_block(ec *ec, char id, pog::grid_coord c) {
   auto e = ec->e.alloc();
-  ec->blockers.put(e, c);
   ec->coords.add(e, c);
   ec->sprites.add(e, {id});
+  return e;
+}
+export void add_rigid_block(ec *ec, char id, pog::grid_coord c) {
+  auto e = add_block(ec, id, c);
+  ec->blockers.put(e, c);
+  ec->walls.put(e, c);
 }
 export void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
-  auto e = ec->e.alloc();
-  ec->coords.add(e, c);
-  ec->sprites.add(e, {id});
+  add_block(ec, id, c);
 }
 export void add_exit(ec *ec, char id, pog::grid_coord c) {
-  auto e = ec->e.alloc();
-  ec->coords.add(e, c);
+  auto e = add_block(ec, id, c);
   ec->exit.set(e, {});
-  ec->sprites.add(e, {id});
   ec->usables.add(e, {});
 }
 } // namespace ecs

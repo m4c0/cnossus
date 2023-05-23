@@ -64,7 +64,7 @@ class game {
   }
 
   void try_move(mob *m, map_coord tgt) {
-    if (m_ec.blockers.has({tgt.x, tgt.y}))
+    if (m_ec.walls.has({tgt.x, tgt.y}))
       return;
 
     auto [x, y] = m->coord;
