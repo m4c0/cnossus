@@ -23,11 +23,11 @@ class maze {
 
   constexpr void add_rigid_block(unsigned x, unsigned y,
                                  auto blk) const noexcept {
-    ecs::add_rigid_block(m_ec, blk.id, {x, y});
+    ecs::add_rigid_block(m_ec, blk, {x, y});
   }
   constexpr void add_walkable_block(unsigned x, unsigned y,
                                     auto blk) const noexcept {
-    ecs::add_walkable_block(m_ec, blk.id, {x, y});
+    ecs::add_walkable_block(m_ec, blk, {x, y});
   }
 
   [[nodiscard]] constexpr auto random_furniture() noexcept {
@@ -90,7 +90,7 @@ class maze {
         add_walkable_block(x2, y, comma);
       }
       for (auto x = x1; x <= x2; x++) {
-        add_walkable_block(x, y2, comma);
+        add_walkable_block(x, y1, comma);
         add_walkable_block(x, y2, comma);
       }
       if (((w == 6) && (h == 6)) || ((w == 9) && (h == 9))) {
@@ -193,9 +193,9 @@ public:
     subdivide_wide(1, 1, width - 2, height - 2);
 
     if ((lvl % 2) == 1) {
-      ecs::add_exit(m_ec, gt.id, {width - 2, height - 2});
+      ecs::add_exit(m_ec, gt, {width - 2, height - 2});
     } else {
-      ecs::add_exit(m_ec, gt.id, {1, height - 2});
+      ecs::add_exit(m_ec, gt, {1, height - 2});
     }
   }
 };
