@@ -11,7 +11,7 @@ export constexpr const auto height = ecs::map_height;
 
 [[nodiscard]] auto random(unsigned max) { return rand() % max; }
 
-export class maze {
+class maze {
   struct cell_size {
     unsigned w;
     unsigned h;
