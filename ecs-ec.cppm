@@ -24,7 +24,7 @@ export struct ec {
   pog::grid<map_width, map_height, max_entities> walls;
 };
 
-export void wipeout_entity(ec *ec, pog::eid id) {
+export constexpr void wipeout_entity(ec *ec, pog::eid id) {
   ec->blockers.remove(id);
   ec->coords.remove(id);
   ec->enemies.remove(id);

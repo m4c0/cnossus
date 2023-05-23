@@ -35,6 +35,8 @@ public:
 int main(int argc, char **argv) {
   using namespace ecow;
 
+  auto rng = unit::create<mod>("rng");
+
   auto qsu = unit::create<mod>("qsu");
   qsu->add_wsdep("casein", casein());
   qsu->add_wsdep("quack", quack());
@@ -83,6 +85,7 @@ int main(int argc, char **argv) {
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
+  a->add_ref(rng);
   a->add_ref(ecs);
   a->add_ref(map);
   a->add_ref(qsu);
