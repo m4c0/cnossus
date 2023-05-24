@@ -118,7 +118,16 @@ class game {
         continue;
       }
 
-      auto id = add_item(&m_ec, type->id);
+      auto id = ecs::add_item(&m_ec, type->id);
+      if (type->attack > 0)
+        m_ec.weapons.set(id, type->attack);
+      if (type->defense > 0)
+        m_ec.armour.set(id, type->defense);
+      if (type->life_gain > 0)
+        m_ec.foods.set(id, type->life_gain);
+      if (type->light_provided > 0)
+        m_ec.lights.set(id, type->light_provided);
+
       auto [x, y] = m_ec.coords.get(id);
       m_items.add({type, {x, y}});
     }
