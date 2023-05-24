@@ -4,7 +4,7 @@ import :random;
 import jute;
 
 namespace cno {
-// Missing in previous code.
+// Missing in previous code, but it was in original ZX code.
 // Then missing parts can be added or these can be entirely removed
 constexpr const item_type cloth{
     .name = "linen tunic",
