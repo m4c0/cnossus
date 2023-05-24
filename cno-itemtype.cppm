@@ -11,14 +11,12 @@ constexpr const item_type cloth{
     .id = 'a',
     .defense = 1,
     .carry = carry_one,
-    .inv_coords = {1, 5},
 };
 constexpr const item_type leather{
     .name = "leather vest",
     .id = 'b',
     .defense = 2,
     .carry = carry_one,
-    .inv_coords = {1, 6},
 };
 constexpr const item_type sword{
     .name = "short sword",
@@ -71,19 +69,16 @@ constexpr const item_type driedfruit{
     .name = "strange fruit",
     .id = 'k',
     .life_gain = 3,
-    .inv_coords = {0, 0},
 };
 constexpr const item_type cheese{
     .name = "cheese",
     .id = 'l',
     .life_gain = 5,
-    .inv_coords = {0, 1},
 };
 constexpr const item_type rawmeat{
     .name = "raw meat",
     .id = 'm',
     .life_gain = 8,
-    .inv_coords = {0, 2},
 };
 
 // Lights
@@ -91,19 +86,16 @@ constexpr const item_type torch{
     .name = "torch",
     .id = 'n',
     .light_provided = 10,
-    .inv_coords = {0, 3},
 };
 constexpr const item_type candle{
     .name = "candle",
     .id = 'o',
     .light_provided = 15,
-    .inv_coords = {0, 3},
 };
 constexpr const item_type oillamp{
     .name = "lamp",
     .id = 'p',
     .light_provided = 25,
-    .inv_coords = {0, 4},
 };
 
 // Defense
@@ -112,34 +104,29 @@ constexpr const item_type greave{
     .id = 'q',
     .defense = 1,
     .carry = carry_two,
-    .inv_coords = {1, 0},
 };
 constexpr const item_type armguard{
     .name = "gloves",
     .id = 'r',
     .defense = 1,
     .carry = carry_two,
-    .inv_coords = {1, 1},
 };
 constexpr const item_type pauldron{
     .name = "helmet",
     .id = 's',
     .defense = 1,
     .carry = carry_one,
-    .inv_coords = {1, 2},
 };
 constexpr const item_type scale{
     .name = "chest armor",
     .id = 't',
     .defense = 3,
     .carry = carry_one,
-    .inv_coords = {1, 3},
 };
 constexpr const item_type shield{
     .name = "shield",
     .id = 'u',
     .defense = 5,
-    .inv_coords = {1, 4},
 };
 
 constexpr const auto jar_drops = item_loot_table{

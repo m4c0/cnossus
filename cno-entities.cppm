@@ -28,7 +28,6 @@ struct item_type {
   carry_type carry{carry_many};
   unsigned life_gain{};
   int light_provided{};
-  inventory_pos inv_coords{~0U, ~0U};
   const item_loot_table *drops{};
 };
 
