@@ -23,23 +23,4 @@ export struct ec {
   pog::sparse_set<c::marker, max_entities> usables;
   pog::grid<map_width, map_height, max_entities> walls;
 };
-
-export constexpr void wipeout_entity(ec *ec, pog::eid id) {
-  if (!id)
-    return;
-
-  ec->blockers.remove(id);
-  ec->coords.remove(id);
-  ec->enemies.remove(id);
-  ec->exit.remove(id);
-  ec->hostiles.remove(id);
-  ec->mobs.remove(id);
-  ec->non_hostiles.remove(id);
-  ec->player.remove(id);
-  ec->sprites.remove(id);
-  ec->usables.remove(id);
-  ec->walls.remove(id);
-
-  ec->e.dealloc(id);
-}
 } // namespace ecs

@@ -72,4 +72,14 @@ export constexpr void add_exit(ec *ec, char id, pog::grid_coord c) {
   ec->exit.set(e, {});
   ec->usables.add(e, {});
 }
+export constexpr void remove_rigid_wall(ec *ec, pog::grid_coord c) {
+  auto id = ec->blockers.get(c);
+  if (!id)
+    return;
+
+  ec->blockers.remove(id);
+  ec->coords.remove(id);
+  ec->sprites.remove(id);
+  ec->walls.remove(id);
+}
 } // namespace ecs

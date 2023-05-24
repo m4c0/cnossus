@@ -50,6 +50,10 @@ class maze {
     return random(2) == 0 ? star : andsign;
   }
 
+  constexpr void remove_wall(unsigned x, unsigned y) {
+    ecs::remove_rigid_wall(m_ec, {x, y});
+  }
+
   constexpr void furnish_room(unsigned x1, unsigned y1, unsigned x2,
                               unsigned y2) noexcept {
     auto w = x2 - x1 + 1;
@@ -142,9 +146,9 @@ class maze {
       door_y = y1 + random(h);
     } while ((door_y == wall_1) || (door_y == wall_2));
 
-    ecs::wipeout_entity(m_ec, m_ec->blockers.get({x, door_y}));
-    ecs::wipeout_entity(m_ec, m_ec->blockers.get({x - 1, door_y}));
-    ecs::wipeout_entity(m_ec, m_ec->blockers.get({x + 1, door_y}));
+    remove_wall(x, door_y);
+    remove_wall(x - 1, door_y);
+    remove_wall(x + 1, door_y);
     return x;
   }
 
@@ -175,9 +179,9 @@ class maze {
       door_x = x1 + random(w);
     } while ((door_x == wall_1) || (door_x == wall_2));
 
-    ecs::wipeout_entity(m_ec, m_ec->blockers.get({door_x, y}));
-    ecs::wipeout_entity(m_ec, m_ec->blockers.get({door_x, y - 1}));
-    ecs::wipeout_entity(m_ec, m_ec->blockers.get({door_x, y + 1}));
+    remove_wall(door_x, y);
+    remove_wall(door_x, y - 1);
+    remove_wall(door_x, y + 1);
     return y;
   }
 
