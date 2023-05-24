@@ -38,19 +38,18 @@ public:
   [[nodiscard]] bool get_item(bool has_bag) noexcept {
     using namespace jute::literals;
 
-    if (m_item->carry == carry_many) {
-      if (m_count == 0 || has_bag) {
-        m_count++;
-        return true;
-      }
-      return false;
-    }
-    auto max = m_item->carry == carry_two ? 2 : 1;
-    if (m_count < max) {
+    if (m_count == 0) {
       m_count++;
       return true;
     }
-    return false;
+    if (!has_bag)
+      return false;
+
+    if (!m_item->light_provided && !m_item->life_gain)
+      return false;
+
+    m_count++;
+    return true;
   }
 };
 

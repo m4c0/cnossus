@@ -10,26 +10,22 @@ constexpr const item_type cloth{
     .name = "linen tunic",
     .id = 'a',
     .defense = 1,
-    .carry = carry_one,
 };
 constexpr const item_type leather{
     .name = "leather vest",
     .id = 'b',
     .defense = 2,
-    .carry = carry_one,
 };
 constexpr const item_type sword{
     .name = "short sword",
     .id = 'c',
     .attack = 12,
-    .carry = carry_one,
 };
 
 // Bag
 constexpr const item_type bag{
     .name = "bag",
     .id = 'd',
-    .carry = carry_one,
 };
 
 // Attack items
@@ -103,25 +99,21 @@ constexpr const item_type greave{
     .name = "boots",
     .id = 'q',
     .defense = 1,
-    .carry = carry_two,
 };
 constexpr const item_type armguard{
     .name = "gloves",
     .id = 'r',
     .defense = 1,
-    .carry = carry_two,
 };
 constexpr const item_type pauldron{
     .name = "helmet",
     .id = 's',
     .defense = 1,
-    .carry = carry_one,
 };
 constexpr const item_type scale{
     .name = "chest armor",
     .id = 't',
     .defense = 3,
-    .carry = carry_one,
 };
 constexpr const item_type shield{
     .name = "shield",

@@ -6,16 +6,6 @@ import map;
 import qsu;
 
 namespace cno {
-enum carry_type {
-  carry_one,
-  carry_two,
-  carry_many,
-};
-struct inventory_pos {
-  unsigned sec;
-  unsigned row;
-};
-
 class item_type;
 static constexpr const auto max_item_drops = 5;
 using item_loot_table = rnd_roll_per_level<item_type, max_item_drops>;
@@ -25,7 +15,6 @@ struct item_type {
   qsu::id id;
   int attack{};
   int defense{};
-  carry_type carry{carry_many};
   unsigned life_gain{};
   int light_provided{};
   const item_loot_table *drops{};
