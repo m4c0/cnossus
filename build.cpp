@@ -56,7 +56,6 @@ int main(int argc, char **argv) {
 
   auto ecs = unit::create<mod>("ecs");
   ecs->add_wsdep("pog", pog());
-  ecs->add_part("compos");
   ecs->add_part("ec");
   ecs->add_part("random");
   ecs->add_part("entities");

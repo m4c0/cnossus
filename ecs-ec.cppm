@@ -1,6 +1,15 @@
 export module ecs:ec;
-import :compos;
 import pog;
+
+namespace ecs::c {
+struct marker {};
+
+struct sprite {
+  char id;
+  float alpha;
+  bool seen;
+};
+} // namespace ecs::c
 
 namespace ecs {
 export constexpr const auto map_width = 30;
