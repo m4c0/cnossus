@@ -52,6 +52,7 @@ int main(int argc, char **argv) {
   qsu->add_part("layout");
   qsu->add_part("renderer");
 
+  auto inv = unit::create<mod>("inv");
   auto map = unit::create<mod>("map");
 
   auto ecs = unit::create<mod>("ecs");
@@ -84,6 +85,7 @@ int main(int argc, char **argv) {
   a->add_requirement(native);
   a->add_ref(rng);
   a->add_ref(ecs);
+  a->add_ref(inv);
   a->add_ref(map);
   a->add_ref(qsu);
   a->add_ref(m);
