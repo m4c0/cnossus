@@ -39,7 +39,7 @@ export auto add_non_hostile_enemy(ec *ec, char id) {
   return e;
 }
 
-export auto add_item(ec *ec, char id) {
+auto add_item(ec *ec, char id) {
   auto e = ec->e.alloc();
   auto c = find_empty_location(ec);
   ec->coords.add(e, c);
@@ -47,6 +47,27 @@ export auto add_item(ec *ec, char id) {
   ec->sprites.add(e, {id});
   return e;
 }
+export auto add_weapon_item(ec *ec, char id, unsigned pwr) {
+  auto e = add_item(ec, id);
+  ec->weapons.add(e, pwr);
+  return e;
+}
+export auto add_armour_item(ec *ec, char id, unsigned pwr) {
+  auto e = add_item(ec, id);
+  ec->armour.add(e, pwr);
+  return e;
+}
+export auto add_food_item(ec *ec, char id, unsigned life) {
+  auto e = add_item(ec, id);
+  ec->foods.add(e, life);
+  return e;
+}
+export auto add_light_item(ec *ec, char id, unsigned timer) {
+  auto e = add_item(ec, id);
+  ec->lights.add(e, timer);
+  return e;
+}
+
 export auto add_player(ec *ec, char id, pog::grid_coord c) {
   auto e = add_mob(ec, id, c);
   ec->player.set(e, {});

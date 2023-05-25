@@ -110,26 +110,20 @@ class game {
   }
 
   void create_items() {
-    m_items.reset_grid();
-
     for (auto i = 1; i < map::height - 2; i++) {
-      auto type = qsu::type{item_roll_per_level.roll(m_level)};
-      if (!type) {
+      auto type = item_roll_per_level.roll(m_level);
+      if (type == nullptr) {
         continue;
       }
 
-      auto id = ecs::add_item(&m_ec, type->id);
       if (type->attack > 0)
-        m_ec.weapons.set(id, type->attack);
+        ecs::add_weapon_item(&m_ec, type->id, type->attack);
       if (type->defense > 0)
-        m_ec.armour.set(id, type->defense);
+        ecs::add_armour_item(&m_ec, type->id, type->defense);
       if (type->life_gain > 0)
-        m_ec.foods.set(id, type->life_gain);
+        ecs::add_food_item(&m_ec, type->id, type->life_gain);
       if (type->light_provided > 0)
-        m_ec.lights.set(id, type->light_provided);
-
-      auto [x, y] = m_ec.coords.get(id);
-      m_items.add({type, {x, y}});
+        ecs::add_light_item(&m_ec, type->id, type->light_provided);
     }
   }
 
