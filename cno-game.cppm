@@ -102,6 +102,8 @@ class game {
         ecs::add_food_item(&m_ec, type->id, type->life_gain);
       if (type->light_provided > 0)
         ecs::add_light_item(&m_ec, type->id, type->light_provided);
+      if (type->id == bag.id)
+        ecs::add_bag_item(&m_ec, type->id);
     }
   }
 

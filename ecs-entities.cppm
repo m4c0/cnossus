@@ -47,6 +47,11 @@ auto add_item(ec *ec, char id) {
   ec->sprites.add(e, {id});
   return e;
 }
+export auto add_bag_item(ec *ec, char id) {
+  auto e = add_item(ec, id);
+  ec->bags.add(e, {});
+  return e;
+}
 export auto add_weapon_item(ec *ec, char id, unsigned pwr) {
   auto e = add_item(ec, id);
   ec->weapons.add(e, pwr);

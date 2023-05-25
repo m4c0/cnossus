@@ -21,6 +21,7 @@ export struct ec {
   pog::entity_list<max_entities> e;
 
   pog::sparse_set<unsigned, max_entities> armour;
+  pog::sparse_set<c::marker, max_entities> bags;
   pog::grid<map_width, map_height, max_entities> blockers;
   pog::sparse_set<pog::grid_coord, max_entities> coords;
   pog::sparse_set<c::marker, max_entities> enemies;
