@@ -138,6 +138,7 @@ class game {
     }
 
     m_ec.usables.remove(id);
+    m_ec.in_use.add(id, {});
 
     tick();
   }
