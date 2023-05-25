@@ -41,28 +41,6 @@ class game {
     }
   }
 
-  [[nodiscard]] bool open_item_at(map_coord c) {
-    return m_items.find_at(c, [this, c](auto &it) {
-      auto drops = it.type->drops;
-      auto nit = (drops == nullptr) ? it.type : qsu::type{drops->roll(m_level)};
-      if (!nit) {
-        it = {};
-        return;
-      }
-
-      if (nit->id != it.type->id) {
-        it.type = nit;
-        return;
-      }
-
-      if (m_player.get_item(nit)) {
-        it = {};
-        tick();
-        return;
-      }
-    });
-  }
-
   void try_move(mob *m, map_coord tgt) {
     if (m_ec.walls.has({tgt.x, tgt.y}))
       return;
@@ -145,11 +123,8 @@ class game {
   }
 
   void use_item() {
-    auto pc = m_player.coord();
-    if (open_item_at(pc)) {
-      return;
-    }
-
+    auto pid = m_ec.player.get_id();
+    auto pc = m_ec.coords.get(pid);
     for (auto [_, id] : m_ec.usables) {
       auto c = m_ec.coords.get(id);
       if (c.x != pc.x || c.y != pc.y)
@@ -163,6 +138,8 @@ class game {
         next_level();
         return;
       }
+
+      m_ec.usables.remove(id);
     }
 
     tick();
