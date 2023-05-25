@@ -125,22 +125,17 @@ class game {
   void use_item() {
     auto pid = m_ec.player.get_id();
     auto pc = m_ec.coords.get(pid);
-    for (auto [_, id] : m_ec.usables) {
-      auto c = m_ec.coords.get(id);
-      if (c.x != pc.x || c.y != pc.y)
-        continue;
 
-      // This should be a different action. If we try to fetch an item from
-      // ground and we fail and the item is over the stair, we move to the next
-      // level.
-      // TODO: fix this.
-      if (m_ec.exit.has(id)) {
-        next_level();
-        return;
-      }
+    auto id = m_ec.usables.get(pc);
+    if (!id)
+      return;
 
-      m_ec.usables.remove(id);
+    if (m_ec.exit.has(id)) {
+      next_level();
+      return;
     }
+
+    m_ec.usables.remove(id);
 
     tick();
   }
