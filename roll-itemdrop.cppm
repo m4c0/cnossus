@@ -37,6 +37,60 @@ void add_jar_drop(ecs::ec *ec, pog::grid_coord c, int lvl) {
       break;
     }
     break;
+  case 8:
+  case 10:
+  case 12:
+  case 14:
+    switch (random_item_id()) {
+    case 0:
+      new_item(ec, c, inv::items::add_driedfruit);
+      break;
+    case 1:
+      new_item(ec, c, inv::items::add_candle);
+      break;
+    default:
+      break;
+    }
+    break;
+  case 15:
+  case 17:
+  case 19:
+    switch (random_item_id()) {
+    case 0:
+      new_item(ec, c, inv::items::add_driedfruit);
+      break;
+    case 1:
+      new_item(ec, c, inv::items::add_cheese);
+      break;
+    default:
+      break;
+    }
+    break;
+  case 9:
+    switch (random_item_id()) {
+    case 0:
+      new_item(ec, c, inv::items::add_candle);
+      break;
+    case 1:
+      new_item(ec, c, inv::items::add_cheese);
+      break;
+    default:
+      break;
+    }
+    break;
+  case 11:
+  case 13:
+    switch (random_item_id()) {
+    case 0:
+      new_item(ec, c, inv::items::add_candle);
+      break;
+    case 1:
+      new_item(ec, c, inv::items::add_cheese);
+      break;
+    default:
+      break;
+    }
+    break;
   default:
     break;
   }
