@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
   auto roll = unit::create<mod>("roll");
   roll->add_part("random");
   roll->add_part("itemdrop");
+  roll->add_part("itemlevel");
 
   auto ecs = unit::create<mod>("ecs");
   ecs->add_wsdep("pog", pog());
@@ -80,7 +81,6 @@ int main(int argc, char **argv) {
   m->add_part("itemtype");
   m->add_part("mobtype");
   m->add_part("inventory");
-  m->add_part("itemlist");
   m->add_part("player");
   m->add_part("light");
   m->add_part("enemy");

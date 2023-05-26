@@ -1,13 +1,13 @@
 export module cno:game;
 import :camera;
 import :enemy;
-import :itemlist;
 import :light;
 import :mobs;
 import :player;
 import ecs;
 import map;
 import qsu;
+import roll;
 
 namespace cno {
 class game {
@@ -87,26 +87,6 @@ class game {
     return m_player.is_dead() || m_level == max_level + 1;
   }
 
-  void create_items() {
-    for (auto i = 1; i < map::height - 2; i++) {
-      auto type = item_roll_per_level.roll(m_level);
-      if (type == nullptr) {
-        continue;
-      }
-
-      if (type->attack > 0)
-        ecs::add_weapon_item(&m_ec, type->id, type->attack);
-      if (type->defense > 0)
-        ecs::add_armour_item(&m_ec, type->id, type->defense);
-      if (type->life_gain > 0)
-        ecs::add_food_item(&m_ec, type->id, type->life_gain);
-      if (type->light_provided > 0)
-        ecs::add_light_item(&m_ec, type->id, type->light_provided);
-      if (type->id == bag.id)
-        ecs::add_bag_item(&m_ec, type->id);
-    }
-  }
-
   void move_hero(int dx, int dy) {
     if (game_is_over())
       return;
@@ -154,7 +134,7 @@ class game {
     m_level = l;
     map::create_maze(&m_ec, l);
     m_player.level_reset(l);
-    create_items();
+    roll::add_level_items(&m_ec, l);
     create_enemies();
     repaint();
   }
