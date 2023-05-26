@@ -57,6 +57,10 @@ int main(int argc, char **argv) {
 
   auto map = unit::create<mod>("map");
 
+  auto roll = unit::create<mod>("roll");
+  roll->add_part("random");
+  roll->add_part("itemdrop");
+
   auto ecs = unit::create<mod>("ecs");
   ecs->add_wsdep("pog", pog());
   ecs->add_part("ec");
@@ -88,6 +92,7 @@ int main(int argc, char **argv) {
   a->add_ref(rng);
   a->add_ref(ecs);
   a->add_ref(inv);
+  a->add_ref(roll);
   a->add_ref(map);
   a->add_ref(qsu);
   a->add_ref(m);
