@@ -58,6 +58,7 @@ int main(int argc, char **argv) {
   auto map = unit::create<mod>("map");
 
   auto roll = unit::create<mod>("roll");
+  roll->add_wsdep("pog", pog());
   roll->add_part("random");
   roll->add_part("itemdrop");
   roll->add_part("itemlevel");

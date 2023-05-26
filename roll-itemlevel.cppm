@@ -1,15 +1,10 @@
 export module roll:itemlevel;
+import :random;
 import ecs;
-import rng;
 import inv;
 
 namespace roll {
 static constexpr const auto items_per_level = ecs::map_height - 2;
-static constexpr const auto item_roll_count = 5;
-
-[[nodiscard]] inline auto random_item_id() {
-  return rng::random(item_roll_count);
-}
 
 void add_opening_item(ecs::ec *ec) {
   switch (random_item_id()) {

@@ -1,8 +1,14 @@
 export module roll:random;
 import rng;
 
-export namespace roll {
-template <typename Tp, unsigned N> class table {
+namespace roll {
+static constexpr const auto item_roll_count = 5;
+
+[[nodiscard]] inline auto random_item_id() {
+  return rng::random(item_roll_count);
+}
+
+export template <typename Tp, unsigned N> class table {
   const Tp *m_table[N]{};
 
 public:
@@ -12,7 +18,7 @@ public:
   [[nodiscard]] auto roll() const noexcept { return m_table[rng::random(N)]; }
 };
 
-template <typename Tp, unsigned N, unsigned Levels> class level_table {
+export template <typename Tp, unsigned N, unsigned Levels> class level_table {
   table<Tp, N> m_table[Levels]{};
 
 public:
