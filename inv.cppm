@@ -1,4 +1,5 @@
 export module inv;
+export import :domain;
 import ecs;
 
 namespace inv {
