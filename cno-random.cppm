@@ -1,17 +1,13 @@
-module;
-extern "C" int rand();
-
 export module cno:random;
+import rng;
 
 namespace cno {
 static constexpr const auto max_level = 20;
 
-[[nodiscard]] inline auto random(unsigned max) noexcept { return rand() % max; }
-
 [[nodiscard]] int roll_dice(int dice, int dice_count) noexcept {
   auto roll = 0;
   for (auto i = 0; i < dice_count; i++) {
-    roll += 1 + cno::random(dice);
+    roll += 1 + rng::random(dice);
   }
   return roll;
 }
@@ -23,7 +19,7 @@ public:
   constexpr rnd_roll() = default;
   constexpr rnd_roll(auto... d) : m_table{d...} {}
 
-  [[nodiscard]] auto roll() const noexcept { return m_table[random(N)]; }
+  [[nodiscard]] auto roll() const noexcept { return m_table[rng::random(N)]; }
 };
 
 template <typename Tp, unsigned N> class rnd_roll_per_level {

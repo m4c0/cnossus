@@ -20,4 +20,9 @@ public:
   }
   [[nodiscard]] constexpr auto random(unsigned max) { return random() % max; }
 };
+
+export [[nodiscard]] inline auto random(unsigned max) noexcept {
+  return rand() % max;
+}
+
 } // namespace rng

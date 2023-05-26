@@ -2,10 +2,10 @@ export module cno:player;
 import :inventory;
 import :itemtype;
 import :mobtype;
-import :random;
 import ecs;
 import map;
 import qsu;
+import rng;
 
 namespace cno {
 class player {
@@ -13,7 +13,7 @@ class player {
   inv::table m_inv{};
 
   void random_buff() {
-    switch (cno::random(3)) {
+    switch (rng::random(3)) {
     case 0:
       m_mob.bonus.damage++;
       break;
