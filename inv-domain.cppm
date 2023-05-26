@@ -73,8 +73,8 @@ void add_shield(ecs::ec *ec) { add_armour_item(ec, 'u', 5); }
 // Item containers. When interacted, they drop a random item
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-void add_jar(ecs::ec *ec) { add_container_item(ec, 'u'); }
+void add_jar(ecs::ec *ec) { add_container_item(ec, 'v'); }
 // chest
-void add_coffer(ecs::ec *ec) { add_container_item(ec, 'v'); }
+void add_coffer(ecs::ec *ec) { add_container_item(ec, 'w'); }
 
 } // namespace inv::items
