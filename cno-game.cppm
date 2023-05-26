@@ -59,10 +59,8 @@ class game {
 
     m->coord = tgt;
 
-    m_ec.blockers.remove(e);
-    m_ec.blockers.put(e, {tgt.x, tgt.y});
-
-    m_ec.coords.set(e, {tgt.x, tgt.y});
+    m_ec.blockers.update(e, {tgt.x, tgt.y});
+    m_ec.coords.update(e, {tgt.x, tgt.y});
   }
 
   void move_enemies() {
