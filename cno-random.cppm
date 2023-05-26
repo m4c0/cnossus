@@ -1,5 +1,6 @@
 export module cno:random;
 import rng;
+import roll;
 
 namespace cno {
 static constexpr const auto max_level = 20;
@@ -12,28 +13,9 @@ static constexpr const auto max_level = 20;
   return roll;
 }
 
-template <typename Tp, unsigned N> class rnd_roll {
-  const Tp *m_table[N]{};
+template <typename Tp, unsigned N> using rnd_roll = roll::table<Tp, N>;
 
-public:
-  constexpr rnd_roll() = default;
-  constexpr rnd_roll(auto... d) : m_table{d...} {}
-
-  [[nodiscard]] auto roll() const noexcept { return m_table[rng::random(N)]; }
-};
-
-template <typename Tp, unsigned N> class rnd_roll_per_level {
-  // Level 21 is game over, so nothing should be there
-  rnd_roll<Tp, N> m_table[max_level + 1]{};
-
-public:
-  using roll_t = rnd_roll<Tp, N>;
-
-  constexpr rnd_roll_per_level() = default;
-  constexpr rnd_roll_per_level(auto... d) : m_table{d...} {}
-
-  [[nodiscard]] auto roll(unsigned lvl) const noexcept {
-    return m_table[lvl - 1].roll();
-  }
-};
+// Level 21 is game over, so nothing should be there
+template <typename Tp, unsigned N>
+using rnd_roll_per_level = roll ::level_table<Tp, N, max_level + 1>;
 } // namespace cno
