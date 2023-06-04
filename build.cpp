@@ -3,6 +3,7 @@
 #include "../jute/build.hpp"
 #include "../pog/build.hpp"
 #include "../quack/build.hpp"
+#include "../rng/build.hpp"
 #include "../silog/build.hpp"
 #include "../sires/build.hpp"
 #include "../traits/build.hpp"
@@ -35,8 +36,6 @@ public:
 int main(int argc, char **argv) {
   using namespace ecow;
 
-  auto rng = unit::create<mod>("rng");
-
   auto qsu = unit::create<mod>("qsu");
   qsu->add_wsdep("casein", casein());
   qsu->add_wsdep("quack", quack());
@@ -56,9 +55,11 @@ int main(int argc, char **argv) {
   inv->add_part("domain");
 
   auto map = unit::create<mod>("map");
+  map->add_wsdep("rng", rng());
 
   auto roll = unit::create<mod>("roll");
   roll->add_wsdep("pog", pog());
+  roll->add_wsdep("rng", rng());
   roll->add_part("random");
   roll->add_part("itemdrop");
   roll->add_part("itemlevel");
@@ -73,6 +74,7 @@ int main(int argc, char **argv) {
   m->add_wsdep("casein", casein());
   m->add_wsdep("jute", jute());
   m->add_wsdep("quack", quack());
+  m->add_wsdep("rng", rng());
   m->add_wsdep("silog", silog());
   m->add_wsdep("traits", traits());
   m->add_part("camera");
@@ -90,7 +92,6 @@ int main(int argc, char **argv) {
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
-  a->add_ref(rng);
   a->add_ref(ecs);
   a->add_ref(inv);
   a->add_ref(roll);

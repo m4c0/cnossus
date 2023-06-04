@@ -5,7 +5,7 @@ namespace roll {
 static constexpr const auto item_roll_count = 5;
 
 [[nodiscard]] inline auto random_item_id() {
-  return rng::random(item_roll_count);
+  return rng::rand(item_roll_count);
 }
 
 export template <typename Tp, unsigned N> class table {
@@ -15,7 +15,7 @@ public:
   constexpr table() = default;
   constexpr table(auto... d) : m_table{d...} {}
 
-  [[nodiscard]] auto roll() const noexcept { return m_table[rng::random(N)]; }
+  [[nodiscard]] auto roll() const noexcept { return m_table[rng::rand(N)]; }
 };
 
 export template <typename Tp, unsigned N, unsigned Levels> class level_table {

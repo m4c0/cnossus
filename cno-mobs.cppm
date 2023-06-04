@@ -48,11 +48,11 @@ void update_animations(mob_list *mobs, float dt) {
       tgt = {};
       return drop;
     } else if (src.type->poison > 0) {
-      tgt.poison += 1 + rng::random(src.type->poison);
+      tgt.poison += 1 + rng::rand(src.type->poison);
     }
   } else if (margin == 0) {
     if (src.type->poison > 0) {
-      tgt.poison += 1 + rng::random(src.type->poison);
+      tgt.poison += 1 + rng::rand(src.type->poison);
     }
   }
   return {};

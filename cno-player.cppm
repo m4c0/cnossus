@@ -13,7 +13,7 @@ class player {
   inv::table m_inv{};
 
   void random_buff() {
-    switch (rng::random(3)) {
+    switch (rng::rand(3)) {
     case 0:
       m_mob.bonus.damage++;
       break;

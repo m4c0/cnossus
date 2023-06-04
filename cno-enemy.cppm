@@ -11,7 +11,7 @@ class enemy {
   map_coord hunt_hero(map_coord p) { return move_from_hero(p, 1); }
   map_coord run_from_hero(map_coord p) { return move_from_hero(p, -1); }
   map_coord wander() {
-    switch (rng::random(4)) {
+    switch (rng::rand(4)) {
     case 0:
       return move(0, -1);
     case 1:
