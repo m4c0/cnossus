@@ -32,22 +32,29 @@ public:
   }
 };
 
-class loot_table {
-  static constexpr const auto max_elems = 256;
+template <unsigned MaxElems> class loot_table {
+  static constexpr const auto max_elems = MaxElems;
 
   unsigned m_weights[max_elems]{};
   unsigned m_sum{};
 
 public:
-  constexpr void set_weight(unsigned elem, unsigned val) noexcept {
-    auto &w = m_weights[elem];
+  constexpr auto operator[](unsigned elem) noexcept {
+    class it {
+      unsigned *m_w;
+      unsigned *m_sum;
 
-    m_sum += val;
-    m_sum -= w;
-    w = val;
-  }
-  constexpr auto weight(unsigned elem) const noexcept {
-    return m_weights[elem];
+    public:
+      explicit constexpr it(unsigned *w, unsigned *s) : m_w{w}, m_sum{s} {}
+
+      it &operator=(unsigned w) {
+        *m_sum += w;
+        *m_sum -= w;
+        *m_w = w;
+        return *this;
+      }
+    };
+    return it{&m_weights[elem], &m_sum};
   }
 
   unsigned pick() const noexcept {
