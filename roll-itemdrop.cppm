@@ -12,84 +12,19 @@ inline void new_item(ecs::ec *ec, pog::grid_coord c, auto &&fn) {
 }
 
 void add_jar_drop(ecs::ec *ec, pog::grid_coord c, int lvl) {
-  switch (lvl) {
+  loot_table<3> lt{};
+  lt[0] = lt[1] = 30;
+  lt[2] = 30 - lvl;
+  lt[3] = 60;
+  switch (lt.pick()) {
+  case 0:
+    new_item(ec, c, inv::items::add_driedfruit);
+    break;
   case 1:
+    new_item(ec, c, inv::items::add_candle);
+    break;
   case 2:
-  case 3:
-  case 4:
-  case 5:
-  case 6:
-  case 7:
-  case 16:
-  case 18:
-  case 20:
-    switch (random_item_id()) {
-    case 0:
-      new_item(ec, c, inv::items::add_driedfruit);
-      break;
-    case 1:
-      new_item(ec, c, inv::items::add_candle);
-      break;
-    case 2:
-      new_item(ec, c, inv::items::add_cheese);
-      break;
-    default:
-      break;
-    }
-    break;
-  case 8:
-  case 10:
-  case 12:
-  case 14:
-    switch (random_item_id()) {
-    case 0:
-      new_item(ec, c, inv::items::add_driedfruit);
-      break;
-    case 1:
-      new_item(ec, c, inv::items::add_candle);
-      break;
-    default:
-      break;
-    }
-    break;
-  case 15:
-  case 17:
-  case 19:
-    switch (random_item_id()) {
-    case 0:
-      new_item(ec, c, inv::items::add_driedfruit);
-      break;
-    case 1:
-      new_item(ec, c, inv::items::add_cheese);
-      break;
-    default:
-      break;
-    }
-    break;
-  case 9:
-    switch (random_item_id()) {
-    case 0:
-      new_item(ec, c, inv::items::add_candle);
-      break;
-    case 1:
-      new_item(ec, c, inv::items::add_cheese);
-      break;
-    default:
-      break;
-    }
-    break;
-  case 11:
-  case 13:
-    switch (random_item_id()) {
-    case 0:
-      new_item(ec, c, inv::items::add_candle);
-      break;
-    case 1:
-      new_item(ec, c, inv::items::add_cheese);
-      break;
-    default:
-      break;
-    }
+    new_item(ec, c, inv::items::add_cheese);
     break;
   default:
     break;
