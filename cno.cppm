@@ -1,10 +1,11 @@
 export module cno;
 import :game;
 import casein;
-import silog;
+import smol;
 
 extern "C" void casein_handle(const casein::event &e) {
-  static cno::game gg{};
+  // static cno::game gg{};
+  static smol::game gg{};
   static constexpr const auto k_map = [] {
     casein::key_map res{};
     res[casein::K_DOWN] = [](auto) { gg.down(); };

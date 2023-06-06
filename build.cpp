@@ -70,6 +70,8 @@ int main(int argc, char **argv) {
   ecs->add_part("random");
   ecs->add_part("entities");
 
+  auto smol = unit::create<mod>("smol");
+
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());
   m->add_wsdep("jute", jute());
@@ -97,6 +99,7 @@ int main(int argc, char **argv) {
   a->add_ref(roll);
   a->add_ref(map);
   a->add_ref(qsu);
+  a->add_ref(smol);
   a->add_ref(m);
   a->add_unit<atlas>("atlas.img");
   a->add_resource("atlas.img");
