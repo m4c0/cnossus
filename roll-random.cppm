@@ -32,14 +32,14 @@ public:
   }
 };
 
-template <unsigned MaxElems> class loot_table {
+template <unsigned MaxElems> class random_picker {
   static constexpr const auto max_elems = MaxElems;
 
   unsigned m_weights[max_elems]{};
   unsigned m_sum{};
 
 public:
-  constexpr auto operator[](unsigned elem) noexcept {
+  [[nodiscard]] constexpr auto operator[](unsigned elem) noexcept {
     class it {
       unsigned *m_w;
       unsigned *m_sum;
@@ -57,7 +57,7 @@ public:
     return it{&m_weights[elem], &m_sum};
   }
 
-  unsigned pick() const noexcept {
+  [[nodiscard]] unsigned pick() const noexcept {
     auto r = rng::rand(max_elems);
     for (auto i = 0; i < max_elems; i++) {
       auto w = m_weights[i];
@@ -67,6 +67,24 @@ public:
     }
     // This should never happen
     return max_elems - 1;
+  }
+};
+template <typename Tp, unsigned MaxElements> class loot_table {
+  random_picker<MaxElements> m_picker{};
+  Tp m_elements[MaxElements]{};
+
+public:
+  explicit loot_table(auto... is) : m_elements{is...} {}
+
+  [[nodiscard]] constexpr auto operator[](unsigned elem) noexcept {
+    return m_picker[elem];
+  }
+
+  [[nodiscard]] Tp pick() const noexcept { return m_elements[m_picker.pick()]; }
+  void pick(auto fn) const noexcept {
+    Tp p = pick();
+    if (p != nullptr)
+      fn(p);
   }
 };
 } // namespace roll
