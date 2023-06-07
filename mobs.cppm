@@ -1,5 +1,6 @@
 export module mobs;
 import ecs;
+import inv;
 import pog;
 
 namespace mobs {
@@ -24,4 +25,9 @@ export bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
   return true;
 }
 
+export void move_player(ecs::ec *ec, int dx, int dy) {
+  auto pid = ec->player.get_id();
+  if (move_mob(ec, pid, dx, dy))
+    inv::take_items(ec);
+}
 } // namespace mobs

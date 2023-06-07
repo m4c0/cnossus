@@ -93,9 +93,7 @@ class game {
     if (game_is_over())
       return;
 
-    auto pid = m_ec.player.get_id();
-    if (::mobs::move_mob(&m_ec, pid, dx, dy))
-      ::inv::take_items(&m_ec);
+    ::mobs::move_player(&m_ec, dx, dy);
 
     tick();
   }

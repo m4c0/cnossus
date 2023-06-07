@@ -14,12 +14,6 @@ export class game {
 
   ecs::ec m_ec;
 
-  void move_player(int dx, int dy) {
-    auto pid = m_ec.player.get_id();
-    if (mobs::move_mob(&m_ec, pid, dx, dy))
-      inv::take_items(&m_ec);
-  }
-
   bool check_exit() {
     auto pc = m_ec.coords.get(m_ec.player.get_id());
     auto ec = m_ec.coords.get(m_ec.exit.get_id());
@@ -27,7 +21,7 @@ export class game {
   }
 
   void move(int dx, int dy) {
-    move_player(dx, dy);
+    mobs::move_player(&m_ec, dx, dy);
 
     if (check_exit()) {
       auto pid = m_ec.player.get_id();
