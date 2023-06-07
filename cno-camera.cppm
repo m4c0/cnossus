@@ -1,5 +1,6 @@
 export module cno:camera;
 import ecs;
+import qsu;
 
 namespace cno {
 void update_rogueview(ecs::ec *ec) {
@@ -22,5 +23,15 @@ void update_rogueview(ecs::ec *ec) {
       spr.alpha = 0.0;
     }
   }
+}
+
+void center_camera(qsu::layout *qsu, ecs::ec *ec) {
+  auto pid = ec->player.get_id();
+  if (!pid)
+    return;
+
+  // TODO: easy in movement
+  auto [x, y] = ec->coords.get(pid);
+  qsu->center_view({x, y});
 }
 } // namespace cno

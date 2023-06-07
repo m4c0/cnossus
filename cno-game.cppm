@@ -128,7 +128,6 @@ class game {
   }
 
   void repaint() {
-    auto pc = m_player.coord();
     unsigned dist = m_light.visible_distance();
     update_rogueview(&m_ec);
     m_qsu.fill_quack(&m_ec);
@@ -155,10 +154,7 @@ public:
   void process_event(const auto &e) {
     m_r.process_event(e);
     m_qsu.process_event(e);
-
-    // TODO: easy in the movement:
-    auto pc = m_player.coord();
-    m_qsu.center_view(pc);
+    center_camera(&m_qsu, &m_ec);
   }
 
   void reset() {
