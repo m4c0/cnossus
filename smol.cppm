@@ -18,14 +18,12 @@ export class game {
     auto tx = x + dx;
     auto ty = y + dy;
 
-    if (m_ec.walls.has({tx, ty}))
-      return false;
+    if (!m_ec.blockers.has({tx, ty})) {
+      ecs::set_mob_position(&m_ec, id, {tx, ty});
+      return true;
+    }
 
-    if (m_ec.blockers.has({tx, ty}))
-      return false;
-
-    ecs::set_mob_position(&m_ec, id, {tx, ty});
-    return true;
+    return false;
   }
 
   void move_hero(int dx, int dy) {
