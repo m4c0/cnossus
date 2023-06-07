@@ -1,5 +1,6 @@
 export module smol;
 import ecs;
+import inv;
 import map;
 import pog;
 import roll;
@@ -72,10 +73,13 @@ public:
     map::add_exit(&m_ec, 3, 3);
     roll::add_level_items(&m_ec, 1);
 
-    ecs::add_player(&m_ec, 'A', {1, 1});
-
     auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
     ecs::set_mob_position(&m_ec, enemy, {2, 2});
+
+    auto item = inv::items::add_cheese(&m_ec);
+    m_ec.coords.update(item, {3, 2});
+
+    ecs::add_player(&m_ec, 'A', {1, 1});
 
     show_all();
     m_qsu.fill_quack(&m_ec);
