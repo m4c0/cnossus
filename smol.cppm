@@ -33,13 +33,23 @@ export class game {
     if (!move_mob(pid, dx, dy))
       return;
 
+    bool new_level = false;
     auto c = m_ec.coords.get(pid);
     m_ec.usables.remove_if([&](auto _, auto id) -> bool {
       if (c != m_ec.coords.get(id))
         return false;
 
+      if (m_ec.exit.has(id)) {
+        new_level = true;
+        return false;
+      }
+
       return false;
     });
+
+    if (new_level) {
+      ecs::set_mob_position(&m_ec, pid, {1, 1});
+    }
 
     m_qsu.fill_quack(&m_ec);
   }
