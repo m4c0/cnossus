@@ -6,6 +6,16 @@ namespace map {
 export constexpr const auto width = ecs::map_width;
 export constexpr const auto height = ecs::map_height;
 
+export constexpr void add_background(ecs::ec *ec, unsigned x, unsigned y) {
+  ecs::add_walkable_block(ec, '.', {x, y});
+}
+export constexpr void add_exit(ecs::ec *ec, unsigned x, unsigned y) {
+  ecs::add_exit(ec, '<', {x, y});
+}
+export constexpr void add_wall(ecs::ec *ec, unsigned x, unsigned y) {
+  ecs::add_rigid_block(ec, '&', {x, y});
+}
+
 export void create_maze(ecs::ec *ec, unsigned lvl);
 export constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h);
 } // namespace map
@@ -24,13 +34,6 @@ enum blocks : char {
   gt = '<',
   andsign = '(',
 };
-
-constexpr void add_background(ecs::ec *ec, unsigned x, unsigned y) {
-  ecs::add_walkable_block(ec, dot, {x, y});
-}
-constexpr void add_wall(ecs::ec *ec, unsigned x, unsigned y) {
-  ecs::add_rigid_block(ec, hash, {x, y});
-}
 
 class maze {
   struct cell_size {

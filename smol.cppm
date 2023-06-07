@@ -26,7 +26,7 @@ public:
   void use() {}
   void reset() {
     map::create_room(&m_ec, 5, 5);
-    ecs::add_exit(&m_ec, '<', {3, 3});
+    map::add_exit(&m_ec, 3, 3);
     roll::add_level_items(&m_ec, 1);
 
     ecs::add_player(&m_ec, 'A', {1, 1});
