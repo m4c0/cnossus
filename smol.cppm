@@ -11,23 +11,6 @@ export class game {
 
   ecs::ec m_ec;
 
-  void create_map() {
-    for (auto y = 0U; y < 5; y++) {
-      for (auto x = 0U; x < 5; x++) {
-        ecs::add_walkable_block(&m_ec, '.', {x, y});
-      }
-    }
-
-    for (auto x = 0U; x < 5; x++) {
-      ecs::add_rigid_block(&m_ec, '&', {x, 0});
-      ecs::add_rigid_block(&m_ec, '&', {x, 4});
-    }
-    for (auto y = 0U; y < 5; y++) {
-      ecs::add_rigid_block(&m_ec, '&', {0, y});
-      ecs::add_rigid_block(&m_ec, '&', {4, y});
-    }
-    ecs::add_exit(&m_ec, '<', {3, 3});
-  }
   void show_all() {
     for (auto &[spr, _] : m_ec.sprites) {
       spr.alpha = 1.0;
@@ -42,8 +25,11 @@ public:
 
   void use() {}
   void reset() {
-    create_map();
+    map::create_room(&m_ec, 5, 5);
+    ecs::add_exit(&m_ec, '<', {3, 3});
     roll::add_level_items(&m_ec, 1);
+
+    ecs::add_player(&m_ec, 'A', {1, 1});
 
     show_all();
     m_qsu.fill_quack(&m_ec);

@@ -7,6 +7,7 @@ export constexpr const auto width = ecs::map_width;
 export constexpr const auto height = ecs::map_height;
 
 export void create_maze(ecs::ec *ec, unsigned lvl);
+export constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h);
 } // namespace map
 
 module :private;
@@ -23,6 +24,14 @@ enum blocks : char {
   gt = '<',
   andsign = '(',
 };
+
+constexpr void add_background(ecs::ec *ec, unsigned x, unsigned y) {
+  ecs::add_walkable_block(ec, dot, {x, y});
+}
+constexpr void add_wall(ecs::ec *ec, unsigned x, unsigned y) {
+  ecs::add_rigid_block(ec, hash, {x, y});
+}
+
 class maze {
   struct cell_size {
     unsigned w;
@@ -189,20 +198,7 @@ public:
   constexpr maze(ecs::ec *ec) : m_ec{ec} {}
 
   constexpr void build_level(unsigned lvl) noexcept {
-    for (auto y = 0U; y < ecs::map_height; y++) {
-      for (auto x = 0U; x < ecs::map_width; x++) {
-        add_walkable_block(x, y, dot);
-      }
-    }
-
-    for (auto x = 0; x < width; x++) {
-      add_rigid_block(x, 0, hash);
-      add_rigid_block(x, height - 1, hash);
-    }
-    for (int y = 0; y < height; y++) {
-      add_rigid_block(0, y, hash);
-      add_rigid_block(width - 1, y, hash);
-    }
+    create_room(m_ec, width, height);
 
     static constexpr const auto max_cell_sizes = 5;
     static constexpr const cell_size cell_sizes[max_cell_sizes] = {
@@ -221,6 +217,23 @@ public:
 };
 
 void create_maze(ecs::ec *ec, unsigned lvl) { maze{ec}.build_level(lvl); }
+
+constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h) {
+  for (auto y = 0U; y < h; y++) {
+    for (auto x = 0U; x < w; x++) {
+      add_background(ec, x, y);
+    }
+  }
+
+  for (auto x = 0; x < w; x++) {
+    add_wall(ec, x, 0);
+    add_wall(ec, x, h - 1);
+  }
+  for (int y = 0; y < h; y++) {
+    add_wall(ec, 0, y);
+    add_wall(ec, w - 1, y);
+  }
+}
 } // namespace map
 
 static_assert([] {
