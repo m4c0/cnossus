@@ -11,11 +11,6 @@ export class game {
 
   ecs::ec m_ec;
 
-  void change_mob_position(auto id, unsigned x, unsigned y) {
-    m_ec.blockers.update(id, {x, y});
-    m_ec.coords.update(id, {x, y});
-  }
-
   bool move_mob(auto id, int dx, int dy) {
     auto [x, y] = m_ec.coords.get(id);
     auto tx = x + dx;
@@ -27,7 +22,7 @@ export class game {
     if (m_ec.blockers.has({tx, ty}))
       return false;
 
-    change_mob_position(id, tx, ty);
+    ecs::set_mob_position(&m_ec, id, {tx, ty});
     return true;
   }
 
@@ -56,7 +51,8 @@ public:
 
     ecs::add_player(&m_ec, 'A', {1, 1});
 
-    change_mob_position(ecs::add_hostile_enemy(&m_ec, 'B'), 2, 2);
+    auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
+    ecs::set_mob_position(&m_ec, enemy, {2, 2});
 
     show_all();
     m_qsu.fill_quack(&m_ec);

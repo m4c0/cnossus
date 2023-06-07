@@ -39,6 +39,11 @@ export auto add_non_hostile_enemy(ec *ec, char id) {
   return e;
 }
 
+export void set_mob_position(ec *ec, auto id, pog::grid_coord c) {
+  ec->blockers.update(id, c);
+  ec->coords.update(id, c);
+}
+
 auto add_item(ec *ec, char id) {
   auto e = ec->e.alloc();
   auto c = find_empty_location(ec);
