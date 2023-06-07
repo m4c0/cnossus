@@ -1,6 +1,7 @@
 export module smol;
 import ecs;
 import map;
+import pog;
 import roll;
 import qsu;
 
@@ -27,8 +28,20 @@ export class game {
   }
 
   void move_hero(int dx, int dy) {
-    if (move_mob(m_ec.player.get_id(), dx, dy))
-      m_qsu.fill_quack(&m_ec);
+    auto pid = m_ec.player.get_id();
+
+    if (!move_mob(pid, dx, dy))
+      return;
+
+    auto c = m_ec.coords.get(pid);
+    m_ec.usables.remove_if([&](auto _, auto id) -> bool {
+      if (c != m_ec.coords.get(id))
+        return false;
+
+      return false;
+    });
+
+    m_qsu.fill_quack(&m_ec);
   }
 
   void show_all() {

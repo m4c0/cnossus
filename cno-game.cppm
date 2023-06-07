@@ -103,6 +103,7 @@ class game {
   }
 
   void use_item() {
+    /*
     auto pid = m_ec.player.get_id();
     auto pc = m_ec.coords.get(pid);
 
@@ -119,6 +120,7 @@ class game {
     m_ec.in_use.add(id, {});
 
     tick();
+    */
   }
 
   void repaint() {

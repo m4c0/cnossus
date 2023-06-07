@@ -71,6 +71,7 @@ int main(int argc, char **argv) {
   ecs->add_part("entities");
 
   auto smol = unit::create<mod>("smol");
+  smol->add_wsdep("pog", pog());
 
   auto m = unit::create<mod>("cno");
   m->add_wsdep("casein", casein());

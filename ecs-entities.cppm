@@ -48,7 +48,7 @@ auto add_item(ec *ec, char id) {
   auto e = ec->e.alloc();
   auto c = find_empty_location(ec);
   ec->coords.add(e, c);
-  ec->usables.put(e, c);
+  ec->usables.add(e, {});
   ec->sprites.add(e, {id});
   return e;
 }
@@ -106,7 +106,7 @@ export constexpr void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
 export constexpr void add_exit(ec *ec, char id, pog::grid_coord c) {
   auto e = add_block(ec, id, c);
   ec->exit.set(e, {});
-  ec->usables.put(e, c);
+  ec->usables.add(e, {});
 }
 export constexpr void remove_rigid_wall(ec *ec, pog::grid_coord c) {
   auto id = ec->blockers.get(c);

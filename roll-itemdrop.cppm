@@ -10,7 +10,6 @@ using fn_t = decltype(inv::items::add_driedfruit) *;
 inline void new_item(ecs::ec *ec, pog::grid_coord c, fn_t fn) {
   auto e = fn(ec);
   ec->coords.update(e, c);
-  ec->usables.update(e, c);
 }
 
 void add_jar_drop(ecs::ec *ec, pog::grid_coord c, int lvl) {

@@ -34,7 +34,7 @@ export struct ec {
   pog::sparse_set<c::marker, max_entities> non_hostiles;
   pog::singleton<c::marker> player;
   pog::sparse_set<c::sprite, max_entities> sprites;
-  pog::grid<map_width, map_height, max_entities> usables;
+  pog::sparse_set<c::marker, max_entities> usables;
   pog::grid<map_width, map_height, max_entities> walls;
   pog::sparse_set<unsigned, max_entities> weapons;
 };
