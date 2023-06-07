@@ -13,6 +13,17 @@ export class game {
 
   ecs::ec m_ec;
 
+  void remove_mob(pog::eid id) {
+    m_ec.blockers.remove(id);
+    m_ec.coords.remove(id);
+    m_ec.enemies.remove(id);
+    m_ec.hostiles.remove(id);
+    m_ec.non_hostiles.remove(id);
+    m_ec.player.remove(id);
+    m_ec.mobs.remove(id);
+    m_ec.sprites.remove(id);
+  }
+
   bool move_mob(pog::eid id, int dx, int dy) {
     auto [x, y] = m_ec.coords.get(id);
     auto tx = x + dx;
@@ -30,14 +41,7 @@ export class game {
     if (!m_ec.enemies.has(bid))
       return false;
 
-    m_ec.blockers.remove(bid);
-    m_ec.coords.remove(bid);
-    m_ec.enemies.remove(bid);
-    m_ec.hostiles.remove(bid);
-    m_ec.non_hostiles.remove(bid);
-    m_ec.player.remove(bid);
-    m_ec.mobs.remove(bid);
-    m_ec.sprites.remove(bid);
+    remove_mob(bid);
     return true;
   }
 
