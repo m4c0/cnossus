@@ -106,7 +106,6 @@ export constexpr void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
 export constexpr void add_exit(ec *ec, char id, pog::grid_coord c) {
   auto e = add_block(ec, id, c);
   ec->exit.set(e, {});
-  ec->usables.add(e, {});
 }
 export constexpr void remove_rigid_wall(ec *ec, pog::grid_coord c) {
   auto id = ec->blockers.get(c);

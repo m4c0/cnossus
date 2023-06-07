@@ -13,7 +13,7 @@ export class game {
 
   ecs::ec m_ec;
 
-  bool move_mob(auto id, int dx, int dy) {
+  bool move_mob(pog::eid id, int dx, int dy) {
     auto [x, y] = m_ec.coords.get(id);
     auto tx = x + dx;
     auto ty = y + dy;
@@ -34,6 +34,14 @@ export class game {
     }
   }
 
+  void remove_item(pog::eid id) {
+    // TODO: remove lights, foods, armour, weapons, bags
+    m_ec.coords.remove(id);
+    m_ec.sprites.remove(id);
+    m_ec.usables.remove(id);
+    m_ec.e.dealloc(id);
+  }
+
   void move_hero(int dx, int dy) {
     auto pid = m_ec.player.get_id();
 
@@ -46,6 +54,7 @@ export class game {
       if (pc != m_ec.coords.get(id))
         return false;
 
+      remove_item(id);
       return false;
     });
 
