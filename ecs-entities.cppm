@@ -43,6 +43,17 @@ export void set_mob_position(ec *ec, pog::eid id, pog::grid_coord c) {
   ec->blockers.update(id, c);
   ec->coords.update(id, c);
 }
+export void remove_mob(ec *ec, pog::eid id) {
+  ec->blockers.remove(id);
+  ec->coords.remove(id);
+  ec->enemies.remove(id);
+  ec->hostiles.remove(id);
+  ec->non_hostiles.remove(id);
+  ec->player.remove(id);
+  ec->mobs.remove(id);
+  ec->sprites.remove(id);
+  ec->e.dealloc(id);
+}
 
 auto add_item(ec *ec, char id) {
   auto e = ec->e.alloc();
@@ -81,6 +92,18 @@ export auto add_light_item(ec *ec, char id, unsigned timer) {
   auto e = add_item(ec, id);
   ec->lights.add(e, timer);
   return e;
+}
+
+export void remove_item(ecs::ec *ec, pog::eid id) {
+  ec->armour.remove(id);
+  ec->bags.remove(id);
+  ec->coords.remove(id);
+  ec->foods.remove(id);
+  ec->lights.remove(id);
+  ec->sprites.remove(id);
+  ec->usables.remove(id);
+  ec->weapons.remove(id);
+  ec->e.dealloc(id);
 }
 
 export auto add_player(ec *ec, char id, pog::grid_coord c) {

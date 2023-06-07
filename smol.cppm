@@ -13,17 +13,6 @@ export class game {
 
   ecs::ec m_ec;
 
-  void remove_mob(pog::eid id) {
-    m_ec.blockers.remove(id);
-    m_ec.coords.remove(id);
-    m_ec.enemies.remove(id);
-    m_ec.hostiles.remove(id);
-    m_ec.non_hostiles.remove(id);
-    m_ec.player.remove(id);
-    m_ec.mobs.remove(id);
-    m_ec.sprites.remove(id);
-  }
-
   bool move_mob(pog::eid id, int dx, int dy) {
     auto [x, y] = m_ec.coords.get(id);
     auto tx = x + dx;
@@ -41,7 +30,20 @@ export class game {
     if (!m_ec.enemies.has(bid))
       return false;
 
-    remove_mob(bid);
+    ecs::remove_mob(&m_ec, bid);
+    return true;
+  }
+
+  bool take_items() {
+    auto pc = m_ec.coords.get(m_ec.player.get_id());
+    m_ec.usables.remove_if([&](auto _, auto id) -> bool {
+      if (pc != m_ec.coords.get(id))
+        return false;
+
+      ecs::remove_item(&m_ec, id);
+      return false;
+    });
+
     return true;
   }
 
@@ -51,31 +53,17 @@ export class game {
     return ec == pc;
   }
 
-  void remove_item(pog::eid id) {
-    // TODO: remove lights, foods, armour, weapons, bags
-    m_ec.coords.remove(id);
-    m_ec.sprites.remove(id);
-    m_ec.usables.remove(id);
-    m_ec.e.dealloc(id);
+  void move_player(int dx, int dy) {
+    auto pid = m_ec.player.get_id();
+    if (move_mob(pid, dx, dy))
+      take_items();
   }
 
-  void move_hero(int dx, int dy) {
-    auto pid = m_ec.player.get_id();
-
-    if (!move_mob(pid, dx, dy))
-      return;
-
-    auto pc = m_ec.coords.get(pid);
-
-    m_ec.usables.remove_if([&](auto _, auto id) -> bool {
-      if (pc != m_ec.coords.get(id))
-        return false;
-
-      remove_item(id);
-      return false;
-    });
+  void move(int dx, int dy) {
+    move_player(dx, dy);
 
     if (check_exit()) {
+      auto pid = m_ec.player.get_id();
       m_ec.coords.update(pid, {1, 1});
     }
 
@@ -89,16 +77,15 @@ export class game {
   }
 
 public:
-  void down() { move_hero(0, 1); }
-  void left() { move_hero(-1, 0); }
-  void right() { move_hero(1, 0); }
-  void up() { move_hero(0, -1); }
+  void down() { move(0, 1); }
+  void left() { move(-1, 0); }
+  void right() { move(1, 0); }
+  void up() { move(0, -1); }
 
   void use() {}
   void reset() {
     map::create_room(&m_ec, 5, 5);
     map::add_exit(&m_ec, 3, 3);
-    roll::add_level_items(&m_ec, 1);
 
     auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
     ecs::set_mob_position(&m_ec, enemy, {2, 2});
