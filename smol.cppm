@@ -18,20 +18,33 @@ export class game {
     auto tx = x + dx;
     auto ty = y + dy;
 
-    if (!m_ec.blockers.has({tx, ty})) {
+    auto bid = m_ec.blockers.get({tx, ty});
+    if (!bid) {
       ecs::set_mob_position(&m_ec, id, {tx, ty});
       return true;
     }
 
-    return false;
+    if (m_ec.walls.has(bid))
+      return false;
+
+    if (!m_ec.enemies.has(bid))
+      return false;
+
+    m_ec.blockers.remove(bid);
+    m_ec.coords.remove(bid);
+    m_ec.enemies.remove(bid);
+    m_ec.hostiles.remove(bid);
+    m_ec.non_hostiles.remove(bid);
+    m_ec.player.remove(bid);
+    m_ec.mobs.remove(bid);
+    m_ec.sprites.remove(bid);
+    return true;
   }
 
-  void check_exit() {
+  bool check_exit() {
     auto pc = m_ec.coords.get(m_ec.player.get_id());
     auto ec = m_ec.coords.get(m_ec.exit.get_id());
-    if (ec == pc) {
-      ecs::set_mob_position(&m_ec, m_ec.player.get_id(), {1, 1});
-    }
+    return ec == pc;
   }
 
   void remove_item(pog::eid id) {
@@ -58,7 +71,9 @@ export class game {
       return false;
     });
 
-    check_exit();
+    if (check_exit()) {
+      m_ec.coords.update(pid, {1, 1});
+    }
 
     m_qsu.fill_quack(&m_ec);
   }

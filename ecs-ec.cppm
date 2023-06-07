@@ -35,7 +35,7 @@ export struct ec {
   pog::singleton<c::marker> player;
   pog::sparse_set<c::sprite, max_entities> sprites;
   pog::sparse_set<c::marker, max_entities> usables;
-  pog::grid<map_width, map_height, max_entities> walls;
+  pog::sparse_set<c::marker, max_entities> walls;
   pog::sparse_set<unsigned, max_entities> weapons;
 };
 } // namespace ecs

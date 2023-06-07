@@ -98,7 +98,7 @@ constexpr auto add_block(ec *ec, char id, pog::grid_coord c) {
 export constexpr void add_rigid_block(ec *ec, char id, pog::grid_coord c) {
   auto e = add_block(ec, id, c);
   ec->blockers.put(e, c);
-  ec->walls.put(e, c);
+  ec->walls.add(e, {});
 }
 export constexpr void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
   add_block(ec, id, c);

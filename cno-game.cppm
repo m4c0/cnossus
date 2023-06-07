@@ -42,6 +42,7 @@ class game {
   }
 
   void try_move(mob *m, map_coord tgt) {
+    /*
     if (m_ec.walls.has({tgt.x, tgt.y}))
       return;
 
@@ -61,6 +62,7 @@ class game {
 
     m_ec.blockers.update(e, {tgt.x, tgt.y});
     m_ec.coords.update(e, {tgt.x, tgt.y});
+    */
   }
 
   void move_enemies() {
