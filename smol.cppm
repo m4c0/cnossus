@@ -11,6 +11,11 @@ export class game {
 
   ecs::ec m_ec;
 
+  void change_mob_position(auto id, unsigned x, unsigned y) {
+    m_ec.blockers.update(id, {x, y});
+    m_ec.coords.update(id, {x, y});
+  }
+
   bool move_mob(auto id, int dx, int dy) {
     auto [x, y] = m_ec.coords.get(id);
     auto tx = x + dx;
@@ -19,8 +24,10 @@ export class game {
     if (m_ec.walls.has({tx, ty}))
       return false;
 
-    m_ec.blockers.update(id, {tx, ty});
-    m_ec.coords.update(id, {tx, ty});
+    if (m_ec.blockers.has({tx, ty}))
+      return false;
+
+    change_mob_position(id, tx, ty);
     return true;
   }
 
@@ -47,7 +54,9 @@ public:
     map::add_exit(&m_ec, 3, 3);
     roll::add_level_items(&m_ec, 1);
 
-    ecs::add_player(&m_ec, 'A', {2, 2});
+    ecs::add_player(&m_ec, 'A', {1, 1});
+
+    change_mob_position(ecs::add_hostile_enemy(&m_ec, 'B'), 2, 2);
 
     show_all();
     m_qsu.fill_quack(&m_ec);
