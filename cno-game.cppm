@@ -6,6 +6,7 @@ import :mobs;
 import :player;
 import ecs;
 import map;
+import mobs;
 import qsu;
 import roll;
 
@@ -84,15 +85,16 @@ class game {
   }
 
   [[nodiscard]] bool game_is_over() const {
-    return m_player.is_dead() || m_level == max_level + 1;
+    return !m_ec.player.get_id() || m_level == max_level + 1;
   }
 
   void move_hero(int dx, int dy) {
     if (game_is_over())
       return;
 
-    const auto &[x, y] = m_player.coord();
-    try_move(m_player.mob(), map_coord{x + dx, y + dy});
+    auto pid = m_ec.player.get_id();
+    ::mobs::move_mob(&m_ec, pid, dx, dy);
+
     tick();
   }
 

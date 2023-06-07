@@ -2,6 +2,7 @@ export module smol;
 import ecs;
 import inv;
 import map;
+import mobs;
 import pog;
 import roll;
 import qsu;
@@ -12,27 +13,6 @@ export class game {
   qsu::layout m_qsu{&m_r};
 
   ecs::ec m_ec;
-
-  bool move_mob(pog::eid id, int dx, int dy) {
-    auto [x, y] = m_ec.coords.get(id);
-    auto tx = x + dx;
-    auto ty = y + dy;
-
-    auto bid = m_ec.blockers.get({tx, ty});
-    if (!bid) {
-      ecs::set_mob_position(&m_ec, id, {tx, ty});
-      return true;
-    }
-
-    if (m_ec.walls.has(bid))
-      return false;
-
-    if (!m_ec.enemies.has(bid))
-      return false;
-
-    ecs::remove_mob(&m_ec, bid);
-    return true;
-  }
 
   bool take_items() {
     auto pc = m_ec.coords.get(m_ec.player.get_id());
@@ -47,16 +27,16 @@ export class game {
     return true;
   }
 
+  void move_player(int dx, int dy) {
+    auto pid = m_ec.player.get_id();
+    if (mobs::move_mob(&m_ec, pid, dx, dy))
+      take_items();
+  }
+
   bool check_exit() {
     auto pc = m_ec.coords.get(m_ec.player.get_id());
     auto ec = m_ec.coords.get(m_ec.exit.get_id());
     return ec == pc;
-  }
-
-  void move_player(int dx, int dy) {
-    auto pid = m_ec.player.get_id();
-    if (move_mob(pid, dx, dy))
-      take_items();
   }
 
   void move(int dx, int dy) {

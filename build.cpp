@@ -70,6 +70,9 @@ int main(int argc, char **argv) {
   ecs->add_part("random");
   ecs->add_part("entities");
 
+  auto mobs = unit::create<mod>("mobs");
+  mobs->add_wsdep("pog", pog());
+
   auto smol = unit::create<mod>("smol");
   smol->add_wsdep("pog", pog());
 
@@ -99,6 +102,7 @@ int main(int argc, char **argv) {
   a->add_ref(inv);
   a->add_ref(roll);
   a->add_ref(map);
+  a->add_ref(mobs);
   a->add_ref(qsu);
   a->add_ref(smol);
   a->add_ref(m);
