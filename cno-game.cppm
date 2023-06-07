@@ -5,6 +5,7 @@ import :light;
 import :mobs;
 import :player;
 import ecs;
+import inv;
 import map;
 import mobs;
 import qsu;
@@ -93,7 +94,8 @@ class game {
       return;
 
     auto pid = m_ec.player.get_id();
-    ::mobs::move_mob(&m_ec, pid, dx, dy);
+    if (::mobs::move_mob(&m_ec, pid, dx, dy))
+      ::inv::take_items(&m_ec);
 
     tick();
   }

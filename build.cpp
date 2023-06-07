@@ -52,6 +52,7 @@ int main(int argc, char **argv) {
   qsu->add_part("renderer");
 
   auto inv = unit::create<mod>("inv");
+  inv->add_wsdep("pog", pog());
   inv->add_part("domain");
 
   auto map = unit::create<mod>("map");

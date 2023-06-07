@@ -14,23 +14,10 @@ export class game {
 
   ecs::ec m_ec;
 
-  bool take_items() {
-    auto pc = m_ec.coords.get(m_ec.player.get_id());
-    m_ec.usables.remove_if([&](auto _, auto id) -> bool {
-      if (pc != m_ec.coords.get(id))
-        return false;
-
-      ecs::remove_item(&m_ec, id);
-      return false;
-    });
-
-    return true;
-  }
-
   void move_player(int dx, int dy) {
     auto pid = m_ec.player.get_id();
     if (mobs::move_mob(&m_ec, pid, dx, dy))
-      take_items();
+      inv::take_items(&m_ec);
   }
 
   bool check_exit() {
