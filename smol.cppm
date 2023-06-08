@@ -17,6 +17,10 @@ export class game {
   void remove_level() {
     m_ec.walls.for_each_r(
         [this](auto _, auto id) { ecs::remove_wall(&m_ec, id); });
+    m_ec.usables.for_each_r(
+        [this](auto _, auto id) { ecs::remove_item(&m_ec, id); });
+    m_ec.enemies.for_each_r(
+        [this](auto _, auto id) { ecs::remove_mob(&m_ec, id); });
   }
 
   bool check_exit() {
