@@ -63,7 +63,11 @@ class maze {
   }
 
   constexpr void remove_wall(unsigned x, unsigned y) {
-    ecs::remove_rigid_wall(m_ec, {x, y});
+    auto id = m_ec->blockers.get({x, y});
+    if (!id)
+      return;
+
+    ecs::remove_wall(m_ec, id);
   }
 
   constexpr void furnish_room(unsigned x1, unsigned y1, unsigned x2,

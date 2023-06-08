@@ -116,12 +116,12 @@ constexpr auto add_block(ec *ec, char id, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->coords.add(e, c);
   ec->sprites.add(e, {id});
+  ec->walls.add(e, {});
   return e;
 }
 export constexpr void add_rigid_block(ec *ec, char id, pog::grid_coord c) {
   auto e = add_block(ec, id, c);
   ec->blockers.put(e, c);
-  ec->walls.add(e, {});
 }
 export constexpr void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
   add_block(ec, id, c);
@@ -130,14 +130,11 @@ export constexpr void add_exit(ec *ec, char id, pog::grid_coord c) {
   auto e = add_block(ec, id, c);
   ec->exit.set(e, {});
 }
-export constexpr void remove_rigid_wall(ec *ec, pog::grid_coord c) {
-  auto id = ec->blockers.get(c);
-  if (!id)
-    return;
-
+export constexpr void remove_wall(ec *ec, pog::eid id) {
   ec->blockers.remove(id);
   ec->coords.remove(id);
   ec->sprites.remove(id);
   ec->walls.remove(id);
+  ec->e.dealloc(id);
 }
 } // namespace ecs

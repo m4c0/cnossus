@@ -14,6 +14,11 @@ export class game {
 
   ecs::ec m_ec;
 
+  void remove_level() {
+    m_ec.walls.for_each_r(
+        [this](auto _, auto id) { ecs::remove_wall(&m_ec, id); });
+  }
+
   bool check_exit() {
     auto pc = m_ec.coords.get(m_ec.player.get_id());
     auto ec = m_ec.coords.get(m_ec.exit.get_id());
@@ -26,6 +31,7 @@ export class game {
     if (check_exit()) {
       auto pid = m_ec.player.get_id();
       m_ec.coords.update(pid, {1, 1});
+      remove_level();
     }
 
     m_qsu.fill_quack(&m_ec);
