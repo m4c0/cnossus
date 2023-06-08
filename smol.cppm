@@ -36,9 +36,22 @@ export class game {
       auto pid = m_ec.player.get_id();
       m_ec.coords.update(pid, {1, 1});
       remove_level();
+      create_level();
+      show_all();
     }
 
     m_qsu.fill_quack(&m_ec);
+  }
+
+  void create_level() {
+    map::create_room(&m_ec, 5, 5);
+    map::add_exit(&m_ec, 3, 3);
+
+    auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
+    ecs::set_mob_position(&m_ec, enemy, {2, 2});
+
+    auto item = inv::items::add_cheese(&m_ec);
+    m_ec.coords.update(item, {3, 2});
   }
 
   void show_all() {
@@ -55,14 +68,7 @@ public:
 
   void use() {}
   void reset() {
-    map::create_room(&m_ec, 5, 5);
-    map::add_exit(&m_ec, 3, 3);
-
-    auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
-    ecs::set_mob_position(&m_ec, enemy, {2, 2});
-
-    auto item = inv::items::add_cheese(&m_ec);
-    m_ec.coords.update(item, {3, 2});
+    create_level();
 
     ecs::add_player(&m_ec, 'A', {1, 1});
 
