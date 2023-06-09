@@ -51,7 +51,6 @@ int main(int argc, char **argv) {
 
   auto inv = unit::create<mod>("inv");
   inv->add_wsdep("pog", pog());
-  inv->add_part("domain");
 
   auto map = unit::create<mod>("map");
   map->add_wsdep("rng", rng());
@@ -68,6 +67,7 @@ int main(int argc, char **argv) {
   ecs->add_part("ec");
   ecs->add_part("random");
   ecs->add_part("entities");
+  ecs->add_part("items");
 
   auto mobs = unit::create<mod>("mobs");
   mobs->add_wsdep("pog", pog());

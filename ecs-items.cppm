@@ -1,8 +1,9 @@
-export module inv:domain;
-import ecs;
+export module ecs:items;
+import :ec;
+import :entities;
 import spr;
 
-export namespace inv::items {
+export namespace ecs {
 // There are multiple differences between the names in the original code, the
 // port to iOS and the sprites. So, this is just a mess... :D
 
@@ -82,4 +83,4 @@ auto add_jar(ecs::ec *ec) { return add_container_item(ec, spr::jar); }
 // chest
 auto add_coffer(ecs::ec *ec) { return add_container_item(ec, spr::coffer); }
 
-} // namespace inv::items
+} // namespace ecs

@@ -1,5 +1,4 @@
 export module inv;
-export import :domain;
 import ecs;
 import pog;
 
