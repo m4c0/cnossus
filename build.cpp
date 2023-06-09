@@ -45,12 +45,7 @@ int main(int argc, char **argv) {
   qsu->add_wsdep("silog", silog());
   qsu->add_wsdep("sires", sires());
   qsu->add_wsdep("traits", traits());
-  qsu->add_part("coord");
   qsu->add_part("id");
-  qsu->add_part("idholder");
-  qsu->add_part("type");
-  qsu->add_part("vis");
-  qsu->add_part("sprite");
   qsu->add_part("layout");
   qsu->add_part("renderer");
 

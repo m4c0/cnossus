@@ -1,7 +1,5 @@
 export module qsu:layout;
-import :coord;
 import :id;
-import :vis;
 import ecs;
 import quack;
 
@@ -14,8 +12,8 @@ class layout : public quack::instance_layout<void, ecs::max_entities> {
 public:
   using parent_t::parent_t;
 
-  void center_view(coord pc) noexcept {
-    batch()->center_at(pc.x + 0.5f, pc.y + 0.5f);
+  void center_view(float x, float y) noexcept {
+    batch()->center_at(x + 0.5f, y + 0.5f);
   }
 
   void fill_quack(ecs::ec *ec) noexcept {

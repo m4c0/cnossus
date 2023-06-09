@@ -2,8 +2,6 @@ export module cno:objects;
 import qsu;
 
 namespace cno {
-using map_coord = qsu::coord;
-
 class ranged {
   unsigned m_value;
   unsigned m_max;

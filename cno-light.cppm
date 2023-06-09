@@ -14,11 +14,13 @@ public:
     return m_value < 1 ? 2 : 5;
   }
 
+  /*
   void consume(qsu::type<item_type> t) {
     if (t->light_provided > 0) {
       m_value += t->light_provided;
     }
   }
+  */
 
   void tick() {
     if (m_value == 0)

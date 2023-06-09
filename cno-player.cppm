@@ -7,9 +7,10 @@ import qsu;
 import rng;
 
 namespace cno {
+/*
 class player {
   mob m_mob{qsu::type{&minotaur}};
-  inv::table m_inv{};
+   inv::table m_inv{};
 
   void random_buff() {
     switch (rng::rand(3)) {
@@ -61,4 +62,5 @@ public:
     return true;
   }
 };
+*/
 } // namespace cno

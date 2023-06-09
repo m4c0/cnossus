@@ -32,6 +32,6 @@ void center_camera(qsu::layout *qsu, ecs::ec *ec) {
 
   // TODO: easy in movement
   auto [x, y] = ec->coords.get(pid);
-  qsu->center_view({x, y});
+  qsu->center_view(x, y);
 }
 } // namespace cno

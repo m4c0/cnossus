@@ -38,9 +38,10 @@ struct bonus {
   int defense;
   int damage;
 };
-struct mob : qsu::sprite<mob_type> {
+struct mob {
   static constexpr const auto initial_max_actions = 20;
 
+  const mob_type *type{};
   ranged life{type ? type->life : 0};
   ranged actions{initial_max_actions};
   unsigned poison{};

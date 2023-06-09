@@ -15,67 +15,62 @@ namespace cno {
 class game {
   qsu::renderer m_r{3};
   qsu::layout m_qsu{&m_r};
-  player m_player{};
-  light m_light{};
+  // player m_player{};
+  // light m_light{};
   unsigned m_level{};
 
   ecs::ec m_ec;
 
-  void create_enemies() {
-    /*
-    m_mobs.reset_grid();
+  /*
+void create_enemies() {
+  m_mobs.reset_grid();
 
-    for (auto i = 0; i < map::height - 1; i++) {
-      qsu::type<mob_type> t = qsu::type{mob_roll_per_level.roll(m_level)};
-      if (!t)
-        continue;
+  for (auto i = 0; i < map::height - 1; i++) {
+    qsu::type<mob_type> t = qsu::type{mob_roll_per_level.roll(m_level)};
+    if (!t)
+      continue;
 
-      auto id = t->hostility == h_aggresive
-                    ? add_hostile_enemy(&m_ec, t->id)
-                    : add_non_hostile_enemy(&m_ec, t->id);
-      auto [x, y] = m_ec.blockers.get(id);
+    auto id = t->hostility == h_aggresive
+                  ? add_hostile_enemy(&m_ec, t->id)
+                  : add_non_hostile_enemy(&m_ec, t->id);
+    auto [x, y] = m_ec.blockers.get(id);
 
-      auto &mm = m_mobs.at(i + 1) = {t, {x, y}};
-      enemy{&mm}.reset_level(m_level);
-    }
-    */
+    auto &mm = m_mobs.at(i + 1) = {t, {x, y}};
+    enemy{&mm}.reset_level(m_level);
   }
+}
 
-  void try_move(mob *m, map_coord tgt) {
-    /*
-    if (m_ec.walls.has({tgt.x, tgt.y}))
-      return;
+void try_move(mob *m, map_coord tgt) {
+  if (m_ec.walls.has({tgt.x, tgt.y}))
+    return;
 
-    auto [x, y] = m->coord;
-    auto e = m_ec.blockers.get({x, y});
+  auto [x, y] = m->coord;
+  auto e = m_ec.blockers.get({x, y});
 
-    auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
-      auto drop = mobs::attack(*m, mm);
-      if (drop.type)
-        m_items.add(drop);
-    });
+  auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
+    auto drop = mobs::attack(*m, mm);
+    if (drop.type)
+      m_items.add(drop);
+  });
 
-    if (attacked)
-      return;
+  if (attacked)
+    return;
 
-    m->coord = tgt;
+  m->coord = tgt;
 
-    m_ec.blockers.update(e, {tgt.x, tgt.y});
-    m_ec.coords.update(e, {tgt.x, tgt.y});
-    */
-  }
+  m_ec.blockers.update(e, {tgt.x, tgt.y});
+  m_ec.coords.update(e, {tgt.x, tgt.y});
+}
 
-  void move_enemies() {
-    /*
-    auto pc = m_player.coord();
+void move_enemies() {
+  auto pc = m_player.coord();
 
-    m_mobs.for_each([this, pc](auto &m) {
-      auto tgt = enemy{&m}.next_move_with_light(pc, m_light);
-      if (tgt != m.coord)
-        try_move(&m, tgt);
-    });
-    */
-  }
+  m_mobs.for_each([this, pc](auto &m) {
+    auto tgt = enemy{&m}.next_move_with_light(pc, m_light);
+    if (tgt != m.coord)
+      try_move(&m, tgt);
+  });
+}
 
   void consume(qsu::type<item_type> t) {
     if (!m_player.consume(t))
@@ -84,6 +79,7 @@ class game {
     m_light.consume(t);
     tick();
   }
+  */
 
   [[nodiscard]] bool game_is_over() const {
     return !m_ec.player.get_id() || m_level == max_level + 1;
@@ -142,16 +138,16 @@ class game {
   void create_level() {
     ecs::remove_level(&m_ec);
     map::create_maze(&m_ec, m_level, ecs::map_width, ecs::map_height);
-    m_player.level_reset(m_level);
+    // m_player.level_reset(m_level);
     roll::add_level_items(&m_ec, m_level);
-    create_enemies();
+    // create_enemies();
     repaint();
   }
 
   void tick() {
     // mobs::tick(&m_mobs);
-    move_enemies();
-    m_light.tick();
+    // move_enemies();
+    // m_light.tick();
     repaint();
   }
 

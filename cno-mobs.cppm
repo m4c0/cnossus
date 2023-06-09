@@ -27,7 +27,6 @@ mobs->for_each([](auto &m) {
 void update_animations(mob_list *mobs, float dt) {
   mobs->for_each([dt](auto &m) { m.damage_timer -= dt; });
 }
-*/
 
 [[nodiscard]] qsu::sprite<item_type> attack(const mob &src, mob &tgt) {
   if (src.type->id == tgt.type->id)
@@ -59,4 +58,5 @@ void update_animations(mob_list *mobs, float dt) {
   }
   return {};
 }
+*/
 } // namespace cno::mobs
