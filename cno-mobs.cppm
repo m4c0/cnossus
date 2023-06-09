@@ -3,8 +3,8 @@ import :entities;
 import qsu;
 import rng;
 
-namespace cno::mobs {
 /*
+namespace cno::mobs {
 void tick(mob_list *mobs) {
 mobs->for_each([](auto &m) {
   if (m.life == 0)
@@ -58,5 +58,5 @@ void update_animations(mob_list *mobs, float dt) {
   }
   return {};
 }
-*/
 } // namespace cno::mobs
+*/

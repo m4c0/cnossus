@@ -89,9 +89,9 @@ void move_enemies() {
     if (game_is_over())
       return;
 
-    ::mobs::move_player(&m_ec, dx, dy);
-    if (::mobs::is_player_at_exit(&m_ec)) {
-      ::mobs::set_player_pos(&m_ec, m_level % 2 ? ecs::map_width - 2 : 1, 1);
+    mobs::move_player(&m_ec, dx, dy);
+    if (mobs::is_player_at_exit(&m_ec)) {
+      mobs::set_player_pos(&m_ec, m_level % 2 ? ecs::map_width - 2 : 1, 1);
 
       next_level();
     }
