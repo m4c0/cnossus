@@ -26,6 +26,7 @@ class atlas : public ecow::seq {
 public:
   explicit atlas(const std::string &name) : seq{name} {
     auto ab = ecow::unit::create<ecow::tool>("ab");
+    ab->add_ref(ecow::unit::create<ecow::mod>("spr"));
     ab->add_unit("ab");
     this->add_ref(ab);
 
@@ -35,6 +36,8 @@ public:
 
 int main(int argc, char **argv) {
   using namespace ecow;
+
+  auto spr = unit::create<mod>("spr");
 
   auto qsu = unit::create<mod>("qsu");
   qsu->add_wsdep("casein", casein());
@@ -102,6 +105,7 @@ int main(int argc, char **argv) {
 
   auto a = unit::create<app>("cnossus");
   a->add_requirement(native);
+  a->add_ref(spr);
   a->add_ref(ecs);
   a->add_ref(inv);
   a->add_ref(roll);

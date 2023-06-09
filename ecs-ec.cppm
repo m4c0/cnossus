@@ -1,11 +1,12 @@
 export module ecs:ec;
 import pog;
+import spr;
 
 namespace ecs::c {
 struct marker {};
 
 struct sprite {
-  char id;
+  spr::id id;
   float alpha;
   bool seen;
   int layer;

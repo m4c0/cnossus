@@ -1,3 +1,5 @@
+import spr;
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
@@ -62,55 +64,55 @@ int main(int argc, char **argv) {
   }
 
   try {
-    stamp("atlas/floor.png", '.');
-    stamp("atlas/wall.png", '&');
-    stamp("atlas/mosaic.png", ',');
-    stamp("atlas/pool.png", '%');
-    stamp("atlas/column.png", '#');
-    stamp("atlas/basin.png", '$');
-    stamp("atlas/stairs.png", '<');
-    stamp("atlas/statue.png", '(');
+    stamp("atlas/floor.png", spr::floor);
+    stamp("atlas/wall.png", spr::wall);
+    stamp("atlas/mosaic.png", spr::mosaic);
+    stamp("atlas/pool.png", spr::pool);
+    stamp("atlas/column.png", spr::column);
+    stamp("atlas/basin.png", spr::basin);
+    stamp("atlas/stairs.png", spr::exit);
+    stamp("atlas/statue.png", spr::statue);
 
-    // stamp("atlas/tunic", 'a');
-    // stamp("atlas/vest", 'b');
-    // stamp("atlas/sword", 'c');
-    stamp("atlas/bag.png", 'd');
-    stamp("atlas/knife.png", 'e');
-    stamp("atlas/sickle.png", 'f');
-    stamp("atlas/adze.png", 'g');
-    stamp("atlas/axe.png", 'h');
-    stamp("atlas/doubleaxe.png", 'i');
-    stamp("atlas/spear.png", 'j');
-    stamp("atlas/driedfruit.png", 'k');
-    stamp("atlas/cheese.png", 'l');
-    stamp("atlas/rawmeat.png", 'm');
-    stamp("atlas/torch.png", 'n');
-    stamp("atlas/candle.png", 'o');
-    stamp("atlas/oillamp.png", 'p');
-    stamp("atlas/greave.png", 'q');
-    stamp("atlas/armguard.png", 'r');
-    stamp("atlas/pauldron.png", 's');
-    stamp("atlas/scale.png", 't');
-    stamp("atlas/shield.png", 'u');
-    stamp("atlas/jar.png", 'v');
-    stamp("atlas/coffer.png", 'w');
+    // stamp("atlas/tunic", spr::cloth);
+    // stamp("atlas/vest", spr::leather);
+    // stamp("atlas/sword", spr::sword);
+    stamp("atlas/bag.png", spr::bag);
+    stamp("atlas/knife.png", spr::knife);
+    stamp("atlas/sickle.png", spr::sickle);
+    stamp("atlas/adze.png", spr::adze);
+    stamp("atlas/axe.png", spr::axe);
+    stamp("atlas/doubleaxe.png", spr::doubleaxe);
+    stamp("atlas/spear.png", spr::spear);
+    stamp("atlas/driedfruit.png", spr::driedfruit);
+    stamp("atlas/cheese.png", spr::cheese);
+    stamp("atlas/rawmeat.png", spr::rawmeat);
+    stamp("atlas/torch.png", spr::torch);
+    stamp("atlas/candle.png", spr::candle);
+    stamp("atlas/oillamp.png", spr::oillamp);
+    stamp("atlas/greave.png", spr::greave);
+    stamp("atlas/armguard.png", spr::armguard);
+    stamp("atlas/pauldron.png", spr::pauldron);
+    stamp("atlas/scale.png", spr::scale);
+    stamp("atlas/shield.png", spr::shield);
+    stamp("atlas/jar.png", spr::jar);
+    stamp("atlas/coffer.png", spr::coffer);
 
-    stamp("atlas/minotaur.png", 'A');
-    stamp("atlas/snake.png", 'B');
-    stamp("atlas/spider.png", 'C');
-    stamp("atlas/rat.png", 'D');
-    stamp("atlas/scorpion.png", 'E');
-    stamp("atlas/centipede.png", 'F');
-    stamp("atlas/cerberus.png", 'G');
-    stamp("atlas/harpy.png", 'H');
-    stamp("atlas/chimera.png", 'I');
-    stamp("atlas/manticore.png", 'J');
-    stamp("atlas/crocodile.png", 'K');
-    stamp("atlas/drakon.png", 'L');
-    stamp("atlas/boar.png", 'M');
-    stamp("atlas/griffin.png", 'N');
-    stamp("atlas/sphinx.png", 'O');
-    stamp("atlas/bull.png", 'P');
+    stamp("atlas/minotaur.png", spr::minotaur);
+    stamp("atlas/snake.png", spr::snake);
+    stamp("atlas/spider.png", spr::spider);
+    stamp("atlas/rat.png", spr::rat);
+    stamp("atlas/scorpion.png", spr::scorpion);
+    stamp("atlas/centipede.png", spr::centipede);
+    stamp("atlas/cerberus.png", spr::cerberus);
+    stamp("atlas/harpy.png", spr::harpy);
+    stamp("atlas/chimera.png", spr::chimera);
+    stamp("atlas/manticore.png", spr::manticore);
+    stamp("atlas/crocodile.png", spr::crocodile);
+    stamp("atlas/drakon.png", spr::drakon);
+    stamp("atlas/boar.png", spr::boar);
+    stamp("atlas/griffin.png", spr::griffin);
+    stamp("atlas/sphinx.png", spr::sphinx);
+    stamp("atlas/bull.png", spr::bull);
   } catch (...) {
     return 1;
   }

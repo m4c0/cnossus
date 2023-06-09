@@ -6,6 +6,7 @@ import map;
 import mobs;
 import pog;
 import roll;
+import spr;
 import qsu;
 
 namespace smol {
@@ -31,7 +32,7 @@ export class game {
 
     map::create_maze(&m_ec, 2, 7, 7);
 
-    auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
+    auto enemy = ecs::add_hostile_enemy(&m_ec, spr::snake);
     ecs::set_mob_position(&m_ec, enemy, {2, 3});
 
     auto item = inv::items::add_cheese(&m_ec);

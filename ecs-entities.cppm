@@ -2,6 +2,7 @@ export module ecs:entities;
 import :ec;
 import :random;
 import pog;
+import spr;
 
 namespace ecs {
 [[nodiscard]] auto find_empty_location(ec *ec) noexcept {
@@ -12,9 +13,6 @@ namespace ecs {
   } while (ec->blockers.has(c));
   return c;
 }
-enum mobs : char {
-  minotaur = 'A',
-};
 
 auto add_mob(ec *ec, c::sprite s, pog::grid_coord c) {
   auto e = ec->e.alloc();
@@ -25,18 +23,18 @@ auto add_mob(ec *ec, c::sprite s, pog::grid_coord c) {
   return e;
 }
 
-auto add_enemy(ec *ec, char id) {
+auto add_enemy(ec *ec, spr::id id) {
   auto c = find_empty_location(ec);
   auto e = add_mob(ec, {id}, c);
   ec->enemies.add(e, {});
   return e;
 }
-export auto add_hostile_enemy(ec *ec, char id) {
+export auto add_hostile_enemy(ec *ec, spr::id id) {
   auto e = add_enemy(ec, id);
   ec->hostiles.add(e, {});
   return e;
 }
-export auto add_non_hostile_enemy(ec *ec, char id) {
+export auto add_non_hostile_enemy(ec *ec, spr::id id) {
   auto e = add_enemy(ec, id);
   ec->non_hostiles.add(e, {});
   return e;
@@ -58,7 +56,7 @@ export void remove_mob(ec *ec, pog::eid id) {
   ec->e.dealloc(id);
 }
 
-auto add_item(ec *ec, char id) {
+auto add_item(ec *ec, spr::id id) {
   auto e = ec->e.alloc();
   auto c = find_empty_location(ec);
   ec->coords.add(e, c);
@@ -66,32 +64,32 @@ auto add_item(ec *ec, char id) {
   ec->sprites.add(e, {id});
   return e;
 }
-export auto add_bag_item(ec *ec, char id) {
+export auto add_bag_item(ec *ec, spr::id id) {
   auto e = add_item(ec, id);
   ec->bags.add(e, {});
   return e;
 }
-export auto add_container_item(ec *ec, char id) {
+export auto add_container_item(ec *ec, spr::id id) {
   auto e = add_item(ec, id);
   // TODO: add a component to hold the loot table
   return e;
 }
-export auto add_weapon_item(ec *ec, char id, unsigned pwr) {
+export auto add_weapon_item(ec *ec, spr::id id, unsigned pwr) {
   auto e = add_item(ec, id);
   ec->weapons.add(e, pwr);
   return e;
 }
-export auto add_armour_item(ec *ec, char id, unsigned pwr) {
+export auto add_armour_item(ec *ec, spr::id id, unsigned pwr) {
   auto e = add_item(ec, id);
   ec->armour.add(e, pwr);
   return e;
 }
-export auto add_food_item(ec *ec, char id, unsigned life) {
+export auto add_food_item(ec *ec, spr::id id, unsigned life) {
   auto e = add_item(ec, id);
   ec->foods.add(e, life);
   return e;
 }
-export auto add_light_item(ec *ec, char id, unsigned timer) {
+export auto add_light_item(ec *ec, spr::id id, unsigned timer) {
   auto e = add_item(ec, id);
   ec->lights.add(e, timer);
   return e;
@@ -110,7 +108,7 @@ export void remove_item(ecs::ec *ec, pog::eid id) {
 }
 
 export auto add_player(ec *ec) {
-  c::sprite s{.id = minotaur, .layer = 1};
+  c::sprite s{.id = spr::minotaur, .layer = 1};
   auto e = add_mob(ec, s, {1, 1});
   ec->player.set(e, {});
   return e;
@@ -123,16 +121,18 @@ constexpr auto add_block(ec *ec, c::sprite s, pog::grid_coord c) {
   ec->walls.add(e, {});
   return e;
 }
-export constexpr void add_rigid_block(ec *ec, char id, pog::grid_coord c) {
+export constexpr void add_rigid_block(ec *ec, spr::id id, pog::grid_coord c) {
   auto e = add_block(ec, {id}, c);
   ec->blockers.put(e, c);
 }
-export constexpr void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
+export constexpr void add_walkable_block(ec *ec, spr::id id,
+                                         pog::grid_coord c) {
   c::sprite s{.id = id, .layer = -1};
   auto e = add_block(ec, s, c);
 }
-export constexpr void add_exit(ec *ec, char id, pog::grid_coord c) {
-  auto e = add_block(ec, {id}, c);
+
+export constexpr void add_exit(ec *ec, pog::grid_coord c) {
+  auto e = add_block(ec, {spr::exit}, c);
   ec->exit.set(e, {});
 }
 export constexpr void remove_wall(ec *ec, pog::eid id) {

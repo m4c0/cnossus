@@ -1,19 +1,20 @@
 export module map;
-import rng;
 import ecs;
+import rng;
+import spr;
 
 namespace map {
 // export constexpr const auto width = ecs::map_width;
 // export constexpr const auto height = ecs::map_height;
 
 export constexpr void add_background(ecs::ec *ec, unsigned x, unsigned y) {
-  ecs::add_walkable_block(ec, '.', {x, y});
+  ecs::add_walkable_block(ec, spr::floor, {x, y});
 }
 export constexpr void add_exit(ecs::ec *ec, unsigned x, unsigned y) {
-  ecs::add_exit(ec, '<', {x, y});
+  ecs::add_exit(ec, {x, y});
 }
 export constexpr void add_wall(ecs::ec *ec, unsigned x, unsigned y) {
-  ecs::add_rigid_block(ec, '&', {x, y});
+  ecs::add_rigid_block(ec, spr::wall, {x, y});
 }
 
 export void create_maze(ecs::ec *ec, unsigned lvl, unsigned w, unsigned h);
@@ -23,18 +24,6 @@ export constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h);
 module :private;
 
 namespace map {
-enum blocks : char {
-  blank = ' ',
-  dot = '.',
-  hash = '&',
-  comma = ',',
-  tilda = '%',
-  vbar = '#',
-  star = '$',
-  gt = '<',
-  andsign = '(',
-};
-
 class maze {
   struct cell_size {
     unsigned w;
@@ -50,16 +39,16 @@ class maze {
   }
 
   constexpr void add_rigid_block(unsigned x, unsigned y,
-                                 auto blk) const noexcept {
+                                 spr::id blk) const noexcept {
     ecs::add_rigid_block(m_ec, blk, {x, y});
   }
   constexpr void add_walkable_block(unsigned x, unsigned y,
-                                    auto blk) const noexcept {
+                                    spr::id blk) const noexcept {
     ecs::add_walkable_block(m_ec, blk, {x, y});
   }
 
   [[nodiscard]] constexpr auto random_furniture() noexcept {
-    return random(2) == 0 ? star : andsign;
+    return random(2) == 0 ? spr::basin : spr::statue;
   }
 
   constexpr void remove_wall(unsigned x, unsigned y) {
@@ -79,14 +68,14 @@ class maze {
       add_rigid_block(x1 + 1, y1 + 1, random_furniture());
     } else if (w == 3) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
-        add_rigid_block(x1 + 1, y, vbar);
+        add_rigid_block(x1 + 1, y, spr::column);
       }
       if ((h % 2) == 0) {
         add_rigid_block(x2 - 1, y2, random_furniture());
       }
     } else if (h == 3) {
       for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-        add_rigid_block(x, y1 + 1, vbar);
+        add_rigid_block(x, y1 + 1, spr::column);
       }
       if ((w % 2) == 0) {
         add_rigid_block(x2, y2 - 1, random_furniture());
@@ -94,21 +83,21 @@ class maze {
     } else if ((w == 4) || (h == 4)) {
       for (auto y = y1 + 1; y <= y2 - 1; y++) {
         for (auto x = x1 + 1; x <= x2 - 1; x++) {
-          add_rigid_block(x, y, tilda);
+          add_rigid_block(x, y, spr::pool);
         }
       }
     } else if (w == 5) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
-        add_rigid_block(x1 + 1, y, vbar);
-        add_rigid_block(x2 - 1, y, vbar);
+        add_rigid_block(x1 + 1, y, spr::column);
+        add_rigid_block(x2 - 1, y, spr::column);
       }
       if ((h % 2) == 0) {
         add_rigid_block(x2 - 2, y2, random_furniture());
       }
     } else if (h == 5) {
       for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-        add_rigid_block(x, y1 + 1, vbar);
-        add_rigid_block(x, y2 - 1, vbar);
+        add_rigid_block(x, y1 + 1, spr::column);
+        add_rigid_block(x, y2 - 1, spr::column);
       }
       if ((w % 2) == 0) {
         add_rigid_block(x2, y2 - 2, random_furniture());
@@ -116,18 +105,18 @@ class maze {
     } else if ((w == 7) && (h == 7)) {
       for (auto y = y1 + 1; y <= y2 - 1; y += 2) {
         for (auto x = x1 + 1; x <= x2 - 1; x += 2) {
-          add_rigid_block(x, y, vbar);
+          add_rigid_block(x, y, spr::column);
         }
       }
       add_rigid_block(x1 + 3, y1 + 3, random_furniture());
     } else if ((w > 2) && (h > 2)) {
       for (auto y = y1; y <= y2; y++) {
-        add_walkable_block(x1, y, comma);
-        add_walkable_block(x2, y, comma);
+        add_walkable_block(x1, y, spr::mosaic);
+        add_walkable_block(x2, y, spr::mosaic);
       }
       for (auto x = x1; x <= x2; x++) {
-        add_walkable_block(x, y1, comma);
-        add_walkable_block(x, y2, comma);
+        add_walkable_block(x, y1, spr::mosaic);
+        add_walkable_block(x, y2, spr::mosaic);
       }
       if (((w == 6) && (h == 6)) || ((w == 9) && (h == 9))) {
         furnish_room(x1 + 1, y1 + 1, x2 - 1, y2 - 1);
@@ -151,7 +140,7 @@ class maze {
     }
 
     for (auto y = y1; y <= y2; y++) {
-      add_rigid_block(x, y, hash);
+      add_wall(m_ec, x, y);
     }
 
     auto wall_1 = subdivide_high(x1, y1, x - 1, y2);
@@ -184,7 +173,7 @@ class maze {
     }
 
     for (auto x = x1; x <= x2; x++) {
-      add_rigid_block(x, y, hash);
+      add_wall(m_ec, x, y);
     }
 
     auto wall_1 = subdivide_wide(x1, y1, x2, y - 1);

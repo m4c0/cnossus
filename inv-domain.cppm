@@ -1,5 +1,6 @@
 export module inv:domain;
 import ecs;
+import spr;
 
 export namespace inv::items {
 // There are multiple differences between the names in the original code, the
@@ -11,48 +12,52 @@ export namespace inv::items {
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 // linen tunic
-auto add_cloth(ecs::ec *ec) { return add_armour_item(ec, 'a', 1); }
+auto add_cloth(ecs::ec *ec) { return add_armour_item(ec, spr::cloth, 1); }
 // leather vest
-auto add_leather(ecs::ec *ec) { return add_armour_item(ec, 'b', 2); }
+auto add_leather(ecs::ec *ec) { return add_armour_item(ec, spr::leather, 2); }
 // short sword
-auto add_sword(ecs::ec *ec) { return add_weapon_item(ec, 'c', 11); }
+auto add_sword(ecs::ec *ec) { return add_weapon_item(ec, spr::sword, 11); }
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // The bag expands inventory
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-auto add_bag(ecs::ec *ec) { return add_bag_item(ec, 'd'); }
+auto add_bag(ecs::ec *ec) { return add_bag_item(ec, spr::bag); }
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Weapons. Only the best one is kept in inventory
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 // rust knife
-auto add_knife(ecs::ec *ec) { return add_weapon_item(ec, 'e', 2); }
-auto add_sickle(ecs::ec *ec) { return add_weapon_item(ec, 'f', 3); }
-auto add_adze(ecs::ec *ec) { return add_weapon_item(ec, 'g', 5); }
-auto add_axe(ecs::ec *ec) { return add_weapon_item(ec, 'h', 8); }
+auto add_knife(ecs::ec *ec) { return add_weapon_item(ec, spr::knife, 2); }
+auto add_sickle(ecs::ec *ec) { return add_weapon_item(ec, spr::sickle, 3); }
+auto add_adze(ecs::ec *ec) { return add_weapon_item(ec, spr::adze, 5); }
+auto add_axe(ecs::ec *ec) { return add_weapon_item(ec, spr::axe, 8); }
 // battle axe
-auto add_doubleaxe(ecs::ec *ec) { return add_weapon_item(ec, 'i', 10); }
-auto add_spear(ecs::ec *ec) { return add_weapon_item(ec, 'j', 15); }
+auto add_doubleaxe(ecs::ec *ec) {
+  return add_weapon_item(ec, spr::doubleaxe, 10);
+}
+auto add_spear(ecs::ec *ec) { return add_weapon_item(ec, spr::spear, 15); }
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Food restores life
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 // strange fruit
-auto add_driedfruit(ecs::ec *ec) { return add_food_item(ec, 'k', 3); }
-auto add_cheese(ecs::ec *ec) { return add_food_item(ec, 'l', 5); }
-auto add_rawmeat(ecs::ec *ec) { return add_food_item(ec, 'm', 8); }
+auto add_driedfruit(ecs::ec *ec) {
+  return add_food_item(ec, spr::driedfruit, 3);
+}
+auto add_cheese(ecs::ec *ec) { return add_food_item(ec, spr::cheese, 5); }
+auto add_rawmeat(ecs::ec *ec) { return add_food_item(ec, spr::rawmeat, 8); }
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Light sources scare monsters
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-auto add_torch(ecs::ec *ec) { return add_light_item(ec, 'n', 10); }
-auto add_candle(ecs::ec *ec) { return add_light_item(ec, 'o', 15); }
+auto add_torch(ecs::ec *ec) { return add_light_item(ec, spr::torch, 10); }
+auto add_candle(ecs::ec *ec) { return add_light_item(ec, spr::candle, 15); }
 // lamp
-auto add_oillamp(ecs::ec *ec) { return add_light_item(ec, 'p', 25); }
+auto add_oillamp(ecs::ec *ec) { return add_light_item(ec, spr::oillamp, 25); }
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Armour. In the original game, limb protection (gloves, boots, etc)
@@ -60,21 +65,21 @@ auto add_oillamp(ecs::ec *ec) { return add_light_item(ec, 'p', 25); }
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 // boots
-auto add_greave(ecs::ec *ec) { return add_armour_item(ec, 'q', 1); }
+auto add_greave(ecs::ec *ec) { return add_armour_item(ec, spr::greave, 1); }
 // gloves
-auto add_armguard(ecs::ec *ec) { return add_armour_item(ec, 'r', 1); }
+auto add_armguard(ecs::ec *ec) { return add_armour_item(ec, spr::armguard, 1); }
 // helmet
-auto add_pauldron(ecs::ec *ec) { return add_armour_item(ec, 's', 1); }
+auto add_pauldron(ecs::ec *ec) { return add_armour_item(ec, spr::pauldron, 1); }
 // chest armour
-auto add_scale(ecs::ec *ec) { return add_armour_item(ec, 't', 3); }
-auto add_shield(ecs::ec *ec) { return add_armour_item(ec, 'u', 5); }
+auto add_scale(ecs::ec *ec) { return add_armour_item(ec, spr::scale, 3); }
+auto add_shield(ecs::ec *ec) { return add_armour_item(ec, spr::shield, 5); }
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Item containers. When interacted, they drop a random item
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-auto add_jar(ecs::ec *ec) { return add_container_item(ec, 'v'); }
+auto add_jar(ecs::ec *ec) { return add_container_item(ec, spr::jar); }
 // chest
-auto add_coffer(ecs::ec *ec) { return add_container_item(ec, 'w'); }
+auto add_coffer(ecs::ec *ec) { return add_container_item(ec, spr::coffer); }
 
 } // namespace inv::items
