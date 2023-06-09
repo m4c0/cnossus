@@ -14,16 +14,10 @@ export class game {
 
   ecs::ec m_ec;
 
-  bool check_exit() {
-    auto pc = m_ec.coords.get(m_ec.player.get_id());
-    auto ec = m_ec.coords.get(m_ec.exit.get_id());
-    return ec == pc;
-  }
-
   void move(int dx, int dy) {
     mobs::move_player(&m_ec, dx, dy);
 
-    if (check_exit()) {
+    if (mobs::is_player_at_exit(&m_ec)) {
       auto pid = m_ec.player.get_id();
       m_ec.coords.update(pid, {1, 1});
       ecs::remove_level(&m_ec);

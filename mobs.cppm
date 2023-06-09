@@ -30,4 +30,10 @@ export void move_player(ecs::ec *ec, int dx, int dy) {
   if (move_mob(ec, pid, dx, dy))
     inv::take_items(ec);
 }
+
+export bool is_player_at_exit(ecs::ec *ec) {
+  auto c0 = ec->coords.get(ec->player.get_id());
+  auto c1 = ec->coords.get(ec->exit.get_id());
+  return c0 == c1;
+}
 } // namespace mobs
