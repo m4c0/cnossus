@@ -144,7 +144,7 @@ class game {
 
   void create_level() {
     ecs::remove_level(&m_ec);
-    map::create_maze(&m_ec, m_level);
+    map::create_maze(&m_ec, m_level, ecs::map_width, ecs::map_height);
     m_player.level_reset(m_level);
     roll::add_level_items(&m_ec, m_level);
     create_enemies();

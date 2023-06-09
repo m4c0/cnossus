@@ -2,7 +2,6 @@ export module cno:entities;
 import :objects;
 import :random;
 import jute;
-import map;
 import qsu;
 
 namespace cno {
@@ -52,7 +51,6 @@ struct mob : qsu::sprite<mob_type> {
   return a.type->hostility == h_none;
 }
 
-using item_list =
-    qsu::layout2<qsu::sprite<item_type>, ::map::width, ::map::height>;
-using mob_list = qsu::layout2<mob, ::map::width, ::map::height>;
+using item_list = qsu::layout2<qsu::sprite<item_type>, 30, 20>;
+using mob_list = qsu::layout2<mob, 30, 20>;
 } // namespace cno

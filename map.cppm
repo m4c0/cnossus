@@ -3,8 +3,8 @@ import rng;
 import ecs;
 
 namespace map {
-export constexpr const auto width = ecs::map_width;
-export constexpr const auto height = ecs::map_height;
+// export constexpr const auto width = ecs::map_width;
+// export constexpr const auto height = ecs::map_height;
 
 export constexpr void add_background(ecs::ec *ec, unsigned x, unsigned y) {
   ecs::add_walkable_block(ec, '.', {x, y});
@@ -16,7 +16,7 @@ export constexpr void add_wall(ecs::ec *ec, unsigned x, unsigned y) {
   ecs::add_rigid_block(ec, '&', {x, y});
 }
 
-export void create_maze(ecs::ec *ec, unsigned lvl);
+export void create_maze(ecs::ec *ec, unsigned lvl, unsigned w, unsigned h);
 export constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h);
 } // namespace map
 
@@ -204,7 +204,8 @@ class maze {
 public:
   constexpr maze(ecs::ec *ec) : m_ec{ec} {}
 
-  constexpr void build_level(unsigned lvl) noexcept {
+  constexpr void build_level(unsigned lvl, unsigned width,
+                             unsigned height) noexcept {
     create_room(m_ec, width, height);
 
     static constexpr const auto max_cell_sizes = 5;
@@ -223,7 +224,9 @@ public:
   }
 };
 
-void create_maze(ecs::ec *ec, unsigned lvl) { maze{ec}.build_level(lvl); }
+void create_maze(ecs::ec *ec, unsigned lvl, unsigned w, unsigned h) {
+  maze{ec}.build_level(lvl, w, h);
+}
 
 constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h) {
   for (auto y = 0U; y < h; y++) {
@@ -245,6 +248,6 @@ constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h) {
 
 static_assert([] {
   ecs::ec ec{};
-  map::maze{&ec}.build_level(1);
+  map::maze{&ec}.build_level(1, 30, 20);
   return true;
 }());

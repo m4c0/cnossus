@@ -3,7 +3,6 @@ import :inventory;
 import :itemtype;
 import :mobtype;
 import ecs;
-import map;
 import qsu;
 import rng;
 
@@ -42,9 +41,6 @@ public:
   }
 
   void level_reset(unsigned lvl) {
-    auto px = (lvl % 2 == 1) ? 1U : ::map::width - 2U;
-    m_mob.coord = {px, 1};
-
     if (lvl > 1)
       random_buff();
   }

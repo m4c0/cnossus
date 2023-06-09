@@ -29,11 +29,11 @@ export class game {
   void create_level() {
     ecs::remove_level(&m_ec);
 
-    map::create_room(&m_ec, 5, 5);
+    map::create_maze(&m_ec, 1, 5, 5);
     map::add_exit(&m_ec, 3, 3);
 
     auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
-    ecs::set_mob_position(&m_ec, enemy, {2, 2});
+    ecs::set_mob_position(&m_ec, enemy, {2, 3});
 
     auto item = inv::items::add_cheese(&m_ec);
     m_ec.coords.update(item, {3, 2});
