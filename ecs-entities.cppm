@@ -13,18 +13,18 @@ namespace ecs {
   return c;
 }
 
-auto add_mob(ec *ec, char id, pog::grid_coord c) {
+auto add_mob(ec *ec, c::sprite s, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->blockers.put(e, c);
   ec->coords.add(e, c);
   ec->mobs.add(e, {});
-  ec->sprites.add(e, {id});
+  ec->sprites.add(e, s);
   return e;
 }
 
 auto add_enemy(ec *ec, char id) {
   auto c = find_empty_location(ec);
-  auto e = add_mob(ec, id, c);
+  auto e = add_mob(ec, {id}, c);
   ec->enemies.add(e, {});
   return e;
 }
@@ -107,27 +107,29 @@ export void remove_item(ecs::ec *ec, pog::eid id) {
 }
 
 export auto add_player(ec *ec, char id, pog::grid_coord c) {
-  auto e = add_mob(ec, id, c);
+  c::sprite s{.id = id, .layer = 1};
+  auto e = add_mob(ec, s, c);
   ec->player.set(e, {});
   return e;
 }
 
-constexpr auto add_block(ec *ec, char id, pog::grid_coord c) {
+constexpr auto add_block(ec *ec, c::sprite s, pog::grid_coord c) {
   auto e = ec->e.alloc();
   ec->coords.add(e, c);
-  ec->sprites.add(e, {id});
+  ec->sprites.add(e, s);
   ec->walls.add(e, {});
   return e;
 }
 export constexpr void add_rigid_block(ec *ec, char id, pog::grid_coord c) {
-  auto e = add_block(ec, id, c);
+  auto e = add_block(ec, {id}, c);
   ec->blockers.put(e, c);
 }
 export constexpr void add_walkable_block(ec *ec, char id, pog::grid_coord c) {
-  add_block(ec, id, c);
+  c::sprite s{.id = id, .layer = -1};
+  auto e = add_block(ec, s, c);
 }
 export constexpr void add_exit(ec *ec, char id, pog::grid_coord c) {
-  auto e = add_block(ec, id, c);
+  auto e = add_block(ec, {id}, c);
   ec->exit.set(e, {});
 }
 export constexpr void remove_wall(ec *ec, pog::eid id) {

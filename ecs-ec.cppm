@@ -8,6 +8,7 @@ struct sprite {
   char id;
   float alpha;
   bool seen;
+  int layer;
 };
 } // namespace ecs::c
 

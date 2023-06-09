@@ -19,6 +19,9 @@ public:
   }
 
   void fill_quack(ecs::ec *ec) noexcept {
+    ec->sprites.sort([](const auto &a, const auto &b) noexcept {
+      return a.layer - b.layer;
+    });
     batch()->colours().map([ec](auto *cs) {
       for (auto _ : ec->sprites) {
         *cs++ = {};
