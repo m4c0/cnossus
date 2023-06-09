@@ -29,7 +29,7 @@ export class game {
   void create_level() {
     ecs::remove_level(&m_ec);
 
-    map::create_maze(&m_ec, 1, 5, 5);
+    map::create_maze(&m_ec, 1, 7, 7);
     map::add_exit(&m_ec, 3, 3);
 
     auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');

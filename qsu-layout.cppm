@@ -9,7 +9,7 @@ export namespace qsu {
 class layout : public quack::instance_layout<void, ecs::max_entities> {
   using parent_t = quack::instance_layout<void, ecs::max_entities>;
 
-  void resize(unsigned w, unsigned h) override { batch()->resize(5, 5, w, h); }
+  void resize(unsigned w, unsigned h) override { batch()->resize(7, 7, w, h); }
 
 public:
   using parent_t::parent_t;
