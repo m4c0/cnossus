@@ -70,7 +70,7 @@ export auto add_bag_item(ec *ec, spr::id id) {
   return e;
 }
 export auto add_container_item(ec *ec, spr::id id) {
-  auto e = add_item(ec, id);
+  auto e = add_enemy(ec, id);
   // TODO: add a component to hold the loot table
   return e;
 }

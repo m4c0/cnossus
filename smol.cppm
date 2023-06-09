@@ -38,8 +38,7 @@ export class game {
     auto item = ecs::add_cheese(&m_ec);
     m_ec.coords.update(item, {3, 2});
 
-    auto bag = ecs::add_bag(&m_ec);
-    m_ec.coords.update(bag, {3, 4});
+    ecs::set_mob_position(&m_ec, ecs::add_coffer(&m_ec), {3, 4});
 
     dbg::show_all_sprites(&m_ec, 1.0);
   }
