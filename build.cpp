@@ -74,6 +74,9 @@ int main(int argc, char **argv) {
   auto mobs = unit::create<mod>("mobs");
   mobs->add_wsdep("pog", pog());
 
+  auto dbg = unit::create<mod>("dbg");
+  dbg->add_wsdep("pog", pog());
+
   auto smol = unit::create<mod>("smol");
   smol->add_wsdep("pog", pog());
 
@@ -105,6 +108,7 @@ int main(int argc, char **argv) {
   a->add_ref(map);
   a->add_ref(mobs);
   a->add_ref(qsu);
+  a->add_ref(dbg);
   a->add_ref(smol);
   a->add_ref(m);
   a->add_unit<atlas>("atlas.img");

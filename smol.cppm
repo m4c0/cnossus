@@ -1,4 +1,5 @@
 export module smol;
+import dbg;
 import ecs;
 import inv;
 import map;
@@ -29,7 +30,7 @@ export class game {
   void create_level() {
     ecs::remove_level(&m_ec);
 
-    map::create_maze(&m_ec, 1, 7, 7);
+    map::create_maze(&m_ec, 2, 7, 7);
 
     auto enemy = ecs::add_hostile_enemy(&m_ec, 'B');
     ecs::set_mob_position(&m_ec, enemy, {2, 3});
@@ -37,9 +38,7 @@ export class game {
     auto item = inv::items::add_cheese(&m_ec);
     m_ec.coords.update(item, {3, 2});
 
-    for (auto &[spr, _] : m_ec.sprites) {
-      spr.alpha = 1.0;
-    }
+    dbg::show_all_sprites(&m_ec, 0.8);
   }
 
 public:
