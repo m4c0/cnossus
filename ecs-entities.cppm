@@ -147,5 +147,6 @@ export void remove_level(ec *ec) {
   ec->walls.for_each_r([ec](auto, auto id) { remove_wall(ec, id); });
   ec->usables.for_each_r([ec](auto, auto id) { remove_item(ec, id); });
   ec->enemies.for_each_r([ec](auto, auto id) { remove_mob(ec, id); });
+  ec->exit.set({}, {});
 }
 } // namespace ecs
