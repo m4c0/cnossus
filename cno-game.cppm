@@ -136,6 +136,7 @@ class game {
   }
 
   void set_level(unsigned l) {
+    ecs::remove_level(&m_ec);
     m_level = l;
     map::create_maze(&m_ec, l);
     m_player.level_reset(l);
