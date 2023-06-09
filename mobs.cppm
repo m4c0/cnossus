@@ -36,4 +36,8 @@ export bool is_player_at_exit(ecs::ec *ec) {
   auto c1 = ec->coords.get(ec->exit.get_id());
   return c0 == c1;
 }
+
+export void set_player_pos(ecs::ec *ec, unsigned x, unsigned y) {
+  ec->coords.update(ec->player.get_id(), {x, y});
+}
 } // namespace mobs

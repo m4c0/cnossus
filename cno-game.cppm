@@ -97,8 +97,7 @@ class game {
 
     ::mobs::move_player(&m_ec, dx, dy);
     if (::mobs::is_player_at_exit(&m_ec)) {
-      auto pid = m_ec.player.get_id();
-      m_ec.coords.update(pid, {1, 1});
+      ::mobs::set_player_pos(&m_ec, m_level % 2 ? ecs::map_width - 1 : 1, 1);
 
       next_level();
     }

@@ -19,8 +19,7 @@ export class game {
     mobs::move_player(&m_ec, dx, dy);
 
     if (mobs::is_player_at_exit(&m_ec)) {
-      auto pid = m_ec.player.get_id();
-      m_ec.coords.update(pid, {1, 1});
+      mobs::set_player_pos(&m_ec, 1, 1);
       create_level();
     }
 
