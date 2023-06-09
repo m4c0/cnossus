@@ -37,7 +37,6 @@ class player {
   }
 
 public:
-  [[nodiscard]] constexpr auto coord() const noexcept { return m_mob.coord; }
   [[nodiscard]] constexpr auto mob() noexcept { return &m_mob; }
 
   [[nodiscard]] constexpr auto is_dead() const noexcept {

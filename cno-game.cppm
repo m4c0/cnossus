@@ -68,6 +68,7 @@ class game {
   }
 
   void move_enemies() {
+    /*
     auto pc = m_player.coord();
 
     m_mobs.for_each([this, pc](auto &m) {
@@ -75,6 +76,7 @@ class game {
       if (tgt != m.coord)
         try_move(&m, tgt);
     });
+    */
   }
 
   void consume(qsu::type<item_type> t) {
