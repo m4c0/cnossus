@@ -96,6 +96,12 @@ class game {
       return;
 
     ::mobs::move_player(&m_ec, dx, dy);
+    if (::mobs::is_player_at_exit(&m_ec)) {
+      auto pid = m_ec.player.get_id();
+      m_ec.coords.update(pid, {1, 1});
+
+      next_level();
+    }
 
     tick();
   }
@@ -105,7 +111,8 @@ class game {
     if (lvl == max_level + 1) {
       // TODO: game over
     }
-    set_level(lvl);
+    m_level = lvl;
+    create_level();
   }
 
   void use_item() {
@@ -130,17 +137,16 @@ class game {
   }
 
   void repaint() {
-    unsigned dist = m_light.visible_distance();
+    // unsigned dist = m_light.visible_distance();
     update_rogueview(&m_ec);
     m_qsu.fill_quack(&m_ec);
   }
 
-  void set_level(unsigned l) {
+  void create_level() {
     ecs::remove_level(&m_ec);
-    m_level = l;
-    map::create_maze(&m_ec, l);
-    m_player.level_reset(l);
-    roll::add_level_items(&m_ec, l);
+    map::create_maze(&m_ec, m_level);
+    m_player.level_reset(m_level);
+    roll::add_level_items(&m_ec, m_level);
     create_enemies();
     repaint();
   }
@@ -160,9 +166,10 @@ public:
   }
 
   void reset() {
-    ecs::add_player(&m_ec);
+    m_level = 1;
 
-    set_level(1);
+    ecs::add_player(&m_ec);
+    create_level();
   }
 
   void use() {
