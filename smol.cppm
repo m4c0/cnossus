@@ -70,7 +70,7 @@ public:
   void reset() {
     create_level();
 
-    ecs::add_player(&m_ec, 'A', {1, 1});
+    ecs::add_player(&m_ec);
 
     show_all();
     m_qsu.fill_quack(&m_ec);

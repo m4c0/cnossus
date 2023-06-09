@@ -159,7 +159,7 @@ public:
   }
 
   void reset() {
-    ecs::add_player(&m_ec, minotaur.id, {1, 1});
+    ecs::add_player(&m_ec);
 
     set_level(1);
   }

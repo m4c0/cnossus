@@ -12,6 +12,9 @@ namespace ecs {
   } while (ec->blockers.has(c));
   return c;
 }
+enum mobs : char {
+  minotaur = 'A',
+};
 
 auto add_mob(ec *ec, c::sprite s, pog::grid_coord c) {
   auto e = ec->e.alloc();
@@ -106,9 +109,9 @@ export void remove_item(ecs::ec *ec, pog::eid id) {
   ec->e.dealloc(id);
 }
 
-export auto add_player(ec *ec, char id, pog::grid_coord c) {
-  c::sprite s{.id = id, .layer = 1};
-  auto e = add_mob(ec, s, c);
+export auto add_player(ec *ec) {
+  c::sprite s{.id = minotaur, .layer = 1};
+  auto e = add_mob(ec, s, {1, 1});
   ec->player.set(e, {});
   return e;
 }
