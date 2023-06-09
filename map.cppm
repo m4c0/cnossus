@@ -217,9 +217,9 @@ public:
     subdivide_wide(1, 1, width - 2, height - 2);
 
     if ((lvl % 2) == 1) {
-      ecs::add_exit(m_ec, gt, {width - 2, height - 2});
+      add_exit(m_ec, width - 2, height - 2);
     } else {
-      ecs::add_exit(m_ec, gt, {1, height - 2});
+      add_exit(m_ec, 1, height - 2);
     }
   }
 };
