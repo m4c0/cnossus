@@ -24,9 +24,8 @@ class game {
   ecs::ec m_ec;
 
   void create_enemies() {
+    /*
     m_mobs.reset_grid();
-    m_player.copy_mob_to(m_mobs.at(0));
-    m_player.add_entity(&m_ec);
 
     for (auto i = 0; i < map::height - 1; i++) {
       qsu::type<mob_type> t = qsu::type{mob_roll_per_level.roll(m_level)};
@@ -41,6 +40,7 @@ class game {
       auto &mm = m_mobs.at(i + 1) = {t, {x, y}};
       enemy{&mm}.reset_level(m_level);
     }
+    */
   }
 
   void try_move(mob *m, map_coord tgt) {
@@ -145,7 +145,6 @@ class game {
   }
 
   void tick() {
-    m_player.copy_mob_to(m_mobs.at(0));
     mobs::tick(&m_mobs);
     move_enemies();
     m_light.tick();
@@ -160,7 +159,8 @@ public:
   }
 
   void reset() {
-    m_player = {};
+    ecs::add_player(&m_ec, minotaur.id, {1, 1});
+
     set_level(1);
   }
 

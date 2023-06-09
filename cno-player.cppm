@@ -37,15 +37,8 @@ class player {
   }
 
 public:
-  [[nodiscard]] constexpr auto mob() noexcept { return &m_mob; }
-
   [[nodiscard]] constexpr auto is_dead() const noexcept {
     return m_mob.life == 0;
-  }
-
-  void add_entity(ecs::ec *ec) const noexcept {
-    const auto &[x, y] = m_mob.coord;
-    ecs::add_player(ec, minotaur.id, {x, y});
   }
 
   void level_reset(unsigned lvl) {
@@ -71,7 +64,5 @@ public:
     m_mob.life += t->life_gain;
     return true;
   }
-
-  constexpr void copy_mob_to(cno::mob &tgt) const noexcept { tgt = m_mob; }
 };
 } // namespace cno
