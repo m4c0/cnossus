@@ -15,8 +15,6 @@ namespace cno {
 class game {
   qsu::renderer m_r{3};
   qsu::layout m_qsu{&m_r};
-  item_list m_items{&m_r};
-  mob_list m_mobs{&m_r};
   player m_player{};
   light m_light{};
   unsigned m_level{};
@@ -151,7 +149,7 @@ class game {
   }
 
   void tick() {
-    mobs::tick(&m_mobs);
+    // mobs::tick(&m_mobs);
     move_enemies();
     m_light.tick();
     repaint();

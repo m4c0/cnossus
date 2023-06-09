@@ -50,7 +50,4 @@ struct mob : qsu::sprite<mob_type> {
 [[nodiscard]] constexpr auto is_player(const mob &a) noexcept {
   return a.type->hostility == h_none;
 }
-
-using item_list = qsu::layout2<qsu::sprite<item_type>, 30, 20>;
-using mob_list = qsu::layout2<mob, 30, 20>;
 } // namespace cno
