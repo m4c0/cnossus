@@ -49,6 +49,7 @@ export void remove_mob(ec *ec, pog::eid id) {
   ec->coords.remove(id);
   ec->enemies.remove(id);
   ec->hostiles.remove(id);
+  ec->loot.remove(id);
   ec->non_hostiles.remove(id);
   ec->player.remove(id);
   ec->mobs.remove(id);

@@ -24,6 +24,7 @@ export class game {
       create_level();
     }
 
+    dbg::show_all_sprites(&m_ec, 1.0);
     m_qsu.fill_quack(&m_ec);
   }
 

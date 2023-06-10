@@ -18,9 +18,11 @@ auto add_jar(ecs::ec *ec, unsigned lvl) {
   lt[0] = lt[1] = 30;
   lt[2] = 30 - lvl;
   lt[3] = 60;
+  auto loot = lt.pick();
 
   auto e = add_container_item(ec, spr::jar);
-  ec->loot.add(e, lt.pick());
+  if (loot != nullptr)
+    ec->loot.add(e, loot);
   return e;
 }
 
@@ -44,9 +46,11 @@ auto add_coffer(ecs::ec *ec, unsigned lvl) {
   };
   lt[0] = lt[1] = lt[2] = lt[3] = 1;
   lt[4] = 2;
+  auto loot = lt.pick();
 
   auto e = add_container_item(ec, spr::coffer);
-  ec->loot.add(e, lt.pick());
+  if (loot != nullptr)
+    ec->loot.add(e, loot);
   return e;
 }
 } // namespace ecs

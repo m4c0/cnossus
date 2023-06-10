@@ -21,6 +21,11 @@ export bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
   if (!ec->enemies.has(bid))
     return false;
 
+  if (ec->loot.has(bid)) {
+    auto lid = ec->loot.get(bid)(ec);
+    ec->coords.update(lid, {tx, ty});
+  }
+
   ecs::remove_mob(ec, bid);
   return true;
 }
