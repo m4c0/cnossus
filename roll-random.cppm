@@ -32,45 +32,8 @@ public:
   }
 };
 
-template <unsigned MaxElems> class random_picker {
-  static constexpr const auto max_elems = MaxElems;
-
-  unsigned m_weights[max_elems]{};
-  unsigned m_sum{};
-
-public:
-  [[nodiscard]] constexpr auto operator[](unsigned elem) noexcept {
-    class it {
-      unsigned *m_w;
-      unsigned *m_sum;
-
-    public:
-      explicit constexpr it(unsigned *w, unsigned *s) : m_w{w}, m_sum{s} {}
-
-      it &operator=(unsigned w) {
-        *m_sum += w;
-        *m_sum -= w;
-        *m_w = w;
-        return *this;
-      }
-    };
-    return it{&m_weights[elem], &m_sum};
-  }
-
-  [[nodiscard]] unsigned pick() const noexcept {
-    auto r = rng::rand(max_elems);
-    for (auto i = 0; i < max_elems; i++) {
-      auto w = m_weights[i];
-      if (w < r)
-        return i;
-      r -= w;
-    }
-    // This should never happen
-    return max_elems - 1;
-  }
-};
 template <typename Tp, unsigned MaxElements> class loot_table {
-  random_picker<MaxElements> m_picker{};
+  rng::random_picker<MaxElements> m_picker{};
   Tp m_elements[MaxElements]{};
 
 public:
