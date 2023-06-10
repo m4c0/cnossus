@@ -74,13 +74,4 @@ auto add_pauldron(ecs::ec *ec) { return add_armour_item(ec, spr::pauldron, 1); }
 // chest armour
 auto add_scale(ecs::ec *ec) { return add_armour_item(ec, spr::scale, 3); }
 auto add_shield(ecs::ec *ec) { return add_armour_item(ec, spr::shield, 5); }
-
-// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// Item containers. When interacted, they drop a random item
-// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-auto add_jar(ecs::ec *ec) { return add_container_item(ec, spr::jar); }
-// chest
-auto add_coffer(ecs::ec *ec) { return add_container_item(ec, spr::coffer); }
-
 } // namespace ecs
