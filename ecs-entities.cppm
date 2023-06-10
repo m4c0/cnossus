@@ -14,28 +14,28 @@ namespace ecs {
   return c;
 }
 
-auto add_mob(ec *ec, c::sprite s, pog::grid_coord c) {
+auto add_mob(ec *ec, c::sprite s, pog::grid_coord c, c::mob m) {
   auto e = ec->e.alloc();
   ec->blockers.put(e, c);
   ec->coords.add(e, c);
-  ec->mobs.add(e, {});
+  ec->mobs.add(e, m);
   ec->sprites.add(e, s);
   return e;
 }
 
-auto add_enemy(ec *ec, spr::id id) {
+auto add_enemy(ec *ec, spr::id id, c::mob m) {
   auto c = find_empty_location(ec);
-  auto e = add_mob(ec, {id}, c);
+  auto e = add_mob(ec, {id}, c, m);
   ec->enemies.add(e, {});
   return e;
 }
-export auto add_hostile_enemy(ec *ec, spr::id id) {
-  auto e = add_enemy(ec, id);
+auto add_hostile_enemy(ec *ec, spr::id id, c::mob m) {
+  auto e = add_enemy(ec, id, m);
   ec->hostiles.add(e, {});
   return e;
 }
-export auto add_non_hostile_enemy(ec *ec, spr::id id) {
-  auto e = add_enemy(ec, id);
+auto add_non_hostile_enemy(ec *ec, spr::id id, c::mob m) {
+  auto e = add_enemy(ec, id, m);
   ec->non_hostiles.add(e, {});
   return e;
 }
@@ -70,8 +70,7 @@ export auto add_bag_item(ec *ec, spr::id id) {
   return e;
 }
 export auto add_container_item(ec *ec, spr::id id) {
-  auto e = add_enemy(ec, id);
-  // TODO: add a component to hold the loot table
+  auto e = add_enemy(ec, id, {.life = 1, .dice = 0});
   return e;
 }
 export auto add_weapon_item(ec *ec, spr::id id, unsigned pwr) {
@@ -105,13 +104,6 @@ export void remove_item(ecs::ec *ec, pog::eid id) {
   ec->usables.remove(id);
   ec->weapons.remove(id);
   ec->e.dealloc(id);
-}
-
-export auto add_player(ec *ec) {
-  c::sprite s{.id = spr::minotaur, .layer = 1};
-  auto e = add_mob(ec, s, {1, 1});
-  ec->player.set(e, {});
-  return e;
 }
 
 constexpr auto add_block(ec *ec, c::sprite s, pog::grid_coord c) {

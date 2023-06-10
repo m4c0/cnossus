@@ -32,8 +32,7 @@ export class game {
 
     map::create_maze(&m_ec, 1, 7, 7);
 
-    auto enemy = ecs::add_hostile_enemy(&m_ec, spr::snake);
-    ecs::set_mob_position(&m_ec, enemy, {2, 3});
+    ecs::set_mob_position(&m_ec, ecs::add_snake(&m_ec), {2, 3});
 
     auto item = ecs::add_cheese(&m_ec);
     m_ec.coords.update(item, {3, 2});
