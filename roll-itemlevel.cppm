@@ -5,13 +5,13 @@ import ecs;
 namespace roll {
 static constexpr const auto items_per_level = ecs::map_height - 2;
 
-void add_opening_item(ecs::ec *ec) {
+void add_opening_item(ecs::ec *ec, unsigned lvl) {
   switch (random_item_id()) {
   case 0:
-    ecs::add_jar(ec);
+    ecs::add_jar(ec, lvl);
     break;
   case 1:
-    ecs::add_coffer(ec);
+    ecs::add_coffer(ec, lvl);
     break;
   case 2:
     ecs::add_torch(ec);
@@ -21,16 +21,16 @@ void add_opening_item(ecs::ec *ec) {
   }
 }
 
-void add_midgame_item(ecs::ec *ec) {
+void add_midgame_item(ecs::ec *ec, unsigned lvl) {
   switch (random_item_id()) {
   case 0:
-    ecs::add_jar(ec);
+    ecs::add_jar(ec, lvl);
     break;
   case 1:
     ecs::add_doubleaxe(ec);
     break;
   case 2:
-    ecs::add_coffer(ec);
+    ecs::add_coffer(ec, lvl);
     break;
   case 3:
     ecs::add_torch(ec);
@@ -40,13 +40,13 @@ void add_midgame_item(ecs::ec *ec) {
   }
 }
 
-void add_endgame_item(ecs::ec *ec) {
+void add_endgame_item(ecs::ec *ec, unsigned lvl) {
   switch (random_item_id()) {
   case 0:
-    ecs::add_jar(ec);
+    ecs::add_jar(ec, lvl);
     break;
   case 1:
-    ecs::add_coffer(ec);
+    ecs::add_coffer(ec, lvl);
     break;
   case 2:
     ecs::add_spear(ec);
@@ -65,11 +65,11 @@ void add_endgame_item(ecs::ec *ec) {
 export void add_level_items(ecs::ec *ec, unsigned lvl) {
   for (auto i = 0; i < items_per_level; i++) {
     if (lvl <= 14) {
-      add_opening_item(ec);
+      add_opening_item(ec, lvl);
     } else if (lvl <= 17) {
-      add_midgame_item(ec);
+      add_midgame_item(ec, lvl);
     } else {
-      add_endgame_item(ec);
+      add_endgame_item(ec, lvl);
     }
   }
 }

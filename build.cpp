@@ -59,7 +59,6 @@ int main(int argc, char **argv) {
   roll->add_wsdep("pog", pog());
   roll->add_wsdep("rng", rng());
   roll->add_part("random");
-  roll->add_part("itemdrop");
   roll->add_part("itemlevel");
 
   auto ecs = unit::create<mod>("ecs");
