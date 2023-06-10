@@ -36,6 +36,7 @@ export struct ec {
   pog::sparse_set<c::marker, max_entities> hostiles;
   pog::sparse_set<c::marker, max_entities> in_use;
   pog::sparse_set<unsigned, max_entities> lights;
+  pog::sparse_set<pog::eid (*)(ec *), max_entities> loot;
   pog::sparse_set<c::mob, max_entities> mobs;
   pog::sparse_set<c::marker, max_entities> non_hostiles;
   pog::singleton<c::marker> player;

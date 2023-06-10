@@ -67,6 +67,7 @@ int main(int argc, char **argv) {
   ecs->add_wsdep("rng", rng());
   ecs->add_part("ec");
   ecs->add_part("entities");
+  ecs->add_part("loot");
   ecs->add_part("items");
   ecs->add_part("containers");
   ecs->add_part("mobs");

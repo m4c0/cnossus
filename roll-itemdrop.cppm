@@ -12,6 +12,7 @@ inline void new_item(ecs::ec *ec, pog::grid_coord c, fn_t fn) {
   ec->coords.update(e, c);
 }
 
+/*
 void add_jar_drop(ecs::ec *ec, pog::grid_coord c, int lvl) {
   loot_table<fn_t, 4> lt{
       &ecs::add_driedfruit,
@@ -46,4 +47,5 @@ void add_chest_drop(ecs::ec *ec, pog::grid_coord c, int lvl) {
 
   lt.pick([ec, c](auto fn) { new_item(ec, c, fn); });
 }
+*/
 } // namespace roll
