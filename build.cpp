@@ -64,8 +64,8 @@ int main(int argc, char **argv) {
 
   auto ecs = unit::create<mod>("ecs");
   ecs->add_wsdep("pog", pog());
+  ecs->add_wsdep("rng", rng());
   ecs->add_part("ec");
-  ecs->add_part("random");
   ecs->add_part("entities");
   ecs->add_part("items");
   ecs->add_part("containers");

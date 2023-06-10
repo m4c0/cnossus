@@ -1,15 +1,15 @@
 export module ecs:entities;
 import :ec;
-import :random;
 import pog;
+import rng;
 import spr;
 
 namespace ecs {
 [[nodiscard]] auto find_empty_location(ec *ec) noexcept {
   pog::grid_coord c;
   do {
-    c.x = random(map_width);
-    c.y = random(map_height);
+    c.x = rng::rand(map_width);
+    c.y = rng::rand(map_height);
   } while (ec->blockers.has(c));
   return c;
 }
