@@ -14,10 +14,5 @@ public:
   }
 
   [[nodiscard]] Tp pick() const noexcept { return m_elements[m_picker.pick()]; }
-  void pick(auto fn) const noexcept {
-    Tp p = pick();
-    if (p != nullptr)
-      fn(p);
-  }
 };
 } // namespace ecs
