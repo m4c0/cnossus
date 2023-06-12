@@ -2,6 +2,9 @@ export module ecs:ec;
 import pog;
 import spr;
 
+namespace ecs {
+export struct ec;
+}
 namespace ecs::c {
 struct marker {};
 
@@ -15,6 +18,8 @@ struct mob {
   unsigned life;
   unsigned dice = life;
 };
+
+using loot = pog::eid (*)(ec *);
 } // namespace ecs::c
 
 namespace ecs {
@@ -36,7 +41,7 @@ export struct ec {
   pog::sparse_set<c::marker, max_entities> hostiles;
   pog::sparse_set<c::marker, max_entities> in_use;
   pog::sparse_set<unsigned, max_entities> lights;
-  pog::sparse_set<pog::eid (*)(ec *), max_entities> loot;
+  pog::sparse_set<c::loot, max_entities> loot;
   pog::sparse_set<c::mob, max_entities> mobs;
   pog::sparse_set<c::marker, max_entities> non_hostiles;
   pog::singleton<c::marker> player;

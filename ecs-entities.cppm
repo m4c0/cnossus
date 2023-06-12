@@ -142,4 +142,10 @@ export void remove_level(ec *ec) {
   ec->enemies.for_each_r([ec](auto, auto id) { remove_mob(ec, id); });
   ec->exit.set({}, {});
 }
+
+pog::eid add_loot(ec *ec, pog::eid id, c::loot loot) {
+  if (loot != nullptr)
+    ec->loot.add(id, loot);
+  return id;
+}
 } // namespace ecs
