@@ -63,6 +63,7 @@ int main(int argc, char **argv) {
   ecs->add_part("loot");
   ecs->add_part("items");
   ecs->add_part("containers");
+  ecs->add_part("itemroll");
   ecs->add_part("mobs");
 
   auto mobs = unit::create<mod>("mobs");
