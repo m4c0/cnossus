@@ -6,29 +6,6 @@ import jute;
 
 namespace cno {
 /*
-constexpr const mob_type snake{
-  .drops = {&rawmeat, &armguard},
-};
-constexpr const mob_type rat{
-  .drops = {&rawmeat},
-};
-
-constexpr const mob_type croc{
-  .drops = {&rawmeat, &leather},
-};
-constexpr const mob_type drakon{
-  .drops = {&shield, &shield},
-};
-constexpr const mob_type boar{
-  .drops = {&rawmeat, &rawmeat},
-};
-constexpr const mob_type bull{
-  .drops = {&rawmeat, &rawmeat, &rawmeat},
-};
-
-static constexpr const auto max_mob_roll = 5;
-using mob_rolls = rnd_roll_per_level<mob_type, max_mob_roll>;
-
 static constexpr const mob_rolls mob_roll_per_level = {
   mob_rolls::roll_t{&snake, &boar, &cerberus},
   mob_rolls::roll_t{&centipede, &boar, &harpy},

@@ -8,9 +8,10 @@ import spr;
 import rng;
 
 namespace ecs::mobs {
-auto add_loot(ec *ec, pog::eid e, c::loot a, c::loot b) {
-  loot_table<c::loot, 3> lt{a, b};
-  lt[0] = lt[1] = 1;
+auto add_loot(ec *ec, pog::eid e, c::loot a, c::loot b = nullptr,
+              c::loot c = nullptr) {
+  loot_table<c::loot, 4> lt{a, b, c};
+  lt[0] = lt[1] = lt[2] = 1;
   lt[2] = 2;
   return ecs::add_loot(ec, e, lt.pick());
 }
@@ -51,7 +52,7 @@ auto add_centipede(ec *ec) {
 
 auto add_rat(ec *ec) {
   auto e = add_non_hostile_enemy(ec, spr::rat, {.life = 6});
-  return e;
+  return mobs::add_loot(ec, e, &add_rawmeat);
 }
 
 // Poisons + Hostiles
@@ -78,15 +79,15 @@ auto add_manticore(ec *ec) {
 }
 auto add_croc(ec *ec) {
   auto e = add_hostile_enemy(ec, spr::crocodile, {.life = 20});
-  return e;
+  return mobs::add_loot(ec, e, &add_rawmeat, &add_leather);
 }
 auto add_drakon(ec *ec) {
   auto e = add_hostile_enemy(ec, spr::drakon, {.life = 20});
-  return e;
+  return mobs::add_loot(ec, e, &add_shield, &add_shield);
 }
 auto add_boar(ec *ec) {
   auto e = add_hostile_enemy(ec, spr::boar, {.life = 8});
-  return e;
+  return mobs::add_loot(ec, e, &add_rawmeat, &add_rawmeat);
 }
 auto add_griffin(ec *ec) {
   auto e = add_hostile_enemy(ec, spr::griffin, {.life = 12});
@@ -98,6 +99,6 @@ auto add_sphinx(ec *ec) {
 }
 auto add_bull(ec *ec) {
   auto e = add_hostile_enemy(ec, spr::bull, {.life = 12});
-  return e;
+  return mobs::add_loot(ec, e, &add_rawmeat, &add_rawmeat, &add_rawmeat);
 }
 } // namespace ecs
