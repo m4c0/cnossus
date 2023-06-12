@@ -1,7 +1,20 @@
 export module ecs:mobs;
 import :ec;
 import :entities;
+import :items;
+import :loot;
+import pog;
 import spr;
+import rng;
+
+namespace ecs::mobs {
+auto add_loot(ec *ec, pog::eid e, c::loot a, c::loot b) {
+  loot_table<c::loot, 3> lt{a, b};
+  lt[0] = lt[1] = 1;
+  lt[2] = 2;
+  return ecs::add_loot(ec, e, lt.pick());
+}
+} // namespace ecs::mobs
 
 export namespace ecs {
 auto add_player(ec *ec) {
@@ -16,7 +29,7 @@ auto add_player(ec *ec) {
 auto add_snake(ec *ec) {
   auto e = add_non_hostile_enemy(ec, spr::snake, {.life = 8});
   ec->poisoners.add(e, 4);
-  return e;
+  return mobs::add_loot(ec, e, &add_rawmeat, &add_armguard);
 }
 auto add_spider(ec *ec) {
   auto e = add_non_hostile_enemy(ec, spr::spider, {.life = 4});
