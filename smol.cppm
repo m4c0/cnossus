@@ -5,7 +5,6 @@ import inv;
 import map;
 import mobs;
 import pog;
-import roll;
 import spr;
 import qsu;
 

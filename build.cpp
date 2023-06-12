@@ -55,12 +55,6 @@ int main(int argc, char **argv) {
   auto map = unit::create<mod>("map");
   map->add_wsdep("rng", rng());
 
-  auto roll = unit::create<mod>("roll");
-  roll->add_wsdep("pog", pog());
-  roll->add_wsdep("rng", rng());
-  roll->add_part("random");
-  roll->add_part("itemlevel");
-
   auto ecs = unit::create<mod>("ecs");
   ecs->add_wsdep("pog", pog());
   ecs->add_wsdep("rng", rng());
@@ -91,7 +85,6 @@ int main(int argc, char **argv) {
   m->add_part("objects");
   m->add_part("random");
   m->add_part("entities");
-  m->add_part("itemtype");
   m->add_part("mobtype");
   m->add_part("inventory");
   m->add_part("player");
@@ -105,7 +98,6 @@ int main(int argc, char **argv) {
   a->add_ref(spr);
   a->add_ref(ecs);
   a->add_ref(inv);
-  a->add_ref(roll);
   a->add_ref(map);
   a->add_ref(mobs);
   a->add_ref(qsu);

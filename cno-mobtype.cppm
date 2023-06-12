@@ -1,6 +1,5 @@
 export module cno:mobtype;
 import :entities;
-import :itemtype;
 import :random;
 import jute;
 

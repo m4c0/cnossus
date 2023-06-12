@@ -5,10 +5,6 @@ import jute;
 import qsu;
 
 namespace cno {
-class item_type;
-static constexpr const auto max_item_drops = 5;
-using item_loot_table = rnd_roll_per_level<item_type, max_item_drops>;
-
 struct item_type {
   jute::view name;
   qsu::id id;
@@ -16,13 +12,10 @@ struct item_type {
   int defense{};
   unsigned life_gain{};
   int light_provided{};
-  const item_loot_table *drops{};
 };
 
 enum hostilities { h_none, h_scaried, h_aggresive };
 
-static constexpr const auto max_mob_drops = 3;
-using mob_drops = rnd_roll<item_type, max_mob_drops>;
 struct mob_type {
   jute::view name;
   qsu::id id;
@@ -30,7 +23,6 @@ struct mob_type {
   unsigned dice = life;
   hostilities hostility;
   unsigned poison{};
-  mob_drops drops{};
 };
 
 struct bonus {

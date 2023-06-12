@@ -1,6 +1,5 @@
 export module cno:player;
 import :inventory;
-import :itemtype;
 import :mobtype;
 import ecs;
 import qsu;
