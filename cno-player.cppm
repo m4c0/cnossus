@@ -1,9 +1,4 @@
 export module cno:player;
-import :inventory;
-import :mobtype;
-import ecs;
-import qsu;
-import rng;
 
 namespace cno {
 /*

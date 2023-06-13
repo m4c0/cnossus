@@ -1,8 +1,4 @@
 export module cno:enemy;
-import :light;
-import :mobtype;
-import :objects;
-import rng;
 
 namespace cno {
 /*

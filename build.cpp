@@ -87,7 +87,6 @@ int main(int argc, char **argv) {
   m->add_part("objects");
   m->add_part("random");
   m->add_part("entities");
-  m->add_part("mobtype");
   m->add_part("inventory");
   m->add_part("player");
   m->add_part("light");
