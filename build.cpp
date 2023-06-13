@@ -65,6 +65,7 @@ int main(int argc, char **argv) {
   ecs->add_part("containers");
   ecs->add_part("itemroll");
   ecs->add_part("mobs");
+  ecs->add_part("mobroll");
 
   auto mobs = unit::create<mod>("mobs");
   mobs->add_wsdep("pog", pog());
