@@ -20,7 +20,7 @@ auto add_loot(ec *ec, pog::eid e, c::loot a, c::loot b = nullptr,
 export namespace ecs {
 auto add_player(ec *ec) {
   c::sprite s{.id = spr::minotaur, .layer = 1};
-  auto e = add_mob(ec, s, {1, 1}, {.life = 20, .dice = 10});
+  auto e = add_mob(ec, s, {1, 1}, {.life = 20, .attack = 10, .defense = 10});
   ec->player.set(e, {});
   return e;
 }

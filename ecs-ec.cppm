@@ -16,7 +16,8 @@ struct sprite {
 };
 struct mob {
   unsigned life;
-  unsigned dice = life;
+  unsigned attack = life;
+  unsigned defense = life;
 };
 
 using loot = pog::eid (*)(ec *);

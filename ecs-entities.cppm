@@ -71,7 +71,7 @@ export auto add_bag_item(ec *ec, spr::id id) {
   return e;
 }
 export auto add_container_item(ec *ec, spr::id id) {
-  auto e = add_enemy(ec, id, {.life = 1, .dice = 0});
+  auto e = add_enemy(ec, id, {.life = 1, .attack = 0, .defense = 0});
   return e;
 }
 export auto add_weapon_item(ec *ec, spr::id id, unsigned pwr) {
