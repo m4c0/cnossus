@@ -2,26 +2,28 @@ export module ecs:mobroll;
 import :ec;
 import :loot;
 import :mobs;
+import pog;
 
 namespace ecs {
-void add_easy_non_hostile_mob(ec *ec) {
-  loot_table{&add_spider, &add_rat}.pick()(ec);
+auto add_easy_non_hostile_mob(ec *ec) {
+  return loot_table{&add_spider, &add_rat}.pick()(ec);
 }
-void add_medium_non_hostile_mob(ec *ec) {
-  loot_table{&add_snake, &add_scorpion, &add_centipede}.pick()(ec);
-}
-
-void add_easy_hostile_mob(ec *ec) {
-  loot_table{&add_harpy, &add_boar, &add_cerberus}.pick()(ec);
-}
-void add_medium_hostile_mob(ec *ec) {
-  loot_table{&add_manticore, &add_griffin, &add_sphinx, &add_bull}.pick()(ec);
-}
-void add_hard_hostile_mob(ec *ec) {
-  loot_table{&add_chimera, &add_croc, &add_drakon}.pick()(ec);
+auto add_medium_non_hostile_mob(ec *ec) {
+  return loot_table{&add_snake, &add_scorpion, &add_centipede}.pick()(ec);
 }
 
-void add_level_mob(ec *ec, unsigned lvl) {
+auto add_easy_hostile_mob(ec *ec) {
+  return loot_table{&add_harpy, &add_boar, &add_cerberus}.pick()(ec);
+}
+auto add_medium_hostile_mob(ec *ec) {
+  return loot_table{&add_manticore, &add_griffin, &add_sphinx, &add_bull}
+      .pick()(ec);
+}
+auto add_hard_hostile_mob(ec *ec) {
+  return loot_table{&add_chimera, &add_croc, &add_drakon}.pick()(ec);
+}
+
+export auto add_level_mob(ec *ec, unsigned lvl) {
   auto lt = loot_table{&add_easy_non_hostile_mob, &add_medium_non_hostile_mob,
                        &add_easy_hostile_mob,     &add_medium_hostile_mob,
                        &add_hard_hostile_mob,     nullptr};
@@ -46,7 +48,8 @@ void add_level_mob(ec *ec, unsigned lvl) {
     lt[4] = 20;
   }
 
-  lt.pick()(ec);
+  auto p = lt.pick();
+  return (p == nullptr) ? pog::eid{} : p(ec);
 }
 
 static constexpr const auto mobs_per_level = map_height - 2;

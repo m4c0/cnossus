@@ -5,3 +5,4 @@ export import :entities;
 export import :itemroll;
 export import :items;
 export import :mobs;
+export import :mobroll;
