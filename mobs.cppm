@@ -4,6 +4,14 @@ import inv;
 import pog;
 
 namespace mobs {
+void attack_enemy(ecs::ec *ec, pog::eid src, pog::eid tgt) {
+  if (ec->loot.has(tgt)) {
+    auto lid = ec->loot.get(tgt)(ec);
+    ec->coords.update(lid, ec->coords.get(tgt));
+  }
+
+  ecs::remove_mob(ec, tgt);
+}
 export bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
   auto [x, y] = ec->coords.get(id);
   auto tx = x + dx;
@@ -18,16 +26,16 @@ export bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
   if (ec->walls.has(bid))
     return false;
 
-  if (!ec->enemies.has(bid))
+  if (ec->player.has(bid))
     return false;
 
-  if (ec->loot.has(bid)) {
-    auto lid = ec->loot.get(bid)(ec);
-    ec->coords.update(lid, {tx, ty});
+  // TODO: allow enemies to attack each other
+  if (ec->enemies.has(bid) && ec->player.has(id)) {
+    attack_enemy(ec, id, bid);
+    return false;
   }
 
-  ecs::remove_mob(ec, bid);
-  return true;
+  return false;
 }
 
 export void move_player(ecs::ec *ec, int dx, int dy) {
