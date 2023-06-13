@@ -5,6 +5,23 @@ import pog;
 
 namespace mobs {
 void attack_enemy(ecs::ec *ec, pog::eid src, pog::eid tgt) {
+  const auto &src_mob = ec->mobs.get(src);
+  const auto &tgt_mob = ec->mobs.get(tgt);
+
+  int atk = src_mob.attack;
+  int def = tgt_mob.defense;
+  int margin = atk - def;
+
+  if (margin <= 0)
+    return;
+
+  if (tgt_mob.life > margin) {
+    auto m = tgt_mob;
+    m.life -= margin;
+    ec->mobs.update(tgt, m);
+    return;
+  }
+
   if (ec->loot.has(tgt)) {
     auto lid = ec->loot.get(tgt)(ec);
     ec->coords.update(lid, ec->coords.get(tgt));
@@ -12,6 +29,8 @@ void attack_enemy(ecs::ec *ec, pog::eid src, pog::eid tgt) {
 
   ecs::remove_mob(ec, tgt);
 }
+
+// returns true if position was changed
 export bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
   auto [x, y] = ec->coords.get(id);
   auto tx = x + dx;
