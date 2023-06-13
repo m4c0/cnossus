@@ -21,24 +21,6 @@ class game {
   ecs::ec m_ec;
 
   /*
-void create_enemies() {
-  m_mobs.reset_grid();
-
-  for (auto i = 0; i < map::height - 1; i++) {
-    qsu::type<mob_type> t = qsu::type{mob_roll_per_level.roll(m_level)};
-    if (!t)
-      continue;
-
-    auto id = t->hostility == h_aggresive
-                  ? add_hostile_enemy(&m_ec, t->id)
-                  : add_non_hostile_enemy(&m_ec, t->id);
-    auto [x, y] = m_ec.blockers.get(id);
-
-    auto &mm = m_mobs.at(i + 1) = {t, {x, y}};
-    enemy{&mm}.reset_level(m_level);
-  }
-}
-
 void try_move(mob *m, map_coord tgt) {
   if (m_ec.walls.has({tgt.x, tgt.y}))
     return;
@@ -138,8 +120,8 @@ void move_enemies() {
     ecs::remove_level(&m_ec);
     map::create_maze(&m_ec, m_level, ecs::map_width, ecs::map_height);
     ecs::add_level_items(&m_ec, m_level);
+    ecs::add_level_mobs(&m_ec, m_level);
     // m_player.level_reset(m_level);
-    // create_enemies();
     repaint();
   }
 

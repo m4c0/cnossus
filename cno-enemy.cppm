@@ -39,8 +39,6 @@ map_coord move(int dx, int dy) {
 }
 
 public:
-explicit enemy(mob *m) : m_mob{m} {}
-
 [[nodiscard]] map_coord next_move_with_light(map_coord player_pos,
                                              const light &l) noexcept {
   switch (m_mob->type->hostility) {
@@ -51,11 +49,6 @@ explicit enemy(mob *m) : m_mob{m} {}
   case h_aggresive:
     return l.too_bright_for_enemies() ? wander() : hunt_hero(player_pos);
   }
-}
-
-void reset_level(unsigned level) {
-  int b = static_cast<int>(level) / 2;
-  m_mob->bonus = {.attack = b, .defense = b, .damage = 0};
 }
 };
   */
