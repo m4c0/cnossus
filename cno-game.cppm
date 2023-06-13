@@ -2,7 +2,6 @@ export module cno:game;
 import :camera;
 import :enemy;
 import :light;
-import :mobs;
 import :player;
 import ecs;
 import inv;
@@ -21,28 +20,6 @@ class game {
   ecs::ec m_ec;
 
   /*
-void try_move(mob *m, map_coord tgt) {
-  if (m_ec.walls.has({tgt.x, tgt.y}))
-    return;
-
-  auto [x, y] = m->coord;
-  auto e = m_ec.blockers.get({x, y});
-
-  auto attacked = m_mobs.find_at(tgt, [&](auto &mm) {
-    auto drop = mobs::attack(*m, mm);
-    if (drop.type)
-      m_items.add(drop);
-  });
-
-  if (attacked)
-    return;
-
-  m->coord = tgt;
-
-  m_ec.blockers.update(e, {tgt.x, tgt.y});
-  m_ec.coords.update(e, {tgt.x, tgt.y});
-}
-
 void move_enemies() {
   auto pc = m_player.coord();
 

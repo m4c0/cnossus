@@ -91,7 +91,6 @@ int main(int argc, char **argv) {
   m->add_part("player");
   m->add_part("light");
   m->add_part("enemy");
-  m->add_part("mobs");
   m->add_part("game");
 
   auto a = unit::create<app>("cnossus");
