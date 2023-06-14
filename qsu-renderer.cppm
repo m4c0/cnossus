@@ -21,7 +21,7 @@ public:
         sires::open("atlas.img")
             .fmap([p](auto &rdr) { return rdr->read(p, sz * sz * 4); })
             .map([] { silog::log(silog::info, "Atlas loaded"); })
-            .take([](auto err) { silog::log(silog::error, err); });
+            .take([](auto err) { silog::log(silog::error, "%s", err); });
       });
     }
   }
