@@ -70,6 +70,7 @@ int main(int argc, char **argv) {
   auto mobs = unit::create<mod>("mobs");
   mobs->add_wsdep("pog", pog());
   mobs->add_wsdep("rng", rng());
+  mobs->add_wsdep("silog", silog());
 
   auto dbg = unit::create<mod>("dbg");
   dbg->add_wsdep("pog", pog());

@@ -3,15 +3,19 @@ import ecs;
 import inv;
 import pog;
 import rng;
+import silog;
 
 namespace mobs {
 void attack_enemy(ecs::ec *ec, pog::eid src, pog::eid tgt) {
   const auto &src_mob = ec->mobs.get(src);
   const auto &tgt_mob = ec->mobs.get(tgt);
 
-  int atk = src_mob.attack;
-  int def = tgt_mob.defense;
+  int atk = rng::rand(src_mob.attack);
+  int def = rng::rand(tgt_mob.defense);
   int margin = atk - def;
+
+  silog::log(silog::debug, "%d attacks %d - %d v %d",
+             static_cast<unsigned>(src), static_cast<unsigned>(tgt), atk, def);
 
   if (margin <= 0)
     return;
@@ -46,8 +50,10 @@ bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
   if (ec->walls.has(bid))
     return false;
 
-  if (ec->player.has(bid))
+  if (ec->player.has(bid)) {
+    attack_enemy(ec, id, bid);
     return false;
+  }
 
   // TODO: allow enemies to attack each other
   if (ec->enemies.has(bid) && ec->player.has(id)) {
