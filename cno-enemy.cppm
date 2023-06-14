@@ -7,18 +7,6 @@ mob *m_mob;
 
 map_coord hunt_hero(map_coord p) { return move_from_hero(p, 1); }
 map_coord run_from_hero(map_coord p) { return move_from_hero(p, -1); }
-map_coord wander() {
-  switch (rng::rand(4)) {
-  case 0:
-    return move(0, -1);
-  case 1:
-    return move(0, 1);
-  case 2:
-    return move(-1, 0);
-  default:
-    return move(1, 0);
-  }
-}
 
 map_coord move_from_hero(map_coord p, int s) {
   const auto &[mx, my] = m_mob->coord;
@@ -31,11 +19,6 @@ map_coord move_from_hero(map_coord p, int s) {
   } else {
     return wander();
   }
-}
-
-map_coord move(int dx, int dy) {
-  const auto &[x, y] = m_mob->coord;
-  return {x + dx, y + dy};
 }
 
 public:

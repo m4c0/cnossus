@@ -36,13 +36,7 @@ export class game {
 
     auto mob = ecs::add_level_mob(&m_ec, m_level);
     if (mob)
-      ecs::set_mob_position(&m_ec, mob, {2, 3});
-
-    auto item = ecs::add_cheese(&m_ec);
-    m_ec.coords.update(item, {3, 2});
-
-    ecs::set_mob_position(&m_ec, ecs::add_jar(&m_ec, 1), {4, 3});
-    ecs::set_mob_position(&m_ec, ecs::add_coffer(&m_ec, 1), {3, 4});
+      ecs::set_mob_position(&m_ec, mob, {3, 3});
 
     dbg::show_all_sprites(&m_ec, 1.0);
   }
@@ -53,7 +47,10 @@ public:
   void right() { move(1, 0); }
   void up() { move(0, -1); }
 
-  void use() {}
+  void use() {
+    mobs::move_non_hostile_enemies(&m_ec);
+    m_qsu.fill_quack(&m_ec);
+  }
   void reset() {
     m_level = 1;
     ecs::add_player(&m_ec);

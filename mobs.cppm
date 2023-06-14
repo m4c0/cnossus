@@ -2,6 +2,7 @@ export module mobs;
 import ecs;
 import inv;
 import pog;
+import rng;
 
 namespace mobs {
 void attack_enemy(ecs::ec *ec, pog::eid src, pog::eid tgt) {
@@ -31,7 +32,7 @@ void attack_enemy(ecs::ec *ec, pog::eid src, pog::eid tgt) {
 }
 
 // returns true if position was changed
-export bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
+bool move_mob(ecs::ec *ec, pog::eid id, int dx, int dy) {
   auto [x, y] = ec->coords.get(id);
   auto tx = x + dx;
   auto ty = y + dy;
@@ -71,5 +72,27 @@ export bool is_player_at_exit(ecs::ec *ec) {
 
 export void set_player_pos(ecs::ec *ec, unsigned x, unsigned y) {
   ec->coords.update(ec->player.get_id(), {x, y});
+}
+
+export void move_non_hostile_enemies(ecs::ec *ec) {
+  const auto pc = ec->coords.get(ec->player.get_id());
+  // TODO: change behaviour based on light level
+
+  for (auto [_, id] : ec->non_hostiles) {
+    switch (rng::rand(4)) {
+    case 0:
+      move_mob(ec, id, 0, -1);
+      break;
+    case 1:
+      move_mob(ec, id, 0, 1);
+      break;
+    case 2:
+      move_mob(ec, id, -1, 0);
+      break;
+    case 3:
+      move_mob(ec, id, 1, 0);
+      break;
+    }
+  }
 }
 } // namespace mobs
