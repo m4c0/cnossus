@@ -1,7 +1,6 @@
 import spr;
+import stubby;
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "stb_image_resize.h"
 
@@ -23,17 +22,15 @@ struct rgb {
 rgb pixies[atlas_width][atlas_width]{};
 
 void stamp(const char *fname, char id) {
-  int w;
-  int h;
-  int n;
-  auto raw = stbi_load(fname, &w, &h, &n, num_channels);
-  if (raw == nullptr) {
+  auto img = stbi::load(fname);
+  if (*img.data == nullptr) {
     std::cerr << "Failure reading " << fname << "\n";
     throw 0;
   }
 
   uint8_t data[tile_side * tile_side * num_channels];
-  stbir_resize_uint8(raw, w, h, 0, data, tile_side, tile_side, 0, num_channels);
+  stbir_resize_uint8(*img.data, img.width, img.height, 0, data, tile_side,
+                     tile_side, 0, num_channels);
 
   unsigned tx = (id % tile_stride) * tile_side;
   unsigned ty = (id / tile_stride) * tile_side;

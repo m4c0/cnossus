@@ -6,6 +6,7 @@
 #include "../rng/build.hpp"
 #include "../silog/build.hpp"
 #include "../sires/build.hpp"
+#include "../stubby/build.hpp"
 #include "../traits/build.hpp"
 
 class atlas : public ecow::seq {
@@ -26,6 +27,7 @@ class atlas : public ecow::seq {
 public:
   explicit atlas(const std::string &name) : seq{name} {
     auto ab = ecow::unit::create<ecow::tool>("ab");
+    ab->add_wsdep("stubby", stubby());
     ab->add_ref(ecow::unit::create<ecow::mod>("spr"));
     ab->add_unit("ab");
     this->add_ref(ab);
