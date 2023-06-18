@@ -4,13 +4,11 @@ import ecs;
 import quack;
 
 export namespace qsu {
-class layout : public quack::instance_layout<void, ecs::max_entities> {
-  using parent_t = quack::instance_layout<void, ecs::max_entities>;
-
-  void resize(unsigned w, unsigned h) override { batch()->resize(7, 7, w, h); }
-
+class layout : public quack::ilayout {
 public:
-  using parent_t::parent_t;
+  explicit layout(quack::renderer *r) : ilayout{r, ecs::max_entities} {
+    set_grid(7, 7);
+  }
 
   void center_view(float x, float y) noexcept {
     batch()->center_at(x + 0.5f, y + 0.5f);
