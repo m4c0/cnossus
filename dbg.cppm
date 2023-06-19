@@ -21,8 +21,7 @@ void dump_set(const char *name, const pog::singleton<Tp> &set) {
 }
 
 template <typename Tp>
-void dump_set(const char *name,
-              const pog::sparse_set<Tp, ecs::max_entities> &set) {
+void dump_set(const char *name, const pog::sparse_set<Tp> &set) {
   printf("%s:", name);
   for (auto [_, id] : set) {
     printf(" %d", static_cast<unsigned>(id));
