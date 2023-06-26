@@ -30,7 +30,7 @@ export constexpr const auto map_height = 20;
 export constexpr const auto max_entities = map_width * map_height * 2;
 
 export struct ec {
-  pog::entity_list<max_entities> e;
+  pog::entity_list e{max_entities};
 
   pog::sparse_set<unsigned> armour{max_entities};
   pog::sparse_set<c::marker> bags{max_entities};
