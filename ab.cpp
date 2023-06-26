@@ -21,12 +21,15 @@ struct rgb {
 
 rgb pixies[atlas_width][atlas_width]{};
 
+#undef assert
 void stamp(const char *fname, char id) {
-  auto img = stbi::load(fname);
-  if (*img.data == nullptr) {
-    std::cerr << "Failure reading " << fname << "\n";
-    throw 0;
-  }
+  auto img = stbi::load(fname)
+                 .assert([](const auto &img) { return *img.data != nullptr; },
+                         "Invalid image")
+                 .take([&](auto msg) {
+                   std::cerr << "Failure reading " << fname << "\n";
+                   throw 0;
+                 });
 
   uint8_t data[tile_side * tile_side * num_channels];
   stbir_resize_uint8(*img.data, img.width, img.height, 0, data, tile_side,
