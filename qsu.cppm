@@ -1,4 +1,7 @@
 export module qsu;
 export import :id;
 export import :layout;
-export import :renderer;
+
+namespace qsu {
+export using renderer = quack::renderer;
+} // namespace qsu
