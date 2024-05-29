@@ -1,3 +1,5 @@
+#pragma leco app
+
 export module cno;
 import :game;
 import casein;
