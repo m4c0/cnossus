@@ -121,7 +121,7 @@ export constexpr void add_rigid_block(ec *ec, spr::id id, pog::grid_coord c) {
 export constexpr void add_walkable_block(ec *ec, spr::id id,
                                          pog::grid_coord c) {
   c::sprite s{.id = id, .layer = -1};
-  auto e = add_block(ec, s, c);
+  [[maybe_unused]] auto e = add_block(ec, s, c);
 }
 
 export constexpr void add_exit(ec *ec, pog::grid_coord c) {
@@ -137,9 +137,9 @@ export constexpr void remove_wall(ec *ec, pog::eid id) {
 }
 
 export void remove_level(ec *ec) {
-  ec->walls.for_each_r([ec](auto, auto id) { remove_wall(ec, id); });
-  ec->usables.for_each_r([ec](auto, auto id) { remove_item(ec, id); });
-  ec->enemies.for_each_r([ec](auto, auto id) { remove_mob(ec, id); });
+  ec->walls.for_each_r([ec](auto id, auto) { remove_wall(ec, id); });
+  ec->usables.for_each_r([ec](auto id, auto) { remove_item(ec, id); });
+  ec->enemies.for_each_r([ec](auto id, auto) { remove_mob(ec, id); });
   ec->exit.set({}, {});
 }
 
