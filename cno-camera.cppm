@@ -9,7 +9,7 @@ void update_rogueview(ecs::ec *ec) {
   auto pid = ec->player.get_id();
   auto [px, py] = ec->coords.get(pid);
 
-  for (auto &[spr, sid] : ec->sprites) {
+  for (auto &[sid, spr] : ec->sprites) {
     auto [sx, sy] = ec->coords.get(sid);
     auto dx = sx - px;
     auto dy = sy - py;
