@@ -4,7 +4,7 @@ import pog;
 
 namespace inv {
 bool player_has_bag(ecs::ec *ec) {
-  for (auto [_, id] : ec->in_use) {
+  for (auto [id, _] : ec->in_use) {
     if (ec->bags.has(id))
       return true;
   }
@@ -13,7 +13,7 @@ bool player_has_bag(ecs::ec *ec) {
 
 export void take_items(ecs::ec *ec) {
   auto pc = ec->coords.get(ec->player.get_id());
-  ec->usables.remove_if([&](auto _, auto id) -> bool {
+  ec->usables.remove_if([&](auto id, auto) -> bool {
     if (pc != ec->coords.get(id))
       return false;
 

@@ -84,7 +84,7 @@ export void move_non_hostile_enemies(ecs::ec *ec) {
   const auto pc = ec->coords.get(ec->player.get_id());
   // TODO: change behaviour based on light level
 
-  for (auto [_, id] : ec->non_hostiles) {
+  for (auto [id, _] : ec->non_hostiles) {
     switch (rng::rand(4)) {
     case 0:
       move_mob(ec, id, 0, -1);

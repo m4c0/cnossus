@@ -6,7 +6,7 @@ extern "C" int printf(const char *, ...);
 
 namespace dbg {
 export void show_all_sprites(ecs::ec *ec, float alpha = 1.0) {
-  for (auto &[spr, _] : ec->sprites) {
+  for (auto &[_, spr] : ec->sprites) {
     spr.alpha = alpha;
   }
 }
@@ -23,7 +23,7 @@ void dump_set(const char *name, const pog::singleton<Tp> &set) {
 template <typename Tp>
 void dump_set(const char *name, const pog::sparse_set<Tp> &set) {
   printf("%s:", name);
-  for (auto [_, id] : set) {
+  for (auto [id, _] : set) {
     printf(" %d", static_cast<unsigned>(id));
   }
   printf("\n");
