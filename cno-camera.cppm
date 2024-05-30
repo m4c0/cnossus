@@ -25,13 +25,13 @@ void update_rogueview(ecs::ec *ec) {
   }
 }
 
-void center_camera(qsu::layout *qsu, ecs::ec *ec) {
+void center_camera(ecs::ec *ec) {
   auto pid = ec->player.get_id();
   if (!pid)
     return;
 
   // TODO: easy in movement
   auto [x, y] = ec->coords.get(pid);
-  qsu->center_view(x, y);
+  qsu::center_view(x, y);
 }
 } // namespace cno

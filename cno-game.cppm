@@ -11,8 +11,6 @@ import qsu;
 
 namespace cno {
 class game {
-  qsu::renderer m_r{3};
-  qsu::layout m_qsu{&m_r};
   // player m_player{};
   // light m_light{};
   unsigned m_level{};
@@ -90,7 +88,7 @@ void move_enemies() {
   void repaint() {
     // unsigned dist = m_light.visible_distance();
     update_rogueview(&m_ec);
-    m_qsu.fill_quack(&m_ec);
+    qsu::fill_quack(&m_ec);
   }
 
   void create_level() {
@@ -110,11 +108,7 @@ void move_enemies() {
   }
 
 public:
-  void process_event(const auto &e) {
-    m_r.process_event(e);
-    m_qsu.process_event(e);
-    center_camera(&m_qsu, &m_ec);
-  }
+  void process_event(const auto &e) { center_camera(&m_ec); }
 
   void reset() {
     m_level = 1;

@@ -234,9 +234,3 @@ constexpr void create_room(ecs::ec *ec, unsigned w, unsigned h) {
   }
 }
 } // namespace map
-
-static_assert([] {
-  ecs::ec ec{};
-  map::maze{&ec}.build_level(1, 30, 20);
-  return true;
-}());

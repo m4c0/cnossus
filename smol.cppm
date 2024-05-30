@@ -10,9 +10,6 @@ import qsu;
 
 namespace smol {
 export class game {
-  qsu::renderer m_r{1};
-  qsu::layout m_qsu{&m_r};
-
   ecs::ec m_ec;
   unsigned m_level;
 
@@ -26,7 +23,7 @@ export class game {
     }
 
     dbg::show_all_sprites(&m_ec, 1.0);
-    m_qsu.fill_quack(&m_ec);
+    qsu::fill_quack(&m_ec);
   }
 
   void create_level() {
@@ -49,7 +46,7 @@ public:
 
   void use() {
     mobs::move_non_hostile_enemies(&m_ec);
-    m_qsu.fill_quack(&m_ec);
+    qsu::fill_quack(&m_ec);
   }
   void reset() {
     m_level = 1;
@@ -57,12 +54,9 @@ public:
 
     create_level();
 
-    m_qsu.fill_quack(&m_ec);
+    qsu::fill_quack(&m_ec);
   }
 
-  void process_event(const auto &e) {
-    m_r.process_event(e);
-    m_qsu.process_event(e);
-  }
+  void process_event(const auto &e) {}
 };
 } // namespace smol

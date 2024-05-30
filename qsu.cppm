@@ -1,7 +1,8 @@
 export module qsu;
 export import :id;
-export import :layout;
+import ecs;
 
-namespace qsu {
-export using renderer = quack::renderer;
+export namespace qsu {
+void center_view(float x, float y) noexcept;
+void fill_quack(ecs::ec *ec) noexcept;
 } // namespace qsu
