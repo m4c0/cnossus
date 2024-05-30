@@ -5,25 +5,24 @@ import :game;
 import casein;
 import smol;
 
-extern "C" void casein_handle(const casein::event &e) {
-  // static cno::game gg{};
-  static smol::game gg{};
-  static constexpr const auto k_map = [] {
-    casein::key_map res{};
-    res[casein::K_DOWN] = [](auto) { gg.down(); };
-    res[casein::K_LEFT] = [](auto) { gg.left(); };
-    res[casein::K_RIGHT] = [](auto) { gg.right(); };
-    res[casein::K_UP] = [](auto) { gg.up(); };
-    res[casein::K_SPACE] = [](auto) { gg.use(); };
-    return res;
-  }();
-  static constexpr const auto map = [] {
-    casein::event_map res{};
-    res[casein::CREATE_WINDOW] = [](auto) { gg.reset(); };
-    res[casein::KEY_DOWN] = [](auto e) { k_map.handle(e); };
-    return res;
-  }();
+// static cno::game gg{};
+static smol::game gg{};
+static void reset() { gg.reset(); }
+static void down() { gg.down(); }
+static void left() { gg.left(); }
+static void right() { gg.right(); }
+static void up() { gg.up(); }
+static void use() { gg.use(); }
 
-  gg.process_event(e);
-  map.handle(e);
-}
+static struct init {
+  init() {
+    using namespace casein;
+
+    handle(CREATE_WINDOW, reset);
+    handle(KEY_DOWN, K_DOWN, down);
+    handle(KEY_DOWN, K_LEFT, down);
+    handle(KEY_DOWN, K_RIGHT, down);
+    handle(KEY_DOWN, K_UP, down);
+    handle(KEY_DOWN, K_SPACE, use);
+  }
+} i;
