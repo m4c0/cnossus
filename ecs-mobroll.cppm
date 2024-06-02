@@ -6,27 +6,28 @@ import pog;
 
 namespace ecs {
 auto add_easy_non_hostile_mob(ec *ec) {
-  return loot_table{&add_spider, &add_rat}.pick()(ec);
+  return loot_table<2>{&add_spider, &add_rat}.pick()(ec);
 }
 auto add_medium_non_hostile_mob(ec *ec) {
-  return loot_table{&add_snake, &add_scorpion, &add_centipede}.pick()(ec);
+  return loot_table<3>{&add_snake, &add_scorpion, &add_centipede}.pick()(ec);
 }
 
 auto add_easy_hostile_mob(ec *ec) {
-  return loot_table{&add_harpy, &add_boar, &add_cerberus}.pick()(ec);
+  return loot_table<3>{&add_harpy, &add_boar, &add_cerberus}.pick()(ec);
 }
 auto add_medium_hostile_mob(ec *ec) {
-  return loot_table{&add_manticore, &add_griffin, &add_sphinx, &add_bull}
+  return loot_table<4>{&add_manticore, &add_griffin, &add_sphinx, &add_bull}
       .pick()(ec);
 }
 auto add_hard_hostile_mob(ec *ec) {
-  return loot_table{&add_chimera, &add_croc, &add_drakon}.pick()(ec);
+  return loot_table<3>{&add_chimera, &add_croc, &add_drakon}.pick()(ec);
 }
 
 export auto add_level_mob(ec *ec, unsigned lvl) {
-  auto lt = loot_table{&add_easy_non_hostile_mob, &add_medium_non_hostile_mob,
-                       &add_easy_hostile_mob,     &add_medium_hostile_mob,
-                       &add_hard_hostile_mob,     nullptr};
+  auto lt =
+      loot_table<6>{&add_easy_non_hostile_mob, &add_medium_non_hostile_mob,
+                    &add_easy_hostile_mob,     &add_medium_hostile_mob,
+                    &add_hard_hostile_mob,     nullptr};
   lt[0] = lt[5] = 20;
 
   if (lvl > 2) { // EH appears

@@ -10,7 +10,7 @@ import rng;
 namespace ecs::mobs {
 auto add_loot(ec *ec, pog::eid e, c::loot a, c::loot b = nullptr,
               c::loot c = nullptr) {
-  loot_table<c::loot, 4> lt{a, b, c};
+  loot_table<4> lt{a, b, c};
   lt[0] = lt[1] = lt[2] = 1;
   lt[2] = 2;
   return ecs::add_loot(ec, e, lt.pick());

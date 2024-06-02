@@ -8,7 +8,7 @@ import spr;
 
 export namespace ecs {
 auto add_jar(ecs::ec *ec, unsigned lvl) {
-  loot_table<c::loot, 4> lt{
+  loot_table<4> lt{
       &ecs::add_driedfruit,
       &ecs::add_candle,
       &ecs::add_cheese,
@@ -33,7 +33,7 @@ auto add_coffer(ecs::ec *ec, unsigned lvl) {
       &ecs::add_axe,   &ecs::add_sword,
   };
   // TODO: expose max_levels and set these based on it
-  loot_table<c::loot, 5> lt{
+  loot_table<5> lt{
       armour[lvl / 3],
       weapons[lvl / 4],
       &ecs::add_bag,
