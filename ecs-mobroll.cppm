@@ -3,31 +3,39 @@ import :ec;
 import :loot;
 import :mobs;
 import pog;
+import rng;
 
 namespace ecs {
 auto add_easy_non_hostile_mob(ec *ec) {
-  return loot_table<2>{&add_spider, &add_rat}.pick()(ec);
+  constexpr const c::loot table[]{&add_spider, &add_rat};
+  return table[rng::rand(sizeof(table) / sizeof(table[0]))](ec);
 }
 auto add_medium_non_hostile_mob(ec *ec) {
-  return loot_table<3>{&add_snake, &add_scorpion, &add_centipede}.pick()(ec);
+  constexpr const c::loot table[]{&add_snake, &add_scorpion, &add_centipede};
+  return table[rng::rand(sizeof(table) / sizeof(table[0]))](ec);
 }
 
 auto add_easy_hostile_mob(ec *ec) {
-  return loot_table<3>{&add_harpy, &add_boar, &add_cerberus}.pick()(ec);
+  constexpr const c::loot table[]{&add_harpy, &add_boar, &add_cerberus};
+  return table[rng::rand(sizeof(table) / sizeof(table[0]))](ec);
 }
 auto add_medium_hostile_mob(ec *ec) {
-  return loot_table<4>{&add_manticore, &add_griffin, &add_sphinx, &add_bull}
-      .pick()(ec);
+  constexpr const c::loot table[]{&add_manticore, &add_griffin, &add_sphinx,
+                                  &add_bull};
+  return table[rng::rand(sizeof(table) / sizeof(table[0]))](ec);
 }
 auto add_hard_hostile_mob(ec *ec) {
-  return loot_table<3>{&add_chimera, &add_croc, &add_drakon}.pick()(ec);
+  constexpr const c::loot table[]{&add_chimera, &add_croc, &add_drakon};
+  return table[rng::rand(sizeof(table) / sizeof(table[0]))](ec);
 }
 
 export auto add_level_mob(ec *ec, unsigned lvl) {
-  auto lt =
-      loot_table<6>{&add_easy_non_hostile_mob, &add_medium_non_hostile_mob,
-                    &add_easy_hostile_mob,     &add_medium_hostile_mob,
-                    &add_hard_hostile_mob,     nullptr};
+  constexpr const c::loot table[]{
+      &add_easy_non_hostile_mob, &add_medium_non_hostile_mob,
+      &add_easy_hostile_mob,     &add_medium_hostile_mob,
+      &add_hard_hostile_mob,     &null};
+
+  rng::random_picker lt{sizeof(table) / sizeof(table[0])};
   lt[0] = lt[5] = 20;
 
   if (lvl > 2) { // EH appears
@@ -49,8 +57,7 @@ export auto add_level_mob(ec *ec, unsigned lvl) {
     lt[4] = 20;
   }
 
-  auto p = lt.pick();
-  return (p == nullptr) ? pog::eid{} : p(ec);
+  return table[lt.pick()](ec);
 }
 
 static constexpr const auto mobs_per_level = map_height - 2;

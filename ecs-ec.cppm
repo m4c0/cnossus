@@ -52,4 +52,7 @@ export struct ec {
   pog::sparse_set<c::marker> walls{};
   pog::sparse_set<unsigned> weapons{};
 };
+
+// To simplify loot tables
+pog::eid null(ec *) { return {}; }
 } // namespace ecs
