@@ -1,4 +1,4 @@
-#pragma leco app
+// #pragma leco app
 
 export module cno;
 import :game;
