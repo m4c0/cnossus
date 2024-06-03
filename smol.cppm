@@ -2,7 +2,7 @@ export module smol;
 import dbg;
 import ecs;
 import inv;
-import map;
+import mapecs;
 import mobs;
 import pog;
 import spr;
