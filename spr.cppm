@@ -1,7 +1,8 @@
 export module spr;
+import quack;
 
-namespace spr {
-export enum id : char {
+export namespace spr {
+enum id : char {
   minotaur = 'A',
   snake = 'B',
   spider = 'C',
@@ -52,4 +53,16 @@ export enum id : char {
   statue = '(',
   wall = '&',
 };
-};
+
+unsigned blit(id i, float x, float y, quack::mapped_buffers &all) {
+  if (i == 0)
+    return 0;
+
+  auto &[c, m, p, u] = all;
+  *c++ = {1, 1, 1, 1};
+  *m++ = {1, 1, 1, 1};
+  *p++ = {{x, y}, {1, 1}};
+  *u++ = {{0, 0}, {1, 1}};
+  return 1;
+}
+}; // namespace spr
