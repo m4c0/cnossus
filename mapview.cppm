@@ -16,8 +16,7 @@ static unsigned data(quack::mapped_buffers all) { return map::draw(all); }
 
 struct init {
   init() {
-    map::data[0][0] = spr::wall;
-    map::data[map::height - 1][map::width - 1] = spr::wall;
+    map::gen();
 
     using namespace quack::donald;
 
