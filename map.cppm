@@ -1,5 +1,6 @@
 export module map;
 import rng;
+import silog;
 import spr;
 import quack;
 
@@ -20,29 +21,46 @@ export unsigned draw(quack::mapped_buffers &all) {
   return count;
 }
 
-static void gen_rect(unsigned x0, unsigned y0, unsigned x1, unsigned y1) {
-  for (auto x = x0; x <= x1; x++) {
-    data[y0][x] = spr::wall;
-    data[y1][x] = spr::wall;
-  }
-  for (auto y = y0; y <= y1; y++) {
-    data[y][x0] = spr::wall;
-    data[y][x1] = spr::wall;
-  }
-}
-static void gen_w(unsigned x0, unsigned y0, unsigned w, unsigned h) {
-  const auto x1 = x0 + w - 1;
-  const auto y1 = y0 + h - 1;
+static unsigned split_w(unsigned x0, unsigned y0, unsigned x1, unsigned y1);
+static unsigned split_h(unsigned x0, unsigned y0, unsigned x1, unsigned y1) {
+  const auto w = x1 - x0 + 1;
+  const auto h = y1 - y0 + 1;
 
-  gen_rect(x0, y0, x1, y1);
+  if (h <= 3)
+    return 0;
+
+  auto p = y0 + 2;
+  if (h > 3)
+    p += rng::rand(h - 3);
+
+  for (auto x = x0; x <= x1; x++) {
+    data[p][x] = spr::wall;
+  }
+
+  // split_w(x0, y0, x1, p - 1);
+  // split_w(x0, p + 1, x1, y1);
+
+  return p;
+}
+static unsigned split_w(unsigned x0, unsigned y0, unsigned x1, unsigned y1) {
+  const auto w = x1 - x0 + 1;
+  const auto h = y1 - y0 + 1;
+
+  if (w <= 3)
+    return 0;
 
   auto p = x0 + 2;
   if (w > 3)
-    p += rng::rand(w - 4);
+    p += rng::rand(w - 3);
 
   for (auto y = y0; y <= y1; y++) {
     data[y][p] = spr::wall;
   }
+
+  split_h(x0, y0, p, y1);
+  split_h(p, y0, x1, y1);
+
+  return p;
 }
 
 export void gen() {
@@ -51,7 +69,15 @@ export void gen() {
       cell = spr::floor;
     }
   }
+  for (auto x = 0; x < width; x++) {
+    data[0][x] = spr::wall;
+    data[height - 1][x] = spr::wall;
+  }
+  for (auto y = 0; y < height; y++) {
+    data[y][0] = spr::wall;
+    data[y][width - 1] = spr::wall;
+  }
 
-  gen_w(0, 0, width, height);
+  split_w(1, 1, width - 2, height - 2);
 }
 } // namespace map
