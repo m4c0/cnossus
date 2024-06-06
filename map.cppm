@@ -26,8 +26,8 @@ struct room {
   unsigned y0;
   unsigned x1;
   unsigned y1;
-  unsigned cell_w = 5;
-  unsigned cell_h = 5;
+  unsigned cell_w;
+  unsigned cell_h;
   unsigned w = x1 - x0 + 1;
   unsigned h = y1 - y0 + 1;
 };
@@ -48,8 +48,8 @@ static unsigned split_h(const room &r) {
     data[p][x] = spr::wall;
   }
 
-  auto r1 = split_w({r.x0, r.y0, r.x1, p - 1});
-  auto r2 = split_w({r.x0, p + 1, r.x1, r.y1});
+  auto r1 = split_w({r.x0, r.y0, r.x1, p - 1, r.cell_w, r.cell_h});
+  auto r2 = split_w({r.x0, p + 1, r.x1, r.y1, r.cell_w, r.cell_h});
 
   unsigned door{};
   do {
@@ -73,8 +73,8 @@ static unsigned split_w(const room &r) {
     data[y][p] = spr::wall;
   }
 
-  auto r1 = split_h({r.x0, r.y0, p - 1, r.y1});
-  auto r2 = split_h({p + 1, r.y0, r.x1, r.y1});
+  auto r1 = split_h({r.x0, r.y0, p - 1, r.y1, r.cell_w, r.cell_h});
+  auto r2 = split_h({p + 1, r.y0, r.x1, r.y1, r.cell_w, r.cell_h});
 
   unsigned door{};
   do {
@@ -102,6 +102,16 @@ export void gen() {
     data[y][width - 1] = spr::wall;
   }
 
-  split_w({1, 1, width - 2, height - 2});
+  // "cell" gives an "accent" to generated levels - smaller cells makes more
+  // thin corridors, whilst larger yields more open rooms
+  static constexpr const auto max_cell_sizes = 5;
+  static constexpr const struct {
+    unsigned x;
+    unsigned y;
+  } cell_sizes[max_cell_sizes] = {
+      {7, 7}, {7, 5}, {5, 5}, {5, 3}, {3, 3},
+  };
+  auto [cw, ch] = cell_sizes[rng::rand(max_cell_sizes)];
+  split_w({1, 1, width - 2, height - 2, cw, ch});
 }
 } // namespace map
