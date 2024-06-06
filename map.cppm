@@ -36,9 +36,9 @@ static void gen_w(unsigned x0, unsigned y0, unsigned w, unsigned h) {
 
   gen_rect(x0, y0, x1, y1);
 
-  auto p = x0 + 1;
+  auto p = x0 + 2;
   if (w > 3)
-    p += rng::rand(w) - 2;
+    p += rng::rand(w - 4);
 
   for (auto y = y0; y <= y1; y++) {
     data[y][p] = spr::wall;
