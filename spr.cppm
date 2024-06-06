@@ -62,7 +62,10 @@ unsigned blit(id i, float x, float y, quack::mapped_buffers &all) {
   *c++ = {1, 1, 1, 1};
   *m++ = {1, 1, 1, 1};
   *p++ = {{x, y}, {1, 1}};
-  *u++ = {{0, 0}, {1, 1}};
+  if (i == wall)
+    *u++ = {{0, 0}, {1, 1}};
+  else
+    *u++ = {};
   return 1;
 }
 }; // namespace spr
