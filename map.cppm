@@ -26,19 +26,19 @@ static unsigned split_h(unsigned x0, unsigned y0, unsigned x1, unsigned y1) {
   const auto w = x1 - x0 + 1;
   const auto h = y1 - y0 + 1;
 
-  if (h <= 3)
+  if (h <= 5)
     return 0;
 
-  auto p = y0 + 2;
+  auto p = y0 + 1;
   if (h > 3)
-    p += rng::rand(h - 3);
+    p += rng::rand(h - 2);
 
   for (auto x = x0; x <= x1; x++) {
     data[p][x] = spr::wall;
   }
 
-  // split_w(x0, y0, x1, p - 1);
-  // split_w(x0, p + 1, x1, y1);
+  split_w(x0, y0, x1, p - 1);
+  split_w(x0, p + 1, x1, y1);
 
   return p;
 }
@@ -46,19 +46,19 @@ static unsigned split_w(unsigned x0, unsigned y0, unsigned x1, unsigned y1) {
   const auto w = x1 - x0 + 1;
   const auto h = y1 - y0 + 1;
 
-  if (w <= 3)
+  if (w <= 5)
     return 0;
 
-  auto p = x0 + 2;
+  auto p = x0 + 1;
   if (w > 3)
-    p += rng::rand(w - 3);
+    p += rng::rand(w - 2);
 
   for (auto y = y0; y <= y1; y++) {
     data[y][p] = spr::wall;
   }
 
-  split_h(x0, y0, p, y1);
-  split_h(p, y0, x1, y1);
+  split_h(x0, y0, p - 1, y1);
+  split_h(p + 1, y0, x1, y1);
 
   return p;
 }
