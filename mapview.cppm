@@ -14,9 +14,18 @@ static quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
 
 static unsigned data(quack::mapped_buffers all) { return map::draw(all); }
 
+static void regen() {
+  map::gen();
+  quack::donald::data(::data);
+}
+
 struct init {
   init() {
     map::gen();
+
+    using namespace casein;
+
+    handle(KEY_DOWN, K_SPACE, regen);
 
     using namespace quack::donald;
 
