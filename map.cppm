@@ -37,8 +37,16 @@ static unsigned split_h(unsigned x0, unsigned y0, unsigned x1, unsigned y1) {
     data[p][x] = spr::wall;
   }
 
-  split_w(x0, y0, x1, p - 1);
-  split_w(x0, p + 1, x1, y1);
+  auto r1 = split_w(x0, y0, x1, p - 1);
+  auto r2 = split_w(x0, p + 1, x1, y1);
+
+  unsigned door{};
+  do {
+    door = x0 + rng::rand(w);
+  } while (door == r1 || door == r2);
+  data[p - 1][door] = spr::floor;
+  data[p][door] = spr::floor;
+  data[p + 1][door] = spr::floor;
 
   return p;
 }
@@ -57,8 +65,16 @@ static unsigned split_w(unsigned x0, unsigned y0, unsigned x1, unsigned y1) {
     data[y][p] = spr::wall;
   }
 
-  split_h(x0, y0, p - 1, y1);
-  split_h(p + 1, y0, x1, y1);
+  auto r1 = split_h(x0, y0, p - 1, y1);
+  auto r2 = split_h(p + 1, y0, x1, y1);
+
+  unsigned door{};
+  do {
+    door = y0 + rng::rand(h);
+  } while (door == r1 || door == r2);
+  data[door][p - 1] = spr::floor;
+  data[door][p] = spr::floor;
+  data[door][p + 1] = spr::floor;
 
   return p;
 }
