@@ -12,12 +12,7 @@ constexpr const auto tile_stride = 16;
 constexpr const auto atlas_width = tile_side * tile_stride;
 constexpr const auto num_channels = 4;
 
-struct rgb {
-  uint8_t r;
-  uint8_t g;
-  uint8_t b;
-  uint8_t a;
-};
+using rgb = stbi::pixel;
 
 rgb pixies[atlas_width][atlas_width]{};
 
@@ -53,16 +48,6 @@ void stamp(const char *fname, char id) {
 }
 
 int main(int argc, char **argv) {
-  if (argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " <output-ppm>\n";
-    return 1;
-  }
-  std::ofstream f{argv[1]};
-  if (!f) {
-    std::cerr << "Could not open file: " << argv[1] << "\n";
-    return 1;
-  }
-
   try {
     stamp("atlas/floor.png", spr::floor);
     stamp("atlas/wall.png", spr::wall);
@@ -117,7 +102,8 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  f.rdbuf()->sputn(reinterpret_cast<const char *>(pixies),
-                   atlas_width * atlas_width * num_channels);
+  stbi::write_rgba_unsafe("atlas.png", atlas_width, atlas_width,
+                          reinterpret_cast<stbi::pixel *>(pixies));
+
   return 0;
 }
