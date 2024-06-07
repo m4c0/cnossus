@@ -1,4 +1,5 @@
 export module spr;
+import dotz;
 import quack;
 
 export namespace spr {
@@ -58,14 +59,13 @@ unsigned blit(id i, float x, float y, quack::mapped_buffers &all) {
   if (i == 0)
     return 0;
 
+  auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
+
   auto &[c, m, p, u] = all;
   *c++ = {1, 1, 1, 1};
   *m++ = {1, 1, 1, 1};
   *p++ = {{x, y}, {1, 1}};
-  if (i == wall)
-    *u++ = {{0, 0}, {1, 1}};
-  else
-    *u++ = {};
+  *u++ = {uv, uv + 1.0 / 16.0};
   return 1;
 }
 }; // namespace spr
