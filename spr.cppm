@@ -62,7 +62,7 @@ unsigned blit(id i, float x, float y, quack::mapped_buffers &all) {
   auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
 
   auto &[c, m, p, u] = all;
-  *c++ = {1, 1, 1, 1};
+  *c++ = {};
   *m++ = {1, 1, 1, 1};
   *p++ = {{x, y}, {1, 1}};
   *u++ = {uv, uv + 1.0 / 16.0};
