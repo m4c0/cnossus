@@ -38,7 +38,7 @@ struct room {
   unsigned h = y1 - y0 + 1;
 };
 static constexpr bool match_level_cell(const room &r) {
-  return r.w < r.cell_w || r.h < r.cell_h;
+  return r.w < r.cell_w || r.h < r.cell_h || r.w == r.h;
 }
 static bool furnish(const room &r) {
   if (!match_level_cell(r))
@@ -81,6 +81,24 @@ static bool furnish(const room &r) {
     }
     if ((r.w % 2) == 0) {
       furniture(r.x1, r.y1 - 2);
+    }
+  } else if (r.w == 7 && r.h == 7) {
+    for (auto y = r.y0 + 1; y <= r.y1 - 1; y += 2) {
+      for (auto x = r.x0 + 1; x <= r.x1 - 1; x += 2) {
+        data[y][x] = spr::column;
+      }
+    }
+  } else if (r.w > 2 && r.h > 2) {
+    for (auto y = r.y0; y <= r.y1; y++) {
+      data[y][r.x0] = spr::mosaic;
+      data[y][r.x1] = spr::mosaic;
+    }
+    for (auto x = r.x0; x <= r.x1; x++) {
+      data[r.y0][x] = spr::mosaic;
+      data[r.y1][x] = spr::mosaic;
+    }
+    if ((r.w == 6 && r.h == 6) || (r.w == 9 && r.h == 9)) {
+      furnish({r.x0 + 1, r.y0 + 1, r.x1 - 1, r.y1 - 1, r.cell_w, r.cell_h});
     }
   }
   return true;
