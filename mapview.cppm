@@ -14,15 +14,14 @@ static quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
 
 static unsigned data(quack::mapped_buffers all) { return map::draw(all); }
 
+static unsigned int level = 1;
 static void regen() {
-  map::gen();
+  map::gen(level++);
   quack::donald::data(::data);
 }
 
 struct init {
   init() {
-    map::gen();
-
     using namespace casein;
 
     handle(KEY_DOWN, K_SPACE, regen);
@@ -38,6 +37,6 @@ struct init {
         .grid_size = grid_size,
     });
     atlas(::atlas);
-    data(::data);
+    regen();
   }
 } i;

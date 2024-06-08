@@ -38,7 +38,7 @@ struct room {
   unsigned h = y1 - y0 + 1;
 };
 static constexpr bool match_level_cell(const room &r) {
-  return r.w < r.cell_w || r.h < r.cell_h || r.w == r.h;
+  return r.w < r.cell_w || r.h < r.cell_h;
 }
 static bool furnish(const room &r) {
   if (!match_level_cell(r))
@@ -156,7 +156,7 @@ static unsigned split_w(const room &r) {
   return p;
 }
 
-export void gen() {
+export void gen(int level) {
   for (auto &row : data) {
     for (auto &cell : row) {
       cell = {};
@@ -182,5 +182,11 @@ export void gen() {
   };
   auto [cw, ch] = cell_sizes[rng::rand(max_cell_sizes)];
   split_w({1, 1, width - 2, height - 2, cw, ch});
+
+  if ((level % 2) == 1) {
+    data[height - 2][width - 2] = spr::exit;
+  } else {
+    data[height - 2][1] = spr::exit;
+  }
 }
 } // namespace map
