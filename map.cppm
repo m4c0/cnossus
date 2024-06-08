@@ -68,9 +68,9 @@ static unsigned split_h(const room &r) {
   do {
     door = r.x0 + rng::rand(r.w);
   } while (door == r1 || door == r2);
-  data[p - 1][door] = spr::floor;
-  data[p][door] = spr::floor;
-  data[p + 1][door] = spr::floor;
+  data[p - 1][door] = {};
+  data[p][door] = {};
+  data[p + 1][door] = {};
 
   return p;
 }
@@ -93,9 +93,9 @@ static unsigned split_w(const room &r) {
   do {
     door = r.y0 + rng::rand(r.h);
   } while (door == r1 || door == r2);
-  data[door][p - 1] = spr::floor;
-  data[door][p] = spr::floor;
-  data[door][p + 1] = spr::floor;
+  data[door][p - 1] = {};
+  data[door][p] = {};
+  data[door][p + 1] = {};
 
   return p;
 }
@@ -103,7 +103,7 @@ static unsigned split_w(const room &r) {
 export void gen() {
   for (auto &row : data) {
     for (auto &cell : row) {
-      cell = spr::floor;
+      cell = {};
     }
   }
   for (auto x = 0; x < width; x++) {

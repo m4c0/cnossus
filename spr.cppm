@@ -4,6 +4,8 @@ import quack;
 
 export namespace spr {
 enum id : char {
+  nil = 0,
+
   minotaur = 'A',
   snake = 'B',
   spider = 'C',
