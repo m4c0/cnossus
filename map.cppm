@@ -53,6 +53,13 @@ static bool furnish(const room &r) {
     if ((r.h % 2) == 0) {
       furniture(r.x0 + 1, r.y1);
     }
+  } else if (r.h == 3) {
+    for (auto x = r.x0 + 1; x <= r.x1 - 1; x += 2) {
+      data[r.y0 + 1][x] = spr::column;
+    }
+    if ((r.w % 2) == 0) {
+      furniture(r.x1, r.y0 + 1);
+    }
   }
   return true;
 }
