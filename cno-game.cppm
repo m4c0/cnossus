@@ -5,7 +5,6 @@ import :light;
 import :player;
 import ecs;
 import inv;
-import mapecs;
 import mobs;
 import qsu;
 
