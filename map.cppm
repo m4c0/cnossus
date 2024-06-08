@@ -66,6 +66,14 @@ static bool furnish(const room &r) {
         data[y][x] = spr::pool;
       }
     }
+  } else if (r.w == 5) {
+    for (auto y = r.y0 + 1; y <= r.y1 - 1; y += 2) {
+      data[y][r.x0 + 1] = spr::column;
+      data[y][r.x1 - 1] = spr::column;
+    }
+    if ((r.h % 2) == 0) {
+      furniture(r.x1 - 2, r.y1);
+    }
   }
   return true;
 }
