@@ -15,6 +15,8 @@ export unsigned draw(quack::mapped_buffers &all) {
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
       auto b = data[y][x];
+      if (b != spr::wall)
+        count += spr::blit(spr::floor, x, y, all);
       count += spr::blit(b, x, y, all);
     }
   }
