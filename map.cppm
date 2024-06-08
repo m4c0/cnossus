@@ -21,6 +21,10 @@ export unsigned draw(quack::mapped_buffers &all) {
   return count;
 }
 
+void furniture(unsigned x, unsigned y) {
+  data[y][x] = rng::rand(2) ? spr::basin : spr::statue;
+}
+
 struct room {
   unsigned x0;
   unsigned y0;
@@ -34,10 +38,19 @@ struct room {
 static constexpr bool match_level_cell(const room &r) {
   return r.w < r.cell_w || r.h < r.cell_h;
 }
+static bool furnish(const room &r) {
+  if (!match_level_cell(r))
+    return false;
+
+  if (r.w == 3 && r.h == 3) {
+    furniture(r.x0 + 1, r.y0 + 1);
+  }
+  return true;
+}
 
 static unsigned split_w(const room &r);
 static unsigned split_h(const room &r) {
-  if (match_level_cell(r))
+  if (furnish(r))
     return 0;
 
   auto p = r.y0 + 1;
@@ -62,7 +75,7 @@ static unsigned split_h(const room &r) {
   return p;
 }
 static unsigned split_w(const room &r) {
-  if (match_level_cell(r))
+  if (furnish(r))
     return 0;
 
   auto p = r.x0 + 1;
