@@ -15,7 +15,7 @@ export unsigned draw(quack::mapped_buffers &all) {
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
       auto b = data[y][x];
-      if (b != spr::wall)
+      if (b != spr::wall && b != spr::pool)
         count += spr::blit(spr::floor, x, y, all);
       count += spr::blit(b, x, y, all);
     }
@@ -59,6 +59,12 @@ static bool furnish(const room &r) {
     }
     if ((r.w % 2) == 0) {
       furniture(r.x1, r.y0 + 1);
+    }
+  } else if (r.w == 4 || r.h == 4) {
+    for (auto y = r.y0 + 1; y <= r.y1 - 1; y++) {
+      for (auto x = r.x0 + 1; x <= r.x1 - 1; x++) {
+        data[y][x] = spr::pool;
+      }
     }
   }
   return true;
