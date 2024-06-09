@@ -4,11 +4,34 @@ import spr;
 
 using gen_t = spr::id (*)();
 
-spr::id easy_non_hostile_mob() { return spr::rat; }
-spr::id medium_non_hostile_mob() { return spr::snake; }
-spr::id easy_hostile_mob() { return spr::spider; }
-spr::id medium_hostile_mob() { return spr::scorpion; }
-spr::id hard_hostile_mob() { return spr::centipede; }
+spr::id easy_non_hostile_mob() {
+  constexpr const auto size = 2;
+  constexpr const spr::id table[size]{spr::spider, spr::rat};
+  return table[rng::rand(size)];
+}
+spr::id medium_non_hostile_mob() {
+  constexpr const auto size = 3;
+  constexpr const spr::id table[size]{spr::snake, spr::scorpion,
+                                      spr::centipede};
+  return table[rng::rand(size)];
+}
+spr::id easy_hostile_mob() {
+  constexpr const auto size = 3;
+  constexpr const spr::id table[size]{spr::harpy, spr::boar, spr::cerberus};
+  return table[rng::rand(size)];
+}
+spr::id medium_hostile_mob() {
+  constexpr const auto size = 4;
+  constexpr const spr::id table[size]{spr::manticore, spr::griffin, spr::sphinx,
+                                      spr::bull};
+  return table[rng::rand(size)];
+}
+spr::id hard_hostile_mob() {
+  constexpr const auto size = 3;
+  constexpr const spr::id table[size]{spr::chimera, spr::crocodile,
+                                      spr::drakon};
+  return table[rng::rand(size)];
+}
 spr::id null() { return spr::nil; }
 
 export spr::id mobroll(int lvl) {
