@@ -1,6 +1,6 @@
 export module map;
+import mobroll;
 import rng;
-import silog;
 import spr;
 import quack;
 
@@ -196,7 +196,7 @@ export void gen(int level) {
     do {
       x = rng::rand(width - 4) + 2;
     } while (data[y][x] != spr::nil);
-    data[y][x] = spr::rat;
+    data[y][x] = mobroll(level);
   }
 }
 } // namespace map
