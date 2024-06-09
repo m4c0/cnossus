@@ -190,5 +190,13 @@ export void gen(int level) {
     data[1][width - 2] = spr::minotaur;
     data[height - 2][1] = spr::exit;
   }
+
+  for (auto y = 2; y < height - 2; y++) {
+    unsigned x{};
+    do {
+      x = rng::rand(width - 4) + 2;
+    } while (data[y][x] != spr::nil);
+    data[y][x] = spr::rat;
+  }
 }
 } // namespace map
