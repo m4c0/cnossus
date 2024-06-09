@@ -12,11 +12,12 @@ spr::id hard_hostile_mob() { return spr::centipede; }
 spr::id null() { return spr::nil; }
 
 export spr::id mobroll(int lvl) {
-  constexpr const gen_t table[]{&easy_non_hostile_mob, &medium_non_hostile_mob,
-                                &easy_hostile_mob,     &medium_hostile_mob,
-                                &hard_hostile_mob,     &null};
+  constexpr const auto size = 6;
+  constexpr const gen_t table[size]{
+      &easy_non_hostile_mob, &medium_non_hostile_mob, &easy_hostile_mob,
+      &medium_hostile_mob,   &hard_hostile_mob,       &null};
 
-  rng::random_picker lt{sizeof(table) / sizeof(table[0])};
+  rng::random_picker lt{size};
   lt[0] = lt[5] = 20;
 
   if (lvl > 2) { // EH appears
