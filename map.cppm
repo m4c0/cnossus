@@ -1,5 +1,5 @@
 export module map;
-import lootrool;
+import lootroll;
 import mobroll;
 import rng;
 import spr;
@@ -204,7 +204,7 @@ export void gen(int level) {
     do {
       x = rng::rand(width - 4) + 2;
     } while (data[y][x] != spr::nil);
-    data[y][x] = lootrool(level);
+    data[y][x] = lootroll(level);
   }
 }
 } // namespace map

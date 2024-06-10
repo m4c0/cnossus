@@ -1,4 +1,4 @@
-export module lootrool;
+export module lootroll;
 import rng;
 import spr;
 
@@ -21,7 +21,7 @@ static spr::id endgame_item() {
   return items[rng::rand(count)];
 }
 
-export spr::id lootrool(int level) {
+export spr::id lootroll(int level) {
   if (level <= 14) {
     return initial_item();
   } else if (level <= 17) {
