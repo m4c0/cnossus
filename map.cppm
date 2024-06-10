@@ -195,16 +195,19 @@ export void gen(int level) {
   for (auto y = 2; y < height - 2; y++) {
     // Enemies
     unsigned x{};
+    unsigned attempt{};
     do {
       x = rng::rand(width - 4) + 2;
-    } while (data[y][x] != spr::nil);
-    data[y][x] = mobroll(level);
+    } while (data[y][x] != spr::nil && ++attempt < 100);
+    if (attempt < 100)
+      data[y][x] = mobroll(level);
 
     // Loot
     do {
       x = rng::rand(width - 4) + 2;
-    } while (data[y][x] != spr::nil);
-    data[y][x] = lootroll(level);
+    } while (data[y][x] != spr::nil && ++attempt < 100);
+    if (attempt < 100)
+      data[y][x] = lootroll(level);
   }
 }
 } // namespace map
