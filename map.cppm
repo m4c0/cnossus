@@ -1,6 +1,5 @@
 export module map;
 import lootroll;
-import mobroll;
 import rng;
 import spr;
 import quack;
@@ -191,14 +190,8 @@ export void gen(int level) {
   }
 
   for (auto y = 2; y < height - 2; y++) {
-    // Enemies
     unsigned x{};
     unsigned attempt{};
-    do {
-      x = rng::rand(width - 4) + 2;
-    } while (data[y][x] != spr::nil && ++attempt < 100);
-    if (attempt < 100)
-      data[y][x] = mobroll(level);
 
     // Loot
     do {
@@ -207,5 +200,14 @@ export void gen(int level) {
     if (attempt < 100)
       data[y][x] = lootroll(level);
   }
+}
+
+export int pick_empty_space(unsigned y) {
+  int x{};
+  unsigned attempt{};
+  do {
+    x = rng::rand(width - 4) + 2;
+  } while (data[y][x] != spr::nil && ++attempt < 100);
+  return (attempt < 100) ? x : -1;
 }
 } // namespace map
