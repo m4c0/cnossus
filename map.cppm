@@ -185,10 +185,8 @@ export void gen(int level) {
   split_w({1, 1, width - 2, height - 2, cw, ch});
 
   if ((level % 2) == 1) {
-    data[1][1] = spr::minotaur;
     data[height - 2][width - 2] = spr::exit;
   } else {
-    data[1][width - 2] = spr::minotaur;
     data[height - 2][1] = spr::exit;
   }
 
