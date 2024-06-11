@@ -30,14 +30,25 @@ static void regen() {
   enemies::init(level);
   loot::init(level);
   quack::donald::data(::data);
+}
+
+static void next_level() {
   level++;
+  regen();
+}
+static void prev_level() {
+  if (level > 1)
+    --level;
+  regen();
 }
 
 struct init {
   init() {
     using namespace casein;
 
-    handle(KEY_DOWN, K_SPACE, regen);
+    handle(KEY_DOWN, K_RIGHT, next_level);
+    handle(KEY_DOWN, K_LEFT, prev_level);
+    handle(KEY_DOWN, K_DOWN, regen);
 
     using namespace quack::donald;
 
