@@ -1,5 +1,4 @@
 export module map;
-import lootroll;
 import rng;
 import spr;
 import quack;
@@ -187,18 +186,6 @@ export void gen(int level) {
     data[height - 2][width - 2] = spr::exit;
   } else {
     data[height - 2][1] = spr::exit;
-  }
-
-  for (auto y = 2; y < height - 2; y++) {
-    unsigned x{};
-    unsigned attempt{};
-
-    // Loot
-    do {
-      x = rng::rand(width - 4) + 2;
-    } while (data[y][x] != spr::nil && ++attempt < 100);
-    if (attempt < 100)
-      data[y][x] = lootroll(level);
   }
 }
 
