@@ -58,7 +58,7 @@ enum id : char {
 };
 
 unsigned blit(id i, float x, float y, quack::mapped_buffers &all) {
-  if (i == 0)
+  if (i == nil)
     return 0;
 
   auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
