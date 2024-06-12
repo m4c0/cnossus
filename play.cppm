@@ -7,6 +7,7 @@ import loot;
 import map;
 import player;
 import quack;
+import spr;
 import voo;
 
 namespace play {
@@ -32,6 +33,17 @@ export auto draw(quack::mapped_buffers &all) {
   return count;
 }
 
+static void take_loot(loot::loot *l) {
+  switch (l->spr) {
+  case spr::jar:
+  case spr::coffer:
+    break;
+  default:
+    player::coord = l->pos;
+    break;
+  }
+}
+
 export void move_by(int dx, int dy) {
   if (player::life == 0)
     return;
@@ -46,8 +58,7 @@ export void move_by(int dx, int dy) {
   if (auto *e = enemies::at(p)) {
     enemies::hit(*e, 1);
   } else if (auto *l = loot::at(p)) {
-    *l = {};
-    player::coord = p;
+    take_loot(l);
   } else {
     player::coord = p;
   }
