@@ -35,17 +35,16 @@ export void move_by(int dx, int dy) {
     return;
   if (auto *e = enemies::at(p)) {
     enemies::hit(*e, 1);
-    return;
+  } else {
+    player::coord = p;
   }
-
-  player::coord = p;
 
   for (auto &e : enemies::list) {
     auto p = e.coord + enemies::next_move(e);
     if (!map::can_walk(p.x, p.y))
       continue;
     if (enemies::at(p))
-      return;
+      continue;
     if (player::coord == p)
       continue;
 
