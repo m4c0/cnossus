@@ -4,10 +4,8 @@ export module mapview;
 
 import casein;
 import dotz;
-import enemies;
-import loot;
+import play;
 import map;
-import player;
 import quack;
 import voo;
 
@@ -15,20 +13,11 @@ static quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
   return new voo::sires_image("atlas.png", dq);
 }
 
-static unsigned data(quack::mapped_buffers all) {
-  auto count = map::draw(all);
-  count += loot::draw(all);
-  count += enemies::draw(all);
-  count += player::draw(all);
-  return count;
-}
+static unsigned data(quack::mapped_buffers all) { return play::draw(all); }
 
 static unsigned int level = 1;
 static void regen() {
-  map::gen(level);
-  player::init(level);
-  enemies::init(level);
-  loot::init(level);
+  play::init(level);
   quack::donald::data(::data);
 }
 
