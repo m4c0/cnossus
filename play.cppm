@@ -4,8 +4,13 @@ import loot;
 import map;
 import player;
 import quack;
+import voo;
 
 namespace play {
+export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
+  return new voo::sires_image("atlas.png", dq);
+}
+
 export void init(int level) {
   map::gen(level);
   player::init(level);

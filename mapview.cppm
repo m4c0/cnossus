@@ -9,10 +9,6 @@ import map;
 import quack;
 import voo;
 
-static quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
-  return new voo::sires_image("atlas.png", dq);
-}
-
 static unsigned data(quack::mapped_buffers all) { return play::draw(all); }
 
 static unsigned int level = 1;
@@ -49,7 +45,7 @@ struct init {
         .grid_pos = grid_size / 2.0f,
         .grid_size = grid_size,
     });
-    atlas(::atlas);
+    atlas(play::atlas);
     regen();
   }
 } i;
