@@ -37,5 +37,17 @@ export void move_by(int dx, int dy) {
     return;
 
   player::coord = p;
+
+  for (auto &e : enemies::list) {
+    auto p = e.coord + enemies::next_move(e);
+    if (!map::can_walk(p.x, p.y))
+      continue;
+    if (enemies::has(p))
+      return;
+    if (player::coord == p)
+      continue;
+
+    e.coord = p;
+  }
 }
 } // namespace play
