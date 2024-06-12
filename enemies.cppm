@@ -7,7 +7,7 @@ import quack;
 import rng;
 import spr;
 
-static unsigned life_of(spr::id id) {
+static auto life_of(spr::id id) {
   switch (id) {
   case spr::scorpion:
   case spr::spider:
@@ -37,7 +37,7 @@ export namespace enemies {
 struct enemy {
   dotz::ivec2 coord{};
   spr::id spr{spr::nil};
-  unsigned life{};
+  int life{};
 };
 
 hai::array<enemy> list{map::height};
@@ -67,14 +67,14 @@ auto draw(quack::mapped_buffers &all) {
   return count;
 }
 
-bool has(dotz::ivec2 p) {
+enemy *at(dotz::ivec2 p) {
   for (auto &e : list) {
     if (e.spr == spr::nil)
       continue;
     if (e.coord == p)
-      return true;
+      return &e;
   }
-  return false;
+  return nullptr;
 }
 
 dotz::ivec2 next_move(const enemy &e) {
@@ -110,5 +110,14 @@ unsigned poison_of(const enemy &e) {
   default:
     return 0;
   }
+}
+
+void hit(enemy &e, int roll) {
+  if (e.spr == spr::nil)
+    return;
+
+  e.life -= roll;
+  if (e.life <= 0)
+    e = {};
 }
 } // namespace enemies

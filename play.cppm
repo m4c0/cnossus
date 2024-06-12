@@ -33,8 +33,10 @@ export void move_by(int dx, int dy) {
   auto p = player::coord + dotz::ivec2{dx, dy};
   if (!map::can_walk(p.x, p.y))
     return;
-  if (enemies::has(p))
+  if (auto *e = enemies::at(p)) {
+    enemies::hit(*e, 1);
     return;
+  }
 
   player::coord = p;
 
@@ -42,7 +44,7 @@ export void move_by(int dx, int dy) {
     auto p = e.coord + enemies::next_move(e);
     if (!map::can_walk(p.x, p.y))
       continue;
-    if (enemies::has(p))
+    if (enemies::at(p))
       return;
     if (player::coord == p)
       continue;
