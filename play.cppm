@@ -30,6 +30,9 @@ export auto draw(quack::mapped_buffers &all) {
 }
 
 export void move_by(int dx, int dy) {
+  if (player::life == 0)
+    return;
+
   auto p = player::coord + dotz::ivec2{dx, dy};
   if (!map::can_walk(p.x, p.y))
     return;
@@ -45,8 +48,12 @@ export void move_by(int dx, int dy) {
       continue;
     if (enemies::at(p))
       continue;
-    if (player::coord == p)
+    if (player::coord == p) {
+      // TODO: attack roll
+      // TODO: game over
+      player::hit(1);
       continue;
+    }
 
     e.coord = p;
   }
