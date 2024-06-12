@@ -9,6 +9,17 @@ export constexpr const auto height = 20;
 
 export spr::id data[height][width]{};
 
+export bool can_walk(unsigned x, unsigned y) {
+  if (x >= width || y >= height)
+    return false;
+
+  auto id = data[y][x];
+  if (id == spr::nil || id == spr::mosaic)
+    return true;
+
+  return false;
+}
+
 export unsigned draw(quack::mapped_buffers &all) {
   unsigned count{};
   for (auto y = 0; y < height; y++) {

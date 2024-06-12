@@ -31,7 +31,9 @@ export auto draw(quack::mapped_buffers &all) {
 
 export void move_by(int dx, int dy) {
   auto p = player::coord + dotz::ivec2{dx, dy};
-  if (p.x < 0 || p.y < 0 || p.x >= map::width || p.y >= map::height)
+  if (!map::can_walk(p.x, p.y))
+    return;
+  if (enemies::has(p))
     return;
 
   player::coord = p;

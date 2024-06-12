@@ -33,4 +33,14 @@ auto draw(quack::mapped_buffers &all) {
   }
   return count;
 }
+
+bool has(dotz::ivec2 p) {
+  for (auto &e : list) {
+    if (e.spr == spr::nil)
+      continue;
+    if (e.pos == p)
+      return true;
+  }
+  return false;
+}
 } // namespace enemies
