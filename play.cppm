@@ -45,6 +45,9 @@ export void move_by(int dx, int dy) {
     return;
   if (auto *e = enemies::at(p)) {
     enemies::hit(*e, 1);
+  } else if (auto *l = loot::at(p)) {
+    *l = {};
+    player::coord = p;
   } else {
     player::coord = p;
   }

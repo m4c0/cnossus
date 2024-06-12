@@ -33,4 +33,14 @@ auto draw(quack::mapped_buffers &all) {
   }
   return count;
 }
+
+loot *at(dotz::ivec2 p) {
+  auto &l = list[p.y];
+  if (l.pos.x != p.x)
+    return nullptr;
+  if (l.spr == spr::nil)
+    return nullptr;
+
+  return &l;
+}
 } // namespace loot
