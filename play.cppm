@@ -14,7 +14,10 @@ export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
   return new voo::sires_image("atlas.png", dq);
 }
 
-export void init(int level) {
+int level{};
+
+export void init(int lvl) {
+  level = lvl;
   map::gen(level);
   player::init(level);
   enemies::init(level);
@@ -34,6 +37,10 @@ export void move_by(int dx, int dy) {
     return;
 
   auto p = player::coord + dotz::ivec2{dx, dy};
+  if (map::data[p.y][p.x] == spr::exit) {
+    init(level + 1);
+    return;
+  }
   if (!map::can_walk(p.x, p.y))
     return;
   if (auto *e = enemies::at(p)) {
