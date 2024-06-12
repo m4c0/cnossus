@@ -30,6 +30,10 @@ export auto draw(quack::mapped_buffers &all) {
 }
 
 export void move_by(int dx, int dy) {
-  player::coord = player::coord + dotz::ivec2{dx, dy};
+  auto p = player::coord + dotz::ivec2{dx, dy};
+  if (p.x < 0 || p.y < 0 || p.x >= map::width || p.y >= map::height)
+    return;
+
+  player::coord = p;
 }
 } // namespace play
