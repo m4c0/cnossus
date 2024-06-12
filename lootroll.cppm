@@ -42,12 +42,29 @@ static spr::id jar_loot(int level) {
   return list[lt.pick()];
 }
 
+static spr::id coffer_loot(int level) {
+  constexpr const spr::id armour[7]{
+      spr::cloth,    spr::leather, spr::greave, spr::armguard,
+      spr::pauldron, spr::leather, spr::scale,
+  };
+  constexpr const spr::id weapons[5]{
+      spr::knife, spr::sickle, spr::adze, spr::axe, spr::sword,
+  };
+  rng::random_picker lt{5};
+  lt[0] = lt[1] = lt[2] = lt[3] = 1;
+  lt[4] = 2;
+
+  const spr::id list[5]{armour[level / 3], weapons[level / 4], spr::bag,
+                        spr::oillamp, spr::nil};
+  return list[lt.pick()];
+}
+
 export spr::id lootroll(int level, spr::id origin) {
   switch (origin) {
   case spr::jar:
     return jar_loot(level);
   case spr::coffer:
-    return spr::nil;
+    return coffer_loot(level);
   default:
     return spr::nil;
   }
