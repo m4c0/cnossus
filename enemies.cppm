@@ -11,9 +11,36 @@ export namespace enemies {
 struct enemy {
   dotz::ivec2 coord{};
   spr::id spr{spr::nil};
+  unsigned life{};
 };
 
 hai::array<enemy> list{map::height};
+
+unsigned life_of(spr::id id) {
+  switch (id) {
+  case spr::scorpion:
+  case spr::spider:
+    return 4;
+  case spr::rat:
+  case spr::centipede:
+    return 6;
+  case spr::cerberus:
+  case spr::harpy:
+  case spr::snake:
+    return 8;
+  case spr::bull:
+  case spr::chimera:
+  case spr::griffin:
+  case spr::manticore:
+  case spr::sphinx:
+    return 12;
+  case spr::crocodile:
+  case spr::drakon:
+    return 20;
+  default:
+    return 0;
+  }
+}
 
 void init(int level) {
   for (auto y = 2; y < map::height - 2; y++) {
@@ -23,7 +50,12 @@ void init(int level) {
       continue;
     }
 
-    list[y] = {{x, y}, mobroll(level)};
+    auto spr = mobroll(level);
+    list[y] = enemy{
+        .coord = {x, y},
+        .spr = spr,
+        .life = life_of(spr),
+    };
   }
 }
 
