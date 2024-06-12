@@ -1,3 +1,5 @@
+#pragma leco add_resource "atlas.png"
+
 export module play;
 import enemies;
 import loot;
