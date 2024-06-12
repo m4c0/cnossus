@@ -16,6 +16,22 @@ static void load_level() {
   play::init(level);
   quack::donald::data(::data);
 }
+static void left() {
+  play::move_by(-1, 0);
+  quack::donald::data(::data);
+}
+static void right() {
+  play::move_by(1, 0);
+  quack::donald::data(::data);
+}
+static void up() {
+  play::move_by(0, -1);
+  quack::donald::data(::data);
+}
+static void down() {
+  play::move_by(0, 1);
+  quack::donald::data(::data);
+}
 
 struct init {
   init() {
@@ -23,7 +39,10 @@ struct init {
 
     using namespace casein;
 
-    // handle(KEY_DOWN, K_RIGHT, next_level);
+    handle(KEY_DOWN, K_LEFT, left);
+    handle(KEY_DOWN, K_RIGHT, right);
+    handle(KEY_DOWN, K_UP, up);
+    handle(KEY_DOWN, K_DOWN, down);
 
     using namespace quack::donald;
 

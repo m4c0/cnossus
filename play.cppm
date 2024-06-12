@@ -1,6 +1,7 @@
 #pragma leco add_resource "atlas.png"
 
 export module play;
+import dotz;
 import enemies;
 import loot;
 import map;
@@ -26,5 +27,9 @@ export auto draw(quack::mapped_buffers &all) {
   count += enemies::draw(all);
   count += player::draw(all);
   return count;
+}
+
+export void move_by(int dx, int dy) {
+  player::coord = player::coord + dotz::ivec2{dx, dy};
 }
 } // namespace play
