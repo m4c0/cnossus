@@ -4,6 +4,7 @@ export module play;
 import dotz;
 import enemies;
 import loot;
+import lootroll;
 import map;
 import player;
 import quack;
@@ -37,6 +38,7 @@ static void take_loot(loot::loot *l) {
   switch (l->spr) {
   case spr::jar:
   case spr::coffer:
+    l->spr = lootroll(level, l->spr);
     break;
   default:
     player::coord = l->pos;

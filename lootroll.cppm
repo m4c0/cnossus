@@ -30,3 +30,25 @@ export spr::id lootroll(int level) {
     return endgame_item();
   }
 }
+
+static spr::id jar_loot(int level) {
+  constexpr const auto size = 4;
+  constexpr const spr::id list[size]{spr::driedfruit, spr::candle, spr::cheese,
+                                     spr::nil};
+  rng::random_picker lt{size};
+  lt[0] = lt[1] = 30;
+  lt[2] = 30 - level;
+  lt[3] = 60;
+  return list[lt.pick()];
+}
+
+export spr::id lootroll(int level, spr::id origin) {
+  switch (origin) {
+  case spr::jar:
+    return jar_loot(level);
+  case spr::coffer:
+    return spr::nil;
+  default:
+    return spr::nil;
+  }
+}
