@@ -8,7 +8,7 @@ import spr;
 
 export namespace loot {
 struct loot {
-  dotz::ivec2 pos{};
+  dotz::ivec2 coord{};
   spr::id spr{spr::nil};
 };
 
@@ -29,14 +29,14 @@ void init(int level) {
 auto draw(quack::mapped_buffers &all) {
   unsigned count{};
   for (auto &e : list) {
-    count += spr::blit(e.spr, e.pos.x, e.pos.y, all);
+    count += spr::blit(e.spr, e.coord.x, e.coord.y, all);
   }
   return count;
 }
 
 loot *at(dotz::ivec2 p) {
   auto &l = list[p.y];
-  if (l.pos.x != p.x)
+  if (l.coord.x != p.x)
     return nullptr;
   if (l.spr == spr::nil)
     return nullptr;

@@ -44,7 +44,7 @@ static void take_loot(loot::loot *l) {
     l->spr = lootroll(level, l->spr);
     break;
   default:
-    player::coord = l->pos;
+    player::coord = l->coord;
     if (inv::take(l->spr))
       l->spr = spr::nil;
     break;
