@@ -69,3 +69,12 @@ export spr::id lootroll(int level, spr::id origin) {
     return spr::nil;
   }
 }
+
+export spr::id lootroll(spr::id origin) {
+  switch (origin) {
+  case spr::rat:
+    return spr::rawmeat;
+  default:
+    return spr::nil;
+  }
+}

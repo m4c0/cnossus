@@ -63,7 +63,15 @@ export void move_by(int dx, int dy) {
   if (!map::can_walk(p.x, p.y))
     return;
   if (auto *e = enemies::at(p)) {
-    enemies::hit(*e, 1);
+    if (e->life > 0) {
+      // TODO: player roll
+      // TODO: player attack
+      enemies::hit(*e, 1);
+    } else if (e->spr != spr::nil) {
+      player::coord = p;
+      if (inv::take(e->spr))
+        e->spr = spr::nil;
+    }
   } else if (auto *l = loot::at(p)) {
     take_loot(l);
   } else {

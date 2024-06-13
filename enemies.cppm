@@ -1,6 +1,7 @@
 export module enemies;
 import dotz;
 import hai;
+import lootroll;
 import map;
 import mobroll;
 import quack;
@@ -124,6 +125,9 @@ void hit(enemy &e, int roll) {
 
   e.life -= roll;
   if (e.life <= 0)
-    e = {};
+    e = {
+        .coord = e.coord,
+        .spr = lootroll(e.spr),
+    };
 }
 } // namespace enemies
