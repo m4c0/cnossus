@@ -44,6 +44,8 @@ static void take_loot(loot::loot *l) {
     break;
   default:
     player::coord = l->pos;
+    if (inv::take(l->spr))
+      l->spr = spr::nil;
     break;
   }
 }
