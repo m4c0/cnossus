@@ -16,6 +16,7 @@ static auto life_of(spr::id id) {
   case spr::rat:
   case spr::centipede:
     return 6;
+  case spr::boar:
   case spr::cerberus:
   case spr::harpy:
   case spr::snake:
