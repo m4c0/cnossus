@@ -7,6 +7,9 @@ bool bag{};
 spr::id lights[3]{};
 spr::id food[3]{};
 
+// TODO: weapons
+// TODO: armour
+
 export void init(int level) {
   if (level == 1) {
     bag = false;
