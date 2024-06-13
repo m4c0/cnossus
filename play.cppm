@@ -3,6 +3,7 @@
 export module play;
 import dotz;
 import enemies;
+import inv;
 import loot;
 import lootroll;
 import map;
@@ -24,6 +25,7 @@ export void init(int lvl) {
   player::init(level);
   enemies::init(level);
   loot::init(level);
+  inv::init(level);
 }
 
 export auto draw(quack::mapped_buffers &all) {

@@ -1,25 +1,20 @@
 export module inv;
-import ecs;
-import pog;
+import quack;
+import spr;
 
 namespace inv {
-bool player_has_bag(ecs::ec *ec) {
-  for (auto [id, _] : ec->in_use) {
-    if (ec->bags.has(id))
-      return true;
+bool bag{};
+spr::id lights[3]{};
+
+export void init(int level) {
+  if (level == 1) {
+    bag = false;
+    for (auto &l : lights)
+      l = spr::nil;
   }
-  return false;
 }
-
-export void take_items(ecs::ec *ec) {
-  auto pc = ec->coords.get(ec->player.get_id());
-  ec->usables.remove_if([&](auto id, auto) -> bool {
-    if (pc != ec->coords.get(id))
-      return false;
-
-    ecs::remove_item(ec, id);
-    return false;
-  });
+export auto draw(quack::mapped_buffers &all) {
+  //
+  return 0;
 }
-
 } // namespace inv
