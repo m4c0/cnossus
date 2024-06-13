@@ -70,10 +70,24 @@ export spr::id lootroll(int level, spr::id origin) {
   }
 }
 
+static spr::id loot3(spr::id a, spr::id b = spr::nil, spr::id c = spr::nil) {
+  const spr::id table[5]{a, b, c, spr::nil, spr::nil};
+  return table[rng::rand(5)];
+}
 export spr::id lootroll(spr::id origin) {
   switch (origin) {
+  case spr::snake:
+    return loot3(spr::rawmeat, spr::armguard);
   case spr::rat:
-    return spr::rawmeat;
+    return loot3(spr::rawmeat);
+  case spr::crocodile:
+    return loot3(spr::rawmeat, spr::leather);
+  case spr::drakon:
+    return loot3(spr::shield, spr::shield);
+  case spr::boar:
+    return loot3(spr::rawmeat, spr::rawmeat);
+  case spr::bull:
+    return loot3(spr::rawmeat, spr::rawmeat, spr::rawmeat);
   default:
     return spr::nil;
   }
