@@ -5,6 +5,7 @@ import casein;
 import dotz;
 import play;
 import map;
+import rng;
 import quack;
 import voo;
 
@@ -35,6 +36,7 @@ static void down() {
 
 struct init {
   init() {
+    rng::seed();
     load_level();
 
     using namespace casein;
