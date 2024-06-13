@@ -78,6 +78,9 @@ enemy *at(dotz::ivec2 p) {
 }
 
 dotz::ivec2 next_move(const enemy &e) {
+  if (e.life == 0)
+    return {};
+
   switch (e.spr) {
   case spr::nil:
     return {};
