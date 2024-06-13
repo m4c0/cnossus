@@ -5,12 +5,15 @@ import spr;
 namespace inv {
 bool bag{};
 spr::id lights[3]{};
+spr::id food[3]{};
 
 export void init(int level) {
   if (level == 1) {
     bag = false;
     for (auto &l : lights)
       l = spr::nil;
+    for (auto &f : food)
+      f = spr::nil;
   }
 }
 
@@ -29,9 +32,24 @@ export auto draw(quack::mapped_buffers &all) {
   for (auto l : lights)
     count += inv::blit(l, x, 0, all);
 
+  for (auto f : food)
+    count += inv::blit(f, x, 0, all);
+
   return count;
 }
 
+bool take(spr::id item, spr::id (&list)[3]) {
+  if (!bag && list[0] != spr::nil) {
+    return false;
+  }
+  for (auto &l : list) {
+    if (l != spr::nil)
+      continue;
+    l = item;
+    return true;
+  }
+  return false;
+}
 export bool take(spr::id item) {
   switch (item) {
   case spr::bag:
@@ -40,19 +58,17 @@ export bool take(spr::id item) {
 
     bag = true;
     return true;
+
   case spr::torch:
   case spr::candle:
   case spr::oillamp:
-    if (!bag && lights[0] != spr::nil) {
-      return false;
-    }
-    for (auto &l : lights) {
-      if (l != spr::nil)
-        continue;
-      l = item;
-      return true;
-    }
-    return false;
+    return take(item, lights);
+
+  case spr::driedfruit:
+  case spr::cheese:
+  case spr::rawmeat:
+    return take(item, food);
+
   default:
     return false;
   }
