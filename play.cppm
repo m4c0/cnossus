@@ -52,7 +52,7 @@ static void take_loot(loot::loot *l) {
 }
 
 export void move_by(int dx, int dy) {
-  if (player::life == 0)
+  if (player::life <= 0)
     return;
 
   auto p = player::coord + dotz::ivec2{dx, dy};
