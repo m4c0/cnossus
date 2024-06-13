@@ -27,7 +27,7 @@ export auto draw(quack::mapped_buffers &all) {
   float x = 0;
 
   if (bag)
-    count += spr::blit(spr::bag, x, 0, all);
+    count += inv::blit(spr::bag, x, 0, all);
 
   for (auto l : lights)
     count += inv::blit(l, x, 0, all);
