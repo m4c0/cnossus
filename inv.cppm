@@ -13,9 +13,23 @@ export void init(int level) {
       l = spr::nil;
   }
 }
+
+auto blit(spr::id id, float &x, float y, quack::mapped_buffers &all) {
+  if (id == spr::nil)
+    return 0U;
+  return spr::blit(id, x++, y, all);
+}
 export auto draw(quack::mapped_buffers &all) {
-  //
-  return 0;
+  auto count = 0;
+  float x = 0;
+
+  if (bag)
+    count += spr::blit(spr::bag, x, 0, all);
+
+  for (auto l : lights)
+    count += inv::blit(l, x, 0, all);
+
+  return count;
 }
 
 export bool take(spr::id item) {

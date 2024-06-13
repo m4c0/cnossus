@@ -33,6 +33,7 @@ export auto draw(quack::mapped_buffers &all) {
   count += loot::draw(all);
   count += enemies::draw(all);
   count += player::draw(all);
+  count += inv::draw(all);
   return count;
 }
 
