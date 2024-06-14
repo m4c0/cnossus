@@ -26,17 +26,18 @@ auto blit(spr::id id, float &x, float y, quack::mapped_buffers &all) {
   return spr::blit(id, x++, y, all);
 }
 export auto draw(quack::mapped_buffers &all) {
+  constexpr const auto y = 1;
   auto count = 0;
   float x = 0;
 
   if (bag)
-    count += inv::blit(spr::bag, x, 0, all);
+    count += inv::blit(spr::bag, x, y, all);
 
   for (auto l : lights)
-    count += inv::blit(l, x, 0, all);
+    count += inv::blit(l, x, y, all);
 
   for (auto f : food)
-    count += inv::blit(f, x, 0, all);
+    count += inv::blit(f, x, y, all);
 
   return count;
 }

@@ -20,7 +20,12 @@ export void init(int level) {
 export auto draw(quack::mapped_buffers &all) {
   if (life == 0)
     return 0U;
-  return spr::blit(spr::minotaur, coord.x, coord.y, all);
+
+  auto count = spr::blit(spr::minotaur, coord.x, coord.y, all);
+  for (auto x = 0; x < life; x++) {
+    count += spr::blit(spr::minotaur, x, 0, all);
+  }
+  return count;
 }
 
 export void hit(int roll) {
