@@ -39,6 +39,12 @@ export auto draw(quack::mapped_buffers &all) {
   for (auto f : d.food)
     count += inv::blit(f, x, y, all);
 
+  x = 0;
+  count += inv::blit(d.weapon, x, y + 1, all);
+
+  for (auto a : d.armour)
+    count += inv::blit(a, x, y + 1, all);
+
   return count;
 }
 
