@@ -3,26 +3,20 @@ import quack;
 import spr;
 
 namespace inv {
-bool bag{};
-spr::id lights[3]{};
-spr::id food[3]{};
-spr::id weapon{};
-spr::id armour[5]{};
+struct data {
+  bool bag{};
+  spr::id lights[3]{};
+  spr::id food[3]{};
+  spr::id weapon{};
+  spr::id armour[5]{};
+} d;
 
 // TODO: weapons
 // TODO: armour
 
 export void init(int level) {
   if (level == 1) {
-    bag = false;
-    for (auto &l : lights)
-      l = spr::nil;
-    for (auto &f : food)
-      f = spr::nil;
-
-    weapon = spr::nil;
-    for (auto &a : armour)
-      a = spr::nil;
+    d = {};
   }
 }
 
@@ -36,20 +30,20 @@ export auto draw(quack::mapped_buffers &all) {
   auto count = 0;
   float x = 0;
 
-  if (bag)
+  if (d.bag)
     count += inv::blit(spr::bag, x, y, all);
 
-  for (auto l : lights)
+  for (auto l : d.lights)
     count += inv::blit(l, x, y, all);
 
-  for (auto f : food)
+  for (auto f : d.food)
     count += inv::blit(f, x, y, all);
 
   return count;
 }
 
 bool take(spr::id item, spr::id (&list)[3]) {
-  if (!bag && list[0] != spr::nil) {
+  if (!d.bag && list[0] != spr::nil) {
     return false;
   }
   for (auto &l : list) {
@@ -63,21 +57,21 @@ bool take(spr::id item, spr::id (&list)[3]) {
 export bool take(spr::id item) {
   switch (item) {
   case spr::bag:
-    if (bag)
+    if (d.bag)
       return false;
 
-    bag = true;
+    d.bag = true;
     return true;
 
   case spr::torch:
   case spr::candle:
   case spr::oillamp:
-    return take(item, lights);
+    return take(item, d.lights);
 
   case spr::driedfruit:
   case spr::cheese:
   case spr::rawmeat:
-    return take(item, food);
+    return take(item, d.food);
 
   default:
     return false;
