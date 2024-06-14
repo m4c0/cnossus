@@ -6,6 +6,8 @@ namespace inv {
 bool bag{};
 spr::id lights[3]{};
 spr::id food[3]{};
+spr::id weapon{};
+spr::id armour[5]{};
 
 // TODO: weapons
 // TODO: armour
@@ -17,6 +19,10 @@ export void init(int level) {
       l = spr::nil;
     for (auto &f : food)
       f = spr::nil;
+
+    weapon = spr::nil;
+    for (auto &a : armour)
+      a = spr::nil;
   }
 }
 
