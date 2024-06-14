@@ -60,6 +60,36 @@ bool take(spr::id item, spr::id (&list)[3]) {
   }
   return false;
 }
+
+static auto weapon_attack(spr::id item) {
+  switch (item) {
+  case spr::knife:
+    return 2;
+  case spr::sickle:
+    return 3;
+  case spr::adze:
+    return 5;
+  case spr::axe:
+    return 8;
+  case spr::doubleaxe:
+    return 10;
+  case spr::sword:
+    return 11;
+  case spr::spear:
+    return 15;
+  default:
+    return 1;
+  }
+}
+static bool take_weapon(spr::id item) {
+  auto att = weapon_attack(item);
+  if (att <= weapon_attack(d.weapon))
+    return false;
+
+  d.weapon = item;
+  return true;
+}
+
 export bool take(spr::id item) {
   switch (item) {
   case spr::bag:
@@ -68,6 +98,15 @@ export bool take(spr::id item) {
 
     d.bag = true;
     return true;
+
+  case spr::knife:
+  case spr::sickle:
+  case spr::adze:
+  case spr::axe:
+  case spr::doubleaxe:
+  case spr::sword:
+  case spr::spear:
+    return take_weapon(item);
 
   case spr::torch:
   case spr::candle:
