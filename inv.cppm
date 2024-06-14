@@ -11,9 +11,6 @@ struct data {
   spr::id armour[5]{};
 } d;
 
-// TODO: weapons
-// TODO: armour
-
 export void init(int level) {
   if (level == 1) {
     d = {};
@@ -90,6 +87,14 @@ static bool take_weapon(spr::id item) {
   return true;
 }
 
+static bool take_armour(spr::id item, spr::id &i) {
+  if (i != spr::nil)
+    return false;
+
+  item = i;
+  return true;
+}
+
 export bool take(spr::id item) {
   switch (item) {
   case spr::bag:
@@ -107,6 +112,17 @@ export bool take(spr::id item) {
   case spr::sword:
   case spr::spear:
     return take_weapon(item);
+
+  case spr::greave:
+    return take_armour(item, d.armour[0]);
+  case spr::armguard:
+    return take_armour(item, d.armour[1]);
+  case spr::pauldron:
+    return take_armour(item, d.armour[2]);
+  case spr::scale:
+    return take_armour(item, d.armour[3]);
+  case spr::shield:
+    return take_armour(item, d.armour[4]);
 
   case spr::torch:
   case spr::candle:
