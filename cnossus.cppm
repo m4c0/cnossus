@@ -46,6 +46,11 @@ struct init {
     handle(KEY_DOWN, K_UP, up);
     handle(KEY_DOWN, K_DOWN, down);
 
+    handle(KEY_DOWN, K_SPACE, [] {
+      level = 1;
+      load_level();
+    });
+
     using namespace quack::donald;
 
     app_name("cnossus");
