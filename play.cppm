@@ -79,6 +79,9 @@ export void move_by(int dx, int dy) {
   }
 
   for (auto &e : enemies::list) {
+    if (e.spr == spr::nil || e.life == 0)
+      continue;
+
     auto p = e.coord + enemies::next_move(e);
     if (!map::can_walk(p.x, p.y))
       continue;
@@ -86,7 +89,6 @@ export void move_by(int dx, int dy) {
       continue;
     if (player::coord == p) {
       // TODO: attack roll
-      // TODO: game over
       player::hit(1);
       continue;
     }
