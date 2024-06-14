@@ -91,7 +91,7 @@ static bool take_armour(spr::id item, spr::id &i) {
   if (i != spr::nil)
     return false;
 
-  item = i;
+  i = item;
   return true;
 }
 
