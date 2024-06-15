@@ -52,6 +52,8 @@ static void take_loot(loot::loot *l) {
 }
 
 export void move_by(int dx, int dy) {
+  // TODO: poison damage
+
   if (player::life <= 0)
     return;
 
@@ -89,11 +91,11 @@ export void move_by(int dx, int dy) {
     if (enemies::at(p))
       continue;
     if (player::coord == p) {
-      // TODO: poison damage
       constexpr const auto player_base_def = 10;
       auto enemy_atk = enemies::life_of(e.spr);
       auto player_def = inv::defense() + player_base_def;
-      player::hit(enemy_atk - player_def);
+      auto poison = enemies::poison_of(e.spr);
+      player::hit(enemy_atk - player_def, poison);
       continue;
     }
 

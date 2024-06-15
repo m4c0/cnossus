@@ -102,8 +102,8 @@ dotz::ivec2 next_move(const enemy &e) {
   }
 }
 
-unsigned poison_of(const enemy &e) {
-  switch (e.spr) {
+unsigned poison_of(spr::id e) {
+  switch (e) {
   case spr::snake:
   case spr::spider:
     return 4;
