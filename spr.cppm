@@ -81,6 +81,7 @@ enum id : char {
   wall = '&',
 };
 
+// TODO: global for "all", multiplier, etc
 unsigned blit(id i, float x, float y, quack::mapped_buffers &all) {
   if (i == nil)
     return 0;

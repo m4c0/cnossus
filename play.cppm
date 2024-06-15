@@ -53,6 +53,7 @@ static void take_loot(loot::loot *l) {
 
 export void move_by(int dx, int dy) {
   // TODO: poison damage
+  // TODO: light diminish
 
   if (player::life <= 0)
     return;

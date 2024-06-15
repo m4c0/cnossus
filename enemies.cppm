@@ -83,6 +83,7 @@ dotz::ivec2 next_move(const enemy &e) {
   if (e.life <= 0)
     return {};
 
+  // TODO: move depending on light and behaviour
   switch (e.spr) {
   case spr::nil:
     return {};
