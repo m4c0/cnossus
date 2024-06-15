@@ -117,12 +117,10 @@ unsigned poison_of(const enemy &e) {
   }
 }
 
-void hit(enemy &e, int atk) {
+void hit(enemy &e, int roll) {
   if (e.spr == spr::nil)
     return;
 
-  auto def = life_of(e.spr);
-  auto roll = atk - def;
   if (roll <= 0)
     return;
 

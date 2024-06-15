@@ -64,7 +64,10 @@ export void move_by(int dx, int dy) {
     return;
   if (auto *e = enemies::at(p)) {
     if (e->life > 0) {
-      enemies::hit(*e, inv::attack() + 10);
+      constexpr const auto player_base_attack = 10;
+      auto player_atk = inv::attack() + player_base_attack;
+      auto enemy_def = enemies::life_of(e->spr);
+      enemies::hit(*e, player_atk - enemy_def);
     } else if (e->spr != spr::nil) {
       player::coord = p;
       if (inv::take(e->spr))
