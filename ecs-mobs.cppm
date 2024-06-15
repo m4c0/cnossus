@@ -2,7 +2,6 @@ export module ecs:mobs;
 import :ec;
 import :entities;
 import :items;
-import :loot;
 import pog;
 import spr;
 import rng;
