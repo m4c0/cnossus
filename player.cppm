@@ -1,6 +1,5 @@
 export module player;
 import dotz;
-import inv;
 import map;
 import rng;
 import spr;
@@ -30,9 +29,7 @@ export auto draw(quack::mapped_buffers &all) {
   return count;
 }
 
-export void hit(int atk) {
-  auto def = inv::defense();
-  auto roll = atk - def;
+export void hit(int roll) {
   if (roll <= 0)
     return;
 

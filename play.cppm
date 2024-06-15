@@ -64,9 +64,7 @@ export void move_by(int dx, int dy) {
     return;
   if (auto *e = enemies::at(p)) {
     if (e->life > 0) {
-      // TODO: player roll
-      // TODO: player attack
-      enemies::hit(*e, 1);
+      enemies::hit(*e, inv::attack() + 10);
     } else if (e->spr != spr::nil) {
       player::coord = p;
       if (inv::take(e->spr))
@@ -88,8 +86,11 @@ export void move_by(int dx, int dy) {
     if (enemies::at(p))
       continue;
     if (player::coord == p) {
-      // TODO: attack roll
-      player::hit(1);
+      // TODO: poison damage
+      constexpr const auto player_base_def = 10;
+      auto enemy_atk = enemies::life_of(e.spr);
+      auto player_def = inv::defense() + player_base_def;
+      player::hit(enemy_atk - player_def);
       continue;
     }
 

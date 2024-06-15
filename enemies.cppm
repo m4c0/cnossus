@@ -8,7 +8,16 @@ import quack;
 import rng;
 import spr;
 
-static auto life_of(spr::id id) {
+export namespace enemies {
+struct enemy {
+  dotz::ivec2 coord{};
+  spr::id spr{spr::nil};
+  int life{};
+};
+
+hai::array<enemy> list{map::height};
+
+auto life_of(spr::id id) {
   switch (id) {
   case spr::scorpion:
   case spr::spider:
@@ -34,15 +43,6 @@ static auto life_of(spr::id id) {
     return 0;
   }
 }
-
-export namespace enemies {
-struct enemy {
-  dotz::ivec2 coord{};
-  spr::id spr{spr::nil};
-  int life{};
-};
-
-hai::array<enemy> list{map::height};
 
 void init(int level) {
   for (auto y = 2; y < map::height - 2; y++) {
