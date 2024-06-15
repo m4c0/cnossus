@@ -121,8 +121,10 @@ void hit(enemy &e, int roll) {
   if (e.spr == spr::nil)
     return;
 
-  // TODO: defense roll
-  // auto def = life_of(e.spr);
+  auto def = life_of(e.spr);
+  roll -= def;
+  if (roll <= 0)
+    return;
 
   e.life -= roll;
   if (e.life <= 0)
