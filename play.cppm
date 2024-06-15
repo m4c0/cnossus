@@ -4,6 +4,7 @@ export module play;
 import dotz;
 import enemies;
 import inv;
+import light;
 import loot;
 import lootroll;
 import map;
@@ -25,6 +26,7 @@ export void init(int lvl) {
   player::init(level);
   enemies::init(level);
   loot::init(level);
+  light::init(level);
   inv::init(level);
 }
 
@@ -33,6 +35,7 @@ export void draw() {
   loot::draw();
   enemies::draw();
   player::draw();
+  light::draw();
   inv::draw();
 }
 
@@ -51,7 +54,6 @@ static void take_loot(loot::loot *l) {
 }
 
 export void move_by(int dx, int dy) {
-  // TODO: poison damage
   // TODO: light diminish
 
   if (player::life <= 0)
