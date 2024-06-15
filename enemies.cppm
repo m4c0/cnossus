@@ -4,7 +4,7 @@ import hai;
 import lootroll;
 import map;
 import mobroll;
-import quack;
+import qsu;
 import rng;
 import spr;
 
@@ -61,12 +61,10 @@ void init(int level) {
   }
 }
 
-auto draw(quack::mapped_buffers &all) {
-  unsigned count{};
+void draw() {
   for (auto &e : list) {
-    count += spr::blit(e.spr, e.coord.x, e.coord.y, all);
+    qsu::blit(e.spr, e.coord.x, e.coord.y);
   }
-  return count;
 }
 
 enemy *at(dotz::ivec2 p) {

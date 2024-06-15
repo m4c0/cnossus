@@ -1,5 +1,5 @@
 export module inv;
-import quack;
+import qsu;
 import spr;
 
 namespace inv {
@@ -17,32 +17,28 @@ export void init(int level) {
   }
 }
 
-auto blit(spr::id id, float &x, float y, quack::mapped_buffers &all) {
-  if (id == spr::nil)
-    return 0U;
-  return spr::blit(id, x++, y, all);
+void blit(spr::id id, float &x, float y) {
+  if (id != spr::nil)
+    qsu::blit(id, x++, y);
 }
-export auto draw(quack::mapped_buffers &all) {
+export void draw() {
   constexpr const auto y = 1;
-  auto count = 0;
   float x = 0;
 
   if (d.bag)
-    count += inv::blit(spr::bag, x, y, all);
+    inv::blit(spr::bag, x, y);
 
   for (auto l : d.lights)
-    count += inv::blit(l, x, y, all);
+    inv::blit(l, x, y);
 
   for (auto f : d.food)
-    count += inv::blit(f, x, y, all);
+    inv::blit(f, x, y);
 
   x = 0;
-  count += inv::blit(d.weapon, x, y + 1, all);
+  inv::blit(d.weapon, x, y + 1);
 
   for (auto a : d.armour)
-    count += inv::blit(a, x, y + 1, all);
-
-  return count;
+    inv::blit(a, x, y + 1);
 }
 
 bool take(spr::id item, spr::id (&list)[3]) {

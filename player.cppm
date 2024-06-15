@@ -3,7 +3,7 @@ import dotz;
 import map;
 import rng;
 import spr;
-import quack;
+import qsu;
 
 static constexpr const auto initial_life = 20;
 
@@ -20,16 +20,15 @@ export void init(int level) {
   coord = (level % 2) ? dotz::ivec2{1, 1} : dotz::ivec2{map::width - 2, 1};
 }
 
-export auto draw(quack::mapped_buffers &all) {
+export void draw() {
   if (life == 0)
-    return 0U;
+    return;
 
   // TODO: show poison
-  auto count = spr::blit(spr::minotaur, coord.x, coord.y, all);
+  qsu::blit(spr::minotaur, coord.x, coord.y);
   for (auto x = 0; x < life; x++) {
-    count += spr::blit(spr::minotaur, x, 0, all);
+    qsu::blit(spr::minotaur, x, 0);
   }
-  return count;
 }
 
 export void hit(int roll, int poison) {

@@ -6,9 +6,14 @@ import dotz;
 import play;
 import map;
 import quack;
-import voo;
+import qsu;
 
-static unsigned data(quack::mapped_buffers all) { return play::draw(all); }
+static unsigned data(quack::mapped_buffers all) {
+  qsu::count = 0;
+  qsu::current_buffers = &all;
+  play::draw();
+  return qsu::count;
+}
 
 static unsigned int level = 1;
 static void regen() {

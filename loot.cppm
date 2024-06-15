@@ -3,7 +3,7 @@ import dotz;
 import hai;
 import lootroll;
 import map;
-import quack;
+import qsu;
 import spr;
 
 export namespace loot {
@@ -26,12 +26,10 @@ void init(int level) {
   }
 }
 
-auto draw(quack::mapped_buffers &all) {
-  unsigned count{};
+void draw() {
   for (auto &e : list) {
-    count += spr::blit(e.spr, e.coord.x, e.coord.y, all);
+    qsu::blit(e.spr, e.coord.x, e.coord.y);
   }
-  return count;
 }
 
 loot *at(dotz::ivec2 p) {

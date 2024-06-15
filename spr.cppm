@@ -1,6 +1,4 @@
 export module spr;
-import dotz;
-import quack;
 
 // There are multiple differences between the names in the original code, the
 // port to iOS and the sprites. There is a bunch of mismatches, like "rat"
@@ -80,19 +78,4 @@ enum id : char {
   statue = '(',
   wall = '&',
 };
-
-// TODO: global for "all", multiplier, etc
-unsigned blit(id i, float x, float y, quack::mapped_buffers &all) {
-  if (i == nil)
-    return 0;
-
-  auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
-
-  auto &[c, m, p, u] = all;
-  *c++ = {};
-  *m++ = {1, 1, 1, 1};
-  *p++ = {{x, y}, {1, 1}};
-  *u++ = {uv, uv + 1.0 / 16.0};
-  return 1;
-}
 }; // namespace spr

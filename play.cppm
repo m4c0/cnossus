@@ -28,13 +28,12 @@ export void init(int lvl) {
   inv::init(level);
 }
 
-export auto draw(quack::mapped_buffers &all) {
-  auto count = map::draw(all);
-  count += loot::draw(all);
-  count += enemies::draw(all);
-  count += player::draw(all);
-  count += inv::draw(all);
-  return count;
+export void draw() {
+  map::draw();
+  loot::draw();
+  enemies::draw();
+  player::draw();
+  inv::draw();
 }
 
 static void take_loot(loot::loot *l) {

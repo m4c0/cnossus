@@ -1,7 +1,7 @@
 export module map;
 import rng;
 import spr;
-import quack;
+import qsu;
 
 namespace map {
 export constexpr const auto width = 30;
@@ -20,17 +20,15 @@ export bool can_walk(unsigned x, unsigned y) {
   return false;
 }
 
-export unsigned draw(quack::mapped_buffers &all) {
-  unsigned count{};
+export void draw() {
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
       auto b = data[y][x];
       if (b != spr::wall && b != spr::pool)
-        count += spr::blit(spr::floor, x, y, all);
-      count += spr::blit(b, x, y, all);
+        qsu::blit(spr::floor, x, y);
+      qsu::blit(b, x, y);
     }
   }
-  return count;
 }
 
 void furniture(unsigned x, unsigned y) {
