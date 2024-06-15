@@ -4,8 +4,8 @@ import spr;
 import quack;
 
 namespace qsu {
-export quack::mapped_buffers *current_buffers{};
-export unsigned count{};
+quack::mapped_buffers *current_buffers{};
+unsigned count{};
 
 // TODO: global for multiplier, etc
 export void blit(spr::id i, float x, float y) {
@@ -20,5 +20,12 @@ export void blit(spr::id i, float x, float y) {
   *p++ = {{x, y}, {1, 1}};
   *u++ = {uv, uv + 1.0 / 16.0};
   count++;
+}
+
+export auto draw(quack::mapped_buffers all, auto &&fn) {
+  count = 0;
+  current_buffers = &all;
+  fn();
+  return count;
 }
 } // namespace qsu

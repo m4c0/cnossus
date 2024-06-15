@@ -10,12 +10,7 @@ import quack;
 import qsu;
 import voo;
 
-static unsigned data(quack::mapped_buffers all) {
-  qsu::count = 0;
-  qsu::current_buffers = &all;
-  play::draw();
-  return qsu::count;
-}
+static unsigned data(auto all) { return qsu::draw(all, play::draw); }
 
 static unsigned int level = 1;
 
