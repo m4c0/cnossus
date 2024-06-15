@@ -36,6 +36,8 @@ export void draw() {
 }
 
 export void hit(int roll, int poison) {
+  player::poison += rng::rand(poison);
+
   if (roll <= 0)
     return;
 
@@ -46,7 +48,5 @@ export void hit(int roll, int poison) {
   life -= dmg;
   if (life < 0)
     life = 0;
-
-  player::poison += poison;
 }
 } // namespace player
