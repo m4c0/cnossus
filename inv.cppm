@@ -138,4 +138,26 @@ export bool take(spr::id item) {
     return false;
   }
 }
+
+static int defense_of(spr::id item) {
+  switch (item) {
+  case spr::greave:
+  case spr::armguard:
+  case spr::pauldron:
+    return 1;
+  case spr::scale:
+    return 3;
+  case spr::shield:
+    return 5;
+  default:
+    return 0;
+  }
+}
+export int defense() {
+  int res{};
+  for (auto a : d.armour)
+    res += defense_of(a);
+  return res;
+}
+export int attack() { return weapon_attack(d.weapon); }
 } // namespace inv
