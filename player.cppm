@@ -35,6 +35,16 @@ export void draw() {
   }
 }
 
+export void poison_tick() {
+  if (poison == 0 || life == 0)
+    return;
+
+  if (rng::rand(2))
+    life--;
+
+  poison--;
+}
+
 export void hit(int roll, int poison) {
   player::poison += rng::rand(poison);
 
