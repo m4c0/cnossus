@@ -22,7 +22,7 @@ void blit(spr::id id, float &x, float y) {
     qsu::blit(id, x++, y);
 }
 export void draw() {
-  constexpr const auto y = 1;
+  constexpr const auto y = 2;
   float x = 0;
 
   if (d.bag)

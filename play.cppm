@@ -60,6 +60,7 @@ export void move_by(int dx, int dy) {
     return;
 
   player::poison_tick();
+  light::tick();
 
   auto p = player::coord + dotz::ivec2{dx, dy};
   if (map::data[p.y][p.x] == spr::exit) {
