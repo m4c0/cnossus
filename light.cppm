@@ -1,5 +1,6 @@
 export module light;
 import qsu;
+import rng;
 import spr;
 
 namespace light {
@@ -20,6 +21,13 @@ export void tick() {
   if (charge <= 0)
     return;
 
-  charge--;
+  charge -= rng::rand(2);
+}
+
+export void restore(int roll) {
+  if (charge >= 25)
+    return;
+
+  charge += roll;
 }
 } // namespace light

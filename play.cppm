@@ -72,7 +72,13 @@ export void eat(int i) {
   player::restore(roll);
 }
 
-export void light(int i) {}
+export void light(int i) {
+  auto roll = light_of(inv::burn_light(i));
+  if (roll == 0)
+    return;
+
+  light::restore(roll);
+}
 
 static void take_loot(loot::loot *l) {
   switch (l->spr) {
