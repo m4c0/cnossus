@@ -39,8 +39,26 @@ export void draw() {
   inv::draw();
 }
 
-auto food_of(spr::id id) {
+constexpr auto food_of(spr::id id) {
   switch (id) {
+  case spr::driedfruit:
+    return 3;
+  case spr::cheese:
+    return 5;
+  case spr::rawmeat:
+    return 8;
+  default:
+    return 0;
+  }
+}
+constexpr auto light_of(spr::id id) {
+  switch (id) {
+  case spr::torch:
+    return 10;
+  case spr::candle:
+    return 15;
+  case spr::oillamp:
+    return 25;
   default:
     return 0;
   }
