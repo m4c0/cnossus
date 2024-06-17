@@ -69,29 +69,9 @@ bool take(spr::id item, spr::id (&list)[3]) {
   return false;
 }
 
-static auto weapon_attack(spr::id item) {
-  switch (item) {
-  case spr::knife:
-    return 2;
-  case spr::sickle:
-    return 3;
-  case spr::adze:
-    return 5;
-  case spr::axe:
-    return 8;
-  case spr::doubleaxe:
-    return 10;
-  case spr::sword:
-    return 11;
-  case spr::spear:
-    return 15;
-  default:
-    return 1;
-  }
-}
 static bool take_weapon(spr::id item) {
-  auto att = weapon_attack(item);
-  if (att <= weapon_attack(d.weapon))
+  auto att = attack_of(item);
+  if (att <= attack_of(d.weapon))
     return false;
 
   d.weapon = item;
@@ -150,25 +130,11 @@ export bool take(spr::id item) {
   }
 }
 
-static int defense_of(spr::id item) {
-  switch (item) {
-  case spr::greave:
-  case spr::armguard:
-  case spr::pauldron:
-    return 1;
-  case spr::scale:
-    return 3;
-  case spr::shield:
-    return 5;
-  default:
-    return 0;
-  }
-}
 export int defense() {
   int res{};
   for (auto a : d.armour)
     res += defense_of(a);
   return res;
 }
-export int attack() { return weapon_attack(d.weapon); }
+export int attack() { return attack_of(d.weapon); }
 } // namespace inv

@@ -39,31 +39,6 @@ export void draw() {
   inv::draw();
 }
 
-constexpr auto food_of(spr::id id) {
-  switch (id) {
-  case spr::driedfruit:
-    return 3;
-  case spr::cheese:
-    return 5;
-  case spr::rawmeat:
-    return 8;
-  default:
-    return 0;
-  }
-}
-constexpr auto light_of(spr::id id) {
-  switch (id) {
-  case spr::torch:
-    return 10;
-  case spr::candle:
-    return 15;
-  case spr::oillamp:
-    return 25;
-  default:
-    return 0;
-  }
-}
-
 export void eat(int i) {
   auto roll = food_of(inv::eat_food(i));
   if (roll == 0)
@@ -114,7 +89,7 @@ export void move_by(int dx, int dy) {
     if (e->life > 0) {
       constexpr const auto player_base_attack = 10;
       auto player_atk = inv::attack() + player_base_attack;
-      auto enemy_def = enemies::life_of(e->spr);
+      auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
     } else if (e->spr != spr::nil) {
       player::coord = p;
@@ -138,9 +113,9 @@ export void move_by(int dx, int dy) {
       continue;
     if (player::coord == p) {
       constexpr const auto player_base_def = 10;
-      auto enemy_atk = enemies::life_of(e.spr);
+      auto enemy_atk = life_of(e.spr);
       auto player_def = inv::defense() + player_base_def;
-      auto poison = enemies::poison_of(e.spr);
+      auto poison = poison_of(e.spr);
       player::hit(enemy_atk - player_def, poison);
       continue;
     }
