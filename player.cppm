@@ -46,7 +46,8 @@ export void poison_tick() {
 }
 
 export void hit(int roll, int poison) {
-  player::poison += rng::rand(poison);
+  if (poison > 0)
+    player::poison += rng::rand(poison);
 
   if (roll <= 0)
     return;
