@@ -35,6 +35,15 @@ static void down() {
   quack::donald::data(::data);
 }
 
+static void inv_l(int id) {
+  play::light(id);
+  quack::donald::data(::data);
+}
+static void inv_f(int id) {
+  play::eat(id);
+  quack::donald::data(::data);
+}
+
 struct init {
   init() {
     rng::seed();
@@ -46,6 +55,13 @@ struct init {
     handle(KEY_DOWN, K_RIGHT, right);
     handle(KEY_DOWN, K_UP, up);
     handle(KEY_DOWN, K_DOWN, down);
+
+    handle(KEY_DOWN, K_1, [] { inv_l(0); });
+    handle(KEY_DOWN, K_2, [] { inv_l(1); });
+    handle(KEY_DOWN, K_3, [] { inv_l(2); });
+    handle(KEY_DOWN, K_4, [] { inv_f(3); });
+    handle(KEY_DOWN, K_5, [] { inv_f(4); });
+    handle(KEY_DOWN, K_6, [] { inv_f(5); });
 
     handle(KEY_DOWN, K_SPACE, [] {
       level = 1;

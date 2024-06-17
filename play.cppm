@@ -39,6 +39,10 @@ export void draw() {
   inv::draw();
 }
 
+export void eat(int i) {}
+
+export void light(int i) {}
+
 static void take_loot(loot::loot *l) {
   switch (l->spr) {
   case spr::jar:
