@@ -39,7 +39,20 @@ export void draw() {
   inv::draw();
 }
 
-export void eat(int i) {}
+auto food_of(spr::id id) {
+  switch (id) {
+  default:
+    return 0;
+  }
+}
+
+export void eat(int i) {
+  auto roll = food_of(inv::eat_food(i));
+  if (roll == 0)
+    return;
+
+  player::restore(roll);
+}
 
 export void light(int i) {}
 

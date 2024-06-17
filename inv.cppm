@@ -41,6 +41,21 @@ export void draw() {
     inv::blit(a, x, y + 1);
 }
 
+export spr::id eat_food(int id) {
+  if (id < 0 || id >= 3)
+    return spr::nil;
+  auto res = d.food[id];
+  d.food[id] = spr::nil;
+  return res;
+}
+export spr::id burn_light(int id) {
+  if (id < 0 || id >= 3)
+    return spr::nil;
+  auto res = d.lights[id];
+  d.lights[id] = spr::nil;
+  return res;
+}
+
 bool take(spr::id item, spr::id (&list)[3]) {
   if (!d.bag && list[0] != spr::nil) {
     return false;

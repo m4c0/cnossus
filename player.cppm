@@ -45,6 +45,12 @@ export void poison_tick() {
   poison--;
 }
 
+export void restore(int roll) {
+  life += rng::rand(roll);
+  if (life > initial_life)
+    life = initial_life;
+}
+
 export void hit(int roll, int poison) {
   if (poison > 0)
     player::poison += rng::rand(poison);
