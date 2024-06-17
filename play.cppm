@@ -37,6 +37,12 @@ export void draw() {
   player::draw();
   light::draw();
   inv::draw();
+
+  dotz::vec2 pos{player::coord.x, player::coord.y};
+  quack::donald::push_constants({
+      .grid_pos = pos + 0.5f,
+      .grid_size = {9, 9},
+  });
 }
 
 export void eat(int i) {
