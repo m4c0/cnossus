@@ -10,6 +10,9 @@ import quack;
 import qsu;
 import voo;
 
+// TODO: animations
+// TODO: smooth camera moving
+
 static unsigned data(auto all) { return qsu::draw(all, play::draw); }
 
 static unsigned int level = 1;

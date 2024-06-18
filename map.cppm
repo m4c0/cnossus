@@ -9,6 +9,8 @@ export constexpr const auto height = 20;
 
 export spr::id data[height][width]{};
 
+// TODO: some form of rogue-view
+
 export bool can_walk(unsigned x, unsigned y) {
   if (x >= width || y >= height)
     return false;

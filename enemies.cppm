@@ -34,6 +34,7 @@ void init(int level) {
   }
 }
 
+// TODO: hide enemies far from light
 void draw() {
   for (auto &e : list) {
     qsu::blit(e.spr, e.coord.x, e.coord.y);
