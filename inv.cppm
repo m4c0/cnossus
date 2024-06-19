@@ -17,28 +17,32 @@ export void init(int level) {
   }
 }
 
-void blit(spr::id id, float &x, float y) {
-  if (id != spr::nil)
-    qsu::blit(id, x++, y);
-}
-export void draw_ui() {
-  constexpr const auto y = 2;
-  float x = 0;
+void draw_consumables_ui() {
+  // TODO: consider screen aspect
+  constexpr const auto x = -3.5;
+  constexpr const auto y = 3.5;
 
   if (d.bag)
-    inv::blit(spr::bag, x, y);
+    qsu::blit(spr::bag, x, y);
 
-  for (auto l : d.lights)
-    inv::blit(l, x, y);
+  for (auto i = 0; i < 3; i++) {
+    qsu::blit(d.lights[i], x + i + 1, y);
+    qsu::blit(d.food[i], x + i + 4, y);
+  }
+}
+void draw_armory_ui() {
+  // TODO: consider screen aspect
+  constexpr const auto x = -3.0;
+  constexpr const auto y = -4.5;
 
-  for (auto f : d.food)
-    inv::blit(f, x, y);
+  qsu::blit(d.weapon, x, y);
 
-  x = 0;
-  inv::blit(d.weapon, x, y + 1);
-
-  for (auto a : d.armour)
-    inv::blit(a, x, y + 1);
+  for (auto i = 0; i < 5; i++)
+    qsu::blit(d.armour[i], x + i + 1, y);
+}
+export void draw_ui() {
+  draw_consumables_ui();
+  draw_armory_ui();
 }
 
 export spr::id eat_food(int id) {
