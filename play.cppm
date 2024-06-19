@@ -9,6 +9,7 @@ import loot;
 import lootroll;
 import map;
 import player;
+import qsu;
 import quack;
 import spr;
 import voo;
@@ -28,23 +29,25 @@ export void init(int lvl) {
   loot::init(level);
   light::init(level);
   inv::init(level);
+
+  quack::donald::push_constants({
+      .grid_pos = {},
+      .grid_size = {9, 9},
+  });
 }
 
 export void draw() {
-  map::draw();
-  loot::draw();
-  enemies::draw();
-  player::draw();
+  {
+    qsu::guard::position ppo{-(player::coord + 0.5f)};
+    map::draw();
+    loot::draw();
+    enemies::draw();
+    player::draw();
+  }
 
   player::draw_ui();
   light::draw_ui();
   inv::draw_ui();
-
-  dotz::vec2 pos{player::coord.x, player::coord.y};
-  quack::donald::push_constants({
-      .grid_pos = pos + 0.5f,
-      .grid_size = {9, 9},
-  });
 }
 
 export void eat(int i) {
