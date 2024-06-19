@@ -10,6 +10,7 @@ export using colour = quack::colour;
 quack::mapped_buffers *current_buffers{};
 unsigned count{};
 quack::colour multiplier{1, 1, 1, 1};
+dotz::vec2 pos{};
 
 // TODO: global for multiplier, etc
 export void blit(spr::id i, float x, float y) {
@@ -17,11 +18,12 @@ export void blit(spr::id i, float x, float y) {
     return;
 
   auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
+  quack::pos pp{pos.x + x, pos.y + y};
 
   auto &[c, m, p, u] = *current_buffers;
   *c++ = {};
   *m++ = multiplier;
-  *p++ = {{x, y}, {1, 1}};
+  *p++ = {pp, {1, 1}};
   *u++ = {uv, uv + 1.0 / 16.0};
   count++;
 }
@@ -34,15 +36,18 @@ export auto draw(quack::mapped_buffers all, auto &&fn) {
 }
 } // namespace qsu
 
-export namespace qsu::guard {
-class multiplier : no::no {
-  quack::colour m_prev;
+namespace qsu::guard {
+template <typename T, T &Target> class guard : no::no {
+  T m_prev;
 
 public:
-  multiplier(quack::colour m) {
-    m_prev = qsu::multiplier;
-    qsu::multiplier = m;
+  guard(T m) {
+    m_prev = Target;
+    Target = m;
   }
-  ~multiplier() { qsu::multiplier = m_prev; }
+  ~guard() { Target = m_prev; }
 };
+
+export using multiplier = guard<quack::colour, qsu::multiplier>;
+export using position = guard<dotz::vec2, qsu::pos>;
 } // namespace qsu::guard
