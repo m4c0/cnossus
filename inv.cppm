@@ -21,7 +21,7 @@ void blit(spr::id id, float &x, float y) {
   if (id != spr::nil)
     qsu::blit(id, x++, y);
 }
-export void draw() {
+export void draw_ui() {
   constexpr const auto y = 2;
   float x = 0;
 

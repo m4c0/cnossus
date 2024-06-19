@@ -11,7 +11,7 @@ export void init(int lvl) {
     charge = 0;
 }
 
-export void draw() {
+export void draw_ui() {
   for (auto x = 0; x < charge; x++) {
     qsu::blit(spr::torch, x, 1);
   }

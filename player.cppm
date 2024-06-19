@@ -24,12 +24,12 @@ export void draw() {
   if (life == 0)
     return;
 
-  {
-    constexpr const qsu::colour poisoned{0, 1, 0, 1};
-    constexpr const qsu::colour normal{1, 1, 1, 1};
-    qsu::guard::multiplier m{poison > 0 ? poisoned : normal};
-    qsu::blit(spr::minotaur, coord.x, coord.y);
-  }
+  constexpr const qsu::colour poisoned{0, 1, 0, 1};
+  constexpr const qsu::colour normal{1, 1, 1, 1};
+  qsu::guard::multiplier m{poison > 0 ? poisoned : normal};
+  qsu::blit(spr::minotaur, coord.x, coord.y);
+}
+export void draw_ui() {
   for (auto x = 0; x < life; x++) {
     qsu::blit(spr::minotaur, x, 0);
   }

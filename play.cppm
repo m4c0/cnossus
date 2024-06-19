@@ -35,8 +35,10 @@ export void draw() {
   loot::draw();
   enemies::draw();
   player::draw();
-  light::draw();
-  inv::draw();
+
+  player::draw_ui();
+  light::draw_ui();
+  inv::draw_ui();
 
   dotz::vec2 pos{player::coord.x, player::coord.y};
   quack::donald::push_constants({
