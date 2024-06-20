@@ -86,9 +86,6 @@ export void move_by(int dx, int dy) {
   if (player::life <= 0)
     return;
 
-  player::poison_tick();
-  light::tick();
-
   auto p = player::coord + dotz::ivec2{dx, dy};
   if (map::data[p.y][p.x] == spr::exit) {
     init(level + 1);
@@ -96,6 +93,10 @@ export void move_by(int dx, int dy) {
   }
   if (!map::can_walk(p.x, p.y))
     return;
+
+  player::poison_tick();
+  light::tick();
+
   if (auto *e = enemies::at(p)) {
     if (e->life > 0) {
       constexpr const auto player_base_attack = 10;
