@@ -76,6 +76,7 @@ struct init {
     app_name("cnossus");
     max_quads(1024);
 
+    clear_colour({0, 0, 0, 1});
     atlas(play::atlas);
     data(::data);
   }
