@@ -4,6 +4,8 @@ import rng;
 import spr;
 
 namespace light {
+static constexpr const auto max_charge = 25;
+
 int charge{};
 
 export void init(int lvl) {
@@ -12,8 +14,11 @@ export void init(int lvl) {
 }
 
 export void draw_ui() {
-  for (auto x = 0; x < charge; x++) {
-    qsu::blit(spr::torch, x, 1);
+  constexpr const auto x = 3.5;
+  constexpr const auto y = 3.5;
+
+  for (auto i = 0; i < charge; i++) {
+    qsu::blit(spr::torch, x, y - i * 8.5 / max_charge);
   }
 }
 
@@ -25,9 +30,9 @@ export void tick() {
 }
 
 export void restore(int roll) {
-  if (charge >= 25)
-    return;
-
   charge += roll;
+
+  if (charge >= max_charge)
+    charge = max_charge;
 }
 } // namespace light
