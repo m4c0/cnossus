@@ -10,7 +10,7 @@ static constexpr const auto initial_life = 20;
 namespace player {
 export dotz::ivec2 coord{};
 export int life{};
-export int poison{};
+export int poison{5};
 
 export void init(int level) {
   if (level == 1) {
@@ -35,7 +35,7 @@ export void draw_ui() {
   constexpr const auto y = 3.5;
 
   for (auto i = 0; i < life; i++) {
-    qsu::guard::multiplier m{poison > i ? poisoned : normal};
+    qsu::guard::multiplier m{poison >= life - i ? poisoned : normal};
     qsu::blit(spr::minotaur, x, y - i * 8.5 / initial_life);
   }
 }
