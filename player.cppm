@@ -31,10 +31,10 @@ export void draw() {
 }
 export void draw_ui() {
   constexpr const auto x = -4.5;
-  constexpr const auto y = -4.5;
+  constexpr const auto y = 3.5;
 
   for (auto i = 0; i < life; i++) {
-    qsu::blit(spr::minotaur, x, y + i);
+    qsu::blit(spr::minotaur, x, y - i * 8.5 / initial_life);
   }
 }
 
