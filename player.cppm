@@ -30,8 +30,11 @@ export void draw() {
   qsu::blit(spr::minotaur, coord.x, coord.y);
 }
 export void draw_ui() {
-  for (auto x = 0; x < life; x++) {
-    qsu::blit(spr::minotaur, x, 0);
+  constexpr const auto x = -4.5;
+  constexpr const auto y = -4.5;
+
+  for (auto i = 0; i < life; i++) {
+    qsu::blit(spr::minotaur, x, y + i);
   }
 }
 
