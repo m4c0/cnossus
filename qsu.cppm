@@ -12,7 +12,6 @@ unsigned count{};
 quack::colour multiplier{1, 1, 1, 1};
 dotz::vec2 pos{};
 
-// TODO: global for multiplier, etc
 export void blit(spr::id i, float x, float y) {
   if (i == spr::nil)
     return;
