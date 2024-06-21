@@ -6,7 +6,7 @@ import spr;
 namespace light {
 static constexpr const auto max_charge = 25;
 
-int charge{};
+export int charge{};
 
 export void init(int lvl) {
   if (lvl == 1)

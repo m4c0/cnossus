@@ -37,11 +37,12 @@ export void init(int lvl) {
 }
 
 export void draw() {
+  auto radius = light::charge > 0 ? 2 : 1;
   {
     qsu::guard::position ppo{-(player::coord + 0.5f)};
-    map::draw(player::coord, 1);
-    loot::draw(player::coord, 1);
-    enemies::draw(player::coord, 1);
+    map::draw(player::coord, radius);
+    loot::draw(player::coord, radius);
+    enemies::draw(player::coord, radius);
     player::draw();
   }
 
