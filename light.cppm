@@ -26,7 +26,8 @@ export void tick() {
   if (charge <= 0)
     return;
 
-  charge -= rng::rand(2);
+  if (rng::rand(3) == 0)
+    charge--;
 }
 
 export void restore(int roll) {
