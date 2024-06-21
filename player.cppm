@@ -5,16 +5,15 @@ import rng;
 import spr;
 import qsu;
 
-static constexpr const auto initial_life = 20;
-
 namespace player {
 export dotz::ivec2 coord{};
 export int life{};
-export int poison{5};
+int max_life{};
+int poison{};
 
 export void init(int level) {
   if (level == 1) {
-    life = initial_life;
+    life = max_life = 10;
     poison = 0;
   } else {
     // TODO: give random buff: max life, damage, etc
@@ -38,7 +37,7 @@ export void draw_ui() {
 
   for (auto i = 0; i < life; i++) {
     qsu::guard::multiplier m{poison >= life - i ? poisoned : normal};
-    qsu::blit(spr::minotaur, x, y - i * 8.5 / initial_life);
+    qsu::blit(spr::minotaur, x, y - i * 8.5 / max_life);
   }
 }
 
@@ -54,8 +53,8 @@ export void poison_tick() {
 
 export void restore(int roll) {
   life += rng::rand(roll);
-  if (life > initial_life)
-    life = initial_life;
+  if (life > max_life)
+    life = max_life;
 }
 
 export void hit(int roll, int poison) {
