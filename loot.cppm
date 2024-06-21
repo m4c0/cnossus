@@ -10,6 +10,7 @@ export namespace loot {
 struct loot {
   dotz::ivec2 coord{};
   spr::id spr{spr::nil};
+  bool visited{};
 };
 
 hai::array<loot> list{map::height};
@@ -22,16 +23,23 @@ void init(int level) {
       continue;
     }
 
-    list[y] = {{x, y}, lootroll(level)};
+    list[y] = {{x, y}, lootroll(level), false};
   }
 }
 
 void draw(dotz::ivec2 center, int rad) {
   for (auto &e : list) {
+    float multiplier = 0.6;
     auto [dx, dy] = dotz::abs(e.coord - center);
-    if (dx > rad || dy > rad) {
+    if (dx <= rad && dy <= rad) {
+      e.visited = true;
+      multiplier = 1.0;
+    }
+    if (!e.visited) {
       continue;
     }
+
+    qsu::guard::multiplier g{{1.0, 1.0, 1.0, multiplier}};
     qsu::blit(e.spr, e.coord.x, e.coord.y);
   }
 }
