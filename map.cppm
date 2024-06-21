@@ -8,6 +8,7 @@ export constexpr const auto width = 30;
 export constexpr const auto height = 20;
 
 export spr::id data[height][width]{};
+export bool visited[height][width]{};
 
 // TODO: some form of rogue-view
 // TODO: light-based darkness
@@ -26,6 +27,9 @@ export bool can_walk(unsigned x, unsigned y) {
 export void draw() {
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
+      if (!visited[y][x])
+        continue;
+
       auto b = data[y][x];
       if (b != spr::wall && b != spr::pool)
         qsu::blit(spr::floor, x, y);
@@ -173,6 +177,11 @@ export void gen(int level) {
       cell = {};
     }
   }
+  for (auto &row : visited) {
+    for (auto &cell : row) {
+      cell = false;
+    }
+  }
   for (auto x = 0; x < width; x++) {
     data[0][x] = spr::wall;
     data[height - 1][x] = spr::wall;
@@ -208,5 +217,17 @@ export int pick_empty_space(unsigned y) {
     x = rng::rand(width - 4) + 2;
   } while (data[y][x] != spr::nil && ++attempt < 100);
   return (attempt < 100) ? x : -1;
+}
+
+export void visit(int x, int y, int radius) {
+  for (auto yy = y - radius; yy <= y + radius; yy++) {
+    if (yy < 0 || yy >= height)
+      continue;
+    for (auto xx = x - radius; xx <= x + radius; xx++) {
+      if (xx < 0 || xx >= width)
+        continue;
+      visited[yy][xx] = true;
+    }
+  }
 }
 } // namespace map

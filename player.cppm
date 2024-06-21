@@ -17,7 +17,7 @@ export void init(int level) {
     life = initial_life;
     poison = 0;
   } else {
-    // TODO: give random buff: max life, damage, actions (?)
+    // TODO: give random buff: max life, damage, etc
   }
   coord = (level % 2) ? dotz::ivec2{1, 1} : dotz::ivec2{map::width - 2, 1};
 }
