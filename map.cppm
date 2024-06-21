@@ -25,7 +25,7 @@ export bool can_walk(unsigned x, unsigned y) {
   return false;
 }
 
-export void draw(dotz::ivec2 center, unsigned radius) {
+export void draw(dotz::ivec2 center, int radius) {
   auto [x, y] = center;
   for (auto yy = y - radius; yy <= y + radius; yy++) {
     if (yy < 0 || yy >= height)
