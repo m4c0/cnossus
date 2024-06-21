@@ -35,8 +35,12 @@ export void draw(dotz::ivec2 center, int radius) {
   }
 
   for (auto y = 0; y < height; y++) {
+    if (dotz::abs(y - center.y) > 3)
+      continue;
     for (auto x = 0; x < width; x++) {
       if (!visited[y][x])
+        continue;
+      if (dotz::abs(x - center.x) > 3)
         continue;
 
       auto [dx, dy] = dotz::abs(center - dotz::ivec2{x, y});
