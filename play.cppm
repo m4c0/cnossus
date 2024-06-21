@@ -41,7 +41,7 @@ export void draw() {
     qsu::guard::position ppo{-(player::coord + 0.5f)};
     map::draw(player::coord, 1);
     loot::draw(player::coord, 1);
-    enemies::draw();
+    enemies::draw(player::coord, 1);
     player::draw();
   }
 

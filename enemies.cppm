@@ -34,9 +34,12 @@ void init(int level) {
   }
 }
 
-// TODO: hide enemies far from light
-void draw() {
+void draw(dotz::ivec2 center, int rad) {
   for (auto &e : list) {
+    auto [dx, dy] = dotz::abs(e.coord - center);
+    if (dx > rad || dy > rad) {
+      continue;
+    }
     qsu::blit(e.spr, e.coord.x, e.coord.y);
   }
 }
