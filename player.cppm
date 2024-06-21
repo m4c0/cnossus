@@ -6,18 +6,37 @@ import spr;
 import qsu;
 
 namespace player {
+constexpr const auto base_attack = 10;
+constexpr const auto base_defense = 10;
+constexpr const auto base_life = 10;
+
 export struct data {
   dotz::ivec2 coord{};
-  int life{10};
-  int max_life{10};
+  int life{base_life};
+  int max_life{base_life};
   int poison{};
+  int attack{base_attack};
+  int defense{base_defense};
 } d;
 
 export void init(int level) {
   if (level == 1) {
     d = {};
   } else {
-    // TODO: give random buff: max life, damage, etc
+    switch (rng::rand(4)) {
+    case 0:
+      d.max_life++;
+      d.life++;
+      break;
+    case 1:
+      d.attack++;
+      break;
+    case 2:
+      d.defense++;
+      break;
+    default:
+      break;
+    }
   }
   d.coord = (level % 2) ? dotz::ivec2{1, 1} : dotz::ivec2{map::width - 2, 1};
 }
