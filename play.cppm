@@ -37,11 +37,9 @@ export void init(int lvl) {
 }
 
 export void draw() {
-  map::visit(player::coord.x, player::coord.y, 1);
-
   {
     qsu::guard::position ppo{-(player::coord + 0.5f)};
-    map::draw();
+    map::draw(player::coord, 1);
     loot::draw();
     enemies::draw();
     player::draw();
