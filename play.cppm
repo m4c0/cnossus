@@ -39,10 +39,10 @@ export void init(int lvl) {
 export void draw() {
   auto radius = light::charge > 0 ? 2 : 1;
   {
-    qsu::guard::position ppo{-(player::coord + 0.5f)};
-    map::draw(player::coord, radius);
-    loot::draw(player::coord, radius);
-    enemies::draw(player::coord, radius);
+    qsu::guard::position ppo{-(player::d.coord + 0.5f)};
+    map::draw(player::d.coord, radius);
+    loot::draw(player::d.coord, radius);
+    enemies::draw(player::d.coord, radius);
     player::draw();
   }
 
@@ -74,7 +74,7 @@ static void take_loot(loot::loot *l) {
     l->spr = lootroll(level, l->spr);
     break;
   default:
-    player::coord = l->coord;
+    player::d.coord = l->coord;
     if (inv::take(l->spr))
       l->spr = spr::nil;
     break;
@@ -82,10 +82,10 @@ static void take_loot(loot::loot *l) {
 }
 
 export void move_by(int dx, int dy) {
-  if (player::life <= 0)
+  if (player::d.life <= 0)
     return;
 
-  auto p = player::coord + dotz::ivec2{dx, dy};
+  auto p = player::d.coord + dotz::ivec2{dx, dy};
   if (map::data[p.y][p.x] == spr::exit) {
     init(level + 1);
     return;
@@ -103,14 +103,14 @@ export void move_by(int dx, int dy) {
       auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
     } else if (e->spr != spr::nil) {
-      player::coord = p;
+      player::d.coord = p;
       if (inv::take(e->spr))
         e->spr = spr::nil;
     }
   } else if (auto *l = loot::at(p)) {
     take_loot(l);
   } else {
-    player::coord = p;
+    player::d.coord = p;
   }
 
   for (auto &e : enemies::list) {
@@ -122,7 +122,7 @@ export void move_by(int dx, int dy) {
       continue;
     if (enemies::at(p))
       continue;
-    if (player::coord == p) {
+    if (player::d.coord == p) {
       constexpr const auto player_base_def = 10;
       auto enemy_atk = life_of(e.spr);
       auto player_def = inv::defense() + player_base_def;

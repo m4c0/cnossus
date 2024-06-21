@@ -6,60 +6,61 @@ import spr;
 import qsu;
 
 namespace player {
-export dotz::ivec2 coord{};
-export int life{};
-int max_life{};
-int poison{};
+export struct data {
+  dotz::ivec2 coord{};
+  int life{10};
+  int max_life{10};
+  int poison{};
+} d;
 
 export void init(int level) {
   if (level == 1) {
-    life = max_life = 10;
-    poison = 0;
+    d = {};
   } else {
     // TODO: give random buff: max life, damage, etc
   }
-  coord = (level % 2) ? dotz::ivec2{1, 1} : dotz::ivec2{map::width - 2, 1};
+  d.coord = (level % 2) ? dotz::ivec2{1, 1} : dotz::ivec2{map::width - 2, 1};
 }
 
 constexpr const qsu::colour poisoned{0, 1, 0, 1};
 constexpr const qsu::colour normal{1, 1, 1, 1};
 
 export void draw() {
-  if (life == 0)
+  if (d.life == 0)
     return;
 
-  qsu::guard::multiplier m{poison > 0 ? poisoned : normal};
-  qsu::blit(spr::minotaur, coord.x, coord.y);
+  qsu::guard::multiplier m{d.poison > 0 ? poisoned : normal};
+  qsu::blit(spr::minotaur, d.coord.x, d.coord.y);
 }
 export void draw_ui() {
   constexpr const auto x = -4.5;
   constexpr const auto y = 3.5;
 
-  for (auto i = 0; i < life; i++) {
-    qsu::guard::multiplier m{poison >= life - i ? poisoned : normal};
-    qsu::blit(spr::minotaur, x, y - i * 8.5 / max_life);
+  for (auto i = 0; i < d.life; i++) {
+    qsu::guard::multiplier m{d.poison >= d.life - i ? poisoned : normal};
+    qsu::blit(spr::minotaur, x, y - i * 8.5 / d.max_life);
   }
 }
 
 export void poison_tick() {
-  if (poison == 0 || life == 0)
+  if (d.poison == 0 || d.life == 0)
     return;
 
   if (rng::rand(2))
-    life--;
+    d.life--;
 
-  poison--;
+  d.poison--;
 }
 
 export void restore(int roll) {
-  life += rng::rand(roll);
-  if (life > max_life)
-    life = max_life;
+  d.life += rng::rand(roll);
+  if (d.life > d.max_life)
+    d.life = d.max_life;
 }
 
 export void hit(int roll, int poison) {
   if (poison > 0)
-    player::poison += rng::rand(poison);
+    d.poison += rng::rand(poison);
 
   if (roll <= 0)
     return;
@@ -68,8 +69,8 @@ export void hit(int roll, int poison) {
   if (dmg == 0)
     return;
 
-  life -= dmg;
-  if (life < 0)
-    life = 0;
+  d.life -= dmg;
+  if (d.life < 0)
+    d.life = 0;
 }
 } // namespace player
