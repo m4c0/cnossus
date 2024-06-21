@@ -42,6 +42,10 @@ export void draw(dotz::ivec2 center, unsigned radius) {
       if (!visited[y][x])
         continue;
 
+      auto [dx, dy] = dotz::abs(center - dotz::ivec2{x, y});
+      float m = (dx > radius || dy > radius) ? 0.6 : 1.0;
+      qsu::guard::multiplier g{{1.0, 1.0, 1.0, m}};
+
       auto b = data[y][x];
       if (b != spr::wall && b != spr::pool)
         qsu::blit(spr::floor, x, y);
