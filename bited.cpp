@@ -2,7 +2,9 @@
 
 import casein;
 import quack;
+import qsu;
 import silog;
+import spr;
 import stubby;
 import traits;
 import voo;
@@ -37,34 +39,23 @@ static quack::donald::atlas_t *bitmap(voo::device_and_queue *dq) {
                                     dq->physical_device(), image_w, image_h};
 }
 
-static unsigned update_data(quack::mapped_buffers all) {
-  static constexpr const float inv_c = 1.0f / cols;
-  static constexpr const float inv_r = 1.0f / rows;
-  auto [c, m, p, u] = all;
-  for (auto y = 0; y < rows; y++) {
-    for (auto x = 0; x < cols; x++) {
-      *c++ = {0, 0, 0, 0};
-      *m++ = {1, 1, 1, 1};
-      *p++ = {{x * tile + 0.1f, y * tile + 0.1f}, {tile - 0.2f, tile - 0.2f}};
-      *u++ = {{x * inv_c, y * inv_r}, {(x + 1) * inv_c, (y + 1) * inv_r}};
+static void draw() {
+  for (auto y = 0, id = 0; y < rows; y++) {
+    for (auto x = 0; x < cols; x++, id++) {
+      qsu::blit(static_cast<spr::id>(id), x, y);
     }
   }
-
   if (g_cursor_hl) {
-    *c++ = {0, 0, 0, 0};
-  } else {
-    *c++ = {1, 0, 0, 1};
+    qsu::guard::colour c{{1, 0, 0, 1}};
+    qsu::guard::multiplier m{{1, 1, 1, 0}};
+    qsu::blit(spr::nil, g_cursor_x, g_cursor_y);
   }
-  *m++ = {1, 1, 1, 0};
-  *p++ = {{static_cast<float>(g_cursor_x), static_cast<float>(g_cursor_y)},
-          {1, 1}};
-  *u++ = {};
-
-  return quad_count;
 }
 
 void refresh_atlas() { quack::donald::atlas(bitmap); }
-void refresh_batch() { quack::donald::data(update_data); }
+void refresh_batch() {
+  quack::donald::data([](auto all) { return qsu::draw(all, draw); });
+}
 
 static void flip_cursor() {
   g_cursor_hl = !g_cursor_hl;
@@ -160,7 +151,7 @@ struct init {
         .log_error();
 
     quack::upc upc{};
-    upc.grid_size = {image_w, image_h};
+    upc.grid_size = {cols, rows};
     upc.grid_pos = upc.grid_size * 0.5;
 
     using namespace quack::donald;
