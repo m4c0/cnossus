@@ -46,7 +46,7 @@ struct init {
         .grid_pos = grid_size / 2.0f,
         .grid_size = grid_size,
     });
-    atlas(play::atlas);
+    atlas(qsu::atlas);
     regen();
   }
 } i;

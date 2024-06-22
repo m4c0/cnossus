@@ -69,7 +69,7 @@ struct init {
     max_quads(1024);
 
     clear_colour({0, 0, 0, 1});
-    atlas(play::atlas);
+    atlas(qsu::atlas);
     data(::data);
   }
 } i;

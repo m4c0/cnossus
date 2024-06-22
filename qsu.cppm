@@ -1,8 +1,11 @@
+#pragma leco add_resource "atlas.png"
+
 export module qsu;
 import dotz;
 import no;
 import spr;
 import quack;
+import voo;
 
 namespace qsu {
 export using colour = quack::colour;
@@ -33,6 +36,10 @@ export auto draw(quack::mapped_buffers all, auto &&fn) {
   fn();
   return count;
 }
+export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
+  return new voo::sires_image("atlas.png", dq);
+}
+
 } // namespace qsu
 
 namespace qsu::guard {

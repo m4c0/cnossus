@@ -1,5 +1,3 @@
-#pragma leco add_resource "atlas.png"
-
 export module play;
 import dotz;
 import enemies;
@@ -12,13 +10,8 @@ import player;
 import qsu;
 import quack;
 import spr;
-import voo;
 
 namespace play {
-export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
-  return new voo::sires_image("atlas.png", dq);
-}
-
 int level{};
 
 export void init(int lvl) {
