@@ -43,7 +43,7 @@ static unsigned update_data(quack::mapped_buffers all) {
   auto [c, m, p, u] = all;
   for (auto y = 0; y < rows; y++) {
     for (auto x = 0; x < cols; x++) {
-      *c++ = {0, 0, 0, 1};
+      *c++ = {0, 0, 0, 0};
       *m++ = {1, 1, 1, 1};
       *p++ = {{x * tile + 0.1f, y * tile + 0.1f}, {tile - 0.2f, tile - 0.2f}};
       *u++ = {{x * inv_c, y * inv_r}, {(x + 1) * inv_c, (y + 1) * inv_r}};
