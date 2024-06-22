@@ -16,6 +16,7 @@ export module spr:ids;
 export namespace spr {
 enum id : char {
   nil = 0,
+  cursor = 1,
 
   minotaur = 'A',
   snake = 'B',

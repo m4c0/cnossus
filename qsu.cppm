@@ -24,7 +24,7 @@ export void blit(spr::id i, float x, float y) {
   quack::pos pp{pos.x + x, pos.y + y};
 
   auto &[c, m, p, u] = *current_buffers;
-  *c++ = {};
+  *c++ = g_colour;
   *m++ = multiplier;
   *p++ = {pp, {1, 1}};
   *u++ = {uv, uv + 1.0 / 16.0};

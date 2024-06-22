@@ -48,7 +48,7 @@ static void draw() {
   if (g_cursor_hl) {
     qsu::guard::colour c{{1, 0, 0, 1}};
     qsu::guard::multiplier m{{1, 1, 1, 0}};
-    qsu::blit(spr::nil, g_cursor_x, g_cursor_y);
+    qsu::blit(spr::cursor, g_cursor_x, g_cursor_y);
   }
 }
 
