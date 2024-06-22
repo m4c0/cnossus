@@ -36,17 +36,18 @@ export auto draw(quack::mapped_buffers all, auto &&fn) {
 } // namespace qsu
 
 namespace qsu::guard {
-template <typename T, T &Target> class guard : no::no {
-  T m_prev;
+export class multiplier : no::no {
+  quack::colour m_prev = qsu::multiplier;
 
 public:
-  guard(T m) {
-    m_prev = Target;
-    Target = m;
-  }
-  ~guard() { Target = m_prev; }
+  multiplier(quack::colour c) { qsu::multiplier = c; }
+  ~multiplier() { qsu::multiplier = m_prev; }
 };
+export class position : no::no {
+  dotz::vec2 m_prev = qsu::pos;
 
-export using multiplier = guard<quack::colour, qsu::multiplier>;
-export using position = guard<dotz::vec2, qsu::pos>;
+public:
+  position(dotz::vec2 c) { qsu::pos = c; }
+  ~position() { qsu::pos = m_prev; }
+};
 } // namespace qsu::guard
