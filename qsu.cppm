@@ -13,6 +13,7 @@ export using colour = quack::colour;
 quack::mapped_buffers *current_buffers{};
 unsigned count{};
 quack::colour multiplier{1, 1, 1, 1};
+quack::colour g_colour{};
 dotz::vec2 pos{};
 
 export void blit(spr::id i, float x, float y) {
@@ -36,6 +37,7 @@ export auto draw(quack::mapped_buffers all, auto &&fn) {
   fn();
   return count;
 }
+
 export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
   return new voo::sires_image("atlas.png", dq);
 }
@@ -43,6 +45,13 @@ export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
 } // namespace qsu
 
 namespace qsu::guard {
+export class colour : no::no {
+  quack::colour m_prev = g_colour;
+
+public:
+  colour(quack::colour c) { g_colour = c; }
+  ~colour() { g_colour = m_prev; }
+};
 export class multiplier : no::no {
   quack::colour m_prev = qsu::multiplier;
 
