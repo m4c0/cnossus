@@ -63,7 +63,7 @@ static void flip_cursor() {
 }
 
 static void down() {
-  if (g_cursor_y >= image_h - 1)
+  if (g_cursor_y >= rows - 1)
     return;
 
   g_cursor_y++;
@@ -84,7 +84,7 @@ static void left() {
   refresh_batch();
 }
 static void right() {
-  if (g_cursor_x >= image_w - 1)
+  if (g_cursor_x >= cols - 1)
     return;
 
   g_cursor_x++;
