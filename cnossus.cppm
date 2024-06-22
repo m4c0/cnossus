@@ -21,20 +21,12 @@ static void load_level() {
   play::init(level);
   quack::donald::data(::data);
 }
-static void left() {
-  play::move_by(-1, 0);
-  quack::donald::data(::data);
-}
-static void right() {
-  play::move_by(1, 0);
-  quack::donald::data(::data);
-}
-static void up() {
-  play::move_by(0, -1);
-  quack::donald::data(::data);
-}
-static void down() {
-  play::move_by(0, 1);
+
+static void move_by(int x, int y) {
+  if (casein::keydown_repeating)
+    return;
+
+  play::move_by(x, y);
   quack::donald::data(::data);
 }
 
@@ -54,10 +46,10 @@ struct init {
 
     using namespace casein;
 
-    handle(KEY_DOWN, K_LEFT, left);
-    handle(KEY_DOWN, K_RIGHT, right);
-    handle(KEY_DOWN, K_UP, up);
-    handle(KEY_DOWN, K_DOWN, down);
+    handle(KEY_DOWN, K_LEFT, [] { move_by(-1, 0); });
+    handle(KEY_DOWN, K_RIGHT, [] { move_by(1, 0); });
+    handle(KEY_DOWN, K_UP, [] { move_by(0, -1); });
+    handle(KEY_DOWN, K_DOWN, [] { move_by(0, 1); });
 
     handle(KEY_DOWN, K_1, [] { inv_l(0); });
     handle(KEY_DOWN, K_2, [] { inv_l(1); });
