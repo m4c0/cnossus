@@ -10,6 +10,8 @@ constexpr const auto base_attack = 10;
 constexpr const auto base_defense = 10;
 constexpr const auto base_life = 10;
 
+// TODO: balance attack/defense
+// TODO: hunger damage, to force food consumption
 export struct data {
   dotz::ivec2 coord{};
   int life{base_life};
