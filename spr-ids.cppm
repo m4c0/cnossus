@@ -16,8 +16,11 @@ export module spr:ids;
 export namespace spr {
 enum id : char {
   nil = 0,
+
+  // UI elements
   cursor = 1,
 
+  // Mobs
   minotaur = 'A',
   snake = 'B',
   spider = 'C',
@@ -35,6 +38,7 @@ enum id : char {
   sphinx = 'O',
   bull = 'P',
 
+  // Items
   // "linen tunic", armour, 1 - missing in my iOS version
   cloth = 'a',
   // "leather vest", armour, 2 - missing in my iOS version
@@ -70,6 +74,7 @@ enum id : char {
   jar = 'v',
   coffer = 'w',
 
+  // Map
   basin = '$',
   column = '#',
   exit = '<',
