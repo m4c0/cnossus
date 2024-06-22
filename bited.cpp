@@ -91,16 +91,6 @@ static void right() {
   refresh_batch();
 }
 
-static void colour(uint32_t c) {
-  g_pixies[g_cursor_y][g_cursor_x] = c;
-  refresh_atlas();
-}
-static void colour_1() { colour(0x0); }
-static void colour_2() { colour(0xFF0000FF); }
-static void colour_3() { colour(0xFF3F3F3F); }
-static void colour_4() { colour(0xFF1F1F1F); }
-static void colour_5() { colour(0xFF3FFF7F); }
-
 static void save() {
   // TODO: improve safety with a hai::array<pixel> and X/Y accessors
   auto *pix = reinterpret_cast<stbi::pixel *>(g_pixies);
@@ -118,21 +108,20 @@ static constexpr bool sane_num_channels(const stbi::image &img) {
   return img.num_channels == 4;
 }
 
+static void enter_sprite_list() {
+  using namespace casein;
+  handle(KEY_DOWN, K_DOWN, down);
+  handle(KEY_DOWN, K_UP, up);
+  handle(KEY_DOWN, K_LEFT, left);
+  handle(KEY_DOWN, K_RIGHT, right);
+  handle(KEY_DOWN, K_ENTER, save);
+}
+
 struct init {
   init() {
     using namespace casein;
 
-    handle(KEY_DOWN, K_DOWN, down);
-    handle(KEY_DOWN, K_UP, up);
-    handle(KEY_DOWN, K_LEFT, left);
-    handle(KEY_DOWN, K_RIGHT, right);
-    handle(KEY_DOWN, K_ENTER, save);
-    handle(KEY_DOWN, K_1, colour_1);
-    handle(KEY_DOWN, K_2, colour_2);
-    handle(KEY_DOWN, K_3, colour_3);
-    handle(KEY_DOWN, K_4, colour_4);
-    handle(KEY_DOWN, K_5, colour_5);
-
+    enter_sprite_list();
     handle(TIMER, &flip_cursor);
 
     stbi::load("atlas.png")
