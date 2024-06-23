@@ -11,9 +11,6 @@ export constexpr const auto height = 20;
 export spr::id data[height][width]{};
 export bool visited[height][width]{};
 
-// TODO: some form of rogue-view
-// TODO: light-based darkness
-
 export bool can_walk(unsigned x, unsigned y) {
   if (x >= width || y >= height)
     return false;
