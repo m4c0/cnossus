@@ -109,7 +109,8 @@ export void move_by(int dx, int dy) {
     if (e.spr == spr::nil || e.life == 0)
       continue;
 
-    auto p = e.coord + enemies::next_move(e, light::charge > 0);
+    auto p =
+        e.coord + enemies::next_move(e, player::d.coord, light::charge > 0);
     if (!map::can_walk(p.x, p.y))
       continue;
     if (enemies::at(p))

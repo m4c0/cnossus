@@ -68,16 +68,33 @@ static dotz::ivec2 random_move() {
     return {};
   }
 }
-export dotz::ivec2 next_move(const enemy &e, bool lights_on) {
-  if (e.life <= 0)
+static dotz::ivec2 chase_player(const dotz::ivec2 d) {
+  switch (rng::rand(2)) {
+  case 0:
+    return {d.x, 0};
+  case 1:
+    return {0, d.y};
+  default:
+    return {};
+  }
+}
+export dotz::ivec2 next_move(const enemy &e, const dotz::ivec2 p,
+                             bool lights_on) {
+  if (e.life <= 0 || e.spr == spr::nil)
     return {};
 
-  // TODO: move depending on light and behaviour
-  switch (e.spr) {
-  case spr::nil:
-    return {};
-  default:
-    return random_move();
+  if (is_aggressive(e.spr)) {
+    if (lights_on) {
+      return random_move();
+    } else {
+      return chase_player(p - e.coord);
+    }
+  } else {
+    if (lights_on) {
+      return chase_player(p - e.coord) * -1;
+    } else {
+      return random_move();
+    }
   }
 }
 
