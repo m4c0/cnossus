@@ -103,3 +103,20 @@ export auto light_of(spr::id id) {
     return 0;
   }
 }
+
+export auto is_aggressive(spr::id id) {
+  switch (id) {
+  case spr::chimera:
+  case spr::cerberus:
+  case spr::manticore:
+  case spr::crocodile:
+  case spr::drakon:
+  case spr::boar:
+  case spr::griffin:
+  case spr::sphinx:
+  case spr::bull:
+    return true;
+  default:
+    return false;
+  }
+}
