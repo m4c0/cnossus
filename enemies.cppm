@@ -8,16 +8,16 @@ import qsu;
 import rng;
 import spr;
 
-export namespace enemies {
-struct enemy {
+namespace enemies {
+export struct enemy {
   dotz::ivec2 coord{};
   spr::id spr{spr::nil};
   int life{};
 };
 
-hai::array<enemy> list{map::height};
+export hai::array<enemy> list{map::height};
 
-void init(int level) {
+export void init(int level) {
   for (auto y = 2; y < map::height - 2; y++) {
     auto x = map::pick_empty_space(y);
     if (x == -1) {
@@ -34,7 +34,7 @@ void init(int level) {
   }
 }
 
-void draw(dotz::ivec2 center, int rad) {
+export void draw(dotz::ivec2 center, int rad) {
   for (auto &e : list) {
     auto [dx, dy] = dotz::abs(e.coord - center);
     if (dx > rad || dy > rad) {
@@ -44,7 +44,7 @@ void draw(dotz::ivec2 center, int rad) {
   }
 }
 
-enemy *at(dotz::ivec2 p) {
+export enemy *at(dotz::ivec2 p) {
   for (auto &e : list) {
     if (e.spr == spr::nil)
       continue;
@@ -54,7 +54,21 @@ enemy *at(dotz::ivec2 p) {
   return nullptr;
 }
 
-dotz::ivec2 next_move(const enemy &e) {
+static dotz::ivec2 random_move() {
+  switch (rng::rand(4)) {
+  case 0:
+    return {-1, 0};
+  case 1:
+    return {1, 0};
+  case 2:
+    return {0, -1};
+  case 3:
+    return {0, 1};
+  default:
+    return {};
+  }
+}
+export dotz::ivec2 next_move(const enemy &e, bool lights_on) {
   if (e.life <= 0)
     return {};
 
@@ -63,22 +77,11 @@ dotz::ivec2 next_move(const enemy &e) {
   case spr::nil:
     return {};
   default:
-    switch (rng::rand(4)) {
-    case 0:
-      return {-1, 0};
-    case 1:
-      return {1, 0};
-    case 2:
-      return {0, -1};
-    case 3:
-      return {0, 1};
-    default:
-      return {};
-    }
+    return random_move();
   }
 }
 
-void hit(enemy &e, int roll) {
+export void hit(enemy &e, int roll) {
   if (e.spr == spr::nil)
     return;
 
