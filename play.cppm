@@ -74,17 +74,17 @@ static void take_loot(loot::loot *l) {
   }
 }
 
-export void move_by(int dx, int dy) {
+export [[nodiscard]] unsigned move_by(int dx, int dy) {
   if (player::d.life <= 0)
-    return;
+    return 0;
 
   auto p = player::d.coord + dotz::ivec2{dx, dy};
   if (map::data[p.y][p.x] == spr::exit) {
     init(level + 1);
-    return;
+    return 1000;
   }
   if (!map::can_walk(p.x, p.y))
-    return;
+    return 0;
 
   player::poison_tick();
   light::tick();
@@ -125,5 +125,7 @@ export void move_by(int dx, int dy) {
 
     e.coord = p;
   }
+
+  return 300;
 }
 } // namespace play

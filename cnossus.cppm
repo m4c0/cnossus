@@ -28,20 +28,14 @@ static void load_level() {
   quack::donald::data(::data);
 }
 
-static void move_by(int x, int y) {
-  play::move_by(x, y);
-  quack::donald::data(::data);
-  animate(300);
-}
+static void move_by(int x, int y) { animate(play::move_by(x, y)); }
 
 static void inv_l(int id) {
   play::light(id);
-  quack::donald::data(::data);
   animate(300);
 }
 static void inv_f(int id) {
   play::eat(id);
-  quack::donald::data(::data);
   animate(300);
 }
 
@@ -74,6 +68,11 @@ static void animate(int ms_timeout) {
 
   g_timeout = ms_timeout;
   g_watch = {};
+
+  if (ms_timeout == 0) {
+    quack::donald::data(::data);
+    return;
+  }
 
   reset_k(KEY_DOWN);
 
