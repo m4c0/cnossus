@@ -22,7 +22,7 @@ export bool can_walk(unsigned x, unsigned y) {
   return false;
 }
 
-export void draw(dotz::ivec2 center, int radius) {
+export void draw(dotz::ivec2 center, int radius, bool play_area_limit = true) {
   auto [x, y] = center;
   for (auto yy = y - radius; yy <= y + radius; yy++) {
     if (yy < 0 || yy >= height)
@@ -35,12 +35,12 @@ export void draw(dotz::ivec2 center, int radius) {
   }
 
   for (auto y = 0; y < height; y++) {
-    if (dotz::abs(y - center.y) > 3)
+    if (play_area_limit && dotz::abs(y - center.y) > 3)
       continue;
     for (auto x = 0; x < width; x++) {
       if (!visited[y][x])
         continue;
-      if (dotz::abs(x - center.x) > 3)
+      if (play_area_limit && dotz::abs(x - center.x) > 3)
         continue;
 
       auto [dx, dy] = dotz::abs(center - dotz::ivec2{x, y});

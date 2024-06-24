@@ -3,18 +3,28 @@ export module mapview;
 
 import casein;
 import dotz;
-import play;
+import enemies;
+import loot;
 import map;
-import quack;
+import player;
 import qsu;
+import quack;
 
-static unsigned data(quack::mapped_buffers all) {
-  return qsu::draw(all, play::draw);
+static void draw() {
+  dotz::ivec2 c{};
+  map::draw(c, 1000, false);
+  loot::draw(c, 1000);
+  enemies::draw(c, 1000);
+  player::draw();
 }
+static unsigned data(quack::mapped_buffers all) { return qsu::draw(all, draw); }
 
 static unsigned int level = 1;
 static void regen() {
-  play::init(level);
+  map::gen(level);
+  player::init(level);
+  enemies::init(level);
+  loot::init(level);
   quack::donald::data(::data);
 }
 
