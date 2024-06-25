@@ -15,11 +15,9 @@ import voo;
 // TODO: smooth camera moving
 
 static void enable_input();
-static void animate(int ms_timeout);
+static void animate();
 
 static unsigned int level = 1;
-static sitime::stopwatch g_watch{};
-static int g_timeout{};
 
 static void redraw() {
   quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
@@ -30,21 +28,22 @@ static void load_level() {
   redraw();
 }
 
-static void move_by(int x, int y) { animate(play::move_by(x, y)); }
+static void move_by(int x, int y) {
+  play::move_by(x, y);
+  redraw();
+}
 
 static void inv_l(int id) {
   play::light(id);
-  animate(300);
+  redraw();
 }
 static void inv_f(int id) {
   play::eat(id);
-  animate(300);
+  redraw();
 }
 
 static void enable_input() {
   using namespace casein;
-
-  g_timeout = 0;
 
   handle(KEY_DOWN, K_LEFT, [] { move_by(-1, 0); });
   handle(KEY_DOWN, K_RIGHT, [] { move_by(1, 0); });
@@ -68,22 +67,9 @@ static void enable_input() {
 static void animate(int ms_timeout) {
   using namespace casein;
 
-  g_timeout = ms_timeout;
-  g_watch = {};
-
-  if (ms_timeout == 0) {
-    redraw();
-    return;
-  }
-
   reset_k(KEY_DOWN);
 
-  handle(REPAINT, [] {
-    redraw();
-
-    if (g_timeout > 0 && g_watch.millis() > g_timeout)
-      enable_input();
-  });
+  handle(REPAINT, redraw);
 }
 
 struct init {
