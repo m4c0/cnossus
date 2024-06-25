@@ -30,11 +30,6 @@ static void redraw() {
   }
 }
 
-static void load_level() {
-  play::init(level);
-  redraw();
-}
-
 static void move_by(int x, int y) {
   play::move_by(x, y);
   redraw();
@@ -66,7 +61,8 @@ static void enable_input() {
 
   handle(KEY_DOWN, K_SPACE, [] {
     level = 1;
-    load_level();
+    play::init(level);
+    redraw();
   });
 
   handle(REPAINT, [] {});
@@ -82,7 +78,7 @@ static void animate() {
 struct init {
   init() {
     rng::seed();
-    load_level();
+    play::init(level);
     enable_input();
 
     using namespace quack::donald;
