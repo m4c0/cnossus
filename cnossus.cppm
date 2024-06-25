@@ -18,9 +18,16 @@ static void enable_input();
 static void animate();
 
 static unsigned int level = 1;
+static bool g_was_animating{};
 
 static void redraw() {
   quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
+
+  bool is_animating = play::is_animating();
+  if (g_was_animating != is_animating) {
+    g_was_animating = is_animating;
+    is_animating ? animate() : enable_input();
+  }
 }
 
 static void load_level() {
@@ -64,7 +71,7 @@ static void enable_input() {
 
   handle(REPAINT, [] {});
 }
-static void animate(int ms_timeout) {
+static void animate() {
   using namespace casein;
 
   reset_k(KEY_DOWN);

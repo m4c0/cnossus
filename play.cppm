@@ -44,6 +44,8 @@ export void draw() {
   inv::draw_ui();
 }
 
+export bool is_animating() { return false; }
+
 export void eat(int i) {
   auto roll = food_of(inv::eat_food(i));
   if (roll == 0)
