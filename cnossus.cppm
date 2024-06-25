@@ -21,11 +21,13 @@ static unsigned int level = 1;
 static sitime::stopwatch g_watch{};
 static int g_timeout{};
 
-static unsigned data(auto all) { return qsu::draw(all, play::draw); }
+static void redraw() {
+  quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
+}
 
 static void load_level() {
   play::init(level);
-  quack::donald::data(::data);
+  redraw();
 }
 
 static void move_by(int x, int y) { animate(play::move_by(x, y)); }
@@ -70,14 +72,14 @@ static void animate(int ms_timeout) {
   g_watch = {};
 
   if (ms_timeout == 0) {
-    quack::donald::data(::data);
+    redraw();
     return;
   }
 
   reset_k(KEY_DOWN);
 
   handle(REPAINT, [] {
-    quack::donald::data(::data);
+    redraw();
 
     if (g_timeout > 0 && g_watch.millis() > g_timeout)
       enable_input();
@@ -97,6 +99,6 @@ struct init {
 
     clear_colour({0, 0, 0, 1});
     atlas(qsu::atlas);
-    data(::data);
+    redraw();
   }
 } i;
