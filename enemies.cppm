@@ -69,6 +69,9 @@ static dotz::ivec2 random_move() {
   }
 }
 static dotz::ivec2 chase_player(const dotz::ivec2 d) {
+  if (d.x == 0 || d.y == 0)
+    return d;
+
   switch (rng::rand(2)) {
   case 0:
     return {d.x, 0};
