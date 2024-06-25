@@ -70,7 +70,7 @@ static void take_loot(loot::loot *l) {
     l->spr = lootroll(level, l->spr);
     break;
   default:
-    player::coord() = l->coord;
+    player::move(l->coord);
     if (inv::take(l->spr))
       l->spr = spr::nil;
     break;
@@ -98,14 +98,14 @@ export void move_by(int dx, int dy) {
       auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
     } else if (e->spr != spr::nil) {
-      player::coord() = p;
+      player::move(p);
       if (inv::take(e->spr))
         e->spr = spr::nil;
     }
   } else if (auto *l = loot::at(p)) {
     take_loot(l);
   } else {
-    player::coord() = p;
+    player::move(p);
   }
 
   for (auto &e : enemies::list) {

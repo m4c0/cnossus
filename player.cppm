@@ -21,10 +21,15 @@ struct data {
   int defense{base_defense};
 } d;
 
-export auto coord() { return d.coord; }
-export bool is_dead() { return d.life <= 0; }
-export auto attack() { return d.attack; }
-export auto defense() { return d.defense; }
+export const auto coord() { return d.coord; }
+export const bool is_dead() { return d.life <= 0; }
+export const auto attack() { return d.attack; }
+export const auto defense() { return d.defense; }
+
+export void move(dotz::ivec2 c) {
+  // TODO: animate
+  d.coord = c;
+}
 
 export void init(int level) {
   if (level == 1) {
