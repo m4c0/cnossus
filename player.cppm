@@ -12,7 +12,7 @@ constexpr const auto base_life = 10;
 
 // TODO: balance attack/defense
 // TODO: hunger damage, to force food consumption
-export struct data {
+struct data {
   dotz::ivec2 coord{};
   int life{base_life};
   int max_life{base_life};
@@ -20,6 +20,11 @@ export struct data {
   int attack{base_attack};
   int defense{base_defense};
 } d;
+
+export auto coord() { return d.coord; }
+export bool is_dead() { return d.life <= 0; }
+export auto attack() { return d.attack; }
+export auto defense() { return d.defense; }
 
 export void init(int level) {
   if (level == 1) {

@@ -30,12 +30,13 @@ export void init(int lvl) {
 }
 
 export void draw() {
+  auto pc = player::coord();
   auto radius = light::charge > 0 ? 2 : 1;
   {
-    qsu::guard::position ppo{-(player::d.coord + 0.5f)};
-    map::draw(player::d.coord, radius);
-    loot::draw(player::d.coord, radius);
-    enemies::draw(player::d.coord, radius);
+    qsu::guard::position ppo{-(pc + 0.5f)};
+    map::draw(pc, radius);
+    loot::draw(pc, radius);
+    enemies::draw(pc, radius);
     player::draw();
   }
 
@@ -69,7 +70,7 @@ static void take_loot(loot::loot *l) {
     l->spr = lootroll(level, l->spr);
     break;
   default:
-    player::d.coord = l->coord;
+    player::coord() = l->coord;
     if (inv::take(l->spr))
       l->spr = spr::nil;
     break;
@@ -77,10 +78,10 @@ static void take_loot(loot::loot *l) {
 }
 
 export void move_by(int dx, int dy) {
-  if (player::d.life <= 0)
+  if (player::is_dead())
     return;
 
-  auto p = player::d.coord + dotz::ivec2{dx, dy};
+  auto p = player::coord() + dotz::ivec2{dx, dy};
   if (map::data[p.y][p.x] == spr::exit) {
     init(level + 1);
     return;
@@ -93,18 +94,18 @@ export void move_by(int dx, int dy) {
 
   if (auto *e = enemies::at(p)) {
     if (e->life > 0) {
-      auto player_atk = inv::attack() + player::d.attack;
+      auto player_atk = inv::attack() + player::attack();
       auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
     } else if (e->spr != spr::nil) {
-      player::d.coord = p;
+      player::coord() = p;
       if (inv::take(e->spr))
         e->spr = spr::nil;
     }
   } else if (auto *l = loot::at(p)) {
     take_loot(l);
   } else {
-    player::d.coord = p;
+    player::coord() = p;
   }
 
   for (auto &e : enemies::list) {
@@ -112,14 +113,14 @@ export void move_by(int dx, int dy) {
       continue;
 
     auto p =
-        e.coord + enemies::next_move(e, player::d.coord, light::charge > 0);
+        e.coord + enemies::next_move(e, player::coord(), light::charge > 0);
     if (!map::can_walk(p.x, p.y))
       continue;
     if (enemies::at(p))
       continue;
-    if (player::d.coord == p) {
+    if (player::coord() == p) {
       auto enemy_atk = life_of(e.spr);
-      auto player_def = inv::defense() + player::d.defense;
+      auto player_def = inv::defense() + player::defense();
       auto poison = poison_of(e.spr);
       player::hit(enemy_atk - player_def, poison);
       continue;
