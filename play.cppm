@@ -33,7 +33,7 @@ export void draw() {
   auto pc = player::coord();
   auto radius = light::charge > 0 ? 2 : 1;
   {
-    qsu::guard::position ppo{-(pc + 0.5f)};
+    qsu::guard::position ppo{-(player::anim_coord() + 0.5f)};
     map::draw(pc, radius);
     loot::draw(pc, radius);
     enemies::draw(pc, radius);
