@@ -46,9 +46,9 @@ export void draw(dotz::vec2 center, int rad) {
     float a = 1.0;
     auto d = dotz::abs(e.coord - center) - rad;
     if (d.x > 1 || d.y > 1) {
-      a = 0.5;
+      a = 0.0;
     } else if (d.x > 0 || d.y > 0) {
-      a = (1.0 - dotz::max(d.x, d.y)) * 0.5 + 0.5;
+      a = 1.0 - dotz::max(d.x, d.y);
     }
 
     auto f = e.anim.millis() / anim_dur_ms;
