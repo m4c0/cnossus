@@ -34,12 +34,17 @@ export void init(int level) {
   }
 }
 
-export void draw(dotz::ivec2 center, int rad) {
+export void draw(dotz::vec2 center, int rad) {
   for (auto &e : list) {
-    auto [dx, dy] = dotz::abs(e.coord - center);
-    if (dx > rad || dy > rad) {
-      continue;
+    float a = 1.0;
+    auto d = dotz::abs(e.coord - center) - rad;
+    if (d.x > 1 || d.y > 1) {
+      a = 0.5;
+    } else if (d.x > 0 || d.y > 0) {
+      a = (1.0 - dotz::max(d.x, d.y)) * 0.5 + 0.5;
     }
+
+    qsu::guard::multiplier m{{1, 1, 1, a}};
     qsu::blit(e.spr, e.coord.x, e.coord.y);
   }
 }

@@ -30,13 +30,14 @@ export void init(int lvl) {
 }
 
 export void draw() {
+  auto pac = player::anim_coord();
   auto pc = player::coord();
   auto radius = light::charge > 0 ? 2 : 1;
   {
-    qsu::guard::position ppo{-(player::anim_coord() + 0.5f)};
+    qsu::guard::position ppo{-(pac + 0.5f)};
     map::draw(pc, radius);
     loot::draw(pc, radius);
-    enemies::draw(pc, radius);
+    enemies::draw(pac, radius);
     player::draw();
   }
 
