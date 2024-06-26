@@ -6,13 +6,19 @@ import map;
 import mobroll;
 import qsu;
 import rng;
+import sitime;
 import spr;
 
 namespace enemies {
+static constexpr const auto anim_dur_ms = 100.0f;
+
 export struct enemy {
   dotz::ivec2 coord{};
+  dotz::ivec2 old_coord{};
   spr::id spr{spr::nil};
   int life{};
+
+  sitime::stopwatch anim{};
 };
 
 export hai::array<enemy> list{map::height};
@@ -28,6 +34,7 @@ export void init(int level) {
     auto spr = mobroll(level);
     list[y] = enemy{
         .coord = {x, y},
+        .old_coord = {x, y},
         .spr = spr,
         .life = life_of(spr),
     };
@@ -44,9 +51,30 @@ export void draw(dotz::vec2 center, int rad) {
       a = (1.0 - dotz::max(d.x, d.y)) * 0.5 + 0.5;
     }
 
+    auto f = e.anim.millis() / anim_dur_ms;
+    if (f > 1.0) {
+      f = 1.0;
+      e.old_coord = e.coord;
+    }
+    auto p = dotz::mix(e.old_coord, e.coord, f);
+
     qsu::guard::multiplier m{{1, 1, 1, a}};
-    qsu::blit(e.spr, e.coord.x, e.coord.y);
+    qsu::blit(e.spr, p.x, p.y);
   }
+}
+
+export void move(enemy &e, dotz::ivec2 p) {
+  e.old_coord = e.coord;
+  e.coord = p;
+  e.anim = {};
+}
+
+export bool is_animating() {
+  for (auto &e : list)
+    if (e.old_coord != e.coord)
+      return true;
+
+  return false;
 }
 
 export enemy *at(dotz::ivec2 p) {

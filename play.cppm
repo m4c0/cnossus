@@ -46,7 +46,9 @@ export void draw() {
   inv::draw_ui();
 }
 
-export bool is_animating() { return player::is_animating(); }
+export bool is_animating() {
+  return player::is_animating() || enemies::is_animating();
+}
 
 export void eat(int i) {
   auto roll = food_of(inv::eat_food(i));
@@ -127,9 +129,7 @@ export void move_by(int dx, int dy) {
       continue;
     }
 
-    e.coord = p;
+    enemies::move(e, p);
   }
-
-  return;
 }
 } // namespace play
