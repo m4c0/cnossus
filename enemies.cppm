@@ -43,20 +43,20 @@ export void init(int level) {
 
 export void draw(dotz::vec2 center, int rad) {
   for (auto &e : list) {
-    float a = 1.0;
-    auto d = dotz::abs(e.coord - center) - rad;
-    if (d.x > 1 || d.y > 1) {
-      a = 0.0;
-    } else if (d.x > 0 || d.y > 0) {
-      a = 1.0 - dotz::max(d.x, d.y);
-    }
-
     auto f = e.anim.millis() / anim_dur_ms;
     if (f > 1.0) {
       f = 1.0;
       e.old_coord = e.coord;
     }
     auto p = dotz::mix(e.old_coord, e.coord, f);
+
+    float a = 1.0;
+    auto d = dotz::abs(p - center) - rad;
+    if (d.x > 1 || d.y > 1) {
+      a = 0.0;
+    } else if (d.x > 0 || d.y > 0) {
+      a = 1.0 - dotz::max(d.x, d.y);
+    }
 
     qsu::guard::multiplier m{{1, 1, 1, a}};
     qsu::blit(e.spr, p.x, p.y);
