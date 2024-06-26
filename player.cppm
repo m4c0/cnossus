@@ -10,6 +10,7 @@ namespace player {
 constexpr const auto base_attack = 10;
 constexpr const auto base_defense = 10;
 constexpr const auto base_life = 10;
+constexpr const auto anim_dur_ms = 100.0;
 
 // TODO: balance attack/defense
 // TODO: hunger damage, to force food consumption
@@ -31,7 +32,6 @@ export const auto attack() { return d.attack; }
 export const auto defense() { return d.defense; }
 
 export void move(dotz::ivec2 c) {
-  // TODO: animate
   d.old_coord = d.coord;
   d.coord = c;
   d.anim = {};
@@ -66,7 +66,7 @@ constexpr const qsu::colour poisoned{0, 1, 0, 1};
 constexpr const qsu::colour normal{1, 1, 1, 1};
 
 export auto anim_coord() {
-  auto a = d.anim.millis() / 100.0;
+  auto a = d.anim.millis() / anim_dur_ms;
   if (a > 1.0) {
     a = 1.0;
     d.old_coord = d.coord;
