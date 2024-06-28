@@ -49,9 +49,7 @@ export void draw() {
   inv::draw_ui();
 }
 
-export bool is_animating() {
-  return tim::is_animating() || enemies::is_animating();
-}
+export bool is_animating() { return tim::is_animating(); }
 
 export void eat(int i) {
   auto roll = food_of(inv::eat_food(i));

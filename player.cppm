@@ -10,7 +10,6 @@ namespace player {
 constexpr const auto base_attack = 10;
 constexpr const auto base_defense = 10;
 constexpr const auto base_life = 10;
-constexpr const auto anim_dur_ms = 100.0;
 
 // TODO: balance attack/defense
 // TODO: hunger damage, to force food consumption
@@ -34,7 +33,7 @@ export void move(dotz::ivec2 c) {
       .target = &d.anim_coord,
       .a = d.coord,
       .b = c,
-      .length = anim_dur_ms,
+      .length = tim::anim_dur_ms,
   });
   d.anim_coord = c;
   d.coord = c;

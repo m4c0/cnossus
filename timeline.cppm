@@ -4,6 +4,8 @@ import hai;
 import sitime;
 
 namespace tim {
+export constexpr const auto anim_dur_ms = 100.0;
+
 struct lin {
   dotz::vec2 *target{};
   dotz::vec2 a{};
