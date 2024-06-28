@@ -4,7 +4,6 @@ import hai;
 import lootroll;
 import map;
 import qsu;
-import sitime;
 import spr;
 
 static constexpr const auto anim_dur_ms = 100.0f;
@@ -12,11 +11,9 @@ static constexpr const auto anim_dur_ms = 100.0f;
 export namespace loot {
 struct loot {
   dotz::ivec2 coord{};
-  dotz::ivec2 old_coord{};
+  dotz::ivec2 anim_coord{};
   spr::id spr{spr::nil};
   bool visited{};
-
-  sitime::stopwatch anim{};
 };
 
 hai::array<loot> list{map::height};
@@ -31,7 +28,7 @@ void init(int level) {
 
     list[y] = loot{
         .coord = {x, y},
-        .old_coord = {x, y},
+        .anim_coord = {x, y},
         .spr = lootroll(level),
     };
   }
@@ -39,15 +36,8 @@ void init(int level) {
 
 void draw(dotz::vec2 center, int rad) {
   for (auto &e : list) {
-    auto f = e.anim.millis() / anim_dur_ms;
-    if (f > 1.0) {
-      f = 1.0;
-      e.old_coord = e.coord;
-    }
-    auto p = dotz::mix(e.old_coord, e.coord, f);
-
     float a = 1.0;
-    auto d = dotz::abs(p - center) - rad;
+    auto d = dotz::abs(e.anim_coord - center) - rad;
     if (d.x > 1 || d.y > 1) {
       a = 0.0;
     } else if (d.x > 0 || d.y > 0) {
@@ -61,7 +51,7 @@ void draw(dotz::vec2 center, int rad) {
 
     float aa = dotz::mix(0.6, 1.0, a);
     qsu::guard::multiplier m{{1, 1, 1, aa}};
-    qsu::blit(e.spr, e.coord.x, e.coord.y);
+    qsu::blit(e.spr, e.anim_coord.x, e.anim_coord.y);
   }
 }
 
