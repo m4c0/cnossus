@@ -10,6 +10,7 @@ import player;
 import qsu;
 import quack;
 import spr;
+import timeline;
 
 namespace play {
 int level{};
