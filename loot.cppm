@@ -36,21 +36,14 @@ void init(int level) {
 
 void draw(dotz::vec2 center, int rad) {
   for (auto &e : list) {
-    float a = 1.0;
-    auto d = dotz::abs(e.anim_coord - center) - rad;
-    if (d.x > 1 || d.y > 1) {
-      a = 0.0;
-    } else if (d.x > 0 || d.y > 0) {
-      a = 1.0 - dotz::max(d.x, d.y);
-    } else {
+    auto d = dotz::abs(e.anim_coord - center);
+    if (d.x <= rad && d.y <= rad) {
       e.visited = true;
     }
-
     if (!e.visited)
       continue;
 
-    float aa = dotz::mix(0.6, 1.0, a);
-    qsu::guard::multiplier m{{1, 1, 1, aa}};
+    qsu::guard::distance_dim dim{e.anim_coord, center, rad, 0.6};
     qsu::blit(e.spr, e.anim_coord);
   }
 }

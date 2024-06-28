@@ -39,15 +39,7 @@ export void init(int level) {
 
 export void draw(dotz::vec2 center, int rad) {
   for (auto &e : list) {
-    float a = 1.0;
-    auto d = dotz::abs(e.anim_coord - center) - rad;
-    if (d.x > 1 || d.y > 1) {
-      a = 0.0;
-    } else if (d.x > 0 || d.y > 0) {
-      a = 1.0 - dotz::max(d.x, d.y);
-    }
-
-    qsu::guard::multiplier m{{1, 1, 1, a}};
+    qsu::guard::distance_dim d{e.anim_coord, center, rad};
     qsu::blit(e.spr, e.anim_coord);
   }
 }
