@@ -2,9 +2,9 @@ export module player;
 import dotz;
 import map;
 import rng;
-import sitime;
 import spr;
 import qsu;
+import timeline;
 
 namespace player {
 constexpr const auto base_attack = 10;
@@ -16,14 +16,12 @@ constexpr const auto anim_dur_ms = 100.0;
 // TODO: hunger damage, to force food consumption
 struct data {
   dotz::ivec2 coord{};
-  dotz::ivec2 old_coord{};
+  dotz::vec2 anim_coord{};
   int life{base_life};
   int max_life{base_life};
   int poison{};
   int attack{base_attack};
   int defense{base_defense};
-
-  sitime::stopwatch anim{};
 } d;
 
 export const auto coord() { return d.coord; }
@@ -32,12 +30,15 @@ export const auto attack() { return d.attack; }
 export const auto defense() { return d.defense; }
 
 export void move(dotz::ivec2 c) {
-  d.old_coord = d.coord;
+  tim::add({
+      .target = &d.anim_coord,
+      .a = d.coord,
+      .b = c,
+      .length = anim_dur_ms,
+  });
+  d.anim_coord = c;
   d.coord = c;
-  d.anim = {};
 }
-
-export bool is_animating() { return d.old_coord != d.coord; }
 
 export void init(int level) {
   if (level == 1) {
@@ -58,21 +59,14 @@ export void init(int level) {
       break;
     }
   }
-  d.old_coord = d.coord =
-      (level % 2) ? dotz::ivec2{1, 1} : dotz::ivec2{map::width - 2, 1};
+  d.coord = (level % 2) ? dotz::ivec2{1, 1} : dotz::ivec2{map::width - 2, 1};
+  d.anim_coord = d.coord;
 }
 
 constexpr const qsu::colour poisoned{0, 1, 0, 1};
 constexpr const qsu::colour normal{1, 1, 1, 1};
 
-export auto anim_coord() {
-  auto a = d.anim.millis() / anim_dur_ms;
-  if (a > 1.0) {
-    a = 1.0;
-    d.old_coord = d.coord;
-  }
-  return dotz::mix(d.old_coord, d.coord, a);
-}
+export auto anim_coord() { return d.anim_coord; }
 
 export void draw() {
   if (d.life == 0)

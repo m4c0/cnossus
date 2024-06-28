@@ -31,6 +31,8 @@ export void init(int lvl) {
 }
 
 export void draw() {
+  tim::tick();
+
   auto pac = player::anim_coord();
   auto pc = player::coord();
   auto radius = light::charge > 0 ? 2 : 1;
@@ -48,7 +50,7 @@ export void draw() {
 }
 
 export bool is_animating() {
-  return player::is_animating() || enemies::is_animating();
+  return tim::is_animating() || enemies::is_animating();
 }
 
 export void eat(int i) {
@@ -82,6 +84,8 @@ static void take_loot(loot::loot *l) {
 }
 
 export void move_by(int dx, int dy) {
+  tim::reset();
+
   if (player::is_dead())
     return;
 

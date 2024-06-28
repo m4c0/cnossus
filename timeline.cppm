@@ -15,27 +15,25 @@ struct lin {
 hai::varray<lin> timeline{1000};
 sitime::stopwatch timer{};
 
-void reset() {
+export void reset() {
   timer = {};
   timeline.truncate(0);
 }
-void add(lin l) { timeline.push_back(l); }
+export void add(lin l) { timeline.push_back(l); }
 
-void tick() {
+export void tick() {
   auto ms = timer.millis();
   for (auto &l : timeline) {
     if (l.length == 0 || !l.target)
       continue;
 
     auto dt = (ms - l.start) / l.length;
-    if (dt < 0)
-      continue;
-
+    dt = dt < 0 ? 0 : (dt > 1 ? 1 : dt);
     *l.target = dotz::mix(l.a, l.b, dt);
   }
 }
 
-bool is_animating() {
+export bool is_animating() {
   auto ms = timer.millis();
   for (auto &l : timeline) {
     if (ms - l.start < l.length)
