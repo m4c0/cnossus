@@ -30,6 +30,7 @@ export void blit(spr::id i, float x, float y) {
   *u++ = {uv, uv + 1.0 / 16.0};
   count++;
 }
+export inline void blit(spr::id i, dotz::vec2 p) { blit(i, p.x, p.y); }
 
 export auto draw(quack::mapped_buffers all, auto &&fn) {
   count = 0;

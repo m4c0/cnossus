@@ -71,10 +71,8 @@ export void draw() {
   if (d.life == 0)
     return;
 
-  auto c = anim_coord();
-
   qsu::guard::multiplier m{d.poison > 0 ? poisoned : normal};
-  qsu::blit(spr::minotaur, c.x, c.y);
+  qsu::blit(spr::minotaur, d.anim_coord);
 }
 export void draw_ui() {
   constexpr const auto x = -4.5;

@@ -48,7 +48,7 @@ export void draw(dotz::vec2 center, int rad) {
     }
 
     qsu::guard::multiplier m{{1, 1, 1, a}};
-    qsu::blit(e.spr, e.anim_coord.x, e.anim_coord.y);
+    qsu::blit(e.spr, e.anim_coord);
   }
 }
 

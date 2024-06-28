@@ -51,7 +51,7 @@ void draw(dotz::vec2 center, int rad) {
 
     float aa = dotz::mix(0.6, 1.0, a);
     qsu::guard::multiplier m{{1, 1, 1, aa}};
-    qsu::blit(e.spr, e.anim_coord.x, e.anim_coord.y);
+    qsu::blit(e.spr, e.anim_coord);
   }
 }
 
