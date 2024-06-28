@@ -57,6 +57,7 @@ export void move(enemy &e, dotz::ivec2 p) {
       .target = &e.anim_coord,
       .a = e.coord,
       .b = p,
+      .start = tim::anim_dur_ms,
       .length = tim::anim_dur_ms,
   });
   e.anim_coord = e.coord;
