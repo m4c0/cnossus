@@ -16,20 +16,16 @@ struct lin {
 
 hai::varray<lin> timeline{1000};
 sitime::stopwatch timer{};
-float end{};
 
 export void reset() {
   timer = {};
   timeline.truncate(0);
-  end = {};
 }
-export void add(lin l) {
-  timeline.push_back(l);
-  end = dotz::max(end, l.start + l.length);
-}
+export void add(lin l) { timeline.push_back(l); }
 
-export void tick() {
+export [[nodiscard]] bool tick() {
   float ms = timer.millis();
+  bool animating{false};
   for (auto &l : timeline) {
     if (l.length == 0 || !l.target)
       continue;
@@ -37,8 +33,9 @@ export void tick() {
     auto dt = (ms - l.start) / l.length;
     dt = dt < 0 ? 0 : (dt > 1 ? 1 : dt);
     *l.target = dotz::mix(l.a, l.b, dt);
-  }
-}
 
-export bool is_animating() { return end > 0 && end > timer.millis(); }
+    animating |= dt < 1;
+  }
+  return animating;
+}
 } // namespace tim

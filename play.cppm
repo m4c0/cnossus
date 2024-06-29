@@ -13,6 +13,7 @@ import spr;
 import timeline;
 
 namespace play {
+bool g_animating{};
 int level{};
 
 export void init(int lvl) {
@@ -31,7 +32,7 @@ export void init(int lvl) {
 }
 
 export void draw() {
-  tim::tick();
+  g_animating = tim::tick();
 
   auto pac = player::anim_coord();
   auto pc = player::coord();
@@ -49,7 +50,7 @@ export void draw() {
   inv::draw_ui();
 }
 
-export bool is_animating() { return tim::is_animating(); }
+export bool is_animating() { return g_animating; }
 
 export void eat(int i) {
   auto roll = food_of(inv::eat_food(i));
