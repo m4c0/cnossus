@@ -88,3 +88,17 @@ public:
 };
 
 } // namespace qsu::guard
+
+namespace qsu {
+export struct spr {
+  dotz::ivec2 coord{};
+  dotz::vec2 anim_coord{};
+  ::spr::id spr{::spr::nil};
+  bool visited{};
+};
+
+export void blit(const spr &e, dotz::vec2 center, int rad, float min = 0.0) {
+  qsu::guard::distance_dim d{e.anim_coord, center, rad, min};
+  qsu::blit(e.spr, e.anim_coord);
+}
+} // namespace qsu

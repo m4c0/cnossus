@@ -9,13 +9,7 @@ import spr;
 static constexpr const auto anim_dur_ms = 100.0f;
 
 export namespace loot {
-struct loot {
-  dotz::ivec2 coord{};
-  dotz::ivec2 anim_coord{};
-  spr::id spr{spr::nil};
-  bool visited{};
-};
-
+using loot = qsu::spr;
 hai::array<loot> list{map::height};
 
 void init(int level) {
@@ -43,8 +37,7 @@ void draw(dotz::vec2 center, int rad) {
     if (!e.visited)
       continue;
 
-    qsu::guard::distance_dim dim{e.anim_coord, center, rad, 0.6};
-    qsu::blit(e.spr, e.anim_coord);
+    qsu::blit(e, center, rad, 0.6);
   }
 }
 

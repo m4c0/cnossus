@@ -10,10 +10,7 @@ import spr;
 import timeline;
 
 namespace enemies {
-export struct enemy {
-  dotz::ivec2 coord{};
-  dotz::vec2 anim_coord{};
-  spr::id spr{spr::nil};
+export struct enemy : qsu::spr {
   int life{};
 };
 
@@ -29,18 +26,19 @@ export void init(int level) {
 
     auto spr = mobroll(level);
     list[y] = enemy{
-        .coord = {x, y},
-        .anim_coord = {x, y},
-        .spr = spr,
-        .life = life_of(spr),
+        qsu::spr{
+            .coord = {x, y},
+            .anim_coord = {x, y},
+            .spr = spr,
+        },
+        life_of(spr),
     };
   }
 }
 
 export void draw(dotz::vec2 center, int rad) {
   for (auto &e : list) {
-    qsu::guard::distance_dim d{e.anim_coord, center, rad};
-    qsu::blit(e.spr, e.anim_coord);
+    qsu::blit(e, center, rad);
   }
 }
 
@@ -122,9 +120,9 @@ export void hit(enemy &e, int roll) {
 
   e.life -= rng::rand(roll);
   if (e.life <= 0)
-    e = {
+    e = {{
         .coord = e.coord,
         .spr = lootroll(e.spr),
-    };
+    }};
 }
 } // namespace enemies
