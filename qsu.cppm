@@ -67,26 +67,6 @@ public:
   position(dotz::vec2 c) { qsu::pos = c; }
   ~position() { qsu::pos = m_prev; }
 };
-
-export class distance_dim : multiplier {
-  static constexpr auto alpha(dotz::vec2 coord, dotz::vec2 center, int rad,
-                              float min = 0.0) {
-    float a = 1.0;
-    auto d = dotz::abs(coord - center) - rad;
-    if (d.x > 1 || d.y > 1) {
-      a = 0.0;
-    } else if (d.x > 0 || d.y > 0) {
-      a = 1.0 - dotz::max(d.x, d.y);
-    }
-
-    return dotz::mix(min, 1.0, a);
-  }
-
-public:
-  distance_dim(dotz::vec2 coord, dotz::vec2 center, int rad, float min = 0.0)
-      : multiplier({1, 1, 1, alpha(coord, center, rad, min)}) {}
-};
-
 } // namespace qsu::guard
 
 namespace qsu {
@@ -97,8 +77,23 @@ export struct spr {
   bool visited{};
 };
 
-export void blit(const spr &e, dotz::vec2 center, int rad, float min = 0.0) {
-  qsu::guard::distance_dim d{e.anim_coord, center, rad, min};
+export void blit(spr &e, dotz::vec2 center, int rad, float min = 0.0) {
+  auto d = dotz::abs(e.anim_coord - center) - rad;
+  if (d.x <= 1 && d.y <= 1) {
+    e.visited = true;
+  }
+  if (!e.visited)
+    return;
+
+  float a = 1.0;
+  if (d.x > 1 || d.y > 1) {
+    a = 0.0;
+  } else if (d.x > 0 || d.y > 0) {
+    a = 1.0 - dotz::max(d.x, d.y);
+  }
+  auto aa = dotz::mix(min, 1.0, a);
+
+  qsu::guard::multiplier dim{{1, 1, 1, aa}};
   qsu::blit(e.spr, e.anim_coord);
 }
 } // namespace qsu
