@@ -21,7 +21,10 @@ export void reset() {
   timer = {};
   timeline.truncate(0);
 }
-export void add(lin l) { timeline.push_back(l); }
+export void add(lin l) {
+  // TODO: optimise for invisible sprites
+  timeline.push_back(l);
+}
 
 export [[nodiscard]] bool tick() {
   float ms = timer.millis();
