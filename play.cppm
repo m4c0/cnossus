@@ -35,11 +35,10 @@ export void draw() {
   g_animating = tim::tick();
 
   auto pac = player::anim_coord();
-  auto pc = player::coord();
   auto radius = light::charge > 0 ? 2 : 1;
   {
     qsu::guard::position ppo{-(pac + 0.5f)};
-    map::draw(pc, radius);
+    map::draw(pac, radius);
     loot::draw(pac, radius);
     enemies::draw(pac, radius);
     player::draw();

@@ -21,14 +21,9 @@ export bool can_walk(unsigned x, unsigned y) {
   return false;
 }
 
-export void draw(dotz::ivec2 center, int radius, bool play_area_limit = true) {
+export void draw(dotz::vec2 center, int radius, bool play_area_limit = true) {
   for (auto y = 0; y < height; y++) {
-    if (play_area_limit && dotz::abs(y - center.y) > 3)
-      continue;
     for (auto x = 0; x < width; x++) {
-      if (play_area_limit && dotz::abs(x - center.x) > 3)
-        continue;
-
       auto b = data[y][x];
       if (b.spr != spr::wall && b.spr != spr::pool) {
         b.spr = spr::floor;
