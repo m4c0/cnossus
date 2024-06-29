@@ -80,7 +80,15 @@ export struct spr {
 export void blit(spr &e, dotz::vec2 center, int rad, float min = 0.0) {
   auto d = dotz::abs(e.anim_coord - center) - rad;
   float a = 1.0;
-  if (d.x > 1 || d.y > 1) {
+  float max = 1.0;
+  if (d.x > 3 || d.y > 3) {
+    return;
+  } else if (e.visited && (d.x > 2 || d.y > 2)) {
+    max = min;
+    min = 0.0;
+    d = d - 2;
+    a = 1.0 - dotz::max(d.x, d.y);
+  } else if (d.x > 1 || d.y > 1) {
     a = 0.0;
   } else if (d.x > 0 || d.y > 0) {
     a = 1.0 - dotz::max(d.x, d.y);
@@ -90,7 +98,7 @@ export void blit(spr &e, dotz::vec2 center, int rad, float min = 0.0) {
   if (!e.visited)
     min = 0.0;
 
-  auto aa = dotz::mix(min, 1.0, a);
+  auto aa = dotz::mix(min, max, a);
   if (aa > 0.0) {
     qsu::guard::multiplier dim{{1, 1, 1, aa}};
     qsu::blit(e.spr, e.anim_coord);
