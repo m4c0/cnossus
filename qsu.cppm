@@ -79,21 +79,21 @@ export struct spr {
 
 export void blit(spr &e, dotz::vec2 center, int rad, float min = 0.0) {
   auto d = dotz::abs(e.anim_coord - center) - rad;
-  if (d.x <= 1 && d.y <= 1) {
-    e.visited = true;
-  }
-  if (!e.visited)
-    return;
-
   float a = 1.0;
   if (d.x > 1 || d.y > 1) {
     a = 0.0;
   } else if (d.x > 0 || d.y > 0) {
     a = 1.0 - dotz::max(d.x, d.y);
+  } else {
+    e.visited = true;
   }
-  auto aa = dotz::mix(min, 1.0, a);
+  if (!e.visited)
+    min = 0.0;
 
-  qsu::guard::multiplier dim{{1, 1, 1, aa}};
-  qsu::blit(e.spr, e.anim_coord);
+  auto aa = dotz::mix(min, 1.0, a);
+  if (aa > 0.0) {
+    qsu::guard::multiplier dim{{1, 1, 1, aa}};
+    qsu::blit(e.spr, e.anim_coord);
+  }
 }
 } // namespace qsu
