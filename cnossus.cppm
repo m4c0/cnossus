@@ -17,7 +17,6 @@ import voo;
 static void enable_input();
 static void animate();
 
-static unsigned int level = 1;
 static bool g_was_animating{};
 
 static void redraw() {
@@ -60,8 +59,7 @@ static void enable_input() {
   handle(KEY_DOWN, K_6, [] { inv_f(2); });
 
   handle(KEY_DOWN, K_SPACE, [] {
-    level = 1;
-    play::init(level);
+    play::init();
     redraw();
   });
 
@@ -78,7 +76,7 @@ static void animate() {
 struct init {
   init() {
     rng::seed();
-    play::init(level);
+    play::init();
     enable_input();
 
     using namespace quack::donald;

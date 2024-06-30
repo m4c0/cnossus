@@ -16,7 +16,7 @@ namespace play {
 bool g_animating{};
 int level{};
 
-export void init(int lvl) {
+void init(int lvl) {
   level = lvl;
   map::gen(level);
   player::init(level);
@@ -30,6 +30,7 @@ export void init(int lvl) {
       .grid_size = {9, 9},
   });
 }
+export void init() { init(1); }
 
 export void draw() {
   g_animating = tim::tick();
