@@ -15,9 +15,9 @@ import timeline;
 
 namespace play {
 bool g_animating{};
-int level{};
+unsigned level{};
 
-void init(int lvl) {
+void init(unsigned lvl) {
   level = lvl;
   map::gen(level);
   player::init(level);
@@ -31,7 +31,14 @@ void init(int lvl) {
       .grid_size = {9, 9},
   });
 }
-export void init() { init(1); }
+export void init() {
+  auto d = save::read();
+  init(d.level + 1);
+}
+void next_level() {
+  save::write({.level = level});
+  init(level + 1);
+}
 
 export void draw() {
   g_animating = tim::tick();
@@ -91,7 +98,7 @@ export void move_by(int dx, int dy) {
 
   auto p = player::coord() + dotz::ivec2{dx, dy};
   if (map::data[p.y][p.x].spr == spr::exit) {
-    init(level + 1);
+    next_level();
     return;
   }
   if (!map::can_walk(p.x, p.y))

@@ -8,7 +8,6 @@ struct data {
 };
 
 data read() {
-
   return buoy::open_for_reading("cnossus", "save.dat")
       .fmap([](auto &&r) { return r->template read<data>(); })
       .trace("reading save data")
