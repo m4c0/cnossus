@@ -4,18 +4,19 @@ import buoy;
 export namespace save {
 struct data {
   unsigned level{};
-};
+} d;
 
-data read() {
-  return buoy::open_for_reading("cnossus", "save.dat")
+void read() {
+  buoy::open_for_reading("cnossus", "save.dat")
       .fmap([](auto &r) { return r.template read<data>(); })
+      .map([](auto dd) { d = dd; })
       .trace("reading save data")
       .log_error();
 }
 
-void write(data d) {
+void write() {
   buoy::open_for_writing("cnossus", "save.dat")
-      .fmap([d](auto &w) { return w.write(d); })
+      .fmap([](auto &w) { return w.write(d); })
       .trace("writing save data")
       .log_error();
 }

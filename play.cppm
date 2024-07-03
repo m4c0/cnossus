@@ -15,10 +15,9 @@ import timeline;
 
 namespace play {
 bool g_animating{};
-unsigned level{};
 
-void init(unsigned lvl) {
-  level = lvl;
+void setup_level() {
+  auto level = save::d.level + 1;
   map::gen(level);
   player::init(level);
   enemies::init(level);
@@ -32,12 +31,13 @@ void init(unsigned lvl) {
   });
 }
 export void init() {
-  auto d = save::read();
-  init(d.level + 1);
+  save::read();
+  setup_level();
 }
 void next_level() {
-  save::write({.level = level});
-  init(level + 1);
+  save::d.level++;
+  save::write();
+  setup_level();
 }
 
 export void draw() {
@@ -80,7 +80,7 @@ static void take_loot(loot::loot *l) {
   switch (l->spr) {
   case spr::jar:
   case spr::coffer:
-    l->spr = lootroll(level, l->spr);
+    l->spr = lootroll(save::d.level, l->spr);
     break;
   default:
     player::move(l->coord);
