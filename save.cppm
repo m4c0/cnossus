@@ -3,12 +3,26 @@ import fork;
 import buoy;
 
 export namespace save {
+struct player_data {
+  static constexpr const auto base_attack = 10;
+  static constexpr const auto base_defense = 10;
+  static constexpr const auto base_life = 10;
+
+  int life{base_life};
+  int max_life{base_life};
+  int poison{};
+  int attack{base_attack};
+  int defense{base_defense};
+};
+
 struct data {
   unsigned version{1};
   unsigned level{};
+  player_data player{};
 } d;
 
 void read() {
+  d = {};
   buoy::open_for_reading("cnossus", "save.dat")
       .fpeek(frk::assert("CNO"))
       .fpeek(frk::take("DATA", &d))
