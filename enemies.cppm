@@ -44,9 +44,11 @@ export void draw(dotz::vec2 center, int rad) {
 
 export void move(enemy &e, dotz::ivec2 p) {
   tim::add({
-      .target = &e.anim_coord,
-      .a = e.coord,
-      .b = p,
+      .pos{
+          .target = &e.anim_coord,
+          .a = e.coord,
+          .b = p,
+      },
       .start = tim::anim_dur_ms,
       .length = tim::anim_dur_ms,
   });
@@ -55,10 +57,12 @@ export void move(enemy &e, dotz::ivec2 p) {
 }
 export void attack(enemy &e, dotz::ivec2 p) {
   tim::add({
-      .target = &e.anim_coord,
-      .a = e.coord,
-      .b = p,
-      .func = tim::fn::half_and_back,
+      .pos{
+          .target = &e.anim_coord,
+          .a = e.coord,
+          .b = p,
+          .func = tim::fn::half_and_back,
+      },
       .start = tim::anim_dur_ms,
       .length = tim::anim_dur_ms,
   });

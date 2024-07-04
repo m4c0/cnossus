@@ -13,11 +13,14 @@ float half_and_back(float dt) { return dt > 0.5 ? 1.0 - dt : dt; }
 namespace tim {
 export constexpr const auto anim_dur_ms = 100.0;
 
-struct lin {
-  dotz::vec2 *target{};
-  dotz::vec2 a{};
-  dotz::vec2 b{};
+template <typename T, T def = {}> struct param {
+  T *target{};
+  T a{def};
+  T b{def};
   fn::t func{fn::linear};
+};
+struct lin {
+  param<dotz::vec2> pos{};
   float start{};
   float length{};
 };
@@ -34,11 +37,18 @@ export void add(lin l) {
   timeline.push_back(l);
 }
 
+template <typename T> void tick(param<T> &l, float dt) {
+  if (l.target == nullptr)
+    return;
+
+  dt = l.func(dt);
+  *l.target = dotz::mix(l.a, l.b, dt);
+}
 export [[nodiscard]] bool tick() {
   float ms = timer.millis();
   bool animating{false};
   for (auto &l : timeline) {
-    if (l.length == 0 || !l.target)
+    if (l.length == 0)
       continue;
 
     auto dt = (ms - l.start) / l.length;
@@ -46,8 +56,7 @@ export [[nodiscard]] bool tick() {
 
     animating |= dt < 1;
 
-    dt = l.func(dt);
-    *l.target = dotz::mix(l.a, l.b, dt);
+    tick(l.pos, dt);
   }
   return animating;
 }

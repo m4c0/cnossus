@@ -22,9 +22,11 @@ export const auto defense() { return save::d.player.defense; }
 
 export void move(dotz::ivec2 c) {
   tim::add({
-      .target = &d.anim_coord,
-      .a = d.coord,
-      .b = c,
+      .pos{
+          .target = &d.anim_coord,
+          .a = d.coord,
+          .b = c,
+      },
       .length = tim::anim_dur_ms,
   });
   d.anim_coord = c;
@@ -32,10 +34,12 @@ export void move(dotz::ivec2 c) {
 }
 export void attack(dotz::ivec2 c) {
   tim::add({
-      .target = &d.anim_coord,
-      .a = d.coord,
-      .b = c,
-      .func = tim::fn::half_and_back,
+      .pos{
+          .target = &d.anim_coord,
+          .a = d.coord,
+          .b = c,
+          .func = tim::fn::half_and_back,
+      },
       .length = tim::anim_dur_ms,
   });
 }
