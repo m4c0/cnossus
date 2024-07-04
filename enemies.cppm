@@ -125,11 +125,13 @@ export void hit(enemy &e, int roll) {
   if (e.spr == spr::nil)
     return;
 
+  // TODO: animate
   if (roll <= 0)
     return;
 
   e.life -= rng::rand(roll);
   if (e.life <= 0)
+    // TODO: animate
     e = {{
         .coord = e.coord,
         .spr = lootroll(e.spr),

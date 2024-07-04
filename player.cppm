@@ -90,6 +90,7 @@ export void poison_tick() {
   if (save::d.player.poison == 0 || save::d.player.life == 0)
     return;
 
+  // TODO: animate
   if (rng::rand(2))
     save::d.player.life--;
 
@@ -97,6 +98,7 @@ export void poison_tick() {
 }
 
 export void restore(int roll) {
+  // TODO: animate
   save::d.player.life += rng::rand(roll);
   if (save::d.player.life > save::d.player.max_life)
     save::d.player.life = save::d.player.max_life;
@@ -106,9 +108,11 @@ export void hit(int roll, int poison) {
   if (poison > 0)
     save::d.player.poison += rng::rand(poison);
 
+  // TODO: animate
   if (roll <= 0)
     return;
 
+  // TODO: animate
   auto dmg = rng::rand(roll);
   if (dmg == 0)
     return;

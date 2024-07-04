@@ -76,7 +76,7 @@ export void light(int i) {
   light::restore(roll);
 }
 
-static void take_loot(loot::loot *l) {
+static void take_loot(auto *l) {
   switch (l->spr) {
   case spr::jar:
   case spr::coffer:
@@ -85,6 +85,7 @@ static void take_loot(loot::loot *l) {
     break;
   default:
     player::move(l->coord);
+    // TODO: animate
     if (inv::take(l->spr))
       l->spr = spr::nil;
     break;
@@ -115,9 +116,7 @@ export void move_by(int dx, int dy) {
       enemies::hit(*e, player_atk - enemy_def);
       player::attack(e->coord);
     } else if (e->spr != spr::nil) {
-      player::move(p);
-      if (inv::take(e->spr))
-        e->spr = spr::nil;
+      take_loot(e);
     }
   } else if (auto *l = loot::at(p)) {
     take_loot(l);
