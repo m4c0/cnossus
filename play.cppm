@@ -140,6 +140,7 @@ export void move_by(int dx, int dy) {
       auto player_def = inv::defense() + player::defense();
       auto poison = poison_of(e.spr);
       player::hit(enemy_atk - player_def, poison);
+      enemies::attack(e, p);
       continue;
     }
 

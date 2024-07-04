@@ -53,6 +53,16 @@ export void move(enemy &e, dotz::ivec2 p) {
   e.anim_coord = e.coord;
   e.coord = p;
 }
+export void attack(enemy &e, dotz::ivec2 p) {
+  tim::add({
+      .target = &e.anim_coord,
+      .a = e.coord,
+      .b = p,
+      .func = tim::fn::half_and_back,
+      .start = tim::anim_dur_ms,
+      .length = tim::anim_dur_ms,
+  });
+}
 
 export enemy *at(dotz::ivec2 p) {
   for (auto &e : list) {
