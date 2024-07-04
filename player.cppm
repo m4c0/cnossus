@@ -13,6 +13,7 @@ namespace player {
 struct data {
   dotz::ivec2 coord{};
   dotz::vec2 anim_coord{};
+  float rotation{};
 } d;
 
 export const auto coord() { return d.coord; }
@@ -77,7 +78,7 @@ export void draw() {
     return;
 
   qsu::guard::multiplier m{save::d.player.poison > 0 ? poisoned : normal};
-  qsu::blit(spr::minotaur, d.anim_coord);
+  qsu::blit(spr::minotaur, d.anim_coord, d.rotation);
 }
 export void draw_ui() {
   constexpr const auto x = -4.5;
@@ -86,7 +87,7 @@ export void draw_ui() {
   for (auto i = 0; i < save::d.player.life; i++) {
     qsu::guard::multiplier m{
         save::d.player.poison >= save::d.player.life - i ? poisoned : normal};
-    qsu::blit(spr::minotaur, x, y - i * 8.5 / save::d.player.max_life);
+    qsu::blit(spr::minotaur, x, y - i * 8.5 / save::d.player.max_life, 0);
   }
 }
 

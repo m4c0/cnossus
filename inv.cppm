@@ -23,11 +23,11 @@ void draw_consumables_ui() {
   constexpr const auto y = 3.5;
 
   if (d.bag)
-    qsu::blit(spr::bag, x, y);
+    qsu::blit(spr::bag, x, y, 0);
 
   for (auto i = 0; i < 3; i++) {
-    qsu::blit(d.lights[i], x + i + 1, y);
-    qsu::blit(d.food[i], x + i + 4, y);
+    qsu::blit(d.lights[i], x + i + 1, y, 0);
+    qsu::blit(d.food[i], x + i + 4, y, 0);
   }
 }
 void draw_armory_ui() {
@@ -35,10 +35,10 @@ void draw_armory_ui() {
   constexpr const auto x = -3.0;
   constexpr const auto y = -4.5;
 
-  qsu::blit(d.weapon, x, y);
+  qsu::blit(d.weapon, x, y, 0);
 
   for (auto i = 0; i < 5; i++)
-    qsu::blit(d.armour[i], x + i + 1, y);
+    qsu::blit(d.armour[i], x + i + 1, y, 0);
 }
 export void draw_ui() {
   draw_consumables_ui();

@@ -16,7 +16,7 @@ quack::colour multiplier{1, 1, 1, 1};
 quack::colour g_colour{};
 dotz::vec2 pos{};
 
-export void blit(spr::id i, float x, float y) {
+export void blit(spr::id i, float x, float y, float rot) {
   if (i == spr::nil)
     return;
 
@@ -28,9 +28,12 @@ export void blit(spr::id i, float x, float y) {
   *m++ = multiplier;
   *p++ = {pp, {1, 1}};
   *u++ = {uv, uv + 1.0 / 16.0};
+  *r++ = {rot, 0.5, 0.5};
   count++;
 }
-export inline void blit(spr::id i, dotz::vec2 p) { blit(i, p.x, p.y); }
+export inline void blit(spr::id i, dotz::vec2 p, float rot) {
+  blit(i, p.x, p.y, rot);
+}
 
 export auto draw(quack::mapped_buffers all, auto &&fn) {
   count = 0;
@@ -74,6 +77,7 @@ export struct spr {
   dotz::ivec2 coord{};
   dotz::vec2 anim_coord{};
   ::spr::id spr{::spr::nil};
+  float rotation{};
   bool visited{};
 };
 
@@ -101,7 +105,7 @@ export void blit(spr &e, dotz::vec2 center, int rad, float min = 0.0) {
   auto aa = dotz::mix(min, max, a);
   if (aa > 0.0) {
     qsu::guard::multiplier dim{{1, 1, 1, aa}};
-    qsu::blit(e.spr, e.anim_coord);
+    qsu::blit(e.spr, e.anim_coord, e.rotation);
   }
 }
 } // namespace qsu

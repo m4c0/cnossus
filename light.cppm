@@ -18,7 +18,7 @@ export void draw_ui() {
   constexpr const auto y = 3.5;
 
   for (auto i = 0; i < charge; i++) {
-    qsu::blit(spr::torch, x, y - i * 8.5 / max_charge);
+    qsu::blit(spr::torch, x, y - i * 8.5 / max_charge, 0);
   }
 }
 
