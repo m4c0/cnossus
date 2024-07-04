@@ -122,6 +122,17 @@ export void hit(int roll, int poison) {
   if (dmg == 0)
     return;
 
+  tim::add({
+      .rot{
+          .target = &d.rotation,
+          .a = 0,
+          .b = 10,
+          .func = tim::fn::half_and_back,
+      },
+      .start = tim::anim_dur_ms,
+      .length = tim::anim_dur_ms,
+  });
+
   save::d.player.life -= dmg;
   if (save::d.player.life < 0)
     save::d.player.life = 0;

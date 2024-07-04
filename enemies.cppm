@@ -134,11 +134,22 @@ export void hit(enemy &e, int roll) {
     return;
 
   e.life -= rng::rand(roll);
-  if (e.life <= 0)
+  if (e.life <= 0) {
     // TODO: animate
     e = {{
         .coord = e.coord,
         .spr = lootroll(e.spr),
     }};
+  } else {
+    tim::add({
+        .rot{
+            .target = &e.rotation,
+            .a = 0,
+            .b = 10,
+            .func = tim::fn::half_and_back,
+        },
+        .length = tim::anim_dur_ms,
+    });
+  }
 }
 } // namespace enemies

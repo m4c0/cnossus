@@ -21,6 +21,7 @@ template <typename T, T def = {}> struct param {
 };
 struct lin {
   param<dotz::vec2> pos{};
+  param<float> rot{};
   float start{};
   float length{};
 };
@@ -57,6 +58,7 @@ export [[nodiscard]] bool tick() {
     animating |= dt < 1;
 
     tick(l.pos, dt);
+    tick(l.rot, dt);
   }
   return animating;
 }
