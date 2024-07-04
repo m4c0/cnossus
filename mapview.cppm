@@ -23,13 +23,13 @@ static unsigned data(quack::mapped_buffers all) { return qsu::draw(all, draw); }
 
 static unsigned int level = 1;
 static void redraw() {
-  player::init(level);
-  enemies::init(level);
-  loot::init(level);
   quack::donald::data(::data);
 }
 static void regen() {
   map::gen(level);
+  player::init(level);
+  enemies::init(level);
+  loot::init(level);
   redraw();
 }
 
@@ -53,6 +53,11 @@ static void switch_light() {
     redraw();
   }
 }
+static void move_light(float dx, float dy) {
+  cam.x += dx * 0.25;
+  cam.y += dy * 0.25;
+  redraw();
+}
 
 struct init {
   init() {
@@ -63,6 +68,10 @@ struct init {
     handle(KEY_DOWN, K_P, regen);
 
     handle(KEY_DOWN, K_SPACE, switch_light);
+    handle(KEY_DOWN, K_LEFT, [] { move_light(-1, 0); });
+    handle(KEY_DOWN, K_RIGHT, [] { move_light(1, 0); });
+    handle(KEY_DOWN, K_UP, [] { move_light(0, -1); });
+    handle(KEY_DOWN, K_DOWN, [] { move_light(0, 1); });
 
     using namespace quack::donald;
 
