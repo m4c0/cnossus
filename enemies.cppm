@@ -145,7 +145,7 @@ export void hit(enemy &e, int roll) {
         .rot{
             .target = &e.rotation,
             .a = 0,
-            .b = 10,
+            .b = rng::rand(2) ? -100.f : 100.f,
             .func = tim::fn::half_and_back,
         },
         .length = tim::anim_dur_ms,

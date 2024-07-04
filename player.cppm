@@ -11,6 +11,7 @@ namespace player {
 // TODO: balance attack/defense
 // TODO: hunger damage, to force food consumption
 struct data {
+  // TODO: use qsu::spr
   dotz::ivec2 coord{};
   dotz::vec2 anim_coord{};
   float rotation{};
@@ -126,7 +127,7 @@ export void hit(int roll, int poison) {
       .rot{
           .target = &d.rotation,
           .a = 0,
-          .b = 10,
+          .b = rng::rand(2) ? -100.f : 100.f,
           .func = tim::fn::half_and_back,
       },
       .start = tim::anim_dur_ms,
