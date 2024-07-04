@@ -23,7 +23,7 @@ export void blit(spr::id i, float x, float y) {
   auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
   quack::pos pp{pos.x + x, pos.y + y};
 
-  auto &[c, m, p, u] = *current_buffers;
+  auto &[c, m, p, u, r] = *current_buffers;
   *c++ = g_colour;
   *m++ = multiplier;
   *p++ = {pp, {1, 1}};
