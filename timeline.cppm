@@ -3,6 +3,13 @@ import dotz;
 import hai;
 import sitime;
 
+export namespace tim::fn {
+using t = float (*)(float);
+
+float linear(float dt) { return dt; }
+float half_and_back(float dt) { return dt > 0.5 ? 1.0 - dt : dt; }
+} // namespace tim::fn
+
 namespace tim {
 export constexpr const auto anim_dur_ms = 100.0;
 
@@ -10,6 +17,7 @@ struct lin {
   dotz::vec2 *target{};
   dotz::vec2 a{};
   dotz::vec2 b{};
+  fn::t func{fn::linear};
   float start{};
   float length{};
 };
@@ -35,9 +43,11 @@ export [[nodiscard]] bool tick() {
 
     auto dt = (ms - l.start) / l.length;
     dt = dt < 0 ? 0 : (dt > 1 ? 1 : dt);
-    *l.target = dotz::mix(l.a, l.b, dt);
 
     animating |= dt < 1;
+
+    dt = l.func(dt);
+    *l.target = dotz::mix(l.a, l.b, dt);
   }
   return animating;
 }

@@ -81,6 +81,7 @@ static void take_loot(loot::loot *l) {
   case spr::jar:
   case spr::coffer:
     l->spr = lootroll(save::d.level, l->spr);
+    player::attack(l->coord);
     break;
   default:
     player::move(l->coord);
@@ -112,6 +113,7 @@ export void move_by(int dx, int dy) {
       auto player_atk = inv::attack() + player::attack();
       auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
+      player::attack(e->coord);
     } else if (e->spr != spr::nil) {
       player::move(p);
       if (inv::take(e->spr))

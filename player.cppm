@@ -30,6 +30,15 @@ export void move(dotz::ivec2 c) {
   d.anim_coord = c;
   d.coord = c;
 }
+export void attack(dotz::ivec2 c) {
+  tim::add({
+      .target = &d.anim_coord,
+      .a = d.coord,
+      .b = c,
+      .func = tim::fn::half_and_back,
+      .length = tim::anim_dur_ms,
+  });
+}
 
 export void init(int level) {
   if (level == 1) {
