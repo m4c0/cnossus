@@ -35,6 +35,8 @@ export void draw() {
       continue;
     }
 
+    p.rotation = (ms - p.started);
+
     qsu::blit(p.spr, p.pos, p.rotation);
   }
 }
