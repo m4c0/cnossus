@@ -4,6 +4,7 @@ import hai;
 import lootroll;
 import map;
 import mobroll;
+import party;
 import qsu;
 import rng;
 import spr;
@@ -135,7 +136,11 @@ export void hit(enemy &e, int roll) {
 
   e.life -= rng::rand(roll);
   if (e.life <= 0) {
-    // TODO: animate
+    party::emit({
+        .spr = e.spr,
+        .pos = e.coord,
+        .timeout = 1000,
+    });
     e = {{
         .coord = e.coord,
         .spr = lootroll(e.spr),
