@@ -52,7 +52,7 @@ export void draw() {
     loot::draw(pac, radius);
     enemies::draw(pac, radius);
     player::draw();
-    party::draw();
+    g_animating |= party::draw();
   }
 
   player::draw_ui();

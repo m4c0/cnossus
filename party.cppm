@@ -24,8 +24,9 @@ export void emit(particle p) {
   particles.push_back(p);
 }
 
-export void draw() {
+export [[nodiscard]] bool draw() {
   auto ms = watch.millis();
+  bool animating{};
 
   for (auto i = 0; i < particles.size(); i++) {
     auto &p = particles[i];
@@ -38,6 +39,9 @@ export void draw() {
     p.rotation = (ms - p.started);
 
     qsu::blit(p.spr, p.pos, p.rotation);
+    animating = true;
   }
+
+  return animating;
 }
 } // namespace party
