@@ -8,12 +8,10 @@ import quack;
 import voo;
 
 namespace qsu {
-export using colour = quack::colour;
-
-quack::mapped_buffers *current_buffers{};
+quack::instance *current_instance{};
 unsigned count{};
-quack::colour multiplier{1, 1, 1, 1};
-quack::colour g_colour{};
+dotz::vec4 multiplier{1, 1, 1, 1};
+dotz::vec4 g_colour{};
 dotz::vec2 pos{};
 
 export void blit(spr::id i, float x, float y, float rot) {
@@ -21,23 +19,24 @@ export void blit(spr::id i, float x, float y, float rot) {
     return;
 
   auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
-  quack::pos pp{pos.x + x, pos.y + y};
-
-  auto &[c, m, p, u, r] = *current_buffers;
-  *c++ = g_colour;
-  *m++ = multiplier;
-  *p++ = {pp, {1, 1}};
-  *u++ = {uv, uv + 1.0 / 16.0};
-  *r++ = {rot, 0.5, 0.5};
+  *current_instance++ = {
+      .position{pos.x + x, pos.y + y},
+      .size{1, 1},
+      .uv0 = uv,
+      .uv1 = uv + 1.0 / 16.0,
+      .colour = g_colour,
+      .multiplier = multiplier,
+      .rotation{rot, 0.5, 0.5},
+  };
   count++;
 }
 export inline void blit(spr::id i, dotz::vec2 p, float rot) {
   blit(i, p.x, p.y, rot);
 }
 
-export auto draw(quack::mapped_buffers all, auto &&fn) {
+export auto draw(quack::instance *i, auto &&fn) {
   count = 0;
-  current_buffers = &all;
+  current_instance = i;
   fn();
   return count;
 }
@@ -50,17 +49,17 @@ export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
 
 namespace qsu::guard {
 export class colour : no::no {
-  quack::colour m_prev = g_colour;
+  dotz::vec4 m_prev = g_colour;
 
 public:
-  colour(quack::colour c) { g_colour = c; }
+  colour(dotz::vec4 c) { g_colour = c; }
   ~colour() { g_colour = m_prev; }
 };
 export class multiplier : no::no {
-  quack::colour m_prev = qsu::multiplier;
+  dotz::vec4 m_prev = qsu::multiplier;
 
 public:
-  multiplier(quack::colour c) { qsu::multiplier = c; }
+  multiplier(dotz::vec4 c) { qsu::multiplier = c; }
   ~multiplier() { qsu::multiplier = m_prev; }
 };
 export class position : no::no {
@@ -104,7 +103,7 @@ export void blit(spr &e, dotz::vec2 center, int rad, float min = 0.0) {
 
   auto aa = dotz::mix(min, max, a);
   if (aa > 0.0) {
-    qsu::guard::multiplier dim{{1, 1, 1, aa}};
+    qsu::guard::multiplier dim{{1.0f, 1.0f, 1.0f, aa}};
     qsu::blit(e.spr, e.anim_coord, e.rotation);
   }
 }

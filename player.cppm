@@ -69,8 +69,8 @@ export void init(int level) {
   d.anim_coord = d.coord;
 }
 
-constexpr const qsu::colour poisoned{0, 1, 0, 1};
-constexpr const qsu::colour normal{1, 1, 1, 1};
+constexpr const dotz::vec4 poisoned{0, 1, 0, 1};
+constexpr const dotz::vec4 normal{1, 1, 1, 1};
 
 export auto anim_coord() { return d.anim_coord; }
 

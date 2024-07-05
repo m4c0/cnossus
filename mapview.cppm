@@ -19,7 +19,7 @@ static void draw() {
   enemies::draw(cam, rad);
   player::draw();
 }
-static unsigned data(quack::mapped_buffers all) { return qsu::draw(all, draw); }
+static unsigned data(quack::instance *all) { return qsu::draw(all, draw); }
 
 static unsigned int level = 1;
 static void redraw() {
