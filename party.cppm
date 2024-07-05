@@ -1,16 +1,44 @@
 export module party;
 
+import dotz;
 import hai;
 import qsu;
+import sitime;
+import spr;
 
 namespace party {
-struct emitter {};
-struct particle {};
+struct particle {
+  spr::id spr;
+  dotz::vec2 pos;
+  float alpha;
+  float rotation;
+  float timeout;
+};
 
-hai::varray<emitter> emitters{};
-hai::varray<particle> particles{};
+hai::varray<particle> particles{100};
+sitime::stopwatch watch{};
 
-export void add_emitter(emitter e) { emitters.push_back_doubling(e); }
+export void emit(particle p) {
+  p.timeout += watch.millis();
+  particles.push_back(p);
+}
 
-export void tick() {}
+static void cleanup(int ms) {
+  for (auto i = 0; i < particles.size(); i++) {
+    auto &p = particles[i];
+    if (p.timeout < ms)
+      continue;
+
+    p = particles.pop_back();
+    i--;
+  }
+}
+export void tick() {
+  auto ms = watch.millis();
+
+  for (auto &p : particles) {
+  }
+
+  cleanup(ms);
+}
 } // namespace party
