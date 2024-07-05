@@ -6,6 +6,7 @@ import light;
 import loot;
 import lootroll;
 import map;
+import party;
 import player;
 import qsu;
 import quack;
@@ -51,6 +52,7 @@ export void draw() {
     loot::draw(pac, radius);
     enemies::draw(pac, radius);
     player::draw();
+    party::draw();
   }
 
   player::draw_ui();

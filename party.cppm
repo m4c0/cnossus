@@ -13,32 +13,29 @@ struct particle {
   float alpha;
   float rotation;
   float timeout;
+  float started;
 };
 
 hai::varray<particle> particles{100};
 sitime::stopwatch watch{};
 
 export void emit(particle p) {
-  p.timeout += watch.millis();
+  p.started = watch.millis();
   particles.push_back(p);
 }
 
-static void cleanup(int ms) {
-  for (auto i = 0; i < particles.size(); i++) {
-    auto &p = particles[i];
-    if (p.timeout < ms)
-      continue;
-
-    p = particles.pop_back();
-    i--;
-  }
-}
-export void tick() {
+export void draw() {
   auto ms = watch.millis();
 
-  for (auto &p : particles) {
-  }
+  for (auto i = 0; i < particles.size(); i++) {
+    auto &p = particles[i];
+    if (p.started + p.timeout < ms) {
+      p = particles.pop_back();
+      i--;
+      continue;
+    }
 
-  cleanup(ms);
+    qsu::blit(p.spr, p.pos, p.rotation);
+  }
 }
 } // namespace party
