@@ -8,27 +8,42 @@ import quack;
 import voo;
 
 namespace qsu {
+struct sprite {
+  spr::id id;
+  dotz::vec2 pos;
+  float alpha;
+  float rotation;
+};
+
 quack::instance *current_instance{};
 unsigned count{};
 dotz::vec4 multiplier{1, 1, 1, 1};
 dotz::vec4 g_colour{};
 dotz::vec2 pos{};
 
-export void blit(spr::id i, float x, float y, float rot) {
-  if (i == spr::nil)
+export void blit(const sprite &s) {
+  if (s.id == spr::nil)
     return;
 
-  auto uv = dotz::vec2{i % 16, i / 16} / 16.0;
-  *current_instance++ = {
-      .position{pos.x + x, pos.y + y},
+  auto uv = dotz::vec2{s.id % 16, s.id / 16} / 16.0;
+  *current_instance++ = quack::instance{
+      .position = s.pos + pos,
       .size{1, 1},
       .uv0 = uv,
       .uv1 = uv + 1.0 / 16.0,
-      .colour = g_colour,
-      .multiplier = multiplier,
-      .rotation{rot, 0.5, 0.5},
+      .colour{},
+      .multiplier{1.f, 1.f, 1.f, s.alpha},
+      .rotation{s.rotation, 0.5, 0.5},
   };
   count++;
+}
+export void blit(spr::id i, float x, float y, float rot) {
+  blit({
+      .id = i,
+      .pos{x, y},
+      .alpha = multiplier.w,
+      .rotation = rot,
+  });
 }
 export inline void blit(spr::id i, dotz::vec2 p, float rot) {
   blit(i, p.x, p.y, rot);
