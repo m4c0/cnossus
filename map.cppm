@@ -8,7 +8,7 @@ namespace map {
 export constexpr const auto width = 30;
 export constexpr const auto height = 20;
 
-export qsu::spr data[height][width]{};
+export qsu::anim data[height][width]{};
 
 export bool can_walk(unsigned x, unsigned y) {
   if (x >= width || y >= height)

@@ -72,7 +72,7 @@ public:
 } // namespace qsu::guard
 
 namespace qsu {
-export struct spr {
+export struct anim {
   dotz::ivec2 coord{};
   dotz::vec2 anim_coord{};
   ::spr::id spr{::spr::nil};
@@ -80,7 +80,7 @@ export struct spr {
   bool visited{};
 };
 
-export void blit(spr &e, dotz::vec2 center, int rad, float min = 0.0) {
+export void blit(anim &e, dotz::vec2 center, int rad, float min = 0.0) {
   auto d = dotz::abs(e.anim_coord - center) - rad;
   float a = 1.0;
   float max = 1.0;

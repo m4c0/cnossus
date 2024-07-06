@@ -11,7 +11,7 @@ import spr;
 import timeline;
 
 namespace enemies {
-export struct enemy : qsu::spr {
+export struct enemy : qsu::anim {
   int life{};
 };
 
@@ -27,7 +27,7 @@ export void init(int level) {
 
     auto spr = mobroll(level);
     list[y] = enemy{
-        qsu::spr{
+        qsu::anim{
             .coord = {x, y},
             .anim_coord = {x, y},
             .spr = spr,

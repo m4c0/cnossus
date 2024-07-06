@@ -7,7 +7,7 @@ import qsu;
 import spr;
 
 export namespace loot {
-using loot = qsu::spr;
+using loot = qsu::anim;
 hai::array<loot> list{map::height};
 
 void init(int level) {
