@@ -8,11 +8,11 @@ import quack;
 import voo;
 
 namespace qsu {
-struct sprite {
+export struct sprite {
   spr::id id;
   dotz::vec2 pos;
-  float alpha;
-  float rotation;
+  float alpha{1};
+  float rotation{};
 };
 
 quack::instance *current_instance{};

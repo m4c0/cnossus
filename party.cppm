@@ -8,10 +8,7 @@ import spr;
 
 namespace party {
 struct particle {
-  spr::id spr;
-  dotz::vec2 pos;
-  float alpha;
-  float rotation;
+  qsu::sprite sprite;
   float timeout;
   float started;
 };
@@ -36,12 +33,12 @@ export [[nodiscard]] bool draw() {
       continue;
     }
 
+    auto &s = p.sprite;
     float dt = ms - p.started;
-    p.rotation = dt;
-    p.alpha = 1.0 - dotz::min(dt / p.timeout, 1.0);
+    s.rotation = dt;
+    s.alpha = 1.0 - dotz::min(dt / p.timeout, 1.0);
 
-    qsu::guard::multiplier dim{{1.0f, 1.0f, 1.0f, p.alpha}};
-    qsu::blit(p.spr, p.pos, p.rotation);
+    qsu::blit(s);
     animating = true;
   }
 

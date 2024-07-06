@@ -137,8 +137,10 @@ export void hit(enemy &e, int roll) {
   e.life -= rng::rand(roll);
   if (e.life <= 0) {
     party::emit({
-        .spr = e.spr,
-        .pos = e.coord,
+        .sprite{
+            .id = e.spr,
+            .pos = e.coord,
+        },
         .timeout = 1000,
     });
     e = {{
