@@ -141,7 +141,7 @@ export void hit(enemy &e, int roll) {
             .id = e.spr,
             .pos = e.coord,
         },
-        .timeout = 1000,
+        .timeout = 500,
     });
     e = {{
         .coord = e.coord,
