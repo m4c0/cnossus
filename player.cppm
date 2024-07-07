@@ -1,6 +1,7 @@
 export module player;
 import dotz;
 import map;
+import party;
 import rng;
 import save;
 import spr;
@@ -135,7 +136,15 @@ export void hit(int roll, int poison) {
   });
 
   save::d.player.life -= dmg;
-  if (save::d.player.life < 0)
+  if (save::d.player.life <= 0) {
+    party::emit({
+        .sprite{
+            .id = spr::minotaur,
+            .pos = d.coord,
+        },
+        .timeout = 1000,
+    });
     save::d.player.life = 0;
+  }
 }
 } // namespace player
