@@ -82,6 +82,13 @@ static void take_loot(auto *l) {
   switch (l->spr) {
   case spr::jar:
   case spr::coffer:
+    party::emit({
+        .sprite{
+            .id = l->spr,
+            .pos = l->coord,
+        },
+        .timeout = 500,
+    });
     l->spr = lootroll(save::d.level, l->spr);
     player::attack(l->coord);
     break;
