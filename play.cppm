@@ -94,6 +94,7 @@ static void take_loot(auto *l) {
     break;
   default:
     // player::move(l->coord);
+    // TODO: better animation
     party::emit({
         .sprite{
             .id = l->spr,
