@@ -93,8 +93,14 @@ static void take_loot(auto *l) {
     player::attack(l->coord);
     break;
   default:
-    player::move(l->coord);
-    // TODO: animate
+    // player::move(l->coord);
+    party::emit({
+        .sprite{
+            .id = l->spr,
+            .pos = l->coord,
+        },
+        .timeout = 300,
+    });
     if (inv::take(l->spr))
       l->spr = spr::nil;
     break;
