@@ -34,6 +34,8 @@ static void inv_f(int id) {
 static void enable_input() {
   using namespace casein;
 
+  reset_k(KEY_DOWN);
+
   handle(KEY_DOWN, K_LEFT, [] { move_by(-1, 0); });
   handle(KEY_DOWN, K_RIGHT, [] { move_by(1, 0); });
   handle(KEY_DOWN, K_UP, [] { move_by(0, -1); });
@@ -52,7 +54,7 @@ static void enable_input() {
     redraw();
   });
 
-  handle(REPAINT, [] {});
+  handle(REPAINT, nullptr);
 }
 static void animate() {
   using namespace casein;

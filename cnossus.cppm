@@ -1,5 +1,6 @@
 #pragma leco app
 #pragma leco add_impl cno_game
+#pragma leco add_impl cno_mainmenu
 export module cnossus;
 
 import casein;
@@ -8,6 +9,7 @@ import qsu;
 
 namespace cno::modes {
 void game();
+void mainmenu();
 }
 
 struct init {
@@ -20,6 +22,6 @@ struct init {
     clear_colour({0, 0, 0, 1});
     atlas(qsu::atlas);
 
-    cno::modes::game();
+    cno::modes::mainmenu();
   }
 } i;
