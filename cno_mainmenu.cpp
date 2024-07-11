@@ -40,7 +40,19 @@ static void sel_down() {
 }
 
 static void select() {
-  // TODO: run selection
+  switch (g_sel) {
+  case o_new_game:
+    // TODO: reset game
+  case o_continue:
+    cno::modes::game();
+    break;
+  case o_options:
+    // TODO: implement
+    break;
+  case o_exit:
+    casein::exit(0);
+    break;
+  }
 }
 
 void cno::modes::mainmenu() {
