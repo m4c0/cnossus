@@ -11,9 +11,6 @@ import qsu;
 import sitime;
 import voo;
 
-// TODO: animations (attack, player move, inventory)
-// TODO: smooth camera moving
-
 static void enable_input();
 static void animate();
 
