@@ -56,8 +56,8 @@ export auto draw(quack::instance *i, auto &&fn) {
   return count;
 }
 
-export quack::donald::atlas_t *atlas(voo::device_and_queue *dq) {
-  return new voo::sires_image("atlas.png", dq);
+export quack::donald::atlas_t atlas(auto pd) {
+  return voo::load_sires_image("atlas.png", pd);
 }
 
 } // namespace qsu
