@@ -1,4 +1,5 @@
 module cnossus;
+import spr;
 
 namespace {
 enum options {
@@ -16,6 +17,7 @@ static void draw() {
   // SPLASH
   // MENU OPTIONS
   // MENU SELECTION
+  qsu::blit(spr::minotaur, 0, g_sel, 0);
 }
 
 static void redraw() {
@@ -27,12 +29,14 @@ static void sel_up() {
   if (g_sel < o_new_game)
     g_sel = o_exit;
   // TODO: test continue
+  redraw();
 }
 static void sel_down() {
   g_sel = static_cast<options>(g_sel + 1);
   if (g_sel > o_exit)
     g_sel = o_new_game;
   // TODO: test continue
+  redraw();
 }
 
 static void select() {
@@ -51,4 +55,9 @@ void cno::modes::mainmenu() {
   handle(KEY_DOWN, K_ENTER, select);
 
   redraw();
+
+  quack::donald::push_constants({
+      .grid_pos = {},
+      .grid_size = {9, 9},
+  });
 }
