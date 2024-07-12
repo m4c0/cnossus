@@ -55,8 +55,11 @@ static void sel_down() {
 static void select() {
   switch (g_sel) {
   case o_new_game:
-    // TODO: reset game
+    save::reset();
+    cno::modes::game();
+    break;
   case o_continue:
+    save::read();
     cno::modes::game();
     break;
   case o_options:

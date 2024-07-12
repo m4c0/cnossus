@@ -39,4 +39,8 @@ void write() {
       .trace("writing save data")
       .log_error();
 }
+
+void reset() {
+  d = {};
+}
 } // namespace save

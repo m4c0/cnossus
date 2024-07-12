@@ -32,7 +32,6 @@ void setup_level() {
   });
 }
 export void init() {
-  save::read();
   setup_level();
 }
 void next_level() {
