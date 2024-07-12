@@ -1,4 +1,5 @@
 module cnossus;
+import jute;
 import spr;
 
 namespace {
@@ -11,11 +12,23 @@ enum options {
 }
 static options g_sel{};
 
+static void draw_str(jute::view str, float x, float y) {
+  for (auto c : str) {
+    qsu::blit(static_cast<spr::id>(c), x++, y, 0);
+  }
+}
+
 static void draw() {
   // TODO: credits
   // TODO: random play area on the background
   // SPLASH
+
   // MENU OPTIONS
+  draw_str("NEW GAME", 1, 0);
+  draw_str("CONTINUE", 1, 1);
+  draw_str("OPTIONS", 1, 2);
+  draw_str("EXIT", 1, 3);
+
   // MENU SELECTION
   qsu::blit(spr::minotaur, 0, g_sel, 0);
 }
@@ -69,7 +82,7 @@ void cno::modes::mainmenu() {
   redraw();
 
   quack::donald::push_constants({
-      .grid_pos = {},
-      .grid_size = {9, 9},
+      .grid_pos = {6, 0},
+      .grid_size = {12, 12},
   });
 }
