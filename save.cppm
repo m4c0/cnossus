@@ -21,14 +21,13 @@ struct data {
   player_data player{};
 } d;
 
-void read() {
+[[nodiscard]] auto read() {
   d = {};
-  buoy::open_for_reading("cnossus", "save.dat")
+  return buoy::open_for_reading("cnossus", "save.dat")
       .fpeek(frk::assert("CNO"))
       .fpeek(frk::take("DATA", &d))
       .map(frk::end())
-      .trace("reading save data")
-      .log_error();
+      .trace("reading save data");
 }
 
 void write() {

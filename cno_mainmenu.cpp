@@ -12,10 +12,15 @@ enum options {
 };
 }
 static options g_sel{};
+static bool g_has_save{};
 
-static void draw_str(jute::view str, float x, float y) {
+static void draw_str(jute::view str, float x, float y, float a = 1.0) {
   for (auto c : str) {
-    qsu::blit(static_cast<spr::id>(c), x++, y, 0);
+    qsu::blit(qsu::sprite{
+        .id = static_cast<spr::id>(c),
+        .pos{x++, y},
+        .alpha = a,
+    });
   }
 }
 
@@ -26,7 +31,7 @@ static void draw() {
 
   // MENU OPTIONS
   draw_str("NEW GAME", 1, 0);
-  draw_str("CONTINUE", 1, 1);
+  draw_str("CONTINUE", 1, 1, g_has_save ? 1.0 : 0.4);
   draw_str("OPTIONS", 1, 2);
   draw_str("EXIT", 1, 3);
 
@@ -42,14 +47,16 @@ static void sel_up() {
   g_sel = static_cast<options>(g_sel - 1);
   if (g_sel < o_new_game)
     g_sel = o_exit;
-  // TODO: test continue
+  if (!g_has_save && g_sel == o_continue)
+    g_sel = o_new_game;
   redraw();
 }
 static void sel_down() {
   g_sel = static_cast<options>(g_sel + 1);
   if (g_sel > o_exit)
     g_sel = o_new_game;
-  // TODO: test continue
+  if (!g_has_save && g_sel == o_continue)
+    g_sel = o_options;
   redraw();
 }
 
@@ -60,7 +67,6 @@ static void select() {
     cno::modes::game();
     break;
   case o_continue:
-    save::read();
     cno::modes::game();
     break;
   case o_options:
@@ -74,6 +80,8 @@ static void select() {
 
 void cno::modes::mainmenu() {
   using namespace casein;
+
+  save::read().map([] { g_has_save = true; }).log_error();
 
   reset_k(KEY_DOWN);
 
