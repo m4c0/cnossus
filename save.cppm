@@ -16,6 +16,7 @@ struct player_data {
   int defense{base_defense};
 };
 
+// TODO: add a "seed" for the map generation
 struct data {
   unsigned version{1};
   unsigned level{};
