@@ -1,6 +1,7 @@
 export module save;
-import fork;
 import buoy;
+import fork;
+import silog;
 
 export namespace save {
 struct player_data {
@@ -27,6 +28,7 @@ struct data {
       .fpeek(frk::assert("CNO"))
       .fpeek(frk::take("DATA", &d))
       .map(frk::end())
+      .map([] { silog::log(silog::info, "Game loaded"); })
       .trace("reading save data");
 }
 
@@ -35,11 +37,13 @@ void write() {
       .fpeek(frk::signature("CNO"))
       .fpeek(frk::chunk("DATA", &d))
       .map(frk::end())
+      .map([] { silog::log(silog::info, "Game saved"); })
       .trace("writing save data")
       .log_error();
 }
 
 void reset() {
   d = {};
+  write();
 }
 } // namespace save
