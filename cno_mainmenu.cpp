@@ -17,7 +17,7 @@ static bool g_has_save{};
 static void draw_str(jute::view str, float x, float y, float a = 1.0) {
   for (auto c : str) {
     qsu::blit(qsu::sprite{
-        .id = static_cast<spr::id>(c),
+        .id = static_cast<spr::id>(c + 128 - 16),
         .pos{x++, y},
         .alpha = a,
     });
