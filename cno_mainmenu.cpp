@@ -70,7 +70,7 @@ static void select() {
     cno::modes::game();
     break;
   case o_options:
-    // TODO: implement
+    cno::modes::options();
     break;
   case o_exit:
     casein::exit(0);
