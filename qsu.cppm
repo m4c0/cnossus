@@ -2,6 +2,7 @@
 
 export module qsu;
 import dotz;
+import jute;
 import no;
 import spr;
 import quack;
@@ -47,6 +48,16 @@ export void blit(spr::id i, float x, float y, float rot) {
 }
 export inline void blit(spr::id i, dotz::vec2 p, float rot) {
   blit(i, p.x, p.y, rot);
+}
+
+export void draw_str(jute::view str, float x, float y, float a = 1.0) {
+  for (unsigned c : str) {
+    qsu::blit(qsu::sprite{
+        .id = static_cast<spr::id>(c + 128),
+        .pos{x++, y},
+        .alpha = a,
+    });
+  }
 }
 
 export auto draw(quack::instance *i, auto &&fn) {
