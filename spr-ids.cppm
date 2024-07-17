@@ -14,7 +14,7 @@ export module spr:ids;
 // * light changes monster patterns
 
 export namespace spr {
-enum id : char {
+enum id : unsigned char {
   nil = 0,
 
   // UI elements
