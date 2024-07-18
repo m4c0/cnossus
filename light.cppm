@@ -15,11 +15,9 @@ export void init(int lvl) {
 
 export void draw_ui() {
   constexpr const auto x = 3.5;
-  constexpr const auto y = 3.5;
 
-  for (auto i = 0; i < charge; i++) {
-    qsu::blit(spr::torch, x, y - i * 8.5 / max_charge, 0);
-  }
+  auto value = static_cast<float>(charge) / max_charge;
+  qsu::draw_bar(value, spr::torch, x, {1, 1, 0, 1});
 }
 
 export void tick() {
