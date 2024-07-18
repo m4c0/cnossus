@@ -12,6 +12,8 @@ namespace qsu {
 export struct sprite {
   spr::id id;
   dotz::vec2 pos;
+  dotz::vec2 size{1};
+  dotz::vec4 colour{};
   float alpha{1};
   float rotation{};
 };
@@ -29,10 +31,10 @@ export void blit(const sprite &s) {
   auto uv = dotz::vec2{s.id % 16, s.id / 16} / 16.0;
   *current_instance++ = quack::instance{
       .position = s.pos + pos,
-      .size{1, 1},
+      .size = s.size,
       .uv0 = uv,
       .uv1 = uv + 1.0 / 16.0,
-      .colour{},
+      .colour = s.colour,
       .multiplier{1.f, 1.f, 1.f, s.alpha},
       .rotation{s.rotation, 0.5, 0.5},
   };
