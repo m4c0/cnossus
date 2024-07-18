@@ -86,11 +86,19 @@ export void draw_ui() {
   constexpr const auto x = -4.5;
   constexpr const auto y = 3.5;
 
+  qsu::blit(spr::minotaur, x, y, 0);
+  qsu::blit(spr::ui_bar_b, x, y - 1, 0);
+  for (auto yy = y - 2; yy > -y; yy--) {
+    qsu::blit(spr::ui_bar, x, yy, 0);
+  }
+  qsu::blit(spr::ui_bar_t, x, -y, 0);
+  /*
   for (auto i = 0; i < save::d.player.life; i++) {
     qsu::guard::multiplier m{
         save::d.player.poison >= save::d.player.life - i ? poisoned : normal};
     qsu::blit(spr::minotaur, x, y - i * 8.5 / save::d.player.max_life, 0);
   }
+  */
 }
 
 export void poison_tick() {

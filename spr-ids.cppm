@@ -19,6 +19,9 @@ enum id : unsigned char {
 
   // UI elements
   cursor = 1,
+  ui_bar_b = 9,
+  ui_bar,
+  ui_bar_t,
 
   // Mobs
   minotaur = 'A',
