@@ -84,33 +84,13 @@ export void draw() {
 }
 export void draw_ui() {
   constexpr const auto x = -4.5f;
-  constexpr const auto y = 3.5f;
-  constexpr const auto bar_t = -y;
-  constexpr const auto bar_b = y;
-  constexpr const auto full_bar_h = bar_b - bar_t;
 
   const auto &p = save::d.player;
-
   auto life = static_cast<float>(p.life) / p.max_life;
-  auto bar_h = full_bar_h * life;
-  auto bar_y = bar_t + full_bar_h * (1.0f - life);
 
   auto colour = p.poison > 0 ? dotz::vec4{0, 1, 0, 1} : dotz::vec4{1, 0, 0, 1};
 
-  // TODO: animate to final position (like Street Fighter)
-  qsu::blit(qsu::sprite{
-      .id = spr::cursor,
-      .pos = dotz::vec2{x, bar_y} + 0.05,
-      .size = dotz::vec2{1.f, bar_h} - 0.1,
-      .colour = colour,
-  });
-
-  qsu::blit(spr::minotaur, x, y, 0);
-  qsu::blit(spr::ui_bar_b, x, y - 1, 0);
-  for (auto yy = y - 2; yy > -y; yy--) {
-    qsu::blit(spr::ui_bar, x, yy, 0);
-  }
-  qsu::blit(spr::ui_bar_t, x, -y, 0);
+  qsu::draw_bar(life, spr::minotaur, x, colour);
 }
 
 export void poison_tick() {
