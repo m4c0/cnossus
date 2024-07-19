@@ -1,4 +1,5 @@
 module cnossus;
+import spr;
 
 namespace {
 enum options {
@@ -11,7 +12,6 @@ enum options {
 static options g_sel{};
 
 static bool g_sound{true};
-static bool g_fullscreen{true};
 
 static void draw() {
   qsu::draw_str("SOUND", 1, 0);
@@ -21,7 +21,7 @@ static void draw() {
   qsu::blit(spr::minotaur, 0, g_sel, 0);
 
   qsu::blit(g_sound ? spr::minotaur : spr::nil, 12, 0, 0);
-  qsu::blit(g_fullscreen ? spr::minotaur : spr::nil, 12, 1, 0);
+  qsu::blit(casein::is_fullscreen() ? spr::minotaur : spr::nil, 12, 1, 0);
 }
 static void redraw() {
   quack::donald::data([](auto all) { return qsu::draw(all, ::draw); });
@@ -47,7 +47,7 @@ static void select() {
     redraw();
     break;
   case o_fullscreen:
-    g_fullscreen = !g_fullscreen;
+    casein::set_fullscreen(!casein::is_fullscreen());
     redraw();
     break;
   case o_back:
