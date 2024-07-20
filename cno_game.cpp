@@ -1,6 +1,7 @@
 module cnossus;
 import play;
 import rng;
+import save;
 
 static void enable_input();
 static void animate();
@@ -47,6 +48,11 @@ static void enable_input() {
   handle(KEY_DOWN, K_4, [] { inv_f(0); });
   handle(KEY_DOWN, K_5, [] { inv_f(1); });
   handle(KEY_DOWN, K_6, [] { inv_f(2); });
+
+  handle(KEY_DOWN, K_ESCAPE, [] {
+    save::write();
+    cno::modes::mainmenu();
+  });
 
   handle(REPAINT, nullptr);
 }

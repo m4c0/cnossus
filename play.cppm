@@ -36,8 +36,8 @@ export void init() {
 }
 void next_level() {
   save::d.level++;
-  save::write();
   setup_level();
+  save::write();
 }
 
 export void draw() {
