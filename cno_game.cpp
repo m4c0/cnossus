@@ -48,12 +48,6 @@ static void enable_input() {
   handle(KEY_DOWN, K_5, [] { inv_f(1); });
   handle(KEY_DOWN, K_6, [] { inv_f(2); });
 
-  handle(KEY_DOWN, K_SPACE, [] {
-    // TODO: fix this
-    play::init();
-    redraw();
-  });
-
   handle(REPAINT, nullptr);
 }
 static void animate() {
