@@ -51,7 +51,6 @@ export void load() {
   reset();
 
   auto level = save::d.level + 1;
-  player::init(level);
   enemies::init(level);
   loot::init(level);
   light::init(level);
