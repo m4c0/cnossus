@@ -29,7 +29,7 @@ struct data {
   return buoy::open_for_reading("cnossus", "save.dat")
       .fpeek(frk::assert("CNO"))
       .fpeek(frk::take("DATA", &d))
-      .fpeek(frk::take("MAPA", &map::real_data))
+      .fpeek(frk::take("MAPA", &map::d))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game loaded"); })
       .trace("reading save data");
@@ -39,7 +39,7 @@ void write() {
   buoy::open_for_writing("cnossus", "save.dat")
       .fpeek(frk::signature("CNO"))
       .fpeek(frk::chunk("DATA", &d))
-      .fpeek(frk::chunk("MAPA", &map::real_data))
+      .fpeek(frk::chunk("MAPA", &map::d))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game saved"); })
       .trace("writing save data")
