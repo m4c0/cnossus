@@ -17,7 +17,14 @@ import timeline;
 namespace play {
 bool g_animating{};
 
+void reset() {
+  g_animating = false;
+  tim::reset();
+}
+
 void setup_level() {
+  reset();
+
   auto level = save::d.level + 1;
   map::gen(level);
   player::init(level);
@@ -41,6 +48,8 @@ void next_level() {
 }
 
 export void load() {
+  reset();
+
   map::load();
 
   auto level = save::d.level + 1;
