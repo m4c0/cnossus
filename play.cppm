@@ -137,7 +137,7 @@ export void move_by(int dx, int dy) {
     return;
 
   auto p = player::coord() + dotz::ivec2{dx, dy};
-  if (map::data[p.y][p.x].spr == spr::exit) {
+  if (map::at(p.x, p.y) == spr::exit) {
     next_level();
     return;
   }

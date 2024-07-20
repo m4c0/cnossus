@@ -12,8 +12,9 @@ export constexpr const auto height = 20;
 export struct {
   qsu::anim data[height][width];
 } real_data;
-export auto &data = real_data.data;
+auto &data = real_data.data;
 
+export auto at(unsigned x, unsigned y) { return data[y][x].spr; }
 export bool can_walk(unsigned x, unsigned y) {
   if (x >= width || y >= height)
     return false;
