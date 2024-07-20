@@ -1,4 +1,5 @@
 module cnossus;
+import dotz;
 import spr;
 
 namespace {
@@ -13,6 +14,18 @@ static options g_sel{};
 
 static bool g_sound{true};
 
+static void draw_check(bool b, int x, int y) {
+  if (b) {
+    qsu::blit(qsu::sprite{
+        .id = spr::cursor,
+        .pos = dotz::vec2{x, y} + 0.05,
+        .size = dotz::vec2{1.f} - 0.1,
+        .colour = {0.4f, 0.9f, 0.55f, 1.0f},
+    });
+  }
+  qsu::blit(spr::ui_check, x, y, 0);
+}
+
 static void draw() {
   qsu::draw_str("SOUND", 1, 0);
   qsu::draw_str("FULLSCREEN", 1, 1);
@@ -20,8 +33,8 @@ static void draw() {
 
   qsu::blit(spr::minotaur, 0, g_sel, 0);
 
-  qsu::blit(g_sound ? spr::minotaur : spr::nil, 12, 0, 0);
-  qsu::blit(casein::is_fullscreen() ? spr::minotaur : spr::nil, 12, 1, 0);
+  draw_check(g_sound, 12, 0);
+  draw_check(casein::is_fullscreen(), 12, 1);
 }
 static void redraw() {
   quack::donald::data([](auto all) { return qsu::draw(all, ::draw); });

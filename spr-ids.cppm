@@ -22,6 +22,7 @@ enum id : unsigned char {
   ui_bar_b = 9,
   ui_bar,
   ui_bar_t,
+  ui_check,
 
   // Mobs
   minotaur = 'A',
