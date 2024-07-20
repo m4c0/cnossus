@@ -15,18 +15,20 @@ export struct enemy : qsu::anim {
   int life{};
 };
 
-export hai::array<enemy> list{map::height};
+export extern struct data {
+  enemy list[map::height];
+} d;
 
 export void init(int level) {
   for (auto y = 2; y < map::height - 2; y++) {
     auto x = map::pick_empty_space(y);
     if (x == -1) {
-      list[y] = {};
+      d.list[y] = {};
       continue;
     }
 
     auto spr = mobroll(level);
-    list[y] = enemy{
+    d.list[y] = enemy{
         qsu::anim{
             .coord = {x, y},
             .anim_coord = {x, y},
@@ -38,7 +40,7 @@ export void init(int level) {
 }
 
 export void draw(dotz::vec2 center, int rad) {
-  for (auto &e : list) {
+  for (auto &e : d.list) {
     qsu::blit(e, center, rad);
   }
 }
@@ -70,7 +72,7 @@ export void attack(enemy &e, dotz::ivec2 p) {
 }
 
 export enemy *at(dotz::ivec2 p) {
-  for (auto &e : list) {
+  for (auto &e : d.list) {
     if (e.spr == spr::nil)
       continue;
     if (e.coord == p)
@@ -160,3 +162,6 @@ export void hit(enemy &e, int roll) {
   }
 }
 } // namespace enemies
+
+module :private;
+enemies::data enemies::d{};

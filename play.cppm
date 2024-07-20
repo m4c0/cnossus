@@ -51,7 +51,6 @@ export void load() {
   reset();
 
   auto level = save::d.level + 1;
-  enemies::init(level);
   loot::init(level);
   light::init(level);
   inv::init(level);
@@ -161,7 +160,7 @@ export void move_by(int dx, int dy) {
     player::move(p);
   }
 
-  for (auto &e : enemies::list) {
+  for (auto &e : enemies::d.list) {
     if (e.spr == spr::nil || e.life == 0)
       continue;
 
