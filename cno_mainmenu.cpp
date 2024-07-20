@@ -54,10 +54,10 @@ static void select() {
   switch (g_sel) {
   case o_new_game:
     save::reset();
-    cno::modes::game();
+    cno::modes::game(true);
     break;
   case o_continue:
-    cno::modes::game();
+    cno::modes::game(false);
     break;
   case o_options:
     cno::modes::options();
