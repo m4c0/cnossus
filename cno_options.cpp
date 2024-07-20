@@ -20,7 +20,7 @@ static void draw_check(bool b, int x, int y) {
         .id = spr::cursor,
         .pos = dotz::vec2{x, y} + 0.05,
         .size = dotz::vec2{1.f} - 0.1,
-        .colour = {0.4f, 0.9f, 0.55f, 1.0f},
+        .colour = {0.9f, 0.1f, 0.0f, 1.0f},
     });
   }
   qsu::blit(spr::ui_check, x, y, 0);

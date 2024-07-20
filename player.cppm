@@ -97,7 +97,8 @@ export void draw_ui() {
   const auto &p = d;
   auto life = static_cast<float>(p.life) / p.max_life;
 
-  auto colour = p.poison > 0 ? dotz::vec4{0, 1, 0, 1} : dotz::vec4{1, 0, 0, 1};
+  auto colour = p.poison > 0 ? dotz::vec4{0.2f, 0.9f, 0.0f, 1.0f}
+                             : dotz::vec4{0.9f, 0.1f, 0.0f, 1.0f};
 
   qsu::draw_bar(life, spr::minotaur, x, colour);
 }
