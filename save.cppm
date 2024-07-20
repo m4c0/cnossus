@@ -2,6 +2,7 @@ export module save;
 import buoy;
 import fork;
 import silog;
+import spr;
 
 export namespace save {
 struct player_data {
@@ -15,12 +16,18 @@ struct player_data {
   int attack{base_attack};
   int defense{base_defense};
 };
+struct map_data {
+  static constexpr const auto width = 30;
+  static constexpr const auto height = 20;
 
-// TODO: add a "seed" for the map generation
+  spr::id grid[height * width]{};
+};
+
 struct data {
   unsigned version{1};
   unsigned level{};
   player_data player{};
+  map_data map{};
 } d;
 
 [[nodiscard]] auto read() {

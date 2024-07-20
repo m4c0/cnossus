@@ -1,12 +1,13 @@
 export module map;
 import dotz;
 import rng;
+import save;
 import spr;
 import qsu;
 
 namespace map {
-export constexpr const auto width = 30;
-export constexpr const auto height = 20;
+export constexpr const auto width = save::map_data::width;
+export constexpr const auto height = save::map_data::height;
 
 export qsu::anim data[height][width]{};
 
@@ -167,12 +168,16 @@ static unsigned split_w(const room &r) {
   return p;
 }
 
-export void gen(int level) {
+static void reset() {
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
       data[y][x] = {.coord = {x, y}, .anim_coord = {x, y}};
     }
   }
+}
+export void gen(int level) {
+  reset();
+
   for (auto x = 0; x < width; x++) {
     data[0][x].spr = spr::wall;
     data[height - 1][x].spr = spr::wall;
@@ -198,6 +203,24 @@ export void gen(int level) {
     data[height - 2][width - 2].spr = spr::exit;
   } else {
     data[height - 2][1].spr = spr::exit;
+  }
+
+  auto *p = save::d.map.grid;
+  for (auto &row : data) {
+    for (auto &cell : row) {
+      *p++ = cell.spr;
+    }
+  }
+}
+
+export void load() {
+  reset();
+
+  auto *p = save::d.map.grid;
+  for (auto &row : data) {
+    for (auto &cell : row) {
+      cell.spr = *p++;
+    }
   }
 }
 

@@ -40,6 +40,22 @@ void next_level() {
   save::write();
 }
 
+export void load() {
+  map::load();
+
+  auto level = save::d.level + 1;
+  player::init(level);
+  enemies::init(level);
+  loot::init(level);
+  light::init(level);
+  inv::init(level);
+
+  quack::donald::push_constants({
+      .grid_pos = {},
+      .grid_size = {9, 9},
+  });
+}
+
 export void draw() {
   g_animating = tim::tick();
 
