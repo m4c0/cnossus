@@ -14,7 +14,6 @@ import save;
 import spr;
 import timeline;
 
-// TODO: fix increased "dark area" when lights are on
 // TODO: fix phantom loot when enemies (and chests) die
 namespace play {
 bool g_animating{};

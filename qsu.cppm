@@ -134,16 +134,17 @@ export struct anim {
 };
 
 export void blit(anim &e, dotz::vec2 center, int rad, float min = 0.0) {
-  auto d = dotz::abs(e.anim_coord - center) - rad;
+  auto ad = dotz::abs(e.anim_coord - center);
+  auto d = ad - rad;
   float a = 1.0;
   float max = 1.0;
   if (d.x > 3 || d.y > 3) {
     return;
-  } else if (e.visited && (d.x > 2 || d.y > 2)) {
+  } else if (e.visited && (ad.x > 3 || ad.y > 3)) {
     max = min;
     min = 0.0;
-    d = d - 2;
-    a = 1.0 - dotz::max(d.x, d.y);
+    ad = ad - 2;
+    a = 1.0 - dotz::max(ad.x, ad.y);
   } else if (d.x > 1 || d.y > 1) {
     a = 0.0;
   } else if (d.x > 0 || d.y > 0) {
