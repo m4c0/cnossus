@@ -6,32 +6,36 @@ import spr;
 namespace light {
 static constexpr const auto max_charge = 25;
 
-export int charge{};
+export extern struct data {
+  int charge{};
+} d;
 
 export void init(int lvl) {
   if (lvl == 1)
-    charge = 0;
+    d = {};
 }
 
 export void draw_ui() {
   constexpr const auto x = 3.5;
 
-  auto value = static_cast<float>(charge) / max_charge;
+  auto value = static_cast<float>(d.charge) / max_charge;
   qsu::draw_bar(value, spr::torch, x, {1, 1, 0, 1});
 }
 
 export void tick() {
-  if (charge <= 0)
+  if (d.charge <= 0)
     return;
 
   if (rng::rand(3) == 0)
-    charge--;
+    d.charge--;
 }
 
 export void restore(int roll) {
-  charge += roll;
+  d.charge += roll;
 
-  if (charge >= max_charge)
-    charge = max_charge;
+  if (d.charge >= max_charge)
+    d.charge = max_charge;
 }
 } // namespace light
+module :private;
+light::data light::d{};

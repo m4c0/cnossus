@@ -53,7 +53,6 @@ export void load() {
   reset();
 
   auto level = save::d.level + 1;
-  light::init(level);
   inv::init(level);
 
   quack::donald::push_constants({
@@ -66,7 +65,7 @@ export void draw() {
   g_animating = tim::tick();
 
   auto pac = player::anim_coord();
-  auto radius = light::charge > 0 ? 2 : 1;
+  auto radius = light::d.charge > 0 ? 2 : 1;
   {
     qsu::guard::position ppo{-(pac + 0.5f)};
     map::draw(pac, radius);
@@ -166,7 +165,7 @@ export void move_by(int dx, int dy) {
       continue;
 
     auto p =
-        e.coord + enemies::next_move(e, player::coord(), light::charge > 0);
+        e.coord + enemies::next_move(e, player::coord(), light::d.charge > 0);
     if (!map::can_walk(p.x, p.y))
       continue;
     if (enemies::at(p))
