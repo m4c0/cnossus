@@ -63,8 +63,8 @@ static void animate() {
   handle(REPAINT, redraw);
 }
 
-void cno::modes::game(bool reset) {
-  reset ? play::init() : play::load();
+void cno::modes::game(bool new_game) {
+  new_game ? play::setup_level() : play::reset();
   enable_input();
 
   redraw();

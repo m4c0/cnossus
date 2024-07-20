@@ -19,12 +19,17 @@ import timeline;
 namespace play {
 bool g_animating{};
 
-void reset() {
+export void reset() {
   g_animating = false;
   tim::reset();
+
+  quack::donald::push_constants({
+      .grid_pos = {},
+      .grid_size = {9, 9},
+  });
 }
 
-void setup_level() {
+export void setup_level() {
   reset();
 
   auto level = save::d.level + 1;
@@ -34,31 +39,11 @@ void setup_level() {
   loot::init(level);
   light::init(level);
   inv::init(level);
-
-  quack::donald::push_constants({
-      .grid_pos = {},
-      .grid_size = {9, 9},
-  });
-}
-export void init() {
-  setup_level();
 }
 void next_level() {
   save::d.level++;
   setup_level();
   save::write();
-}
-
-export void load() {
-  reset();
-
-  auto level = save::d.level + 1;
-  inv::init(level);
-
-  quack::donald::push_constants({
-      .grid_pos = {},
-      .grid_size = {9, 9},
-  });
 }
 
 export void draw() {
