@@ -5,6 +5,7 @@
 export module cnossus;
 
 import casein;
+import rng;
 import quack;
 import qsu;
 
@@ -16,6 +17,8 @@ void options();
 
 struct init {
   init() {
+    rng::seed();
+
     using namespace quack::donald;
 
     app_name("cnossus");

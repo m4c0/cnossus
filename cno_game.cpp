@@ -1,6 +1,5 @@
 module cnossus;
 import play;
-import rng;
 import save;
 
 static void enable_input();
@@ -65,8 +64,6 @@ static void animate() {
 }
 
 void cno::modes::game() {
-  rng::seed();
-
   play::init();
   enable_input();
 
