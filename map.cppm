@@ -9,9 +9,9 @@ namespace map {
 export constexpr const auto width = 30;
 export constexpr const auto height = 20;
 
-export struct {
+export extern struct data {
   qsu::anim data[height][width]{};
-} d{};
+} d;
 
 export auto at(unsigned x, unsigned y) { return d.data[y][x].spr; }
 export bool can_walk(unsigned x, unsigned y) {
@@ -215,3 +215,7 @@ export int pick_empty_space(unsigned y) {
   return (attempt < 100) ? x : -1;
 }
 } // namespace map
+
+module :private;
+
+struct map::data map::d;

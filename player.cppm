@@ -10,7 +10,7 @@ import timeline;
 namespace player {
 // TODO: balance attack/defense
 // TODO: hunger damage, to force food consumption
-export struct data {
+export extern struct data {
   static constexpr const auto base_attack = 10;
   static constexpr const auto base_defense = 10;
   static constexpr const auto base_life = 10;
@@ -157,3 +157,6 @@ export void hit(int roll, int poison) {
   }
 }
 } // namespace player
+
+module :private;
+player::data player::d{};
