@@ -71,7 +71,15 @@ static void select() {
 void cno::modes::mainmenu() {
   using namespace casein;
 
-  save::read().map([] { g_has_save = true; }).log_error();
+  save::read()
+      .map([] {
+        // Let's avoid players from losing their saves by mistake
+        if (g_sel == o_new_game)
+          g_sel = o_continue;
+
+        g_has_save = true;
+      })
+      .log_error();
 
   reset_k(KEY_DOWN);
 
