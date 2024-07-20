@@ -1,15 +1,18 @@
 export module map;
 import dotz;
 import rng;
-import save;
 import spr;
 import qsu;
+import yoyo;
 
 namespace map {
-export constexpr const auto width = save::map_data::width;
-export constexpr const auto height = save::map_data::height;
+export constexpr const auto width = 30;
+export constexpr const auto height = 20;
 
-export qsu::anim data[height][width]{};
+export struct {
+  qsu::anim data[height][width];
+} real_data;
+export auto &data = real_data.data;
 
 export bool can_walk(unsigned x, unsigned y) {
   if (x >= width || y >= height)
@@ -168,15 +171,12 @@ static unsigned split_w(const room &r) {
   return p;
 }
 
-static void reset() {
+export void gen(int level) {
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
       data[y][x] = {.coord = {x, y}, .anim_coord = {x, y}};
     }
   }
-}
-export void gen(int level) {
-  reset();
 
   for (auto x = 0; x < width; x++) {
     data[0][x].spr = spr::wall;
@@ -203,24 +203,6 @@ export void gen(int level) {
     data[height - 2][width - 2].spr = spr::exit;
   } else {
     data[height - 2][1].spr = spr::exit;
-  }
-
-  auto *p = save::d.map.grid;
-  for (auto &row : data) {
-    for (auto &cell : row) {
-      *p++ = cell.spr;
-    }
-  }
-}
-
-export void load() {
-  reset();
-
-  auto *p = save::d.map.grid;
-  for (auto &row : data) {
-    for (auto &cell : row) {
-      cell.spr = *p++;
-    }
   }
 }
 

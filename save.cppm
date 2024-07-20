@@ -1,6 +1,7 @@
 export module save;
 import buoy;
 import fork;
+import map;
 import silog;
 import spr;
 
@@ -16,18 +17,11 @@ struct player_data {
   int attack{base_attack};
   int defense{base_defense};
 };
-struct map_data {
-  static constexpr const auto width = 30;
-  static constexpr const auto height = 20;
-
-  spr::id grid[height * width]{};
-};
 
 struct data {
   unsigned version{1};
   unsigned level{};
   player_data player{};
-  map_data map{};
 } d;
 
 [[nodiscard]] auto read() {
@@ -35,6 +29,7 @@ struct data {
   return buoy::open_for_reading("cnossus", "save.dat")
       .fpeek(frk::assert("CNO"))
       .fpeek(frk::take("DATA", &d))
+      .fpeek(frk::take("MAPA", &map::real_data))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game loaded"); })
       .trace("reading save data");
@@ -44,6 +39,7 @@ void write() {
   buoy::open_for_writing("cnossus", "save.dat")
       .fpeek(frk::signature("CNO"))
       .fpeek(frk::chunk("DATA", &d))
+      .fpeek(frk::chunk("MAPA", &map::real_data))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game saved"); })
       .trace("writing save data")

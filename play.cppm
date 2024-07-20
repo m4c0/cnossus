@@ -50,8 +50,6 @@ void next_level() {
 export void load() {
   reset();
 
-  map::load();
-
   auto level = save::d.level + 1;
   player::init(level);
   enemies::init(level);
