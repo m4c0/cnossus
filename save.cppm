@@ -2,6 +2,7 @@ export module save;
 import buoy;
 import enemies;
 import fork;
+import inv;
 import light;
 import loot;
 import map;
@@ -24,6 +25,7 @@ struct data {
       .fpeek(frk::take("FOES", &enemies::d))
       .fpeek(frk::take("LOOT", &loot::d))
       .fpeek(frk::take("LGHT", &light::d))
+      .fpeek(frk::take("PACK", &inv::d))
       .fpeek(frk::take("MAPA", &map::d))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game loaded"); })
@@ -38,6 +40,7 @@ void write() {
       .fpeek(frk::chunk("FOES", &enemies::d))
       .fpeek(frk::chunk("LOOT", &loot::d))
       .fpeek(frk::chunk("LGHT", &light::d))
+      .fpeek(frk::chunk("PACK", &inv::d))
       .fpeek(frk::chunk("MAPA", &map::d))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game saved"); })

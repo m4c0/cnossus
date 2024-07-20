@@ -3,7 +3,7 @@ import qsu;
 import spr;
 
 namespace inv {
-struct data {
+export extern struct data {
   bool bag{};
   spr::id lights[3]{};
   spr::id food[3]{};
@@ -142,3 +142,6 @@ export int defense() {
 }
 export int attack() { return attack_of(d.weapon); }
 } // namespace inv
+
+module :private;
+inv::data inv::d{};
