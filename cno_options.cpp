@@ -14,27 +14,24 @@ static options g_sel{};
 
 static bool g_sound{true};
 
-static void draw_check(bool b, int x, int y) {
-  if (b) {
-    qsu::blit(qsu::sprite{
-        .id = spr::cursor,
-        .pos = dotz::vec2{x, y} + 0.05,
-        .size = dotz::vec2{1.f} - 0.1,
-        .colour = {0.9f, 0.1f, 0.0f, 1.0f},
-    });
-  }
-  qsu::blit(spr::ui_check, x, y, 0);
-}
-
 static void draw() {
-  qsu::draw_str("SOUND", 1, 0);
-  qsu::draw_str("FULLSCREEN", 1, 1);
-  qsu::draw_str("BACK", 1, 2);
+  constexpr const auto x = 1.5;
+
+  qsu::draw_str("OPTIONS", x, -2);
+
+  if (g_sound) {
+    qsu::draw_str("SOUNDS", x, 0);
+  } else {
+    qsu::draw_str("MUTED", x, 0);
+  }
+  if (casein::fullscreen) {
+    qsu::draw_str("FULLSCREEN", x, 1);
+  } else {
+    qsu::draw_str("WINDOWED", x, 1);
+  }
+  qsu::draw_str("BACK", x, 2);
 
   qsu::blit(spr::minotaur, 0, g_sel, 0);
-
-  draw_check(g_sound, 12, 0);
-  draw_check(casein::fullscreen, 12, 1);
 }
 static void redraw() {
   quack::donald::data([](auto all) { return qsu::draw(all, ::draw); });

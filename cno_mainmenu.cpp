@@ -15,15 +15,17 @@ static options g_sel{};
 static bool g_has_save{};
 
 static void draw() {
+  constexpr const auto x = 1.5;
+
   // TODO: credits
   // TODO: random play area on the background
   // SPLASH
 
   // MENU OPTIONS
-  qsu::draw_str("NEW GAME", 1, 0);
-  qsu::draw_str("CONTINUE", 1, 1, g_has_save ? 1.0 : 0.4);
-  qsu::draw_str("OPTIONS", 1, 2);
-  qsu::draw_str("EXIT", 1, 3);
+  qsu::draw_str("NEW GAME", x, 0);
+  qsu::draw_str("CONTINUE", x, 1, g_has_save ? 1.0 : 0.4);
+  qsu::draw_str("OPTIONS", x, 2);
+  qsu::draw_str("EXIT", x, 3);
 
   // MENU SELECTION
   qsu::blit(spr::minotaur, 0, g_sel, 0);
