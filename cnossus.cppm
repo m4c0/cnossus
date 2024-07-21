@@ -5,6 +5,7 @@
 export module cnossus;
 
 import casein;
+import map;
 import rng;
 import quack;
 import qsu;
@@ -27,7 +28,7 @@ struct init {
     using namespace quack::donald;
 
     app_name("cnossus");
-    max_quads(1024);
+    max_quads(map::width * map::height * 2 + 1024);
 
     clear_colour({0, 0, 0, 1});
     atlas(qsu::atlas);
