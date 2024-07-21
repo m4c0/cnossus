@@ -34,7 +34,7 @@ static void draw() {
   qsu::blit(spr::minotaur, 0, g_sel, 0);
 
   draw_check(g_sound, 12, 0);
-  draw_check(casein::is_fullscreen(), 12, 1);
+  draw_check(casein::fullscreen, 12, 1);
 }
 static void redraw() {
   quack::donald::data([](auto all) { return qsu::draw(all, ::draw); });
@@ -60,7 +60,9 @@ static void select() {
     redraw();
     break;
   case o_fullscreen:
-    casein::set_fullscreen(!casein::is_fullscreen());
+    using namespace casein;
+    fullscreen = !fullscreen;
+    interrupt(IRQ_FULLSCREEN);
     redraw();
     break;
   case o_back:
