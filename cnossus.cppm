@@ -15,9 +15,16 @@ void mainmenu();
 void options();
 }
 
+// TODO: add sounds
 struct init {
   init() {
     rng::seed();
+
+    using namespace casein;
+    window_title = "Escape from Cnossus";
+    window_size = {800, 800};
+
+    // TODO: fix the main menu after the resize breaks it
 
     using namespace quack::donald;
 
