@@ -24,8 +24,6 @@ struct init {
     window_title = "Escape from Cnossus";
     window_size = {800, 800};
 
-    // TODO: fix the main menu after the resize breaks it
-
     using namespace quack::donald;
 
     app_name("cnossus");

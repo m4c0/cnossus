@@ -17,6 +17,7 @@ static bool g_has_save{};
 static void draw() {
   constexpr const auto x = 1.5;
 
+  // TODO: splash
   // TODO: credits
   // TODO: random play area on the background
   // SPLASH
