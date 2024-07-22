@@ -13,14 +13,12 @@ enum options {
 
 static options g_sel{};
 
-static bool g_sound{true};
-
 static void draw() {
   constexpr const auto x = 1.5;
 
   qsu::draw_str("OPTIONS", x, -2);
 
-  if (g_sound) {
+  if (sfx::main_volume > 0) {
     qsu::draw_str("SOUNDS", x, 0);
   } else {
     qsu::draw_str("MUTED", x, 0);
@@ -56,7 +54,7 @@ static void sel_down() {
 static void select() {
   switch (g_sel) {
   case o_sound:
-    g_sound = !g_sound;
+    sfx::main_volume = sfx::main_volume ? 0 : sfx::max_volume;
     redraw();
     break;
   case o_fullscreen:

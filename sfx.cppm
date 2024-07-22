@@ -3,6 +3,8 @@ export module sfx;
 import plush;
 
 namespace sfx {
+export constexpr const auto max_volume = 0.5f;
+export extern float main_volume;
 export void menu_move() {
   plush::play({
       .adsr{
@@ -13,8 +15,12 @@ export void menu_move() {
       .freq{
           .start_freq = 30000,
       },
-      .main_volume = 0.5,
+      .main_volume = main_volume,
       .wave_fn = plush::sqr::vol_at,
   });
 }
 } // namespace sfx
+
+module :private;
+
+float sfx::main_volume = 0.5;
