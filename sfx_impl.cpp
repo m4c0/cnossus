@@ -14,6 +14,10 @@ void sfx::menu_move() {
           .start_freq = 100,
           .slide = -5,
       },
+      .vib{
+          .depth = 0.1,
+          .speed = 1.3,
+      },
       .main_volume = main_volume,
       .wave_fn = plush::saw::vol_at,
   });
@@ -30,6 +34,10 @@ void sfx::menu_select() {
           .start_freq = 80,
           .slide = -10,
           .delta_slide = 2000,
+      },
+      .vib{
+          .depth = 0.5,
+          .speed = 1.3,
       },
       .main_volume = main_volume,
       .wave_fn = plush::saw::vol_at,
