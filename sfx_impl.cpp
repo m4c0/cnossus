@@ -27,8 +27,9 @@ void sfx::menu_select() {
           .release_time = 0.2,
       },
       .freq{
-          .start_freq = 100,
-          .slide = -5,
+          .start_freq = 80,
+          .slide = -10,
+          .delta_slide = 2000,
       },
       .main_volume = main_volume,
       .wave_fn = plush::saw::vol_at,
