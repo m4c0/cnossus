@@ -52,6 +52,8 @@ static void sel_down() {
 }
 
 static void select() {
+  sfx::menu_select();
+
   switch (g_sel) {
   case o_sound:
     sfx::main_volume = sfx::main_volume ? 0 : sfx::max_volume;

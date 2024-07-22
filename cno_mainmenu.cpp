@@ -57,6 +57,8 @@ static void sel_down() {
 }
 
 static void select() {
+  sfx::menu_select();
+
   switch (g_sel) {
   case o_new_game:
     save::reset();
