@@ -1,6 +1,7 @@
 module cnossus;
 import jute;
 import save;
+import sfx;
 import spr;
 
 namespace {
@@ -42,6 +43,7 @@ static void sel_up() {
     g_sel = o_exit;
   if (!g_has_save && g_sel == o_continue)
     g_sel = o_new_game;
+  sfx::menu_move();
   redraw();
 }
 static void sel_down() {
@@ -50,6 +52,7 @@ static void sel_down() {
     g_sel = o_new_game;
   if (!g_has_save && g_sel == o_continue)
     g_sel = o_options;
+  sfx::menu_move();
   redraw();
 }
 

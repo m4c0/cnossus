@@ -1,5 +1,6 @@
 module cnossus;
 import dotz;
+import sfx;
 import spr;
 
 namespace {
@@ -41,12 +42,14 @@ static void sel_up() {
   g_sel = static_cast<options>(g_sel - 1);
   if (g_sel < o_sound)
     g_sel = o_back;
+  sfx::menu_move();
   redraw();
 }
 static void sel_down() {
   g_sel = static_cast<options>(g_sel + 1);
   if (g_sel > o_back)
     g_sel = o_sound;
+  sfx::menu_move();
   redraw();
 }
 
