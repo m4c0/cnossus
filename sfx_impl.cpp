@@ -43,3 +43,10 @@ void sfx::menu_select() {
       .wave_fn = plush::saw::vol_at,
   });
 }
+
+void sfx::fail() {}
+
+void sfx::eat() {}
+void sfx::light() {}
+void sfx::pick() {}
+void sfx::walk() {}

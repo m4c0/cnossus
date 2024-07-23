@@ -1,5 +1,6 @@
 export module inv;
 import qsu;
+import sfx;
 import spr;
 
 namespace inv {
@@ -50,6 +51,7 @@ export spr::id eat_food(int id) {
     return spr::nil;
   auto res = d.food[id];
   d.food[id] = spr::nil;
+  res == spr::nil ? sfx::fail() : sfx::eat();
   return res;
 }
 export spr::id burn_light(int id) {
@@ -57,6 +59,7 @@ export spr::id burn_light(int id) {
     return spr::nil;
   auto res = d.lights[id];
   d.lights[id] = spr::nil;
+  res == spr::nil ? sfx::fail() : sfx::light();
   return res;
 }
 
@@ -68,6 +71,7 @@ bool take(spr::id item, spr::id (&list)[3]) {
     if (l != spr::nil)
       continue;
     l = item;
+    sfx::pick();
     return true;
   }
   return false;
@@ -79,6 +83,7 @@ static bool take_weapon(spr::id item) {
     return false;
 
   d.weapon = item;
+  sfx::pick();
   return true;
 }
 
@@ -87,6 +92,7 @@ static bool take_armour(spr::id item, spr::id &i) {
     return false;
 
   i = item;
+  sfx::pick();
   return true;
 }
 
@@ -97,6 +103,7 @@ export bool take(spr::id item) {
       return false;
 
     d.bag = true;
+    sfx::pick();
     return true;
 
   case spr::knife:
