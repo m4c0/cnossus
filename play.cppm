@@ -11,6 +11,7 @@ import player;
 import qsu;
 import quack;
 import save;
+import sfx;
 import spr;
 import timeline;
 
@@ -125,8 +126,10 @@ export void move_by(int dx, int dy) {
     next_level();
     return;
   }
-  if (!map::can_walk(p.x, p.y))
+  if (!map::can_walk(p.x, p.y)) {
+    sfx::fail();
     return;
+  }
 
   player::poison_tick();
   light::tick();
