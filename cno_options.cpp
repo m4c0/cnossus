@@ -1,6 +1,7 @@
 module cnossus;
 import dotz;
 import sfx;
+import sicfg;
 import spr;
 
 namespace {
@@ -66,6 +67,8 @@ static void select() {
     redraw();
     break;
   case o_back:
+    sicfg::boolean("muted", sfx::main_volume == 0);
+    sicfg::boolean("fullscreen", fullscreen);
     cno::modes::mainmenu();
     break;
   }
@@ -85,4 +88,9 @@ void cno::modes::options() {
   handle(KEY_DOWN, K_ENTER, select);
 
   redraw();
+}
+
+void cno::load_options() {
+  sfx::main_volume = sicfg::boolean("muted") ? 0 : sfx::max_volume;
+  casein::fullscreen = sicfg::boolean("fullscreen");
 }

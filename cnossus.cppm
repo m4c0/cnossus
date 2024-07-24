@@ -14,12 +14,17 @@ namespace cno::modes {
 void game(bool new_game);
 void mainmenu();
 void options();
+} // namespace cno::modes
+namespace cno {
+void load_options();
 }
 
 // TODO: add sounds
 struct init {
   init() {
     rng::seed();
+
+    cno::load_options();
 
     using namespace casein;
     window_title = "Escape from Cnossus";
