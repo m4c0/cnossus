@@ -44,7 +44,24 @@ void sfx::menu_select() {
   });
 }
 
-void sfx::fail() {}
+void sfx::fail() {
+  plush::play({
+      .adsr{
+          .sustain_level = 1.0,
+          .release_time = 0.2,
+      },
+      .freq{
+          .start_freq = 80,
+          .delta_slide = -2000,
+      },
+      .vib{
+          .depth = 0.5,
+          .speed = 1.3,
+      },
+      .main_volume = main_volume,
+      .wave_fn = plush::saw::vol_at,
+  });
+}
 
 void sfx::eat() {}
 void sfx::light() {}
