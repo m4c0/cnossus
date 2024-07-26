@@ -1,9 +1,7 @@
 module cnossus;
 import dotz;
-import enemies;
 import inv;
 import light;
-import loot;
 import party;
 import play;
 import player;
@@ -29,17 +27,6 @@ static void redraw() {
   }
 }
 
-static void next_level() {
-  auto level = ++save::d.level;
-  map::gen(level);
-  player::init(level);
-  enemies::init(level);
-  loot::init(level);
-  light::init(level);
-  inv::init(level);
-  save::write();
-}
-
 static void move_by(int dx, int dy) {
   // TODO: "dead" modal
   if (player::is_dead())
@@ -51,7 +38,7 @@ static void move_by(int dx, int dy) {
   if (map::at(p.x, p.y) == spr::exit) {
     // TODO: animate via fade to black or similar
     sfx::next_level();
-    next_level();
+    cno::next_level();
     return;
   }
   if (!map::can_walk(p.x, p.y)) {
