@@ -121,18 +121,7 @@ static void enemy_turn(dotz::ivec2 p) {
   }
 }
 
-export void move_by(int dx, int dy) {
-  auto p = player::coord() + dotz::ivec2{dx, dy};
-  if (map::at(p.x, p.y) == spr::exit) {
-    sfx::next_level();
-    next_level();
-    return;
-  }
-  if (!map::can_walk(p.x, p.y)) {
-    sfx::fail();
-    return;
-  }
-
+export void move_by(dotz::ivec2 p) {
   player_turn(p);
   enemy_turn(p);
 }

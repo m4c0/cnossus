@@ -1,10 +1,12 @@
 module cnossus;
+import dotz;
 import inv;
 import light;
 import party;
 import play;
 import player;
 import save;
+import sfx;
 import spr;
 import timeline;
 
@@ -25,14 +27,26 @@ static void redraw() {
   }
 }
 
-static void move_by(int x, int y) {
+static void move_by(int dx, int dy) {
   // TODO: "dead" modal
   if (player::is_dead())
     return;
 
   tim::reset();
 
-  play::move_by(x, y);
+  auto p = player::coord() + dotz::ivec2{dx, dy};
+  if (map::at(p.x, p.y) == spr::exit) {
+    // TODO: animate via fade to black or similar
+    sfx::next_level();
+    play::next_level();
+    return;
+  }
+  if (!map::can_walk(p.x, p.y)) {
+    sfx::fail();
+    return;
+  }
+
+  play::move_by(p);
   redraw();
 }
 
