@@ -10,21 +10,8 @@ import sfx;
 import spr;
 import timeline;
 
-static void enable_input();
-static void animate();
-
-static bool g_was_animating{};
-
 static void redraw() {
-  bool is_animating = tim::tick();
-
   quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
-
-  is_animating |= party::is_animating();
-  if (g_was_animating != is_animating) {
-    g_was_animating = is_animating;
-    is_animating ? animate() : enable_input();
-  }
 }
 
 static void move_by(int dx, int dy) {
@@ -48,6 +35,7 @@ static void move_by(int dx, int dy) {
 
   play::move_by(p);
   redraw();
+  cno::modes::timeline();
 }
 
 static void inv_l(int id) {
@@ -91,16 +79,8 @@ static void enable_input() {
 
   handle(REPAINT, nullptr);
 }
-static void animate() {
-  using namespace casein;
-
-  reset_k(KEY_DOWN);
-
-  handle(REPAINT, redraw);
-}
 
 void cno::modes::game() {
-  g_was_animating = false;
   tim::reset();
 
   quack::donald::push_constants({

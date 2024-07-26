@@ -3,6 +3,7 @@
 #pragma leco add_impl cno_level
 #pragma leco add_impl cno_mainmenu
 #pragma leco add_impl cno_options
+#pragma leco add_impl cno_timeline
 export module cnossus;
 
 import casein;
@@ -15,11 +16,12 @@ namespace cno::modes {
 void game();
 void mainmenu();
 void options();
+void timeline();
 } // namespace cno::modes
 namespace cno {
 void next_level();
 void load_options();
-}
+} // namespace cno
 
 // TODO: add sounds
 struct init {
