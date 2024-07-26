@@ -15,17 +15,6 @@ import spr;
 
 // TODO: fix phantom loot when enemies (and chests) die
 namespace play {
-export void next_level() {
-  auto level = ++save::d.level;
-  map::gen(level);
-  player::init(level);
-  enemies::init(level);
-  loot::init(level);
-  light::init(level);
-  inv::init(level);
-  save::write();
-}
-
 export void draw() {
   auto pac = player::anim_coord();
   auto radius = light::d.charge > 0 ? 2 : 1;
