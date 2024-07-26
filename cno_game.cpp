@@ -1,6 +1,8 @@
 module cnossus;
+import party;
 import play;
 import save;
+import timeline;
 
 static void enable_input();
 static void animate();
@@ -8,9 +10,11 @@ static void animate();
 static bool g_was_animating{};
 
 static void redraw() {
+  bool is_animating = tim::tick();
+
   quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
 
-  bool is_animating = play::is_animating();
+  is_animating |= party::is_animating();
   if (g_was_animating != is_animating) {
     g_was_animating = is_animating;
     is_animating ? animate() : enable_input();
@@ -64,7 +68,16 @@ static void animate() {
 }
 
 void cno::modes::game(bool new_game) {
-  new_game ? play::setup_level() : play::reset();
+  g_was_animating = false;
+  tim::reset();
+
+  quack::donald::push_constants({
+      .grid_pos = {},
+      .grid_size = {9, 9},
+  });
+
+  if (new_game)
+    play::setup_level();
   enable_input();
 
   redraw();

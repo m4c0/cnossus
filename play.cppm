@@ -17,21 +17,7 @@ import timeline;
 
 // TODO: fix phantom loot when enemies (and chests) die
 namespace play {
-bool g_animating{};
-
-export void reset() {
-  g_animating = false;
-  tim::reset();
-
-  quack::donald::push_constants({
-      .grid_pos = {},
-      .grid_size = {9, 9},
-  });
-}
-
 export void setup_level() {
-  reset();
-
   auto level = save::d.level + 1;
   map::gen(level);
   player::init(level);
@@ -47,8 +33,6 @@ void next_level() {
 }
 
 export void draw() {
-  g_animating = tim::tick();
-
   auto pac = player::anim_coord();
   auto radius = light::d.charge > 0 ? 2 : 1;
   {
@@ -57,15 +41,13 @@ export void draw() {
     loot::draw(pac, radius);
     enemies::draw(pac, radius);
     player::draw();
-    g_animating |= party::draw();
+    party::draw();
   }
 
   player::draw_ui();
   light::draw_ui();
   inv::draw_ui();
 }
-
-export bool is_animating() { return g_animating; }
 
 export void eat(int i) {
   auto roll = food_of(inv::eat_food(i));

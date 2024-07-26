@@ -21,9 +21,8 @@ export void emit(particle p) {
   particles.push_back(p);
 }
 
-export [[nodiscard]] bool draw() {
+export void draw() {
   auto ms = watch.millis();
-  bool animating{};
 
   for (auto i = 0; i < particles.size(); i++) {
     auto &p = particles[i];
@@ -39,9 +38,8 @@ export [[nodiscard]] bool draw() {
     s.alpha = 1.0 - dotz::min(dt / p.timeout, 1.0);
 
     qsu::blit(s);
-    animating = true;
   }
-
-  return animating;
 }
+
+export [[nodiscard]] bool is_animating() { return particles.size() > 0; }
 } // namespace party
