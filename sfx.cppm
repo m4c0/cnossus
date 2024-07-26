@@ -10,6 +10,8 @@ export void menu_select();
 
 export void fail();
 
+export void next_level();
+
 export void eat();
 export void light();
 export void pick();

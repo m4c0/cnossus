@@ -63,6 +63,8 @@ void sfx::fail() {
   });
 }
 
+void sfx::next_level() { menu_select(); }
+
 void sfx::eat() {}
 void sfx::light() {}
 
