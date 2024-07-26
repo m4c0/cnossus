@@ -9,11 +9,9 @@ import map;
 import party;
 import player;
 import qsu;
-import quack;
 import save;
 import sfx;
 import spr;
-import timeline;
 
 // TODO: fix phantom loot when enemies (and chests) die
 namespace play {
@@ -47,22 +45,6 @@ export void draw() {
   player::draw_ui();
   light::draw_ui();
   inv::draw_ui();
-}
-
-export void eat(int i) {
-  auto roll = food_of(inv::eat_food(i));
-  if (roll == 0)
-    return;
-
-  player::restore(roll);
-}
-
-export void light(int i) {
-  auto roll = light_of(inv::burn_light(i));
-  if (roll == 0)
-    return;
-
-  light::restore(roll);
 }
 
 static void take_loot(auto *l) {
@@ -100,11 +82,6 @@ static void take_loot(auto *l) {
 }
 
 export void move_by(int dx, int dy) {
-  tim::reset();
-
-  if (player::is_dead())
-    return;
-
   auto p = player::coord() + dotz::ivec2{dx, dy};
   if (map::at(p.x, p.y) == spr::exit) {
     next_level();

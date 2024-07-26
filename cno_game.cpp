@@ -1,7 +1,11 @@
 module cnossus;
+import inv;
+import light;
 import party;
 import play;
+import player;
 import save;
+import spr;
 import timeline;
 
 static void enable_input();
@@ -22,16 +26,30 @@ static void redraw() {
 }
 
 static void move_by(int x, int y) {
+  // TODO: "dead" modal
+  if (player::is_dead())
+    return;
+
+  tim::reset();
+
   play::move_by(x, y);
   redraw();
 }
 
 static void inv_l(int id) {
-  play::light(id);
+  auto roll = light_of(inv::burn_light(id));
+  if (roll == 0)
+    return;
+
+  light::restore(roll);
   redraw();
 }
 static void inv_f(int id) {
-  play::eat(id);
+  auto roll = food_of(inv::eat_food(id));
+  if (roll == 0)
+    return;
+
+  player::restore(roll);
   redraw();
 }
 
