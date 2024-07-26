@@ -15,18 +15,14 @@ import spr;
 
 // TODO: fix phantom loot when enemies (and chests) die
 namespace play {
-export void setup_level() {
-  auto level = save::d.level + 1;
+export void next_level() {
+  auto level = ++save::d.level;
   map::gen(level);
   player::init(level);
   enemies::init(level);
   loot::init(level);
   light::init(level);
   inv::init(level);
-}
-void next_level() {
-  save::d.level++;
-  setup_level();
   save::write();
 }
 

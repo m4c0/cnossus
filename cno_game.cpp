@@ -95,7 +95,7 @@ void cno::modes::game(bool new_game) {
   });
 
   if (new_game)
-    play::setup_level();
+    play::next_level();
   enable_input();
 
   redraw();
