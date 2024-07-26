@@ -77,17 +77,7 @@ static void take_loot(auto *l) {
   }
 }
 
-export void move_by(int dx, int dy) {
-  auto p = player::coord() + dotz::ivec2{dx, dy};
-  if (map::at(p.x, p.y) == spr::exit) {
-    next_level();
-    return;
-  }
-  if (!map::can_walk(p.x, p.y)) {
-    sfx::fail();
-    return;
-  }
-
+static void player_turn(dotz::ivec2 p) {
   player::poison_tick();
   light::tick();
 
@@ -105,7 +95,9 @@ export void move_by(int dx, int dy) {
   } else {
     player::move(p);
   }
+}
 
+static void enemy_turn(dotz::ivec2 p) {
   for (auto &e : enemies::d.list) {
     if (e.spr == spr::nil || e.life == 0)
       continue;
@@ -127,5 +119,21 @@ export void move_by(int dx, int dy) {
 
     enemies::move(e, p);
   }
+}
+
+export void move_by(int dx, int dy) {
+  auto p = player::coord() + dotz::ivec2{dx, dy};
+  if (map::at(p.x, p.y) == spr::exit) {
+    sfx::next_level();
+    next_level();
+    return;
+  }
+  if (!map::can_walk(p.x, p.y)) {
+    sfx::fail();
+    return;
+  }
+
+  player_turn(p);
+  enemy_turn(p);
 }
 } // namespace play
