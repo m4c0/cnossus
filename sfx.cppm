@@ -14,4 +14,5 @@ export void eat();
 export void light();
 export void pick();
 export void walk();
+export void break_jar();
 } // namespace sfx

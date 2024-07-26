@@ -67,3 +67,18 @@ void sfx::eat() {}
 void sfx::light() {}
 void sfx::pick() {}
 void sfx::walk() {}
+
+void sfx::break_jar() {
+  plush::play({
+      .adsr{
+          .sustain_level = 1.0,
+          .release_time = 0.2,
+      },
+      .freq{
+          .start_freq = 400,
+          .delta_slide = -3000,
+      },
+      .main_volume = sfx::main_volume,
+      .wave_fn = plush::noise::vol_at,
+  });
+}

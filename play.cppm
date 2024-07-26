@@ -92,8 +92,9 @@ static void take_loot(auto *l) {
             .id = l->spr,
             .pos = l->coord,
         },
-        .timeout = 500,
+        .timeout = 200,
     });
+    sfx::break_jar();
     l->spr = lootroll(save::d.level, l->spr);
     player::attack(l->coord);
     break;
