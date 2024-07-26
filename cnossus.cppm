@@ -12,7 +12,7 @@ import quack;
 import qsu;
 
 namespace cno::modes {
-void game(bool new_game);
+void game();
 void mainmenu();
 void options();
 } // namespace cno::modes

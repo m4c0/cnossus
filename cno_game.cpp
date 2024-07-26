@@ -99,7 +99,7 @@ static void animate() {
   handle(REPAINT, redraw);
 }
 
-void cno::modes::game(bool new_game) {
+void cno::modes::game() {
   g_was_animating = false;
   tim::reset();
 
@@ -108,8 +108,6 @@ void cno::modes::game(bool new_game) {
       .grid_size = {9, 9},
   });
 
-  if (new_game)
-    next_level();
   enable_input();
 
   redraw();
