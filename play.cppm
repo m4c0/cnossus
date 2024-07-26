@@ -108,8 +108,9 @@ static void take_loot(auto *l) {
               .id = l->spr,
               .pos = l->coord,
           },
-          .timeout = 300,
+          .timeout = 200,
       });
+      sfx::pick();
       l->spr = spr::nil;
     }
     break;

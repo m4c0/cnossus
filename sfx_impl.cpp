@@ -65,7 +65,26 @@ void sfx::fail() {
 
 void sfx::eat() {}
 void sfx::light() {}
-void sfx::pick() {}
+
+void sfx::pick() {
+  plush::play({
+      .adsr{
+          .decay_time = 0.1,
+          .sustain_level = 1.3,
+          .release_time = 0.2,
+      },
+      .freq{
+          .start_freq = 900,
+      },
+      .arp{
+          .limit = 0.05,
+          .mod = 0.9,
+      },
+      .main_volume = sfx::main_volume * 0.8f,
+      .wave_fn = plush::sqr::vol_at,
+  });
+}
+
 void sfx::walk() {}
 
 void sfx::break_jar() {
