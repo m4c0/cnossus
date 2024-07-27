@@ -55,14 +55,19 @@ static void move_by(int dx, int dy) {
   if (auto *e = enemies::at(p)) {
     if (e->life > 0 && e->spr != spr::nil) {
       cno::modes::player_turn::attack(e);
-    } else if (e->spr != spr::nil) {
-      take_loot(e);
+      return;
     }
-  } else if (auto *l = loot::at(p)) {
-    take_loot(l);
-  } else {
-    cno::modes::player_turn::move(p);
+    if (e->spr != spr::nil) {
+      take_loot(e);
+      return;
+    }
   }
+  if (auto *l = loot::at(p)) {
+    take_loot(l);
+    return;
+  }
+
+  cno::modes::player_turn::move(p);
 }
 
 static void inv_l(int id) {
