@@ -1,10 +1,6 @@
 module cnossus;
 import play;
 
-static void redraw() {
-  quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
-}
-
 void cno::modes::gameover() {
   using namespace casein;
 
@@ -14,5 +10,5 @@ void cno::modes::gameover() {
   // TODO: hide UI
   // TODO: fade lights
   // TODO: sad song
-  redraw();
+  play::redraw();
 }

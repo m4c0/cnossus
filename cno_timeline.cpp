@@ -6,7 +6,7 @@ import timeline;
 static void redraw() {
   bool is_animating = tim::tick();
 
-  quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
+  play::redraw();
 
   is_animating |= party::is_animating();
   if (!is_animating)

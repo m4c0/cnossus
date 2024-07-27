@@ -1,4 +1,5 @@
 export module play;
+import dotz;
 import enemies;
 import inv;
 import light;
@@ -9,10 +10,9 @@ import player;
 import qsu;
 import quack;
 
-// TODO: fix phantom loot when enemies (and chests) die
 namespace play {
-export void draw() {
-  auto pac = player::anim_coord();
+extern dotz::vec2 pac;
+void draw() {
   auto radius = light::d.charge > 0 ? 2 : 1;
   {
     qsu::guard::position ppo{-(pac + 0.5f)};
@@ -28,6 +28,10 @@ export void draw() {
   inv::draw_ui();
 }
 export void redraw() {
+  pac = player::anim_coord();
   quack::donald::data([](auto all) { return qsu::draw(all, draw); });
 }
 } // namespace play
+
+module :private;
+dotz::vec2 play::pac{};
