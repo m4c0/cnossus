@@ -67,9 +67,6 @@ static void take_loot(auto *l) {
 }
 
 static void player_turn(dotz::ivec2 p) {
-  player::poison_tick();
-  light::tick();
-
   if (auto *e = enemies::at(p)) {
     if (e->life > 0) {
       auto player_atk = inv::attack() + player::attack();
@@ -87,6 +84,9 @@ static void player_turn(dotz::ivec2 p) {
 }
 
 static void enemy_turn(dotz::ivec2 p) {
+  player::poison_tick();
+  light::tick();
+
   for (auto &e : enemies::d.list) {
     if (e.spr == spr::nil || e.life == 0)
       continue;
