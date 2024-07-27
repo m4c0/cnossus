@@ -5,7 +5,6 @@ import party;
 import rng;
 import spr;
 import qsu;
-import timeline;
 
 namespace player {
 // TODO: balance attack/defense
@@ -108,17 +107,6 @@ export void hit(int roll, int poison) {
   auto dmg = rng::rand(roll);
   if (dmg == 0)
     return;
-
-  tim::add({
-      .rot{
-          .target = &d.rotation,
-          .a = 0,
-          .b = rng::rand(2) ? -100.f : 100.f,
-          .func = tim::fn::half_and_back,
-      },
-      .start = tim::anim_dur_ms,
-      .length = tim::anim_dur_ms,
-  });
 
   d.life -= dmg;
   if (d.life <= 0) {

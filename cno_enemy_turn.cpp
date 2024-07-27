@@ -7,7 +7,7 @@ import player;
 import sitime;
 import spr;
 
-static constexpr const float anim_length = 100;
+static constexpr const float anim_length = 300;
 
 static unsigned current_enemy{};
 static dotz::ivec2 target{};
@@ -15,19 +15,37 @@ static sitime::stopwatch timer{};
 
 static void check_next_enemy();
 
+static void end_enemy_animation(dotz::ivec2 p) {
+  auto &e = enemies::d.list[current_enemy];
+
+  e.anim_coord = e.coord = p;
+  play::redraw();
+
+  casein::handle(casein::REPAINT, nullptr);
+  current_enemy++;
+  check_next_enemy();
+}
+
 static void animate_move() {
   auto &e = enemies::d.list[current_enemy];
 
   auto dt = timer.millis() / anim_length;
-  if (dt > 1.0) {
-    e.anim_coord = e.coord = target;
-    play::redraw();
+  if (dt > 1.0)
+    return end_enemy_animation(target);
 
-    casein::handle(casein::REPAINT, nullptr);
-    current_enemy++;
-    check_next_enemy();
-    return;
-  }
+  e.anim_coord = dotz::mix(e.coord, target, dt);
+  play::redraw();
+}
+
+static void animate_attack() {
+  auto &e = enemies::d.list[current_enemy];
+
+  auto dt = timer.millis() / anim_length;
+  if (dt > 1.0)
+    return end_enemy_animation(e.coord);
+
+  if (dt > 0.5)
+    dt = 1.0 - dt;
 
   e.anim_coord = dotz::mix(e.coord, target, dt);
   play::redraw();
@@ -40,7 +58,7 @@ static void check_next_enemy() {
     if (e.spr == spr::nil || e.life == 0)
       continue;
 
-    auto p =
+    auto p = target =
         e.coord + enemies::next_move(e, player::coord(), light::d.charge > 0);
     if (!map::can_walk(p.x, p.y))
       continue;
@@ -53,8 +71,8 @@ static void check_next_enemy() {
       auto poison = poison_of(e.spr);
       player::hit(enemy_atk - player_def, poison);
 
-      // casein::handle(casein::REPAINT, animate);
-      continue;
+      timer = {};
+      return casein::handle(casein::REPAINT, animate_attack);
     }
 
     auto da = dotz::abs(e.coord - player::coord());
@@ -66,7 +84,6 @@ static void check_next_enemy() {
     }
 
     timer = {};
-    target = p;
     casein::handle(casein::REPAINT, animate_move);
     return;
   }
