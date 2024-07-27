@@ -1,7 +1,10 @@
 module cnossus;
 import dotz;
+import enemies;
 import inv;
 import light;
+import loot;
+import lootroll;
 import party;
 import play;
 import player;
@@ -9,6 +12,40 @@ import save;
 import sfx;
 import spr;
 import timeline;
+
+static void take_loot(auto *l) {
+  switch (l->spr) {
+  case spr::jar:
+  case spr::coffer:
+    party::emit({
+        .sprite{
+            .id = l->spr,
+            .pos = l->coord,
+        },
+        .timeout = 200,
+    });
+    sfx::break_jar();
+    l->spr = lootroll(save::d.level, l->spr);
+    player::attack(l->coord);
+    break;
+  default:
+    player::move(l->coord);
+
+    // TODO: better animation
+    if (inv::take(l->spr)) {
+      party::emit({
+          .sprite{
+              .id = l->spr,
+              .pos = l->coord,
+          },
+          .timeout = 200,
+      });
+      sfx::pick();
+      l->spr = spr::nil;
+    }
+    break;
+  }
+}
 
 static void move_by(int dx, int dy) {
   auto p = player::coord() + dotz::ivec2{dx, dy};
@@ -22,6 +59,21 @@ static void move_by(int dx, int dy) {
     sfx::fail();
     cno::modes::player_turn::attack(p);
     return;
+  }
+
+  if (auto *e = enemies::at(p)) {
+    if (e->life > 0) {
+      auto player_atk = inv::attack() + player::attack();
+      auto enemy_def = life_of(e->spr);
+      enemies::hit(*e, player_atk - enemy_def);
+      player::attack(e->coord);
+    } else if (e->spr != spr::nil) {
+      take_loot(e);
+    }
+  } else if (auto *l = loot::at(p)) {
+    take_loot(l);
+  } else {
+    player::move(p);
   }
 
   tim::reset();

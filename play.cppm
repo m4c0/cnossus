@@ -36,57 +36,6 @@ export void redraw() {
   quack::donald::data([](auto all) { return qsu::draw(all, draw); });
 }
 
-static void take_loot(auto *l) {
-  switch (l->spr) {
-  case spr::jar:
-  case spr::coffer:
-    party::emit({
-        .sprite{
-            .id = l->spr,
-            .pos = l->coord,
-        },
-        .timeout = 200,
-    });
-    sfx::break_jar();
-    l->spr = lootroll(save::d.level, l->spr);
-    player::attack(l->coord);
-    break;
-  default:
-    player::move(l->coord);
-
-    // TODO: better animation
-    if (inv::take(l->spr)) {
-      party::emit({
-          .sprite{
-              .id = l->spr,
-              .pos = l->coord,
-          },
-          .timeout = 200,
-      });
-      sfx::pick();
-      l->spr = spr::nil;
-    }
-    break;
-  }
-}
-
-static void player_turn(dotz::ivec2 p) {
-  if (auto *e = enemies::at(p)) {
-    if (e->life > 0) {
-      auto player_atk = inv::attack() + player::attack();
-      auto enemy_def = life_of(e->spr);
-      enemies::hit(*e, player_atk - enemy_def);
-      player::attack(e->coord);
-    } else if (e->spr != spr::nil) {
-      take_loot(e);
-    }
-  } else if (auto *l = loot::at(p)) {
-    take_loot(l);
-  } else {
-    player::move(p);
-  }
-}
-
 static void enemy_turn(dotz::ivec2 p) {
   player::poison_tick();
   light::tick();
@@ -114,8 +63,5 @@ static void enemy_turn(dotz::ivec2 p) {
   }
 }
 
-export void move_by(dotz::ivec2 p) {
-  player_turn(p);
-  enemy_turn(p);
-}
+export void move_by(dotz::ivec2 p) { enemy_turn(p); }
 } // namespace play
