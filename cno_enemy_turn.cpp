@@ -4,16 +4,33 @@ import inv;
 import light;
 import play;
 import player;
+import sitime;
 import spr;
 
+static constexpr const float anim_length = 100;
+
 static unsigned current_enemy{};
+static dotz::ivec2 target{};
+static sitime::stopwatch timer{};
 
 static void check_next_enemy();
 
-static void animate() {
-  casein::handle(casein::REPAINT, nullptr);
+static void animate_move() {
+  auto &e = enemies::d.list[current_enemy];
 
-  check_next_enemy();
+  auto dt = timer.millis() / anim_length;
+  if (dt > 1.0) {
+    e.anim_coord = e.coord = target;
+    play::redraw();
+
+    casein::handle(casein::REPAINT, nullptr);
+    current_enemy++;
+    check_next_enemy();
+    return;
+  }
+
+  e.anim_coord = dotz::mix(e.coord, target, dt);
+  play::redraw();
 }
 
 static void check_next_enemy() {
@@ -36,12 +53,21 @@ static void check_next_enemy() {
       auto poison = poison_of(e.spr);
       player::hit(enemy_atk - player_def, poison);
 
-      casein::handle(casein::REPAINT, animate);
+      // casein::handle(casein::REPAINT, animate);
       continue;
     }
 
-    e.anim_coord = e.coord = p;
-    casein::handle(casein::REPAINT, animate);
+    auto da = dotz::abs(e.coord - player::coord());
+    auto db = dotz::abs(p - player::coord());
+    if (da.x > 1 && da.y > 1 && db.x > 1 && db.y > 1) {
+      // Enemy wasn't and isn't visible. Don't animate it
+      e.anim_coord = e.coord = p;
+      continue;
+    }
+
+    timer = {};
+    target = p;
+    casein::handle(casein::REPAINT, animate_move);
     return;
   }
 
