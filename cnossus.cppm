@@ -1,4 +1,5 @@
 #pragma leco app
+#pragma leco add_impl cno_enemy_turn
 #pragma leco add_impl cno_game
 #pragma leco add_impl cno_gameover
 #pragma leco add_impl cno_level
@@ -25,6 +26,9 @@ void timeline();
 
 namespace cno::modes::player_turn {
 void attack(dotz::ivec2 target);
+}
+namespace cno::modes::enemy_turn {
+void enter(dotz::ivec2 player);
 }
 
 namespace cno {
