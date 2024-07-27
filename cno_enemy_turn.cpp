@@ -12,12 +12,14 @@ static constexpr const float anim_length = 300;
 static unsigned current_enemy{};
 static dotz::ivec2 target{};
 static sitime::stopwatch timer{};
+static unsigned angle{};
 
 static void check_next_enemy();
 
 static void end_enemy_animation(dotz::ivec2 p) {
   auto &e = enemies::d.list[current_enemy];
 
+  player::d.rotation = 0;
   e.anim_coord = e.coord = p;
   play::redraw();
 
@@ -48,6 +50,7 @@ static void animate_attack() {
     dt = 1.0 - dt;
 
   e.anim_coord = dotz::mix(e.coord, target, dt);
+  player::d.rotation = dt * angle * 45.0f;
   play::redraw();
 }
 
@@ -72,6 +75,7 @@ static void check_next_enemy() {
       player::hit(enemy_atk - player_def, poison);
 
       timer = {};
+      angle = rng::rand(2) ? 1 : -1;
       return casein::handle(casein::REPAINT, animate_attack);
     }
 
