@@ -84,8 +84,26 @@ void sfx::enemy_take_hit() {
   });
 }
 
+void sfx::attack_miss() {
+  plush::play({
+      .adsr{
+          .sustain_level = 1.0,
+          .release_time = 0.2,
+      },
+      .freq{
+          .start_freq = 200,
+          .delta_slide = -3000,
+      },
+      .vib{
+          .depth = 0.1,
+          .speed = 1.3,
+      },
+      .main_volume = sfx::main_volume,
+      .wave_fn = plush::sqr::vol_at,
+  });
+}
+
 // TODO: implement these sfx
-void sfx::attack_miss() {}
 void sfx::eat() {}
 void sfx::light() {}
 void sfx::walk() {}

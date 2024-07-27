@@ -48,8 +48,8 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
   auto enemy_def = life_of(e->spr);
   auto roll = player_atk - enemy_def;
   if (roll <= 0) {
-    // TODO: miss sfx
     angle = 0;
+    sfx::attack_miss();
   } else {
     sfx::enemy_take_hit();
     angle = rng::rand(2) ? 1.0f : -1.0f;
