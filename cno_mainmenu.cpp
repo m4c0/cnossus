@@ -88,7 +88,14 @@ void cno::modes::mainmenu() {
 
         g_has_save = true;
       })
-      .log_error();
+      .log_error([] {
+        // Consider no save if reading fail. Might be the case if save data is
+        // corrupted after game started (also the way "game over" works :)
+        if (g_sel == o_continue)
+          g_sel = o_new_game;
+
+        g_has_save = false;
+      });
 
   reset_k(KEY_DOWN);
 
