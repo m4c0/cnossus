@@ -13,6 +13,18 @@ import sfx;
 import spr;
 import timeline;
 
+static void player_attack(dotz::ivec2 c) {
+  tim::add({
+      .pos{
+          .target = &player::d.anim_coord,
+          .a = player::d.coord,
+          .b = c,
+          .func = tim::fn::half_and_back,
+      },
+      .length = tim::anim_dur_ms,
+  });
+}
+
 static void take_loot(auto *l) {
   switch (l->spr) {
   case spr::jar:
@@ -26,7 +38,7 @@ static void take_loot(auto *l) {
     });
     sfx::break_jar();
     l->spr = lootroll(save::d.level, l->spr);
-    player::attack(l->coord);
+    player_attack(l->coord);
     break;
   default:
     player::move(l->coord);
@@ -95,7 +107,7 @@ static void move_by(int dx, int dy) {
       auto player_atk = inv::attack() + player::attack();
       auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
-      player::attack(e->coord);
+      player_attack(e->coord);
     } else if (e->spr != spr::nil) {
       take_loot(e);
     }
