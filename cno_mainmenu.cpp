@@ -72,7 +72,7 @@ static void select() {
     cno::modes::options();
     break;
   case o_exit:
-    casein::exit(0);
+    casein::interrupt(casein::IRQ_QUIT);
     break;
   }
 }
