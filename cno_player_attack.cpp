@@ -9,7 +9,7 @@ import sitime;
 import spr;
 import sfx;
 
-static constexpr const float anim_length = 300;
+static constexpr const float anim_length = 200;
 
 static qsu::anim *target;
 static sitime::stopwatch timer{};
@@ -34,17 +34,16 @@ static void frame() {
   float dt = timer.millis() / anim_length;
   if (dt > 0.5)
     dt = 1.0 - dt;
-  dt *= 2.0f;
 
   player::d.anim_coord = dotz::mix(player::d.coord, target->coord, dt);
-  target->rotation = dt * angle;
+  target->rotation = dt * angle * 45.0f;
 }
 
 void cno::modes::player_turn::attack(enemies::enemy *e) {
   timer = {};
   target = e;
 
-  angle = e->life > 0 ? rng::rand(1) * 90 - 45 : 0;
+  angle = rng::rand(2) ? 1.0f : -1.0f;
 
   if (e->life <= 0) {
     party::emit({
