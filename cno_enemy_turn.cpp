@@ -6,7 +6,7 @@ import play;
 import player;
 import spr;
 
-void cno::modes::enemy_turn::enter(dotz::ivec2 player) {
+void cno::modes::enemy_turn::enter() {
   using namespace casein;
   reset_k(KEY_DOWN);
   handle(REPAINT, nullptr);

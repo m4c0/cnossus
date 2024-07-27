@@ -23,7 +23,7 @@ static void end() {
   if (party::is_animating())
     return;
 
-  cno::modes::enemy_turn::enter(player::d.coord);
+  cno::modes::enemy_turn::enter();
 }
 
 static void frame() {

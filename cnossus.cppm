@@ -37,7 +37,7 @@ void move(dotz::ivec2 target);
 } // namespace cno::modes::player_turn
 
 namespace cno::modes::enemy_turn {
-void enter(dotz::ivec2 player);
+void enter();
 }
 
 namespace cno {

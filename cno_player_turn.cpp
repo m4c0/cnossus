@@ -20,7 +20,7 @@ void cno::modes::player_turn::fail(dotz::ivec2 tgt) {
 
     if (timer.millis() > anim_length) {
       player::d.anim_coord = player::d.coord;
-      cno::modes::enemy_turn::enter(player::d.coord);
+      cno::modes::enemy_turn::enter();
       return;
     }
 
@@ -43,7 +43,7 @@ void cno::modes::player_turn::move(dotz::ivec2 tgt) {
 
     if (timer.millis() > anim_length) {
       player::d.anim_coord = player::d.coord = target;
-      cno::modes::enemy_turn::enter(player::d.coord);
+      cno::modes::enemy_turn::enter();
       return;
     }
 
