@@ -10,10 +10,6 @@ import sfx;
 import spr;
 import timeline;
 
-static void redraw() {
-  quack::donald::data([](auto all) { return qsu::draw(all, play::draw); });
-}
-
 static void move_by(int dx, int dy) {
   auto p = player::coord() + dotz::ivec2{dx, dy};
   if (map::at(p.x, p.y) == spr::exit) {
@@ -30,7 +26,7 @@ static void move_by(int dx, int dy) {
 
   tim::reset();
   play::move_by(p);
-  redraw();
+  play::redraw();
   player::d.life == 0 ? cno::modes::gameover() : cno::modes::timeline();
 }
 
@@ -41,7 +37,7 @@ static void inv_l(int id) {
 
   light::restore(roll);
   sfx::light();
-  redraw();
+  play::redraw();
 }
 static void inv_f(int id) {
   auto roll = food_of(inv::eat_food(id));
@@ -50,7 +46,7 @@ static void inv_f(int id) {
 
   player::restore(roll);
   sfx::eat();
-  redraw();
+  play::redraw();
 }
 
 static void enable_input() {
@@ -88,5 +84,5 @@ void cno::modes::game() {
 
   enable_input();
 
-  redraw();
+  play::redraw();
 }

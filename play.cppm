@@ -9,6 +9,7 @@ import map;
 import party;
 import player;
 import qsu;
+import quack;
 import save;
 import sfx;
 import spr;
@@ -30,6 +31,9 @@ export void draw() {
   player::draw_ui();
   light::draw_ui();
   inv::draw_ui();
+}
+export void redraw() {
+  quack::donald::data([](auto all) { return qsu::draw(all, draw); });
 }
 
 static void take_loot(auto *l) {
