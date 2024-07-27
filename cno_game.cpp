@@ -13,18 +13,6 @@ import sfx;
 import spr;
 import timeline;
 
-static void player_attack(dotz::ivec2 c) {
-  tim::add({
-      .pos{
-          .target = &player::d.anim_coord,
-          .a = player::d.coord,
-          .b = c,
-          .func = tim::fn::half_and_back,
-      },
-      .length = tim::anim_dur_ms,
-  });
-}
-
 static void take_loot(auto *l) {
   switch (l->spr) {
   case spr::jar:
@@ -38,11 +26,10 @@ static void take_loot(auto *l) {
     });
     sfx::break_jar();
     l->spr = lootroll(save::d.level, l->spr);
-    player_attack(l->coord);
+
+    cno::modes::player_turn::attack(l->coord);
     break;
   default:
-    player::move(l->coord);
-
     // TODO: better animation
     if (inv::take(l->spr)) {
       party::emit({
@@ -55,6 +42,8 @@ static void take_loot(auto *l) {
       sfx::pick();
       l->spr = spr::nil;
     }
+
+    cno::modes::player_turn::move(l->coord);
     break;
   }
 }
@@ -73,24 +62,20 @@ static void move_by(int dx, int dy) {
     return;
   }
 
-  tim::reset();
-
   if (auto *e = enemies::at(p)) {
     if (e->life > 0) {
       auto player_atk = inv::attack() + player::attack();
       auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
-      player_attack(e->coord);
+      cno::modes::player_turn::attack(e->coord);
     } else if (e->spr != spr::nil) {
       take_loot(e);
     }
   } else if (auto *l = loot::at(p)) {
     take_loot(l);
   } else {
-    player::move(p);
+    cno::modes::player_turn::move(p);
   }
-
-  cno::modes::enemy_turn::enter(p);
 }
 
 static void inv_l(int id) {

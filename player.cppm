@@ -31,19 +31,6 @@ export const auto coord() { return d.coord; }
 export const auto attack() { return d.attack; }
 export const auto defense() { return d.defense; }
 
-export void move(dotz::ivec2 c) {
-  tim::add({
-      .pos{
-          .target = &d.anim_coord,
-          .a = d.coord,
-          .b = c,
-      },
-      .length = tim::anim_dur_ms,
-  });
-  d.anim_coord = c;
-  d.coord = c;
-}
-
 export void init(int level) {
   if (level == 1) {
     d = {};
