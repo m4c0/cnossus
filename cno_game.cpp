@@ -30,6 +30,7 @@ static void move_by(int dx, int dy) {
   }
   if (!map::can_walk(p.x, p.y)) {
     sfx::fail();
+    cno::modes::player_turn::attack();
     return;
   }
 
