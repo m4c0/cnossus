@@ -23,7 +23,7 @@ void cno::modes::player_turn::attack(dotz::ivec2 tgt) {
 
     if (timer.millis() > anim_length) {
       player::d.anim_coord = player::d.coord;
-      cno::modes::game();
+      cno::modes::enemy_turn::enter(player::d.coord);
       return;
     }
 
