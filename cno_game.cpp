@@ -17,17 +17,7 @@ static void take_loot(auto *l) {
   switch (l->spr) {
   case spr::jar:
   case spr::coffer:
-    party::emit({
-        .sprite{
-            .id = l->spr,
-            .pos = l->coord,
-        },
-        .timeout = 200,
-    });
-    sfx::break_jar();
-    l->spr = lootroll(save::d.level, l->spr);
-
-    cno::modes::player_turn::attack(l->coord);
+    cno::modes::player_turn::attack(l);
     break;
   default:
     // TODO: better animation
@@ -67,7 +57,7 @@ static void move_by(int dx, int dy) {
       auto player_atk = inv::attack() + player::attack();
       auto enemy_def = life_of(e->spr);
       enemies::hit(*e, player_atk - enemy_def);
-      cno::modes::player_turn::attack(e->coord);
+      cno::modes::player_turn::attack(e);
     } else if (e->spr != spr::nil) {
       take_loot(e);
     }

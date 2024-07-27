@@ -5,6 +5,7 @@
 #pragma leco add_impl cno_level
 #pragma leco add_impl cno_mainmenu
 #pragma leco add_impl cno_options
+#pragma leco add_impl cno_player_attack
 #pragma leco add_impl cno_player_turn
 #pragma leco add_impl cno_timeline
 export module cnossus;
@@ -16,6 +17,10 @@ import rng;
 import quack;
 import qsu;
 
+namespace enemies {
+class enemy;
+}
+
 namespace cno::modes {
 void game();
 void gameover();
@@ -25,7 +30,8 @@ void timeline();
 } // namespace cno::modes
 
 namespace cno::modes::player_turn {
-void attack(dotz::ivec2 target);
+void attack(enemies::enemy *e);
+void attack(qsu::anim *l);
 void fail(dotz::ivec2 target);
 void move(dotz::ivec2 target);
 } // namespace cno::modes::player_turn

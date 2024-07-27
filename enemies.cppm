@@ -137,29 +137,6 @@ export void hit(enemy &e, int roll) {
     return;
 
   e.life -= rng::rand(roll);
-  if (e.life <= 0) {
-    party::emit({
-        .sprite{
-            .id = e.spr,
-            .pos = e.coord,
-        },
-        .timeout = 500,
-    });
-    e = {{
-        .coord = e.coord,
-        .spr = lootroll(e.spr),
-    }};
-  } else {
-    tim::add({
-        .rot{
-            .target = &e.rotation,
-            .a = 0,
-            .b = rng::rand(2) ? -100.f : 100.f,
-            .func = tim::fn::half_and_back,
-        },
-        .length = tim::anim_dur_ms,
-    });
-  }
 }
 } // namespace enemies
 
