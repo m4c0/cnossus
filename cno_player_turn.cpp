@@ -16,7 +16,7 @@ void cno::modes::player_turn::fail(dotz::ivec2 tgt) {
   using namespace casein;
   reset_k(KEY_DOWN);
   handle(REPAINT, [] {
-    play::redraw();
+    play::redraw(player::d.coord);
 
     if (timer.millis() > anim_length) {
       player::d.anim_coord = player::d.coord;
