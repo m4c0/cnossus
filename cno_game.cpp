@@ -41,6 +41,7 @@ static void inv_l(int id) {
     return;
 
   light::restore(roll);
+  sfx::light();
   redraw();
 }
 static void inv_f(int id) {
@@ -49,6 +50,7 @@ static void inv_f(int id) {
     return;
 
   player::restore(roll);
+  sfx::eat();
   redraw();
 }
 

@@ -65,6 +65,7 @@ void sfx::fail() {
 
 void sfx::next_level() { menu_select(); }
 
+// TODO: implement these sfx
 void sfx::eat() {}
 void sfx::light() {}
 
