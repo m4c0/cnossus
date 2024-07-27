@@ -1,5 +1,6 @@
 #pragma leco app
 #pragma leco add_impl cno_game
+#pragma leco add_impl cno_gameover
 #pragma leco add_impl cno_level
 #pragma leco add_impl cno_mainmenu
 #pragma leco add_impl cno_options
@@ -16,6 +17,7 @@ import qsu;
 
 namespace cno::modes {
 void game();
+void gameover();
 void mainmenu();
 void options();
 void timeline();

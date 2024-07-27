@@ -28,7 +28,6 @@ export extern struct data {
 } d;
 
 export const auto coord() { return d.coord; }
-export const bool is_dead() { return d.life <= 0; }
 export const auto attack() { return d.attack; }
 export const auto defense() { return d.defense; }
 

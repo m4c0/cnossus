@@ -15,10 +15,6 @@ static void redraw() {
 }
 
 static void move_by(int dx, int dy) {
-  // TODO: "dead" modal
-  if (player::is_dead())
-    return;
-
   tim::reset();
 
   auto p = player::coord() + dotz::ivec2{dx, dy};
@@ -36,7 +32,7 @@ static void move_by(int dx, int dy) {
 
   play::move_by(p);
   redraw();
-  cno::modes::timeline();
+  player::d.life == 0 ? cno::modes::gameover() : cno::modes::timeline();
 }
 
 static void inv_l(int id) {
