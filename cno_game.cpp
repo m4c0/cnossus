@@ -47,6 +47,33 @@ static void take_loot(auto *l) {
   }
 }
 
+static void enemy_turn(dotz::ivec2 p) {
+  player::poison_tick();
+  light::tick();
+
+  for (auto &e : enemies::d.list) {
+    if (e.spr == spr::nil || e.life == 0)
+      continue;
+
+    auto p =
+        e.coord + enemies::next_move(e, player::coord(), light::d.charge > 0);
+    if (!map::can_walk(p.x, p.y))
+      continue;
+    if (enemies::at(p))
+      continue;
+    if (player::coord() == p) {
+      auto enemy_atk = life_of(e.spr);
+      auto player_def = inv::defense() + player::defense();
+      auto poison = poison_of(e.spr);
+      player::hit(enemy_atk - player_def, poison);
+      enemies::attack(e, p);
+      continue;
+    }
+
+    enemies::move(e, p);
+  }
+}
+
 static void move_by(int dx, int dy) {
   auto p = player::coord() + dotz::ivec2{dx, dy};
   if (map::at(p.x, p.y) == spr::exit) {
@@ -60,6 +87,8 @@ static void move_by(int dx, int dy) {
     cno::modes::player_turn::attack(p);
     return;
   }
+
+  tim::reset();
 
   if (auto *e = enemies::at(p)) {
     if (e->life > 0) {
@@ -76,8 +105,8 @@ static void move_by(int dx, int dy) {
     player::move(p);
   }
 
-  tim::reset();
-  play::move_by(p);
+  enemy_turn(p);
+
   play::redraw();
   player::d.life == 0 ? cno::modes::gameover() : cno::modes::timeline();
 }
