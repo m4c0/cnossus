@@ -1,6 +1,7 @@
 module cnossus;
 import dotz;
 import enemies;
+import inv;
 import lootroll;
 import party;
 import play;
@@ -43,9 +44,20 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
   timer = {};
   target = e;
 
-  angle = rng::rand(2) ? 1.0f : -1.0f;
+  auto player_atk = inv::attack() + player::attack();
+  auto enemy_def = life_of(e->spr);
+  auto roll = player_atk - enemy_def;
+  if (roll <= 0) {
+    // TODO: miss sfx
+    angle = 0;
+  } else {
+    sfx::enemy_take_hit();
+    angle = rng::rand(2) ? 1.0f : -1.0f;
+    e->life -= rng::rand(roll);
+  }
 
   if (e->life <= 0) {
+    // TODO: inline animation, avoid particle
     party::emit({
         .sprite{
             .id = e->spr,

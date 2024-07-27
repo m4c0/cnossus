@@ -65,9 +65,30 @@ void sfx::fail() {
 
 void sfx::next_level() { menu_select(); }
 
+void sfx::enemy_take_hit() {
+  plush::play({
+      .adsr{
+          .sustain_level = 1.0,
+          .release_time = 0.2,
+      },
+      .freq{
+          .start_freq = 200,
+          .delta_slide = -1000,
+      },
+      .vib{
+          .depth = 0.5,
+          .speed = 1.3,
+      },
+      .main_volume = sfx::main_volume,
+      .wave_fn = plush::saw::vol_at,
+  });
+}
+
 // TODO: implement these sfx
+void sfx::attack_miss() {}
 void sfx::eat() {}
 void sfx::light() {}
+void sfx::walk() {}
 
 void sfx::pick() {
   plush::play({
@@ -87,8 +108,6 @@ void sfx::pick() {
       .wave_fn = plush::sqr::vol_at,
   });
 }
-
-void sfx::walk() {}
 
 void sfx::break_jar() {
   plush::play({

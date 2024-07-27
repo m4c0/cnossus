@@ -127,17 +127,6 @@ export dotz::ivec2 next_move(const enemy &e, const dotz::ivec2 p,
     }
   }
 }
-
-export void hit(enemy &e, int roll) {
-  if (e.spr == spr::nil)
-    return;
-
-  // TODO: animate
-  if (roll <= 0)
-    return;
-
-  e.life -= rng::rand(roll);
-}
 } // namespace enemies
 
 module :private;

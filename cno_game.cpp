@@ -53,10 +53,7 @@ static void move_by(int dx, int dy) {
   }
 
   if (auto *e = enemies::at(p)) {
-    if (e->life > 0) {
-      auto player_atk = inv::attack() + player::attack();
-      auto enemy_def = life_of(e->spr);
-      enemies::hit(*e, player_atk - enemy_def);
+    if (e->life > 0 && e->spr != spr::nil) {
       cno::modes::player_turn::attack(e);
     } else if (e->spr != spr::nil) {
       take_loot(e);

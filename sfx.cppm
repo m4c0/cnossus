@@ -12,6 +12,9 @@ export void fail();
 
 export void next_level();
 
+export void enemy_take_hit();
+export void attack_miss();
+
 export void eat();
 export void light();
 export void pick();
