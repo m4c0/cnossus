@@ -63,7 +63,7 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
             .id = e->spr,
             .pos = e->coord,
         },
-        .timeout = 500.0f,
+        .timeout = 300.0f,
     });
     *e = {{
         .coord = e->coord,
