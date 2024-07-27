@@ -1,16 +1,15 @@
 export module enemies;
 import dotz;
-import hai;
 import lootroll;
 import map;
 import mobroll;
-import party;
 import qsu;
 import rng;
 import spr;
-import timeline;
 
 namespace enemies {
+export unsigned max_enemies = map::height;
+
 export struct enemy : qsu::anim {
   int life{};
 };
@@ -43,32 +42,6 @@ export void draw(dotz::vec2 center, int rad) {
   for (auto &e : d.list) {
     qsu::blit(e, center, rad);
   }
-}
-
-export void move(enemy &e, dotz::ivec2 p) {
-  tim::add({
-      .pos{
-          .target = &e.anim_coord,
-          .a = e.coord,
-          .b = p,
-      },
-      .start = tim::anim_dur_ms,
-      .length = tim::anim_dur_ms,
-  });
-  e.anim_coord = e.coord;
-  e.coord = p;
-}
-export void attack(enemy &e, dotz::ivec2 p) {
-  tim::add({
-      .pos{
-          .target = &e.anim_coord,
-          .a = e.coord,
-          .b = p,
-          .func = tim::fn::half_and_back,
-      },
-      .start = tim::anim_dur_ms,
-      .length = tim::anim_dur_ms,
-  });
 }
 
 export enemy *at(dotz::ivec2 p) {

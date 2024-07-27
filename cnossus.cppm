@@ -7,7 +7,6 @@
 #pragma leco add_impl cno_options
 #pragma leco add_impl cno_player_attack
 #pragma leco add_impl cno_player_turn
-#pragma leco add_impl cno_timeline
 export module cnossus;
 
 import casein;
