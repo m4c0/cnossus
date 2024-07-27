@@ -1,14 +1,33 @@
 module cnossus;
+import party;
 import play;
+import player;
+import spr;
 
-void cno::modes::gameover() {
-  using namespace casein;
-
-  reset_k(KEY_DOWN);
-  handle(REPAINT, nullptr);
-
+static void redraw() {
   // TODO: hide UI
   // TODO: fade lights
   // TODO: sad song
   play::redraw();
+
+  if (!party::is_animating()) {
+    using namespace casein;
+    handle(KEY_DOWN, K_ESCAPE, cno::modes::mainmenu);
+    handle(REPAINT, nullptr);
+  }
+}
+
+void cno::modes::gameover() {
+  using namespace casein;
+
+  party::emit({
+      .sprite{
+          .id = spr::minotaur,
+          .pos = player::d.coord,
+      },
+      .timeout = 1000,
+  });
+
+  reset_k(KEY_DOWN);
+  handle(REPAINT, redraw);
 }

@@ -12,12 +12,14 @@ export void fail();
 
 export void next_level();
 
-export void enemy_take_hit();
 export void attack_miss();
+export void enemy_take_hit();
+export void player_take_hit();
 
 export void eat();
 export void light();
 export void pick();
+export void poison();
 export void walk();
 export void break_jar();
 } // namespace sfx

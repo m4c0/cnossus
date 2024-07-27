@@ -4,6 +4,7 @@ import inv;
 import light;
 import play;
 import player;
+import sfx;
 import sitime;
 import spr;
 
@@ -69,10 +70,24 @@ static void check_next_enemy() {
       continue;
 
     if (player::coord() == p) {
+      auto poison = poison_of(e.spr);
+      if (poison > 0) {
+        player::d.poison += rng::rand(poison);
+        sfx::poison();
+      }
+
       auto enemy_atk = life_of(e.spr);
       auto player_def = inv::defense() + player::defense();
-      auto poison = poison_of(e.spr);
-      player::hit(enemy_atk - player_def, poison);
+      auto roll = enemy_atk - player_def;
+      if (roll <= 0) {
+        angle = 0;
+        sfx::attack_miss();
+      } else {
+        sfx::player_take_hit();
+        player::d.life -= rng::rand(roll);
+        if (player::d.life < 0)
+          player::d.life = 0;
+      }
 
       timer = {};
       angle = rng::rand(2) ? 1 : -1;

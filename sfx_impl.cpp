@@ -84,6 +84,8 @@ void sfx::enemy_take_hit() {
   });
 }
 
+void sfx::player_take_hit() { return enemy_take_hit(); }
+
 void sfx::attack_miss() {
   plush::play({
       .adsr{
@@ -106,6 +108,7 @@ void sfx::attack_miss() {
 // TODO: implement these sfx
 void sfx::eat() {}
 void sfx::light() {}
+void sfx::poison() {}
 void sfx::walk() {}
 
 void sfx::pick() {

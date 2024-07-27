@@ -94,32 +94,6 @@ export void restore(int roll) {
   if (d.life > d.max_life)
     d.life = d.max_life;
 }
-
-export void hit(int roll, int poison) {
-  if (poison > 0)
-    d.poison += rng::rand(poison);
-
-  // TODO: animate
-  if (roll <= 0)
-    return;
-
-  // TODO: animate
-  auto dmg = rng::rand(roll);
-  if (dmg == 0)
-    return;
-
-  d.life -= dmg;
-  if (d.life <= 0) {
-    party::emit({
-        .sprite{
-            .id = spr::minotaur,
-            .pos = d.coord,
-        },
-        .timeout = 1000,
-    });
-    d.life = 0;
-  }
-}
 } // namespace player
 
 module :private;
