@@ -8,6 +8,7 @@
 export module cnossus;
 
 import casein;
+import dotz;
 import map;
 import rng;
 import quack;
@@ -21,7 +22,7 @@ void timeline();
 } // namespace cno::modes
 
 namespace cno::modes::player_turn {
-void attack();
+void attack(dotz::ivec2 target);
 }
 
 namespace cno {
