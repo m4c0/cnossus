@@ -2,6 +2,7 @@ module cnossus;
 import party;
 import play;
 import player;
+import save;
 import spr;
 
 static void redraw() {
@@ -30,4 +31,6 @@ void cno::modes::gameover() {
 
   reset_k(KEY_DOWN);
   handle(REPAINT, redraw);
+
+  save::clear();
 }

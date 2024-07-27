@@ -48,6 +48,16 @@ void write() {
       .log_error();
 }
 
+void clear() {
+  d = {};
+  buoy::open_for_writing("cnossus", "save.dat")
+      .fpeek(frk::signature("CNO"))
+      .map(frk::end())
+      .map([] { silog::log(silog::info, "Save game cleared"); })
+      .trace("clearing save data")
+      .log_error();
+}
+
 void reset() {
   d = {};
   write();
