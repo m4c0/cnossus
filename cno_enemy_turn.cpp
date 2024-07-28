@@ -83,6 +83,8 @@ static void check_next_enemy() {
         angle = 0;
         sfx::attack_miss();
       } else {
+        angle = rng::rand(2) ? 1 : -1;
+
         sfx::player_take_hit();
         player::d.life -= rng::rand(roll);
         if (player::d.life < 0)
@@ -90,7 +92,6 @@ static void check_next_enemy() {
       }
 
       timer = {};
-      angle = rng::rand(2) ? 1 : -1;
       return casein::handle(casein::REPAINT, animate_attack);
     }
 
