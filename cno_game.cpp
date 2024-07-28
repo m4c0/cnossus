@@ -100,6 +100,11 @@ static void enable_input() {
   handle(KEY_DOWN, K_UP, [] { move_by(0, -1); });
   handle(KEY_DOWN, K_DOWN, [] { move_by(0, 1); });
 
+  handle(KEY_DOWN, K_A, [] { move_by(-1, 0); });
+  handle(KEY_DOWN, K_D, [] { move_by(1, 0); });
+  handle(KEY_DOWN, K_W, [] { move_by(0, -1); });
+  handle(KEY_DOWN, K_S, [] { move_by(0, 1); });
+
   handle(KEY_DOWN, K_1, [] { inv_l(0); });
   handle(KEY_DOWN, K_2, [] { inv_l(1); });
   handle(KEY_DOWN, K_3, [] { inv_l(2); });
