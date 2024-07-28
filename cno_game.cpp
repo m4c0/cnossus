@@ -44,6 +44,7 @@ static void move_by(int dx, int dy) {
     // TODO: animate via fade to black or similar
     sfx::next_level();
     cno::next_level();
+    play::redraw();
     return;
   }
   if (!map::can_walk(p.x, p.y)) {
