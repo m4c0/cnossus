@@ -38,13 +38,16 @@ void draw(dotz::vec2 center, int rad) {
 }
 
 loot *at(dotz::ivec2 p) {
-  auto &l = d.list[p.y];
-  if (l.coord.x != p.x)
-    return nullptr;
-  if (l.spr == spr::nil)
-    return nullptr;
+  for (auto &l : d.list) {
+    if (l.spr == spr::nil)
+      continue;
+    if (l.coord != p)
+      continue;
 
-  return &l;
+    return &l;
+  }
+
+  return nullptr;
 }
 } // namespace loot
 
