@@ -2,6 +2,7 @@ module cnossus;
 import dotz;
 import enemies;
 import inv;
+import loot;
 import lootroll;
 import party;
 import play;
@@ -65,9 +66,11 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
         },
         .timeout = 300.0f,
     });
+    loot::add(e->coord, lootroll(e->spr));
     *e = {{
         .coord = e->coord,
-        .spr = lootroll(e->spr),
+        .anim_coord = e->coord,
+        .spr = spr::splat,
     }};
   }
 

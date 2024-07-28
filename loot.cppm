@@ -49,6 +49,21 @@ loot *at(dotz::ivec2 p) {
 
   return nullptr;
 }
+
+void add(dotz::ivec2 p, spr::id spr) {
+  for (auto &l : d.list) {
+    if (l.spr != spr::nil)
+      continue;
+
+    l = loot{
+        .coord = p,
+        .anim_coord = p,
+        .spr = spr,
+    };
+    return;
+  }
+}
+
 } // namespace loot
 
 module :private;
