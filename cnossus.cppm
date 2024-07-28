@@ -44,7 +44,7 @@ void next_level();
 void load_options();
 } // namespace cno
 
-// TODO: add sounds
+// TODO: show some progress (show game level?)
 struct init {
   init() {
     rng::seed();
