@@ -10,10 +10,12 @@ export namespace loot {
 using loot = qsu::anim;
 
 extern struct data {
-  loot list[map::height];
+  loot list[map::height * 2]{};
 } d;
 
 void init(int level) {
+  d = {};
+
   for (auto y = 2; y < map::height - 2; y++) {
     auto x = map::pick_empty_space(y);
     if (x == -1) {
