@@ -86,6 +86,7 @@ enum id : unsigned char {
   mosaic = ',',
   pool = '%',
   statue = '(',
+  splat = ')',
   wall = '&',
 };
 }; // namespace spr
