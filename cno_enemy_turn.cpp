@@ -97,7 +97,7 @@ static void check_next_enemy() {
 
     auto da = dotz::abs(e.coord - player::coord());
     auto db = dotz::abs(p - player::coord());
-    if (da.x > 1 && da.y > 1 && db.x > 1 && db.y > 1) {
+    if ((da.x > 1 || da.y > 1) && (db.x > 1 || db.y > 1)) {
       // Enemy wasn't and isn't visible. Don't animate it
       e.anim_coord = e.coord = p;
       continue;
