@@ -108,9 +108,24 @@ void sfx::attack_miss() {
 // TODO: implement these sfx
 void sfx::eat() {}
 void sfx::light() {}
-void sfx::poison() {}
 void sfx::walk() {}
 
+void sfx::poison() {
+  plush::play({
+      .adsr{
+          .attack_time = 0.1,
+          .sustain_level = 1.0,
+          .release_time = 0.1,
+      },
+      .freq{
+          .start_freq = 400,
+      },
+      .main_volume = sfx::main_volume,
+      .wave_fn = plush::noise::vol_at,
+  });
+}
+
+// TODO: make this less proeminent
 void sfx::pick() {
   plush::play({
       .adsr{
