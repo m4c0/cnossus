@@ -47,6 +47,7 @@ void reset_casein() {
   using namespace casein;
 
   reset_k(KEY_DOWN);
+  reset_g(GESTURE);
 
   handle(REPAINT, nullptr);
 }

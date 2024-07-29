@@ -117,6 +117,11 @@ void cno::modes::game() {
     cno::modes::mainmenu();
   });
 
+  handle(GESTURE, G_SWIPE_LEFT, [] { move_by(-1, 0); });
+  handle(GESTURE, G_SWIPE_RIGHT, [] { move_by(1, 0); });
+  handle(GESTURE, G_SWIPE_UP, [] { move_by(0, -1); });
+  handle(GESTURE, G_SWIPE_DOWN, [] { move_by(0, 1); });
+
   quack::donald::push_constants({
       .grid_pos = {},
       .grid_size = {9, 9},
