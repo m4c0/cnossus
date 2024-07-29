@@ -113,9 +113,7 @@ static void check_next_enemy() {
 }
 
 void cno::modes::enemy_turn::enter() {
-  using namespace casein;
-  reset_k(KEY_DOWN);
-  handle(REPAINT, nullptr);
+  cno::reset_casein();
 
   light::tick();
 

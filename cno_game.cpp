@@ -90,10 +90,10 @@ static void inv_f(int id) {
   play::redraw();
 }
 
-static void enable_input() {
-  using namespace casein;
+void cno::modes::game() {
+  cno::reset_casein();
 
-  reset_k(KEY_DOWN);
+  using namespace casein;
 
   handle(KEY_DOWN, K_LEFT, [] { move_by(-1, 0); });
   handle(KEY_DOWN, K_RIGHT, [] { move_by(1, 0); });
@@ -117,18 +117,10 @@ static void enable_input() {
     cno::modes::mainmenu();
   });
 
-  handle(REPAINT, nullptr);
-}
-
-void cno::modes::game() {
-  tim::reset();
-
   quack::donald::push_constants({
       .grid_pos = {},
       .grid_size = {9, 9},
   });
-
-  enable_input();
 
   play::redraw();
 }

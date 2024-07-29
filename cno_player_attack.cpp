@@ -94,7 +94,8 @@ void cno::modes::player_turn::attack(qsu::anim *l) {
 
   l->spr = lootroll(l->spr);
 
+  cno::reset_casein();
+
   using namespace casein;
-  reset_k(KEY_DOWN);
-  handle(REPAINT, frame);
+  handle(casein::REPAINT, frame);
 }

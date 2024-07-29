@@ -37,7 +37,8 @@ void cno::modes::player_turn::move(dotz::ivec2 tgt) {
   target = tgt;
 
   using namespace casein;
-  reset_k(KEY_DOWN);
+  reset_casein();
+
   handle(REPAINT, [] {
     play::redraw();
 

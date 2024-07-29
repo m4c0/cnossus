@@ -29,7 +29,7 @@ void cno::modes::gameover() {
       .timeout = 1000,
   });
 
-  reset_k(KEY_DOWN);
+  cno::reset_casein();
   handle(REPAINT, redraw);
 
   save::clear();

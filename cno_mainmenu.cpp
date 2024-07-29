@@ -97,7 +97,7 @@ void cno::modes::mainmenu() {
         g_has_save = false;
       });
 
-  reset_k(KEY_DOWN);
+  cno::reset_casein();
 
   handle(KEY_DOWN, K_UP, sel_up);
   handle(KEY_DOWN, K_DOWN, sel_down);

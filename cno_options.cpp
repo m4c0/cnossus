@@ -77,7 +77,7 @@ static void select() {
 void cno::modes::options() {
   using namespace casein;
 
-  reset_k(KEY_DOWN);
+  reset_casein();
 
   handle(KEY_DOWN, K_ESCAPE, modes::mainmenu);
 

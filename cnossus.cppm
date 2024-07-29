@@ -42,6 +42,14 @@ void enter();
 namespace cno {
 void next_level();
 void load_options();
+
+void reset_casein() {
+  using namespace casein;
+
+  reset_k(KEY_DOWN);
+
+  handle(REPAINT, nullptr);
+}
 } // namespace cno
 
 // TODO: show some progress (show game level?)
