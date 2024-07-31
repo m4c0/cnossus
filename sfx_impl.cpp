@@ -84,9 +84,7 @@ void sfx::enemy_take_hit() {
   });
 }
 
-void sfx::player_take_hit() { return enemy_take_hit(); }
-
-void sfx::attack_miss() {
+void sfx::player_take_hit() {
   plush::play({
       .adsr{
           .sustain_level = 1.0,
@@ -102,6 +100,26 @@ void sfx::attack_miss() {
       },
       .main_volume = sfx::main_volume,
       .wave_fn = plush::sqr::vol_at,
+  });
+}
+
+void sfx::attack_miss() {
+  plush::play({
+      .adsr{
+          .sustain_time = 0.1,
+          .sustain_level = 1.0,
+          .release_time = 0.1,
+      },
+      .freq{
+          .start_freq = 100,
+          .slide = -300,
+      },
+      .vib{
+          .depth = 0.3,
+          .speed = 3.5,
+      },
+      .main_volume = sfx::main_volume,
+      .wave_fn = plush::saw::vol_at,
   });
 }
 
