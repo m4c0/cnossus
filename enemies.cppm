@@ -86,15 +86,19 @@ export dotz::ivec2 next_move(const enemy &e, const dotz::ivec2 p,
   if (e.life <= 0 || e.spr == spr::nil)
     return {};
 
+  auto d = p - e.coord;
+  d.x = d.x > 1 ? 1 : d.x < -1 ? -1 : d.x;
+  d.y = d.y > 1 ? 1 : d.y < -1 ? -1 : d.y;
+
   if (is_aggressive(e.spr)) {
     if (lights_on) {
       return random_move();
     } else {
-      return chase_player(p - e.coord);
+      return chase_player(d);
     }
   } else {
     if (lights_on) {
-      return chase_player(p - e.coord) * -1;
+      return chase_player(d) * -1;
     } else {
       return random_move();
     }
