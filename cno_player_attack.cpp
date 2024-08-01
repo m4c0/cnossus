@@ -45,6 +45,7 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
   timer = {};
   target = e;
 
+  // TODO: rebalance and make it a generic function
   auto player_atk = inv::attack() + player::attack();
   auto enemy_def = life_of(e->spr);
   auto roll = player_atk - enemy_def;
