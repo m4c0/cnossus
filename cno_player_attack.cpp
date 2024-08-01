@@ -1,4 +1,5 @@
 module cnossus;
+import dice;
 import dotz;
 import enemies;
 import inv;
@@ -7,6 +8,7 @@ import lootroll;
 import party;
 import play;
 import player;
+import save;
 import sitime;
 import spr;
 import sfx;
@@ -45,18 +47,11 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
   timer = {};
   target = e;
 
-  // TODO: rebalance and make it a generic function
   auto player_atk = inv::attack() + player::attack();
-  auto enemy_def = life_of(e->spr);
-  auto roll = player_atk - enemy_def;
-  if (roll <= 0) {
-    angle = 0;
-    sfx::attack_miss();
-  } else {
-    sfx::enemy_take_hit();
-    angle = rng::rand(2) ? 1.0f : -1.0f;
-    e->life -= rng::rand(roll);
-  }
+  auto enemy_def = life_of(e->spr) + save::d.level / 2;
+  auto roll = attack_roll(player_atk, enemy_def);
+  e->life -= roll;
+  angle = (roll == 0) ? 0 : rng::rand(2) ? 1.0f : -1.0f;
 
   if (e->life <= 0) {
     // TODO: inline animation, avoid particle

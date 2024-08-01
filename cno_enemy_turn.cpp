@@ -1,4 +1,5 @@
 module cnossus;
+import dice;
 import enemies;
 import inv;
 import light;
@@ -78,18 +79,11 @@ static void check_next_enemy() {
 
       auto enemy_atk = life_of(e.spr);
       auto player_def = inv::defense() + player::defense();
-      auto roll = enemy_atk - player_def;
-      if (roll <= 0) {
-        angle = 0;
-        sfx::attack_miss();
-      } else {
-        angle = rng::rand(2) ? 1 : -1;
-
-        sfx::player_take_hit();
-        player::d.life -= rng::rand(roll);
-        if (player::d.life < 0)
-          player::d.life = 0;
-      }
+      auto roll = attack_roll(enemy_atk, player_def);
+      player::d.life -= roll;
+      angle = (roll == 0) ? 0 : rng::rand(2) ? 1 : -1;
+      if (player::d.life < 0)
+        player::d.life = 0;
 
       timer = {};
       return casein::handle(casein::REPAINT, animate_attack);
