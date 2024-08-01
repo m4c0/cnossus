@@ -1,7 +1,7 @@
 export module spr:defs;
 import :ids;
 
-export auto attack_of(spr::id item) {
+export constexpr auto attack_of(spr::id item) {
   switch (item) {
   case spr::knife:
     return 2;
@@ -22,7 +22,7 @@ export auto attack_of(spr::id item) {
   }
 }
 
-export auto defense_of(spr::id item) {
+export constexpr auto defense_of(spr::id item) {
   switch (item) {
   case spr::greave:
   case spr::armguard:
@@ -37,8 +37,10 @@ export auto defense_of(spr::id item) {
   }
 }
 
-export auto life_of(spr::id id) {
+export constexpr auto life_of(spr::id id) {
   switch (id) {
+  case spr::minotaur:
+    return 10;
   case spr::scorpion:
   case spr::spider:
     return 4;
@@ -64,7 +66,7 @@ export auto life_of(spr::id id) {
   }
 }
 
-export auto poison_of(spr::id e) {
+export constexpr auto poison_of(spr::id e) {
   switch (e) {
   case spr::snake:
   case spr::spider:
@@ -79,7 +81,7 @@ export auto poison_of(spr::id e) {
   }
 }
 
-export auto food_of(spr::id id) {
+export constexpr auto food_of(spr::id id) {
   switch (id) {
   case spr::driedfruit:
     return 3;
@@ -104,7 +106,7 @@ export auto light_of(spr::id id) {
   }
 }
 
-export auto is_aggressive(spr::id id) {
+export constexpr auto is_aggressive(spr::id id) {
   switch (id) {
   case spr::chimera:
   case spr::cerberus:

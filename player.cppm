@@ -7,18 +7,13 @@ import spr;
 import qsu;
 
 namespace player {
-// TODO: balance attack/defense
 // TODO: hunger damage, to force food consumption
 export extern struct data {
-  static constexpr const auto base_attack = 10;
-  static constexpr const auto base_defense = 10;
-  static constexpr const auto base_life = 10;
-
-  int life{base_life};
-  int max_life{base_life};
-  int poison{};
-  int attack{base_attack};
-  int defense{base_defense};
+  int life = life_of(spr::minotaur);
+  int max_life = life_of(spr::minotaur);
+  int poison = 0;
+  int attack = life_of(spr::minotaur);
+  int defense = life_of(spr::minotaur);
 
   // TODO: use qsu::spr
   dotz::ivec2 coord{};
