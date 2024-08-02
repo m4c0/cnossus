@@ -7,6 +7,7 @@ import loot;
 import map;
 import party;
 import player;
+import silog;
 import qsu;
 import quack;
 import spr;
@@ -30,12 +31,12 @@ static void draw() {
   inv::draw_ui();
 
   if (fade < 1.0) {
-    qsu::blit({
+    qsu::blit(qsu::sprite{
         .id = spr::cursor,
         .pos{-10, -10},
         .size{20, 20},
-        .colour{0, 0, 0, 1},
-        .alpha = fade,
+        .colour{0.f, 0.f, 0.f, 1.f - fade},
+        .alpha = 1,
         .rotation = 0,
     });
   }

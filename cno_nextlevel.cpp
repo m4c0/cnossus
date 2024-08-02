@@ -13,7 +13,6 @@ static void fade_in() {
 
   float f = timer.millis() / 300.0f;
   play::redraw(f);
-  // TODO: fade
 }
 
 static void change_level() {
@@ -28,6 +27,7 @@ static void change_level() {
 }
 static void fade_out() {
   if (timer.millis() > 300) {
+    play::redraw(0.f);
     cno::next_level();
     sfx::next_level(0.8);
     timer = {};
@@ -36,8 +36,7 @@ static void fade_out() {
   }
 
   float f = timer.millis() / 300.0f;
-  play::redraw(f);
-  // TODO: fade
+  play::redraw(1.0 - f);
 }
 
 void cno::modes::nextlevel() {
