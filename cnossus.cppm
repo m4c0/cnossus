@@ -3,6 +3,7 @@
 #pragma leco add_impl cno_game
 #pragma leco add_impl cno_gameover
 #pragma leco add_impl cno_level
+#pragma leco add_impl cno_nextlevel
 #pragma leco add_impl cno_mainmenu
 #pragma leco add_impl cno_options
 #pragma leco add_impl cno_player_attack
@@ -23,6 +24,7 @@ class enemy;
 namespace cno::modes {
 void game();
 void gameover();
+void nextlevel();
 void mainmenu();
 void options();
 void timeline();

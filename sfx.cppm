@@ -10,7 +10,7 @@ export void menu_select();
 
 export void fail();
 
-export void next_level();
+export void next_level(float x);
 
 export void attack_miss();
 export void enemy_take_hit();

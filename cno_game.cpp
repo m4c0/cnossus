@@ -41,11 +41,7 @@ static void take_loot(auto *l) {
 static void move_by(int dx, int dy) {
   auto p = player::coord() + dotz::ivec2{dx, dy};
   if (map::at(p.x, p.y) == spr::exit) {
-    // TODO: show player the bonus they got after a new level
-    // TODO: animate via fade to black or similar
-    sfx::next_level();
-    cno::next_level();
-    play::redraw();
+    cno::modes::nextlevel();
     return;
   }
   if (!map::can_walk(p.x, p.y)) {

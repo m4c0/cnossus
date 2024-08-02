@@ -63,7 +63,24 @@ void sfx::fail() {
   });
 }
 
-void sfx::next_level() { menu_select(); }
+void sfx::next_level(float x) {
+  plush::play({
+      .adsr{
+          .sustain_level = 1.0,
+          .release_time = 0.3,
+      },
+      .freq{
+          .start_freq = 100,
+          .slide = -10,
+      },
+      .vib{
+          .depth = 0.1,
+          .speed = 1.1,
+      },
+      .main_volume = x * sfx::main_volume,
+      .wave_fn = plush::saw::vol_at,
+  });
+}
 
 void sfx::enemy_take_hit() {
   plush::play({
