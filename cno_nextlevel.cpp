@@ -10,6 +10,9 @@ static void fade_in() {
     cno::modes::game();
     return;
   }
+
+  float f = timer.millis() / 300.0f;
+  play::redraw(f);
   // TODO: fade
 }
 
@@ -32,7 +35,8 @@ static void fade_out() {
     return;
   }
 
-  play::redraw();
+  float f = timer.millis() / 300.0f;
+  play::redraw(f);
   // TODO: fade
 }
 
