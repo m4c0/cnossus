@@ -16,6 +16,11 @@ namespace play {
 extern dotz::vec2 pac;
 extern float fade;
 static void draw() {
+  quack::donald::push_constants({
+      .grid_pos = {},
+      .grid_size = {9, 9},
+  });
+
   auto radius = light::d.charge > 0 ? 2 : 1;
   {
     qsu::guard::position ppo{-(pac + 0.5f)};
