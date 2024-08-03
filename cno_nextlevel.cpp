@@ -63,7 +63,7 @@ static void fade_inter_out() {
   quack::donald::data([](auto all) { return qsu::draw(all, draw_inter); });
 }
 static void show_inter() {
-  if (timer.millis() > 300) {
+  if (timer.millis() > 500) {
     timer = {};
     casein::handle(casein::REPAINT, fade_inter_out);
     return;
