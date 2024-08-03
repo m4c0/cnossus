@@ -42,12 +42,13 @@ static void fade_in() {
 }
 
 static void draw_level() {
+  float x = level.size() / 2.0f;
   quack::donald::push_constants({
-      .grid_pos = {},
+      .grid_pos = {x, 0.5},
       .grid_size = {20},
   });
 
-  qsu::draw_str(level, -4, 0);
+  qsu::draw_str(level, 0, 0);
 }
 static void change_level() {
   if (timer.millis() > 300) {

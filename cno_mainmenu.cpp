@@ -61,6 +61,7 @@ static void select() {
 
   switch (g_sel) {
   case o_new_game:
+    // TODO: animate to "next level"
     save::reset();
     cno::next_level();
     cno::modes::game();
