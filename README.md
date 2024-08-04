@@ -21,20 +21,21 @@ found.
 
 ## Credits
 
-This game was heavily inspired by a ZX Spectrum game of the same name developed
-by Felix Plesoianu and distributed under MIT license. Source is available in
-[their repo][original].
+The source code in this repo was created from scratch. It is copyrighted by 
+Eduardo Costa and distributed under the MIT license. 
+
+The game concept was heavily inspired by a ZX Spectrum game of the same name
+developed by Felix Plesoianu and distributed under MIT license. Source is
+available in [their repo][original].
 
 Monsters and items tiles are an underscaled copy of images created by David
 Gervais and distributed under Creative Commons license.
 
-This version was created from scratch, based on Felix and Davids's work and
-it is copyrighted by Eduardo Costa and distributed under the MIT license.
-
 Walls, floors and furniture were inspired by David's work and font was inspired
 by Celtic chars.
 
-Thanks for Felix and David for the great work.
+Thanks for Felix and David for the great work and for distributing it under
+permissive licenses.
 
 [original]: https://github.com/notimetoplay/spectral-dungeons
 
