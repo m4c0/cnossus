@@ -6,7 +6,6 @@ import jute;
 import no;
 import spr;
 import quack;
-import voo;
 
 namespace qsu {
 export struct sprite {
@@ -94,9 +93,7 @@ export auto draw(quack::instance *i, auto &&fn) {
   return count;
 }
 
-export quack::donald::atlas_t atlas(auto pd) {
-  return voo::load_sires_image("atlas.png", pd);
-}
+export constexpr const jute::view atlas = "atlas.png";
 
 } // namespace qsu
 
