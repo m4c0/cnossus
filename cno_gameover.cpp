@@ -14,7 +14,7 @@ static void redraw() {
   if (!party::is_animating()) {
     using namespace casein;
     handle(KEY_DOWN, K_ESCAPE, cno::modes::mainmenu);
-    handle(REPAINT, nullptr);
+    handle(REPAINT, {});
   }
 }
 

@@ -25,7 +25,7 @@ static void end_enemy_animation(dotz::ivec2 p) {
   e.anim_coord = e.coord = p;
   play::redraw();
 
-  casein::handle(casein::REPAINT, nullptr);
+  casein::handle(casein::REPAINT, {});
   current_enemy++;
   check_next_enemy();
 }

@@ -51,7 +51,7 @@ void reset_casein() {
   reset_k(KEY_DOWN);
   reset_g(GESTURE);
 
-  handle(REPAINT, nullptr);
+  handle(REPAINT, {});
 }
 } // namespace cno
 
