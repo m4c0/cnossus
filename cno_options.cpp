@@ -67,8 +67,10 @@ static void select() {
     redraw();
     break;
   case o_back:
+#ifndef LECO_TARGET_WASM
     sicfg::boolean("muted", sfx::main_volume == 0);
     sicfg::boolean("fullscreen", fullscreen);
+#endif
     cno::modes::mainmenu();
     break;
   }
@@ -91,6 +93,8 @@ void cno::modes::options() {
 }
 
 void cno::load_options() {
+#ifndef LECO_TARGET_WASM
   sfx::main_volume = sicfg::boolean("muted") ? 0 : sfx::max_volume;
   casein::fullscreen = sicfg::boolean("fullscreen");
+#endif
 }

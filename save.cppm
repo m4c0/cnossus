@@ -9,6 +9,7 @@ import map;
 import player;
 import silog;
 import spr;
+import missingno;
 
 export namespace save {
 struct data {
@@ -18,6 +19,9 @@ struct data {
 
 [[nodiscard]] auto read() {
   d = {};
+#ifdef LECO_TARGET_WASM
+  return mno::req<void>::failed("eh");
+#else
   return buoy::open_for_reading("cnossus", "save.dat")
       .fpeek(frk::assert("CNO"))
       .fpeek(frk::take("DATA", &d))
@@ -30,9 +34,11 @@ struct data {
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game loaded"); })
       .trace("reading save data");
+#endif
 }
 
 void write() {
+#ifndef LECO_TARGET_WASM
   buoy::open_for_writing("cnossus", "save.dat")
       .fpeek(frk::signature("CNO"))
       .fpeek(frk::chunk("DATA", &d))
@@ -46,16 +52,19 @@ void write() {
       .map([] { silog::log(silog::info, "Game saved"); })
       .trace("writing save data")
       .log_error();
+#endif
 }
 
 void clear() {
   d = {};
+#ifndef LECO_TARGET_WASM
   buoy::open_for_writing("cnossus", "save.dat")
       .fpeek(frk::signature("CNO"))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Save game cleared"); })
       .trace("clearing save data")
       .log_error();
+#endif
 }
 
 void reset() {
