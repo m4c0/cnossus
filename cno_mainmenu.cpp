@@ -34,7 +34,7 @@ static void draw() {
 }
 
 static void redraw() {
-  quack::donald::data([](auto all) { return qsu::draw(all, ::draw); });
+  quack::donald::data([](auto & all) { return qsu::draw(all, ::draw); });
 }
 
 static void sel_up() {
