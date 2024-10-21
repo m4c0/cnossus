@@ -1,4 +1,6 @@
+#ifndef LECO_TARGET_IOS
 #pragma leco app
+#endif
 export module mapview;
 
 import casein;
