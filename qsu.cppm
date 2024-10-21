@@ -18,7 +18,6 @@ export struct sprite {
 };
 
 quack::instance *current_instance{};
-unsigned count{};
 dotz::vec4 multiplier{1, 1, 1, 1};
 dotz::vec4 g_colour{};
 dotz::vec2 pos{};
@@ -37,7 +36,6 @@ export void blit(const sprite &s) {
       .multiplier{1.f, 1.f, 1.f, s.alpha},
       .rotation{s.rotation, 0.5, 0.5},
   };
-  count++;
 }
 export void blit(spr::id i, float x, float y, float rot) {
   blit({
@@ -86,11 +84,10 @@ export void draw_str(jute::view str, float x, float y, float a = 1.0) {
   }
 }
 
-export auto draw(quack::instance *i, auto &&fn) {
-  count = 0;
+export void draw(quack::instance *& i, auto &&fn) {
   current_instance = i;
   fn();
-  return count;
+  i = current_instance;
 }
 
 export constexpr const jute::view atlas = "atlas.png";
