@@ -12,14 +12,11 @@ export module cnossus;
 
 import casein;
 import dotz;
+import enemies;
 import map;
 import rng;
 import quack;
 import qsu;
-
-namespace enemies {
-class enemy;
-}
 
 namespace cno::modes {
 void game();
