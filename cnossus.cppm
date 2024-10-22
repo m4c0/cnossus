@@ -1,4 +1,6 @@
 #pragma leco app
+#pragma leco app_id "br.com.tpk.Cnossus"
+#pragma leco app_version "2.0.0"
 #pragma leco add_impl cno_enemy_turn
 #pragma leco add_impl cno_game
 #pragma leco add_impl cno_gameover
