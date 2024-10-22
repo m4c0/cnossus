@@ -6,11 +6,16 @@
 #pragma leco add_impl cno_gameover
 #pragma leco add_impl cno_level
 #pragma leco add_impl cno_nextlevel
-#pragma leco add_impl cno_mainmenu
-#pragma leco add_impl cno_options
 #pragma leco add_impl cno_player_attack
 #pragma leco add_impl cno_player_turn
 export module cnossus;
+
+#ifdef LECO_TARGET_IOS
+#pragma leco add_impl cno_mainmenu_ios
+#else
+#pragma leco add_impl cno_mainmenu
+#pragma leco add_impl cno_options
+#endif
 
 import casein;
 import dotz;
