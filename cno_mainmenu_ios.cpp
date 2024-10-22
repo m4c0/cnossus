@@ -34,16 +34,18 @@ static auto mouse_sel() {
 }
 
 static void select() {
-  sfx::menu_select();
-
   switch (mouse_sel()) {
     case o_new_game:
+      sfx::menu_select();
       // TODO: animate to "next level"
       save::reset();
       cno::next_level();
       cno::modes::game();
       break;
-    case o_continue: cno::modes::game(); break;
+    case o_continue: 
+      sfx::menu_select();
+      cno::modes::game();
+      break;
     case o_none: break;
   }
 }
