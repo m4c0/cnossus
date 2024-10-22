@@ -27,8 +27,8 @@ void draw_consumables_ui() {
     qsu::blit(spr::bag, x, y, 0);
 
   for (auto i = 0; i < 3; i++) {
-    qsu::blit(d.lights[i], x + i + 1, y, 0);
-    qsu::blit(d.food[i], x + i + 4, y, 0);
+    qsu::blit(d.food[i], x + i + 1, y, 0);
+    qsu::blit(d.lights[i], x + i + 4, y, 0);
   }
 }
 void draw_armory_ui() {

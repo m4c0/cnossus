@@ -107,12 +107,12 @@ void cno::modes::game() {
   handle(KEY_DOWN, K_W, [] { move_by(0, -1); });
   handle(KEY_DOWN, K_S, [] { move_by(0, 1); });
 
-  handle(KEY_DOWN, K_1, [] { inv_l(0); });
-  handle(KEY_DOWN, K_2, [] { inv_l(1); });
-  handle(KEY_DOWN, K_3, [] { inv_l(2); });
-  handle(KEY_DOWN, K_4, [] { inv_f(0); });
-  handle(KEY_DOWN, K_5, [] { inv_f(1); });
-  handle(KEY_DOWN, K_6, [] { inv_f(2); });
+  handle(KEY_DOWN, K_1, [] { inv_f(0); });
+  handle(KEY_DOWN, K_2, [] { inv_f(1); });
+  handle(KEY_DOWN, K_3, [] { inv_f(2); });
+  handle(KEY_DOWN, K_4, [] { inv_l(0); });
+  handle(KEY_DOWN, K_5, [] { inv_l(1); });
+  handle(KEY_DOWN, K_6, [] { inv_l(2); });
 
   handle(KEY_DOWN, K_ESCAPE, exit);
 
