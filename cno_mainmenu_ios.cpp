@@ -25,7 +25,13 @@ static void redraw() {
   quack::donald::data([](auto & all) { return qsu::draw(all, ::draw); });
 }
 
-static auto mouse_sel() { return o_none; }
+static auto mouse_sel() {
+  auto [x, y] = quack::donald::mouse_pos();
+  if (x < 4.5 || x > 12.5) return o_none;
+  if (y > -0.5 && y < 0.5) return o_new_game;
+  if (g_has_save && y > 2.5 && y < 3.5) return o_continue;
+  return o_none; 
+}
 
 static void select() {
   sfx::menu_select();
@@ -50,6 +56,7 @@ void cno::modes::mainmenu() {
   cno::reset_casein();
 
   handle(GESTURE, G_TAP_1, select);
+  handle(MOUSE_DOWN, select);
 
   redraw();
 
