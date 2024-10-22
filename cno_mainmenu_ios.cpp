@@ -14,11 +14,11 @@ namespace {
 static bool g_has_save {};
 
 static void draw() {
-  constexpr const auto x = 1.5;
+  constexpr const auto x = 4.5;
 
   // MENU OPTIONS
-  qsu::draw_str("NEW GAME", x, 0);
-  qsu::draw_str("CONTINUE", x, 1, g_has_save ? 1.0 : 0.4);
+  qsu::draw_str("NEW GAME", x, -0.5);
+  qsu::draw_str("CONTINUE", x, 2.5, g_has_save ? 1.0 : 0.4);
 }
 
 static void redraw() {
@@ -38,6 +38,7 @@ static void select() {
       cno::modes::game();
       break;
     case o_continue: cno::modes::game(); break;
+    case o_none: break;
   }
 }
 
@@ -58,3 +59,5 @@ void cno::modes::mainmenu() {
       .grid_size = { gs },
   });
 }
+
+void cno::load_options() {}
