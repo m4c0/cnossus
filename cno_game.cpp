@@ -87,6 +87,11 @@ static void inv_f(int id) {
   play::redraw();
 }
 
+static void exit() {
+  save::write();
+  cno::modes::mainmenu();
+}
+
 void cno::modes::game() {
   cno::reset_casein();
 
@@ -109,15 +114,13 @@ void cno::modes::game() {
   handle(KEY_DOWN, K_5, [] { inv_f(1); });
   handle(KEY_DOWN, K_6, [] { inv_f(2); });
 
-  handle(KEY_DOWN, K_ESCAPE, [] {
-    save::write();
-    cno::modes::mainmenu();
-  });
+  handle(KEY_DOWN, K_ESCAPE, exit);
 
   handle(GESTURE, G_SWIPE_LEFT, [] { move_by(-1, 0); });
   handle(GESTURE, G_SWIPE_RIGHT, [] { move_by(1, 0); });
   handle(GESTURE, G_SWIPE_UP, [] { move_by(0, -1); });
   handle(GESTURE, G_SWIPE_DOWN, [] { move_by(0, 1); });
+  handle(GESTURE, G_SHAKE, exit);
 
   play::redraw();
 }
