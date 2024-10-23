@@ -81,22 +81,21 @@ static void select() {
 void cno::modes::mainmenu() {
   using namespace casein;
 
-  save::read()
-      .map([] {
-        // Let's avoid players from losing their saves by mistake
-        if (g_sel == o_new_game)
-          g_sel = o_continue;
+  // TODO: lock menu until we know the state of the game
+  save::read([] {
+    // Let's avoid players from losing their saves by mistake
+    if (g_sel == o_new_game)
+      g_sel = o_continue;
 
-        g_has_save = true;
-      })
-      .log_error([] {
-        // Consider no save if reading fail. Might be the case if save data is
-        // corrupted after game started (also the way "game over" works :)
-        if (g_sel == o_continue)
-          g_sel = o_new_game;
+    g_has_save = true;
+  }, [] {
+    // Consider no save if reading fail. Might be the case if save data is
+    // corrupted after game started (also the way "game over" works :)
+    if (g_sel == o_continue)
+      g_sel = o_new_game;
 
-        g_has_save = false;
-      });
+    g_has_save = false;
+  });
 
   cno::reset_casein();
 

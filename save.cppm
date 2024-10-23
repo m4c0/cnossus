@@ -2,14 +2,20 @@ export module save;
 import buoy;
 import enemies;
 import fork;
+import hai;
 import inv;
+import jute;
 import light;
 import loot;
 import map;
+import missingno;
 import player;
 import silog;
 import spr;
-import missingno;
+import traits;
+import yoyo;
+
+using namespace traits::ints;
 
 export namespace save {
 struct data {
@@ -17,12 +23,15 @@ struct data {
   unsigned level{};
 } d;
 
-[[nodiscard]] auto read() {
+void read(hai::fn<void> ok, hai::fn<void> err) {
   d = {};
-#ifdef LECO_TARGET_WASM
-  return mno::req<void>::failed("eh");
-#else
-  return buoy::open_for_reading("cnossus", "save.dat")
+  buoy::on_failure = [err](const char * msg) mutable {
+    silog::log(silog::warning, "Error loading save data: %s", msg);
+    err();
+  };
+  buoy::read("cnossus", "save.dat", [ok, err](auto & data) mutable {
+    auto ptr = reinterpret_cast<const uint8_t *>(data.begin());
+    mno::req { yoyo::memreader { ptr, data.size() } }
       .fpeek(frk::assert("CNO"))
       .fpeek(frk::take("DATA", &d))
       .fpeek(frk::take("PLAY", &player::d))
@@ -33,13 +42,17 @@ struct data {
       .fpeek(frk::take("MAPA", &map::d))
       .map(frk::end())
       .map([] { silog::log(silog::info, "Game loaded"); })
-      .trace("reading save data");
-#endif
+      .map(ok)
+      .take([&](auto msg) {
+        silog::log(silog::warning, "Error loading save data: %.*s", static_cast<unsigned>(msg.size()), msg.data());
+        err();
+      });
+  });
 }
 
 void write() {
-#ifndef LECO_TARGET_WASM
-  buoy::open_for_writing("cnossus", "save.dat")
+  hai::array<uint8_t> buffer { 20000 };
+  mno::req { yoyo::memwriter { buffer } }
       .fpeek(frk::signature("CNO"))
       .fpeek(frk::chunk("DATA", &d))
       .fpeek(frk::chunk("PLAY", &player::d))
@@ -48,23 +61,29 @@ void write() {
       .fpeek(frk::chunk("LGHT", &light::d))
       .fpeek(frk::chunk("PACK", &inv::d))
       .fpeek(frk::chunk("MAPA", &map::d))
-      .map(frk::end())
-      .map([] { silog::log(silog::info, "Game saved"); })
+      .map([&](auto & w) {
+        auto buf = reinterpret_cast<const char *>(buffer.begin());
+        jute::heap data { jute::view { buf, w.raw_size() } };
+        buoy::write("cnossus", "save.dat", data); 
+        silog::log(silog::info, "Game saved");
+      })
       .trace("writing save data")
       .log_error();
-#endif
 }
 
 void clear() {
   d = {};
-#ifndef LECO_TARGET_WASM
-  buoy::open_for_writing("cnossus", "save.dat")
+  hai::array<uint8_t> buffer { 1024 };
+  mno::req { yoyo::memwriter { buffer } }
       .fpeek(frk::signature("CNO"))
-      .map(frk::end())
-      .map([] { silog::log(silog::info, "Save game cleared"); })
-      .trace("clearing save data")
+      .map([&](auto & w) {
+        auto buf = reinterpret_cast<const char *>(buffer.begin());
+        jute::heap data { jute::view { buf, w.raw_size() } };
+        buoy::write("cnossus", "save.dat", data); 
+        silog::log(silog::info, "Game cleared");
+      })
+      .trace("writing save data")
       .log_error();
-#endif
 }
 
 void reset() {
