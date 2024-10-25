@@ -8,17 +8,12 @@ import play;
 import qsu;
 import quack;
 import save;
-import vee;
-import voo;
 
-void shot(vee::physical_device pd, vee::extent ext) {
-  voo::offscreen::colour_buffer m_colour { pd, ext };
-  voo::offscreen::depth_buffer m_depth { pd, ext };
-  voo::offscreen::host_buffer m_host { pd, ext };
-}
+static void shots() { quack::donald::offscreen(800, 600); }
 
 struct init {
   init() {
+    using namespace casein;
     using namespace quack::donald;
 
     app_name("cnossus");
@@ -30,5 +25,7 @@ struct init {
     save::read([] {}, [] {});
 
     play::redraw();
+
+    handle(KEY_DOWN, K_SPACE, shots);
   }
 } i;
