@@ -22,7 +22,6 @@ import dotz;
 import enemies;
 import map;
 import rng;
-import quack;
 import qsu;
 
 namespace cno::modes {
@@ -70,14 +69,7 @@ struct init {
     window_title = "Escape from Cnossus";
     window_size = {800, 800};
 
-    using namespace quack::donald;
-
-    app_name("cnossus");
-    max_quads(map::width * map::height * 2 + 1024);
-
-    clear_colour({0, 0, 0, 1});
-    atlas(qsu::atlas);
-
+    qsu::init();
     cno::modes::mainmenu();
   }
 } i;

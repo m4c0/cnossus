@@ -3,6 +3,7 @@ import jute;
 import save;
 import sfx;
 import spr;
+import quack;
 
 namespace {
 enum options {

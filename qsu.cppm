@@ -26,6 +26,15 @@ dotz::vec4 multiplier{1, 1, 1, 1};
 dotz::vec4 g_colour{};
 dotz::vec2 pos{};
 
+export void init() {
+  using namespace quack::donald;
+
+  app_name("cnossus");
+  atlas("atlas.png");
+  clear_colour({ 0, 0, 0, 1 });
+  max_quads(10240);
+}
+
 export void grid_size(grid g) {
   quack::donald::push_constants({
     .grid_pos = g.grid_pos,
@@ -100,8 +109,6 @@ export void draw(quack::instance *& i, auto &&fn) {
   fn();
   i = current_instance;
 }
-
-export constexpr const jute::view atlas = "atlas.png";
 
 } // namespace qsu
 
