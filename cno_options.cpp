@@ -3,7 +3,6 @@ import dotz;
 import sfx;
 import sicfg;
 import spr;
-import quack;
 
 namespace {
 enum options {

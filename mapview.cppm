@@ -10,7 +10,6 @@ import loot;
 import map;
 import player;
 import qsu;
-import quack;
 
 static dotz::vec2 cam{};
 static int rad{1000};
@@ -73,8 +72,6 @@ struct init {
     handle(KEY_DOWN, K_RIGHT, [] { move_light(1, 0); });
     handle(KEY_DOWN, K_UP, [] { move_light(0, -1); });
     handle(KEY_DOWN, K_DOWN, [] { move_light(0, 1); });
-
-    using namespace quack::donald;
 
     dotz::vec2 grid_size{map::width, map::height};
     qsu::grid_size({

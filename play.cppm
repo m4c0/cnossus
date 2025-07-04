@@ -9,7 +9,6 @@ import party;
 import player;
 import silog;
 import qsu;
-import quack;
 import spr;
 
 namespace play {

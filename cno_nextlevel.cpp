@@ -2,7 +2,6 @@ module cnossus;
 import hai;
 import jute;
 import play;
-import quack;
 import qsu;
 import save;
 import sfx;
