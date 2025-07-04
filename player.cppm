@@ -1,25 +1,25 @@
 export module player;
+import anim;
 import dotz;
 import map;
 import party;
 import rng;
 import spr;
-import qsu;
 import ui;
 
 namespace player {
 // TODO: hunger damage, to force food consumption
-export extern struct data {
+export extern struct data : anim::t {
   int life = life_of(spr::minotaur);
   int max_life = life_of(spr::minotaur);
   int poison = 0;
   int attack = life_of(spr::minotaur);
   int defense = life_of(spr::minotaur);
 
-  // TODO: use qsu::spr
-  dotz::ivec2 coord{};
-  dotz::vec2 anim_coord{};
-  float rotation{};
+  data() : anim::t {
+    .spr = spr::minotaur,
+    .visited = true,
+  } {}
 } d;
 
 export const auto coord() { return d.coord; }
@@ -55,11 +55,7 @@ export void draw() {
   if (d.life == 0)
     return;
 
-  qsu::blit({
-    .id = spr::minotaur, 
-    .pos = d.anim_coord,
-    .rotation = d.rotation,
-  });
+  anim::blit(d, false);
 }
 export void draw_ui() {
   constexpr const auto x = -4.5f;

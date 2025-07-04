@@ -21,7 +21,7 @@ static void draw() {
       .grid_size = {9, 9},
   });
 
-  anim::fog_center = pac + 0.5f;
+  anim::fog_center = pac;
   anim::fog_radius = light::d.charge > 0 ? 2 : 1;
   {
     qsu::guard::position ppo{-(pac + 0.5f)};
