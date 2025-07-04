@@ -15,6 +15,7 @@ static dotz::vec2 cam{};
 static int rad{1000};
 
 static void draw() {
+  anim::fog_realign = false;
   anim::fog_center = cam;
   anim::fog_radius = rad;
   map::draw();

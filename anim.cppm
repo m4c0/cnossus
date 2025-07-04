@@ -15,6 +15,7 @@ namespace anim {
 
   export dotz::vec2 fog_center;
   export int fog_radius;
+  export bool fog_realign = true;
 
   static void blit(t &e, float min) {
     auto ad = dotz::abs(e.anim_coord - fog_center);
@@ -38,11 +39,14 @@ namespace anim {
     if (!e.visited)
       min = 0.0;
 
+    auto pos = fog_realign
+      ? e.anim_coord - fog_center - 0.5f
+      : e.anim_coord;
     auto aa = dotz::mix(min, max, a);
     if (aa > 0.0) {
       qsu::blit({
         .id = e.spr,
-        .pos = e.anim_coord,
+        .pos = pos,
         .alpha = e.alpha * aa,
         .rotation = e.rotation,
       });

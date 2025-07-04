@@ -71,13 +71,3 @@ export void draw(auto && fn) {
 }
 } // namespace qsu
 
-namespace qsu::guard {
-export class position : no::no {
-  dotz::vec2 m_prev = qsu::pos;
-
-public:
-  position(dotz::vec2 c) { qsu::pos = c; }
-  ~position() { qsu::pos = m_prev; }
-};
-} // namespace qsu::guard
-

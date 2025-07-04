@@ -24,7 +24,6 @@ static void draw() {
   anim::fog_center = pac;
   anim::fog_radius = light::d.charge > 0 ? 2 : 1;
   {
-    qsu::guard::position ppo{-(pac + 0.5f)};
     map::draw();
     loot::draw();
     enemies::draw();
