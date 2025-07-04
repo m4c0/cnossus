@@ -7,14 +7,11 @@ import map;
 import play;
 import qsu;
 import save;
-import quack;
-
-static void shots() { quack::donald::offscreen(800, 600); }
 
 struct init {
   init() {
     using namespace casein;
-    handle(KEY_DOWN, K_SPACE, shots);
+    handle(KEY_DOWN, K_SPACE, qsu::screenshot);
 
     qsu::init();
     save::read([] {}, [] {});

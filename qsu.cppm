@@ -46,6 +46,8 @@ export dotz::vec2 mouse_pos() {
   return quack::donald::mouse_pos();
 }
 
+export void screenshot() { quack::donald::offscreen(800, 600); }
+
 export void blit(const sprite &s) {
   if (s.id == spr::nil)
     return;
