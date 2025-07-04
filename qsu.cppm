@@ -110,10 +110,12 @@ export void draw_str(jute::view str, float x, float y, float a = 1.0) {
   }
 }
 
-export void draw(quack::instance *& i, auto &&fn) {
-  current_instance = i;
-  fn();
-  i = current_instance;
+export void draw(auto && fn) {
+  quack::donald::data([=](quack::instance *& all) {
+    current_instance = all;
+    fn();
+    all = current_instance;
+  });
 }
 
 } // namespace qsu

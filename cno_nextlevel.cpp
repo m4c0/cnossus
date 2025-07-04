@@ -60,7 +60,7 @@ static void fade_inter_out() {
   }
 
   inter_fade = 1.0f - (timer.millis() / 300.0f);
-  quack::donald::data([](auto & all) { return qsu::draw(all, draw_inter); });
+  qsu::draw(draw_inter);
 }
 static void show_inter() {
   if (timer.millis() > 500) {
@@ -70,7 +70,7 @@ static void show_inter() {
   }
 
   inter_fade = 1;
-  quack::donald::data([](auto & all) { return qsu::draw(all, draw_inter); });
+  qsu::draw(draw_inter);
 }
 static void fade_inter_in() {
   if (timer.millis() > 300) {
@@ -81,7 +81,7 @@ static void fade_inter_in() {
   }
 
   inter_fade = timer.millis() / 300.0f;
-  quack::donald::data([](auto & all) { return qsu::draw(all, draw_inter); });
+  qsu::draw(draw_inter);
 }
 static void fade_out() {
   if (timer.millis() > 300) {

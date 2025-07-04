@@ -21,11 +21,10 @@ static void draw() {
   enemies::draw(cam, rad);
   player::draw();
 }
-static void data(quack::instance *& all) { qsu::draw(all, draw); }
 
 static unsigned int level = 1;
 static void redraw() {
-  quack::donald::data(::data);
+  qsu::draw(draw);
 }
 static void regen() {
   map::gen(level);

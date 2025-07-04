@@ -21,9 +21,7 @@ static void draw() {
   qsu::draw_str("CONTINUE", x, 2.5, g_has_save ? 1.0 : 0.4);
 }
 
-static void redraw() {
-  quack::donald::data([](auto & all) { return qsu::draw(all, ::draw); });
-}
+static void redraw() { qsu::draw(draw); }
 
 static auto mouse_sel() {
   auto [x, y] = qsu::mouse_pos();

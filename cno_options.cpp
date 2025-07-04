@@ -34,9 +34,7 @@ static void draw() {
 
   qsu::blit(spr::minotaur, 0, g_sel, 0);
 }
-static void redraw() {
-  quack::donald::data([](auto & all) { return qsu::draw(all, ::draw); });
-}
+static void redraw() { qsu::draw(draw); }
 
 static void sel_up() {
   g_sel = static_cast<options>(g_sel - 1);
