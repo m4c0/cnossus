@@ -121,20 +121,6 @@ export void draw(auto && fn) {
 } // namespace qsu
 
 namespace qsu::guard {
-export class colour : no::no {
-  dotz::vec4 m_prev = g_colour;
-
-public:
-  colour(dotz::vec4 c) { g_colour = c; }
-  ~colour() { g_colour = m_prev; }
-};
-export class multiplier : no::no {
-  dotz::vec4 m_prev = qsu::multiplier;
-
-public:
-  multiplier(dotz::vec4 c) { qsu::multiplier = c; }
-  ~multiplier() { qsu::multiplier = m_prev; }
-};
 export class position : no::no {
   dotz::vec2 m_prev = qsu::pos;
 
@@ -177,8 +163,12 @@ export void blit(anim &e, dotz::vec2 center, int rad, float min = 0.0) {
 
   auto aa = dotz::mix(min, max, a);
   if (aa > 0.0) {
-    qsu::guard::multiplier dim{{1.0f, 1.0f, 1.0f, aa}};
-    qsu::blit(e.spr, e.anim_coord, e.rotation);
+    blit({
+      .id = e.spr,
+      .pos = e.anim_coord,
+      .alpha = aa,
+      .rotation = e.rotation,
+    });
   }
 }
 } // namespace qsu

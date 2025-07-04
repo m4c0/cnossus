@@ -48,16 +48,12 @@ export void init(int level) {
   d.anim_coord = d.coord;
 }
 
-constexpr const dotz::vec4 poisoned{0, 1, 0, 1};
-constexpr const dotz::vec4 normal{1, 1, 1, 1};
-
 export auto anim_coord() { return d.anim_coord; }
 
 export void draw() {
   if (d.life == 0)
     return;
 
-  qsu::guard::multiplier m{d.poison > 0 ? poisoned : normal};
   qsu::blit(spr::minotaur, d.anim_coord, d.rotation);
 }
 export void draw_ui() {
