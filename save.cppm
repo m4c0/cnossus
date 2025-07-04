@@ -4,6 +4,7 @@ import enemies;
 import fork;
 import hai;
 import inv;
+import jojo;
 import jute;
 import light;
 import loot;
@@ -17,8 +18,6 @@ import yoyo;
 
 using namespace traits::ints;
 
-// TODO: THIS IS BROKEN, PLZ FIX ME
-
 export namespace save {
 struct data {
   unsigned version{1};
@@ -27,11 +26,10 @@ struct data {
 
 void read(hai::fn<void> ok, hai::fn<void> err) {
   d = {};
-  buoy::on_failure = [err](const char * msg) mutable {
-    silog::log(silog::warning, "Error loading save data: %s", msg);
-    err();
-  };
-  buoy::read("cnossus", "save.dat", [ok, err](auto & data) mutable {
+
+  auto path = buoy::path("cnossus", "save.dat");
+  auto data = jojo::read_cstr(path);
+  silog::trace(data.size());
     auto ptr = reinterpret_cast<const uint8_t *>(data.begin());
     mno::req { yoyo::memreader { ptr, data.size() } }
       .fpeek(frk::assert("CNO"))
@@ -49,11 +47,10 @@ void read(hai::fn<void> ok, hai::fn<void> err) {
         silog::log(silog::warning, "Error loading save data: %.*s", static_cast<unsigned>(msg.size()), msg.data());
         err();
       });
-  });
 }
 
 void write() {
-  hai::array<uint8_t> buffer { 20000 };
+  hai::array<uint8_t> buffer { 40000 };
   mno::req { yoyo::memwriter { buffer } }
       .fpeek(frk::signature("CNO"))
       .fpeek(frk::chunk("DATA", &d))
@@ -65,8 +62,8 @@ void write() {
       .fpeek(frk::chunk("MAPA", &map::d))
       .map([&](auto & w) {
         auto buf = reinterpret_cast<const char *>(buffer.begin());
-        jute::heap data { jute::view { buf, w.raw_size() } };
-        buoy::write("cnossus", "save.dat", data); 
+        auto path = buoy::path("cnossus", "save.dat");
+        jojo::write(path, jute::view { buf, w.raw_size() });
         silog::log(silog::info, "Game saved");
       })
       .trace("writing save data")
@@ -80,8 +77,8 @@ void clear() {
       .fpeek(frk::signature("CNO"))
       .map([&](auto & w) {
         auto buf = reinterpret_cast<const char *>(buffer.begin());
-        jute::heap data { jute::view { buf, w.raw_size() } };
-        buoy::write("cnossus", "save.dat", data); 
+        auto path = buoy::path("cnossus", "save.dat");
+        jojo::write(path, jute::view { buf, w.raw_size() });
         silog::log(silog::info, "Game cleared");
       })
       .trace("writing save data")
