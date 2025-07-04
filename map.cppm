@@ -25,15 +25,15 @@ export bool can_walk(unsigned x, unsigned y) {
   return false;
 }
 
-export void draw(dotz::vec2 center, int radius, bool play_area_limit = true) {
+export void draw() {
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
       auto b = d.data[y][x];
       if (b.spr != spr::wall && b.spr != spr::pool) {
         b.spr = spr::floor;
-        anim::blit(b, center, radius, false);
+        anim::blit(b, false);
       }
-      anim::blit(d.data[y][x], center, radius, false);
+      anim::blit(d.data[y][x], false);
     }
   }
 }

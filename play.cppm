@@ -1,4 +1,5 @@
 export module play;
+import anim;
 import dotz;
 import enemies;
 import inv;
@@ -20,12 +21,13 @@ static void draw() {
       .grid_size = {9, 9},
   });
 
-  auto radius = light::d.charge > 0 ? 2 : 1;
+  anim::fog_center = pac + 0.5f;
+  anim::fog_radius = light::d.charge > 0 ? 2 : 1;
   {
     qsu::guard::position ppo{-(pac + 0.5f)};
-    map::draw(pac, radius);
-    loot::draw(pac, radius);
-    enemies::draw(pac, radius);
+    map::draw();
+    loot::draw();
+    enemies::draw();
     player::draw();
     party::draw();
   }

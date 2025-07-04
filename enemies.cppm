@@ -38,9 +38,9 @@ export void init(int level) {
   }
 }
 
-export void draw(dotz::vec2 center, int rad) {
+export void draw() {
   for (auto &e : d.list) {
-    anim::blit(e, center, rad, true);
+    anim::blit(e, true);
   }
 }
 

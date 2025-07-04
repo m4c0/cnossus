@@ -2,7 +2,7 @@
 #pragma leco app
 #endif
 export module mapview;
-
+import anim;
 import casein;
 import dotz;
 import enemies;
@@ -15,9 +15,11 @@ static dotz::vec2 cam{};
 static int rad{1000};
 
 static void draw() {
-  map::draw(cam, rad, false);
-  loot::draw(cam, rad);
-  enemies::draw(cam, rad);
+  anim::fog_center = cam;
+  anim::fog_radius = rad;
+  map::draw();
+  loot::draw();
+  enemies::draw();
   player::draw();
 }
 

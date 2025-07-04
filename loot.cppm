@@ -31,9 +31,9 @@ void init(int level) {
   }
 }
 
-void draw(dotz::vec2 center, int rad) {
+void draw() {
   for (auto &e : d.list) {
-    anim::blit(e, center, rad, false);
+    anim::blit(e, false);
   }
 }
 
