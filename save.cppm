@@ -29,24 +29,23 @@ void read(hai::fn<void> ok, hai::fn<void> err) {
 
   auto path = buoy::path("cnossus", "save.dat");
   auto data = jojo::read_cstr(path);
-  silog::trace(data.size());
-    auto ptr = reinterpret_cast<const uint8_t *>(data.begin());
-    mno::req { yoyo::memreader { ptr, data.size() } }
-      .fpeek(frk::assert("CNO"))
-      .fpeek(frk::take("DATA", &d))
-      .fpeek(frk::take("PLAY", &player::d))
-      .fpeek(frk::take("FOES", &enemies::d))
-      .fpeek(frk::take("LOOT", &loot::d))
-      .fpeek(frk::take("LGHT", &light::d))
-      .fpeek(frk::take("PACK", &inv::d))
-      .fpeek(frk::take("MAPA", &map::d))
-      .map(frk::end())
-      .map([] { silog::log(silog::info, "Game loaded"); })
-      .map(ok)
-      .take([&](auto msg) {
-        silog::log(silog::warning, "Error loading save data: %.*s", static_cast<unsigned>(msg.size()), msg.data());
-        err();
-      });
+  auto ptr = reinterpret_cast<const uint8_t *>(data.begin());
+  mno::req { yoyo::memreader { ptr, data.size() } }
+    .fpeek(frk::assert("CNO"))
+    .fpeek(frk::take("DATA", &d))
+    .fpeek(frk::take("PLAY", &player::d))
+    .fpeek(frk::take("FOES", &enemies::d))
+    .fpeek(frk::take("LOOT", &loot::d))
+    .fpeek(frk::take("LGHT", &light::d))
+    .fpeek(frk::take("PACK", &inv::d))
+    .fpeek(frk::take("MAPA", &map::d))
+    .map(frk::end())
+    .map([] { silog::log(silog::info, "Game loaded"); })
+    .map(ok)
+    .take([&](auto msg) {
+      silog::log(silog::warning, "Error loading save data: %.*s", static_cast<unsigned>(msg.size()), msg.data());
+      err();
+    });
 }
 
 void write() {
