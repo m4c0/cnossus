@@ -12,7 +12,7 @@ namespace anim {
     bool visited{};
   };
 
-  export void blit(t &e, dotz::vec2 center, int rad, float min = 0.0) {
+  static void blit(t &e, dotz::vec2 center, int rad, float min) {
     auto ad = dotz::abs(e.anim_coord - center);
     auto d = ad - rad;
     float a = 1.0;
@@ -43,5 +43,8 @@ namespace anim {
         .rotation = e.rotation,
       });
     }
+  }
+  export void blit(t &e, dotz::vec2 center, int rad, bool hide_in_fog) {
+    blit(e, center, rad, hide_in_fog ? 0.0f : 0.6f);
   }
 }

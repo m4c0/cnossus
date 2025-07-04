@@ -31,9 +31,9 @@ export void draw(dotz::vec2 center, int radius, bool play_area_limit = true) {
       auto b = d.data[y][x];
       if (b.spr != spr::wall && b.spr != spr::pool) {
         b.spr = spr::floor;
-        anim::blit(b, center, radius, 0.6);
+        anim::blit(b, center, radius, false);
       }
-      anim::blit(d.data[y][x], center, radius, 0.6);
+      anim::blit(d.data[y][x], center, radius, false);
     }
   }
 }

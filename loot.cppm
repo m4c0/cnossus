@@ -33,7 +33,7 @@ void init(int level) {
 
 void draw(dotz::vec2 center, int rad) {
   for (auto &e : d.list) {
-    anim::blit(e, center, rad, 0.6);
+    anim::blit(e, center, rad, false);
   }
 }
 
