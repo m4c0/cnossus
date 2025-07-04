@@ -42,6 +42,10 @@ export void grid_size(grid g) {
   });
 }
 
+export dotz::vec2 mouse_pos() {
+  return quack::donald::mouse_pos();
+}
+
 export void blit(const sprite &s) {
   if (s.id == spr::nil)
     return;

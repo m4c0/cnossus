@@ -26,7 +26,7 @@ static void redraw() {
 }
 
 static auto mouse_sel() {
-  auto [x, y] = quack::donald::mouse_pos();
+  auto [x, y] = qsu::mouse_pos();
   if (x < 4.5 || x > 12.5) return o_none;
   if (y > -0.5 && y < 0.5) return o_new_game;
   if (g_has_save && y > 2.5 && y < 3.5) return o_continue;
