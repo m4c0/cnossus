@@ -81,7 +81,7 @@ struct init {
     max_quads(1024);
 
     dotz::vec2 grid_size{map::width, map::height};
-    push_constants({
+    qsu::grid_size({
         .grid_pos = grid_size / 2.0f,
         .grid_size = grid_size,
     });

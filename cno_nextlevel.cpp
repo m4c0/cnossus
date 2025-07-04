@@ -34,7 +34,7 @@ static auto make_lvl_str() {
 
 static void draw_inter() {
   float x = level_label.size() / 2.0f;
-  quack::donald::push_constants({
+  qsu::grid_size({
       .grid_pos = {x, 0.5},
       .grid_size = {20},
   });

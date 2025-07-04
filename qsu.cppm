@@ -16,11 +16,22 @@ export struct sprite {
   float alpha{1};
   float rotation{};
 };
+export struct grid {
+  dotz::vec2 grid_pos;
+  dotz::vec2 grid_size;
+};
 
 quack::instance *current_instance{};
 dotz::vec4 multiplier{1, 1, 1, 1};
 dotz::vec4 g_colour{};
 dotz::vec2 pos{};
+
+export void grid_size(grid g) {
+  quack::donald::push_constants({
+    .grid_pos = g.grid_pos,
+    .grid_size = g.grid_size,
+  });
+}
 
 export void blit(const sprite &s) {
   if (s.id == spr::nil)

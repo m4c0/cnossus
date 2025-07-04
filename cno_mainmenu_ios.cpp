@@ -63,7 +63,7 @@ void cno::modes::mainmenu() {
   redraw();
 
   constexpr const auto gs = 20;
-  quack::donald::push_constants({
+  qsu::grid_size({
       .grid_pos = { -2 + gs / 2, 2 },
       .grid_size = { gs },
   });
