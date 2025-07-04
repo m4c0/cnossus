@@ -24,8 +24,8 @@ static void take_loot(auto *l) {
     if (inv::take(l->spr)) {
       party::emit({
           .sprite{
-              .id = l->spr,
-              .pos = l->coord,
+              .coord = l->coord,
+              .spr = l->spr,
           },
           .timeout = 200,
       });

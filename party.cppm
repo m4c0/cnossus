@@ -1,14 +1,14 @@
 export module party;
 
+import anim;
 import dotz;
 import hai;
-import qsu;
 import sitime;
 import spr;
 
 namespace party {
 struct particle {
-  qsu::sprite sprite;
+  anim::t sprite;
   float timeout;
   float started;
 };
@@ -37,7 +37,7 @@ export void draw() {
     s.rotation = dt;
     s.alpha = 1.0 - dotz::min(dt / p.timeout, 1.0);
 
-    qsu::blit(s);
+    anim::blit(s, true);
   }
 }
 

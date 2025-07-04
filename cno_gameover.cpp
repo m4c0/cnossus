@@ -23,8 +23,8 @@ void cno::modes::gameover() {
 
   party::emit({
       .sprite{
-          .id = spr::minotaur,
-          .pos = player::d.coord,
+          .coord = player::d.coord,
+          .spr = spr::minotaur,
       },
       .timeout = 1000,
   });

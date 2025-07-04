@@ -6,8 +6,9 @@ import qsu;
 namespace anim {
   export struct t {
     dotz::ivec2 coord{};
-    dotz::vec2 anim_coord{};
+    dotz::vec2 anim_coord = coord;
     ::spr::id spr{::spr::nil};
+    float alpha{1};
     float rotation{};
     bool visited{};
   };
@@ -42,7 +43,7 @@ namespace anim {
       qsu::blit({
         .id = e.spr,
         .pos = e.anim_coord,
-        .alpha = aa,
+        .alpha = e.alpha * aa,
         .rotation = e.rotation,
       });
     }

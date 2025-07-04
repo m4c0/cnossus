@@ -58,8 +58,8 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
     // TODO: inline animation, avoid particle
     party::emit({
         .sprite{
-            .id = e->spr,
-            .pos = e->coord,
+            .coord = e->coord,
+            .spr = e->spr,
         },
         .timeout = 300.0f,
     });
@@ -82,8 +82,8 @@ void cno::modes::player_turn::attack(anim::t *l) {
 
   party::emit({
       .sprite{
-          .id = l->spr,
-          .pos = l->coord,
+          .coord = l->coord,
+          .spr = l->spr,
       },
       .timeout = 200,
   });
