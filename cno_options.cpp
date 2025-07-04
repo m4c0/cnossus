@@ -3,6 +3,7 @@ import dotz;
 import sfx;
 import sicfg;
 import spr;
+import ui;
 
 namespace {
 enum options {
@@ -17,19 +18,19 @@ static options g_sel{};
 static void draw() {
   constexpr const auto x = 1.5;
 
-  qsu::draw_str("OPTIONS", x, -2);
+  ui::draw_str("OPTIONS", x, -2);
 
   if (sfx::main_volume > 0) {
-    qsu::draw_str("SOUNDS", x, 0);
+    ui::draw_str("SOUNDS", x, 0);
   } else {
-    qsu::draw_str("MUTED", x, 0);
+    ui::draw_str("MUTED", x, 0);
   }
   if (casein::fullscreen) {
-    qsu::draw_str("FULLSCREEN", x, 1);
+    ui::draw_str("FULLSCREEN", x, 1);
   } else {
-    qsu::draw_str("WINDOWED", x, 1);
+    ui::draw_str("WINDOWED", x, 1);
   }
-  qsu::draw_str("BACK", x, 2);
+  ui::draw_str("BACK", x, 2);
 
   qsu::blit(spr::minotaur, 0, g_sel, 0);
 }

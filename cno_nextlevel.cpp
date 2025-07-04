@@ -6,6 +6,7 @@ import qsu;
 import save;
 import sfx;
 import sitime;
+import ui;
 
 static sitime::stopwatch timer{};
 static float inter_fade{};
@@ -38,7 +39,7 @@ static void draw_inter() {
       .grid_size = {20},
   });
 
-  qsu::draw_str(level_label, 0, 0, inter_fade);
+  ui::draw_str(level_label, 0, 0, inter_fade);
   // TODO: show player the bonus they got after a new level
 }
 

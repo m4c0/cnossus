@@ -3,6 +3,7 @@ import jute;
 import save;
 import sfx;
 import spr;
+import ui;
 
 namespace {
 enum options {
@@ -24,10 +25,10 @@ static void draw() {
   // SPLASH
 
   // MENU OPTIONS
-  qsu::draw_str("NEW GAME", x, 0);
-  qsu::draw_str("CONTINUE", x, 1, g_has_save ? 1.0 : 0.4);
-  qsu::draw_str("OPTIONS", x, 2);
-  qsu::draw_str("EXIT", x, 3);
+  ui::draw_str("NEW GAME", x, 0);
+  ui::draw_str("CONTINUE", x, 1, g_has_save ? 1.0 : 0.4);
+  ui::draw_str("OPTIONS", x, 2);
+  ui::draw_str("EXIT", x, 3);
 
   // MENU SELECTION
   qsu::blit(spr::minotaur, 0, g_sel, 0);

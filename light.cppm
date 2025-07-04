@@ -1,7 +1,7 @@
 export module light;
-import qsu;
 import rng;
 import spr;
+import ui;
 
 namespace light {
 static constexpr const auto max_charge = 25;
@@ -19,7 +19,7 @@ export void draw_ui() {
   constexpr const auto x = 3.5;
 
   auto value = static_cast<float>(d.charge) / max_charge;
-  qsu::draw_bar(value, spr::torch, x, {1, 1, 0, 1});
+  ui::draw_bar(value, spr::torch, x, {1, 1, 0, 1});
 }
 
 export void tick() {
