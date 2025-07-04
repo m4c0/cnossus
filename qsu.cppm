@@ -61,17 +61,6 @@ export void blit(const sprite &s) {
       .rotation{s.rotation, 0.5, 0.5},
   };
 }
-export void blit(spr::id i, float x, float y, float rot) {
-  blit({
-      .id = i,
-      .pos{x, y},
-      .alpha = 1,
-      .rotation = rot,
-  });
-}
-export inline void blit(spr::id i, dotz::vec2 p, float rot) {
-  blit(i, p.x, p.y, rot);
-}
 
 export void draw(auto && fn) {
   quack::donald::data([=](quack::instance *& all) {

@@ -55,7 +55,11 @@ export void draw() {
   if (d.life == 0)
     return;
 
-  qsu::blit(spr::minotaur, d.anim_coord, d.rotation);
+  qsu::blit({
+    .id = spr::minotaur, 
+    .pos = d.anim_coord,
+    .rotation = d.rotation,
+  });
 }
 export void draw_ui() {
   constexpr const auto x = -4.5f;

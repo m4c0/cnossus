@@ -31,7 +31,10 @@ static void draw() {
   ui::draw_str("EXIT", x, 3);
 
   // MENU SELECTION
-  qsu::blit(spr::minotaur, 0, g_sel, 0);
+  qsu::blit({
+    .id = spr::minotaur,
+    .pos { 0, g_sel },
+  });
 }
 
 static void redraw() { qsu::draw(draw); }

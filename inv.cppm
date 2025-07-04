@@ -20,26 +20,41 @@ export void init(int level) {
 
 void draw_consumables_ui() {
   // TODO: consider screen aspect
-  constexpr const auto x = -3.5;
-  constexpr const auto y = 3.5;
+  constexpr const auto x = -3.5f;
+  constexpr const auto y = 3.5f;
 
   if (d.bag)
-    qsu::blit(spr::bag, x, y, 0);
+    qsu::blit({
+      .id = spr::bag,
+      .pos { x, y },
+    });
 
   for (auto i = 0; i < 3; i++) {
-    qsu::blit(d.food[i], x + i + 1, y, 0);
-    qsu::blit(d.lights[i], x + i + 4, y, 0);
+    qsu::blit({
+      .id = d.food[i],
+      .pos { x + i + 1, y },
+    });
+    qsu::blit({
+      .id = d.lights[i],
+      .pos { x + i + 4, y },
+    });
   }
 }
 void draw_armory_ui() {
   // TODO: consider screen aspect
-  constexpr const auto x = -3.0;
-  constexpr const auto y = -4.5;
+  constexpr const auto x = -3.0f;
+  constexpr const auto y = -4.5f;
 
-  qsu::blit(d.weapon, x, y, 0);
+  qsu::blit({
+    .id = d.weapon,
+    .pos { x, y },
+  });
 
   for (auto i = 0; i < 5; i++)
-    qsu::blit(d.armour[i], x + i + 1, y, 0);
+    qsu::blit({
+      .id = d.armour[i],
+      .pos { x + i + 1, y },
+    });
 }
 export void draw_ui() {
   draw_consumables_ui();

@@ -22,12 +22,24 @@ namespace ui {
       .colour = colour,
     });
 
-    qsu::blit(icon, x, y, 0);
-    qsu::blit(spr::ui_bar_b, x, y - 1, 0);
+    qsu::blit({
+      .id = icon,
+      .pos { x, y },
+    });
+    qsu::blit({
+      .id = spr::ui_bar_b,
+      .pos { x, y - 1 },
+    });
     for (auto yy = y - 2; yy > -y; yy--) {
-      qsu::blit(spr::ui_bar, x, yy, 0);
+      qsu::blit({
+        .id = spr::ui_bar,
+        .pos { x, yy },
+      });
     }
-    qsu::blit(spr::ui_bar_t, x, -y, 0);
+    qsu::blit({
+      .id = spr::ui_bar_t,
+      .pos { x, -y },
+    });
   }
 
   export void draw_str(jute::view str, float x, float y, float a = 1.0) {
