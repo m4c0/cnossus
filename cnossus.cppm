@@ -17,6 +17,7 @@ export module cnossus;
 #pragma leco add_impl cno_options
 #endif
 
+import anim;
 import casein;
 import dotz;
 import enemies;
@@ -35,7 +36,7 @@ void timeline();
 
 namespace cno::modes::player_turn {
 void attack(enemies::enemy *e);
-void attack(qsu::anim *l);
+void attack(anim::t *l);
 void fail(dotz::ivec2 target);
 void move(dotz::ivec2 target);
 } // namespace cno::modes::player_turn

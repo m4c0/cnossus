@@ -1,16 +1,16 @@
 export module enemies;
+import anim;
 import dotz;
 import lootroll;
 import map;
 import mobroll;
-import qsu;
 import rng;
 import spr;
 
 namespace enemies {
 export unsigned max_enemies = map::height;
 
-export struct enemy : qsu::anim {
+export struct enemy : anim::t {
   int life{};
 };
 
@@ -28,7 +28,7 @@ export void init(int level) {
 
     auto spr = mobroll(level);
     d.list[y] = enemy{
-        qsu::anim{
+        anim::t {
             .coord = {x, y},
             .anim_coord = {x, y},
             .spr = spr,
@@ -40,7 +40,7 @@ export void init(int level) {
 
 export void draw(dotz::vec2 center, int rad) {
   for (auto &e : d.list) {
-    qsu::blit(e, center, rad);
+    anim::blit(e, center, rad);
   }
 }
 

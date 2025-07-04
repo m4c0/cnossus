@@ -1,8 +1,8 @@
 export module map;
+import anim;
 import dotz;
 import rng;
 import spr;
-import qsu;
 import yoyo;
 
 namespace map {
@@ -10,7 +10,7 @@ export constexpr const auto width = 30;
 export constexpr const auto height = 20;
 
 export extern struct data {
-  qsu::anim data[height][width]{};
+  anim::t data[height][width]{};
 } d;
 
 export auto at(unsigned x, unsigned y) { return d.data[y][x].spr; }
@@ -31,9 +31,9 @@ export void draw(dotz::vec2 center, int radius, bool play_area_limit = true) {
       auto b = d.data[y][x];
       if (b.spr != spr::wall && b.spr != spr::pool) {
         b.spr = spr::floor;
-        qsu::blit(b, center, radius, 0.6);
+        anim::blit(b, center, radius, 0.6);
       }
-      qsu::blit(d.data[y][x], center, radius, 0.6);
+      anim::blit(d.data[y][x], center, radius, 0.6);
     }
   }
 }

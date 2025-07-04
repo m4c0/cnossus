@@ -1,4 +1,5 @@
 module cnossus;
+import anim;
 import dice;
 import dotz;
 import enemies;
@@ -15,7 +16,7 @@ import sfx;
 
 static constexpr const float anim_length = 200;
 
-static qsu::anim *target;
+static anim::t *target;
 static sitime::stopwatch timer{};
 static float angle;
 
@@ -75,7 +76,7 @@ void cno::modes::player_turn::attack(enemies::enemy *e) {
   handle(REPAINT, frame);
 }
 
-void cno::modes::player_turn::attack(qsu::anim *l) {
+void cno::modes::player_turn::attack(anim::t *l) {
   timer = {};
   target = l;
 

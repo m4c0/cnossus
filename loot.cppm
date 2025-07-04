@@ -1,13 +1,13 @@
 export module loot;
+import anim;
 import dotz;
 import hai;
 import lootroll;
 import map;
-import qsu;
 import spr;
 
 export namespace loot {
-using loot = qsu::anim;
+using loot = anim::t;
 
 extern struct data {
   loot list[map::height * 2]{};
@@ -33,7 +33,7 @@ void init(int level) {
 
 void draw(dotz::vec2 center, int rad) {
   for (auto &e : d.list) {
-    qsu::blit(e, center, rad, 0.6);
+    anim::blit(e, center, rad, 0.6);
   }
 }
 
