@@ -54,6 +54,7 @@ namespace cno {
   
     reset_k(KEY_DOWN);
     reset_g(GESTURE);
+    reset_m(MOUSE_DOWN);
   
     handle(REPAINT, {});
   }
