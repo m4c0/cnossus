@@ -38,10 +38,6 @@ export void draw() {
   }
 }
 
-void furniture(unsigned x, unsigned y) {
-  d.data[y][x].spr = rng::rand(2) ? spr::basin : spr::statue;
-}
-
 struct room {
   unsigned x0;
   unsigned y0;
@@ -54,6 +50,9 @@ struct room {
 };
 static constexpr bool match_level_cell(const room &r) {
   return r.w < r.cell_w || r.h < r.cell_h;
+}
+static void furniture(unsigned x, unsigned y) {
+  d.data[y][x].spr = rng::rand(2) ? spr::basin : spr::statue;
 }
 static bool furnish(const room &r) {
   if (!match_level_cell(r))
