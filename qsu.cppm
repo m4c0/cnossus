@@ -22,7 +22,6 @@ export struct grid {
 };
 
 quack::instance *current_instance{};
-dotz::vec2 pos{};
 
 export void init() {
   using namespace quack::donald;
@@ -52,7 +51,7 @@ export void blit(const sprite &s) {
 
   auto uv = dotz::vec2{s.id % 16, s.id / 16} / 16.0;
   *current_instance++ = quack::instance{
-      .position = s.pos + pos,
+      .position = s.pos,
       .size = s.size,
       .uv0 = uv,
       .uv1 = uv + 1.0 / 16.0,
