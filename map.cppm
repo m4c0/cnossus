@@ -1,6 +1,7 @@
 export module map;
 import anim;
 import dotz;
+import hai;
 import rng;
 import spr;
 import yoyo;
@@ -205,13 +206,19 @@ export void gen(int level) {
   }
 }
 
-export int pick_empty_space(unsigned y) {
+static int pick_empty_space(unsigned y) {
   int x{};
   unsigned attempt{};
   do {
     x = rng::rand(width - 4) + 2;
   } while (d.data[y][x].spr != spr::nil && ++attempt < 100);
   return (attempt < 100) ? x : -1;
+}
+export void pick_empty_spaces(hai::fn<void, dotz::ivec2> fn) {
+  for (auto y = 2; y < map::height - 2; y++) {
+    auto x = map::pick_empty_space(y);
+    if (x != -1) fn(dotz::ivec2 { x, y });
+  }
 }
 } // namespace map
 

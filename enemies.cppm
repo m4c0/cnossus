@@ -15,27 +15,22 @@ export struct enemy : anim::t {
 };
 
 export extern struct data {
-  enemy list[map::height];
+  enemy list[map::height] {};
 } d;
 
 export void init(int level) {
-  for (auto y = 2; y < map::height - 2; y++) {
-    auto x = map::pick_empty_space(y);
-    if (x == -1) {
-      d.list[y] = {};
-      continue;
-    }
+  d = {};
 
+  map::pick_empty_spaces([=](auto p) {
     auto spr = mobroll(level);
-    d.list[y] = enemy{
-        anim::t {
-            .coord = {x, y},
-            .anim_coord = {x, y},
-            .spr = spr,
-        },
-        life_of(spr),
+    d.list[p.y] = enemy {
+      anim::t {
+        .coord = p,
+        .spr = spr,
+      },
+      life_of(spr),
     };
-  }
+  });
 }
 
 export void draw() {

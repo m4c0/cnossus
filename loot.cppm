@@ -16,19 +16,12 @@ extern struct data {
 void init(int level) {
   d = {};
 
-  for (auto y = 2; y < map::height - 2; y++) {
-    auto x = map::pick_empty_space(y);
-    if (x == -1) {
-      d.list[y] = {};
-      continue;
-    }
-
-    d.list[y] = loot{
-        .coord = {x, y},
-        .anim_coord = {x, y},
-        .spr = lootroll(level),
+  map::pick_empty_spaces([=](auto p) {
+    d.list[p.y] = loot {
+      .coord = p,
+      .spr = lootroll(level),
     };
-  }
+  });
 }
 
 void draw() {
