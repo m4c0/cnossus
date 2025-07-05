@@ -16,10 +16,7 @@ export struct sprite {
   float alpha{1};
   float rotation{};
 };
-export struct grid {
-  dotz::vec2 grid_pos;
-  dotz::vec2 grid_size;
-};
+export using grid = quack::upc;
 
 quack::instance *current_instance{};
 
@@ -33,10 +30,7 @@ export void init() {
 }
 
 export void grid_size(grid g) {
-  quack::donald::push_constants({
-    .grid_pos = g.grid_pos,
-    .grid_size = g.grid_size,
-  });
+  quack::donald::push_constants(g);
 }
 
 export dotz::vec2 mouse_pos() {
@@ -44,8 +38,7 @@ export dotz::vec2 mouse_pos() {
 }
 
 export void blit(const sprite &s) {
-  if (s.id == spr::nil)
-    return;
+  if (s.id == spr::nil) return;
 
   auto uv = dotz::vec2{s.id % 16, s.id / 16} / 16.0;
   *current_instance++ = quack::instance{
