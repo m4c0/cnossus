@@ -8,15 +8,15 @@
 #pragma leco add_impl cno_nextlevel
 #pragma leco add_impl cno_player_attack
 #pragma leco add_impl cno_player_turn
-export module cnossus;
 
 #ifdef LECO_TARGET_IOS
-#pragma leco add_impl cno_mainmenu_ios
+#  pragma leco add_impl cno_mainmenu_ios
 #else
-#pragma leco add_impl cno_mainmenu
-#pragma leco add_impl cno_options
+#  pragma leco add_impl cno_mainmenu
+#  pragma leco add_impl cno_options
 #endif
 
+export module cnossus;
 import anim;
 import casein;
 import dotz;
@@ -26,50 +26,46 @@ import rng;
 import qsu;
 
 namespace cno::modes {
-void game();
-void gameover();
-void nextlevel();
-void mainmenu();
-void options();
-void timeline();
-} // namespace cno::modes
+  void game();
+  void gameover();
+  void nextlevel();
+  void mainmenu();
+  void options();
+  void timeline();
+}
 
 namespace cno::modes::player_turn {
-void attack(enemies::enemy *e);
-void attack(anim::t *l);
-void fail(dotz::ivec2 target);
-void move(dotz::ivec2 target);
-} // namespace cno::modes::player_turn
+  void attack(enemies::enemy *e);
+  void attack(anim::t *l);
+  void fail(dotz::ivec2 target);
+  void move(dotz::ivec2 target);
+}
 
 namespace cno::modes::enemy_turn {
-void enter();
+  void enter();
 }
 
 namespace cno {
-void next_level();
-void load_options();
-
-void reset_casein() {
-  using namespace casein;
-
-  reset_k(KEY_DOWN);
-  reset_g(GESTURE);
-
-  handle(REPAINT, {});
+  void next_level();
+  void load_options();
+  
+  void reset_casein() {
+    using namespace casein;
+  
+    reset_k(KEY_DOWN);
+    reset_g(GESTURE);
+  
+    handle(REPAINT, {});
+  }
 }
-} // namespace cno
 
-// TODO: show some progress (show game level?)
 struct init {
   init() {
+    casein::window_title = "Escape from Cnossus";
+    casein::window_size = { 800, 800 };
+
     rng::seed();
-
     cno::load_options();
-
-    using namespace casein;
-    window_title = "Escape from Cnossus";
-    window_size = {800, 800};
-
     qsu::init();
     cno::modes::mainmenu();
   }
