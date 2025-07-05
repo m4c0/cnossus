@@ -2,8 +2,6 @@
 
 export module qsu;
 import dotz;
-import jute;
-import no;
 import spr;
 import quack;
 
