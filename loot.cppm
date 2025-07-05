@@ -16,8 +16,8 @@ extern struct data {
 void init(int level) {
   d = {};
 
-  map::pick_empty_spaces([=](auto p) {
-    d.list[p.y] = loot {
+  map::pick_empty_spaces([level, l=d.list](auto p) mutable {
+    *l++ = loot {
       .coord = p,
       .spr = lootroll(level),
     };

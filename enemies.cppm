@@ -21,9 +21,9 @@ export extern struct data {
 export void init(int level) {
   d = {};
 
-  map::pick_empty_spaces([=](auto p) {
+  map::pick_empty_spaces([level, l=d.list](auto p) mutable {
     auto spr = mobroll(level);
-    d.list[p.y] = enemy {
+    *l++ = enemy {
       anim::t {
         .coord = p,
         .spr = spr,
