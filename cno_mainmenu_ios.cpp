@@ -3,6 +3,7 @@ import jute;
 import save;
 import sfx;
 import spr;
+import ui;
 
 namespace {
   enum options {
@@ -17,8 +18,8 @@ static void draw() {
   constexpr const auto x = 4.5;
 
   // MENU OPTIONS
-  qsu::draw_str("NEW GAME", x, -0.5);
-  qsu::draw_str("CONTINUE", x, 2.5, g_has_save ? 1.0 : 0.4);
+  ui::draw_str("NEW GAME", x, -0.5);
+  ui::draw_str("CONTINUE", x, 2.5, g_has_save ? 1.0 : 0.4);
 }
 
 static void redraw() { qsu::draw(draw); }
@@ -51,7 +52,11 @@ static void select() {
 void cno::modes::mainmenu() {
   using namespace casein;
 
-  save::read().map([] { g_has_save = true; }).log_error([] { g_has_save = false; });
+  save::read([] {
+    g_has_save = true;
+  }, [] {
+    g_has_save = false;
+  });
 
   cno::reset_casein();
 
