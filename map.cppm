@@ -206,18 +206,16 @@ export void gen(int level) {
   }
 }
 
-static int pick_empty_space(unsigned y) {
-  int x{};
-  unsigned attempt{};
-  do {
-    x = rng::rand(width - 4) + 2;
-  } while (d.data[y][x].spr != spr::nil && ++attempt < 100);
-  return (attempt < 100) ? x : -1;
-}
-export void pick_empty_spaces(hai::fn<void, dotz::ivec2> fn) {
+export template<typename T>
+void fill_entities(T * p, hai::fn<T, dotz::ivec2> fn) {
   for (auto y = 2; y < map::height - 2; y++) {
-    auto x = map::pick_empty_space(y);
-    if (x != -1) fn(dotz::ivec2 { x, y });
+    for (auto attempt = 0; attempt < 100; attempt++) {
+      int x = rng::rand(width - 4) + 2;
+      if (d.data[y][x].spr == spr::nil) {
+        *p++ = fn(dotz::ivec2 { x, y });
+        break;
+      }
+    }
   }
 }
 } // namespace map
